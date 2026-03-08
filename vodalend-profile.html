@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+    font-size: 9.5pt;
+    color: #1a1a2e;
+    background: #fff;
+    line-height: 1.55;
+  }
+
+  /* PAGE */
+  @page {
+    size: A4;
+    margin: 0;
+  }
+
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    background: #fff;
+    position: relative;
+  }
+
+  /* ── COVER PAGE ── */
+  .cover {
+    width: 210mm;
+    height: 297mm;
+    background: #1A2D6B;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 0;
+    page-break-after: always;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cover-accent {
+    position: absolute;
+    top: 0; right: 0;
+    width: 90mm;
+    height: 90mm;
+    background: #FFC200;
+    opacity: 0.08;
+    border-radius: 50%;
+    transform: translate(30mm, -30mm);
+  }
+
+  .cover-accent2 {
+    position: absolute;
+    bottom: 40mm; left: -20mm;
+    width: 70mm;
+    height: 70mm;
+    background: #4058D4;
+    opacity: 0.15;
+    border-radius: 50%;
+  }
+
+  .cover-top {
+    padding: 14mm 16mm 0;
+  }
+
+  .cover-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .logo-box {
+    width: 36px;
+    height: 36px;
+    background: #FFC200;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 800;
+    color: #1A2D6B;
+    letter-spacing: -0.5px;
+  }
+
+  .logo-text {
+    font-size: 11pt;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .cover-mid {
+    padding: 0 16mm;
+  }
+
+  .cover-tag {
+    font-size: 8pt;
+    font-weight: 700;
+    color: #FFC200;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .cover-title {
+    font-size: 28pt;
+    font-weight: 800;
+    color: #fff;
+    line-height: 1.15;
+    letter-spacing: -0.5px;
+    margin-bottom: 14px;
+  }
+
+  .cover-title span {
+    color: #FFC200;
+  }
+
+  .cover-sub {
+    font-size: 12pt;
+    color: rgba(255,255,255,0.65);
+    font-weight: 400;
+    line-height: 1.5;
+    max-width: 130mm;
+    margin-bottom: 24px;
+  }
+
+  .cover-pills {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .cpill {
+    padding: 5px 13px;
+    border-radius: 20px;
+    font-size: 7.5pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+  }
+
+  .cpill-gold { background: #FFC200; color: #1A2D6B; }
+  .cpill-outline { border: 1.5px solid rgba(255,255,255,0.3); color: rgba(255,255,255,0.8); }
+
+  .cover-bar {
+    height: 5px;
+    background: linear-gradient(90deg, #FFC200 0%, #4058D4 50%, #E84C2B 100%);
+  }
+
+  .cover-bottom {
+    padding: 10mm 16mm;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+
+  .cover-meta {
+    font-size: 8pt;
+    color: rgba(255,255,255,0.45);
+    line-height: 1.7;
+  }
+
+  .cover-meta strong {
+    color: rgba(255,255,255,0.7);
+    font-weight: 600;
+  }
+
+  .cover-conf {
+    font-size: 7.5pt;
+    font-weight: 700;
+    color: rgba(255,255,255,0.3);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  /* ── CONTENT PAGES ── */
+  .content-page {
+    width: 210mm;
+    min-height: 297mm;
+    padding: 14mm 16mm 14mm;
+    page-break-after: always;
+    position: relative;
+  }
+
+  .content-page:last-child {
+    page-break-after: avoid;
+  }
+
+  /* Page header stripe */
+  .page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10mm;
+    padding-bottom: 4mm;
+    border-bottom: 2.5px solid #1A2D6B;
+  }
+
+  .page-header-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .page-header-dot {
+    width: 8px;
+    height: 8px;
+    background: #FFC200;
+    border-radius: 50%;
+  }
+
+  .page-header-title {
+    font-size: 8pt;
+    font-weight: 700;
+    color: #1A2D6B;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .page-header-right {
+    font-size: 7.5pt;
+    color: #aaa;
+  }
+
+  /* Section headings */
+  h1.section-title {
+    font-size: 16pt;
+    font-weight: 800;
+    color: #1A2D6B;
+    margin-bottom: 3mm;
+    letter-spacing: -0.3px;
+    line-height: 1.2;
+  }
+
+  h1.section-title span { color: #E84C2B; }
+
+  .section-intro {
+    font-size: 9.5pt;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 6mm;
+    max-width: 165mm;
+  }
+
+  h2.sub-heading {
+    font-size: 10pt;
+    font-weight: 700;
+    color: #1A2D6B;
+    margin: 5mm 0 2.5mm;
+    padding-left: 3.5mm;
+    border-left: 3px solid #FFC200;
+  }
+
+  h3.mini-heading {
+    font-size: 8.5pt;
+    font-weight: 700;
+    color: #1A2D6B;
+    margin: 4mm 0 1.5mm;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  p {
+    font-size: 9pt;
+    color: #333;
+    line-height: 1.6;
+    margin-bottom: 3mm;
+  }
+
+  /* CALLOUT BOXES */
+  .callout {
+    background: #f5f7ff;
+    border-left: 4px solid #1A2D6B;
+    border-radius: 0 8px 8px 0;
+    padding: 5mm 6mm;
+    margin: 4mm 0;
+  }
+
+  .callout.gold {
+    background: #fffbec;
+    border-left-color: #FFC200;
+  }
+
+  .callout.red {
+    background: #fff5f3;
+    border-left-color: #E84C2B;
+  }
+
+  .callout-label {
+    font-size: 7.5pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: #1A2D6B;
+    margin-bottom: 2mm;
+  }
+
+  .callout.gold .callout-label { color: #b38600; }
+  .callout.red .callout-label { color: #E84C2B; }
+
+  .callout p { margin: 0; font-size: 9pt; }
+
+  /* STAT CARDS */
+  .stat-row {
+    display: flex;
+    gap: 4mm;
+    margin: 4mm 0;
+  }
+
+  .stat-card {
+    flex: 1;
+    background: #1A2D6B;
+    border-radius: 8px;
+    padding: 5mm;
+    text-align: center;
+  }
+
+  .stat-card.gold { background: #FFC200; }
+  .stat-card.blue { background: #4058D4; }
+  .stat-card.red { background: #E84C2B; }
+  .stat-card.light { background: #f5f7ff; }
+
+  .stat-value {
+    font-size: 17pt;
+    font-weight: 800;
+    color: #fff;
+    line-height: 1;
+    margin-bottom: 2mm;
+  }
+
+  .stat-card.gold .stat-value { color: #1A2D6B; }
+  .stat-card.light .stat-value { color: #1A2D6B; }
+
+  .stat-label {
+    font-size: 7pt;
+    font-weight: 600;
+    color: rgba(255,255,255,0.75);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    line-height: 1.3;
+  }
+
+  .stat-card.gold .stat-label { color: rgba(26,45,107,0.65); }
+  .stat-card.light .stat-label { color: #7a8299; }
+
+  /* FILTER TABLE */
+  .filter-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 3mm 0;
+    font-size: 8.5pt;
+  }
+
+  .filter-table th {
+    background: #1A2D6B;
+    color: #FFC200;
+    font-weight: 700;
+    padding: 3mm 4mm;
+    text-align: left;
+    font-size: 8pt;
+    letter-spacing: 0.3px;
+  }
+
+  .filter-table th:first-child { border-radius: 6px 0 0 0; }
+  .filter-table th:last-child { border-radius: 0 6px 0 0; }
+
+  .filter-table td {
+    padding: 2.5mm 4mm;
+    border-bottom: 1px solid #eef0f8;
+    color: #333;
+    vertical-align: top;
+    line-height: 1.45;
+  }
+
+  .filter-table tr:nth-child(even) td { background: #f9faff; }
+  .filter-table tr:last-child td { border-bottom: none; }
+
+  .filter-table td:first-child { font-weight: 600; color: #1A2D6B; width: 38%; }
+  .filter-table td:nth-child(2) { color: #E84C2B; font-weight: 600; width: 22%; }
+  .filter-table td:last-child { color: #555; width: 40%; font-size: 8pt; }
+
+  /* YIELD TABLE */
+  .yield-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 3mm 0;
+    font-size: 8.5pt;
+  }
+
+  .yield-table th {
+    background: #1A2D6B;
+    color: #FFC200;
+    font-weight: 700;
+    padding: 3mm 4mm;
+    text-align: left;
+    font-size: 8pt;
+  }
+
+  .yield-table th:first-child { border-radius: 6px 0 0 0; }
+  .yield-table th:last-child { border-radius: 0 6px 0 0; }
+
+  .yield-table td {
+    padding: 2.5mm 4mm;
+    border-bottom: 1px solid #eef0f8;
+    vertical-align: top;
+  }
+
+  .yield-table tr:nth-child(even) td { background: #f9faff; }
+  .yield-table tr:last-child td { border-bottom: none; }
+
+  .yield-table .stage { font-weight: 600; color: #1A2D6B; }
+  .yield-table .rate { font-weight: 700; color: #E84C2B; }
+  .yield-table .note { color: #666; font-size: 8pt; }
+
+  /* SCORECARD VARIABLES */
+  .scorecard-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3mm;
+    margin: 3mm 0;
+  }
+
+  .sc-item {
+    background: #f5f7ff;
+    border: 1.5px solid #e0e4f0;
+    border-radius: 7px;
+    padding: 3mm 4mm;
+    flex: 0 0 calc(50% - 1.5mm);
+    display: flex;
+    align-items: flex-start;
+    gap: 3mm;
+  }
+
+  .sc-dot {
+    width: 8px;
+    height: 8px;
+    background: #FFC200;
+    border-radius: 50%;
+    margin-top: 1.5mm;
+    flex-shrink: 0;
+  }
+
+  .sc-text {
+    font-size: 8.5pt;
+    color: #1A2D6B;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  /* EXCLUSION LIST */
+  .excl-list {
+    list-style: none;
+    margin: 2mm 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2mm;
+  }
+
+  .excl-list li {
+    background: #fff5f3;
+    border: 1.5px solid #ffd5cc;
+    border-radius: 20px;
+    padding: 2mm 5mm;
+    font-size: 8pt;
+    color: #E84C2B;
+    font-weight: 600;
+  }
+
+  /* NEXT STEPS */
+  .steps-list {
+    list-style: none;
+    margin: 2mm 0;
+  }
+
+  .steps-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 4mm;
+    padding: 3mm 0;
+    border-bottom: 1px solid #eef0f8;
+    font-size: 9pt;
+    color: #333;
+  }
+
+  .steps-list li:last-child { border-bottom: none; }
+
+  .step-num {
+    width: 20px;
+    height: 20px;
+    background: #1A2D6B;
+    color: #FFC200;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 8pt;
+    font-weight: 800;
+    flex-shrink: 0;
+    margin-top: 0.5mm;
+  }
+
+  /* FOOTER */
+  .page-footer {
+    position: absolute;
+    bottom: 8mm;
+    left: 16mm;
+    right: 16mm;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #eee;
+    padding-top: 3mm;
+  }
+
+  .footer-left {
+    font-size: 7pt;
+    color: #bbb;
+  }
+
+  .footer-right {
+    font-size: 7pt;
+    color: #bbb;
+  }
+
+  .footer-logo {
+    font-size: 7pt;
+    font-weight: 700;
+    color: #1A2D6B;
+    opacity: 0.4;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════
+     COVER PAGE
+     ══════════════════════════════════════════════ -->
+<div class="cover">
+  <div class="cover-accent"></div>
+  <div class="cover-accent2"></div>
+
+  <div class="cover-bar"></div>
+
+  <div class="cover-top">
+    <div class="cover-logo">
+      <div class="logo-box">3W</div>
+      <div class="logo-text">3Way Group / FindBetter</div>
+    </div>
+  </div>
+
+  <div class="cover-mid">
+    <div class="cover-tag">Confidential · March 2026</div>
+    <div class="cover-title">VodaLend<br><span>Ideal Customer</span><br>Profile</div>
+    <div class="cover-sub">A data-driven framework for identifying and converting VodaLend's declined applicant base into viable debt counselling placements.</div>
+    <div class="cover-pills">
+      <span class="cpill cpill-gold">FindBetter · Debt Counselling</span>
+      <span class="cpill cpill-outline">POC · 50,000 Leads</span>
+      <span class="cpill cpill-outline">NDA Signed</span>
+    </div>
+  </div>
+
+  <div class="cover-bottom">
+    <div class="cover-meta">
+      <strong>Prepared for</strong><br>
+      Mark Young, ME — VodaLend<br>
+      Vodacom Financial Services<br><br>
+      <strong>Prepared by</strong><br>
+      Ricky Silberman, CDO<br>
+      3Way Group
+    </div>
+    <div class="cover-conf">Confidential</div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════
+     PAGE 2: EXECUTIVE SUMMARY + MARKET CONTEXT
+     ══════════════════════════════════════════════ -->
+<div class="content-page">
+  <div class="page-header">
+    <div class="page-header-left">
+      <div class="page-header-dot"></div>
+      <div class="page-header-title">3Way Group / FindBetter — VodaLend Ideal Customer Profile</div>
+    </div>
+    <div class="page-header-right">March 2026 · Confidential</div>
+  </div>
+
+  <h1 class="section-title">Executive <span>Summary</span></h1>
+  <p class="section-intro">VodaLend's declined applicant base is one of the most commercially valuable datasets in South Africa for debt counselling. These are credit-active, income-verified individuals who have sought credit, been assessed, and been turned down — precisely because they are already over-indebted. The profile below is calibrated to FindBetter's minimum economic threshold and converts that base into a high-quality, structured lead pipeline.</p>
+
+  <div class="stat-row">
+    <div class="stat-card">
+      <div class="stat-value">R2.43T</div>
+      <div class="stat-label">Outstanding SA consumer debt</div>
+    </div>
+    <div class="stat-card gold">
+      <div class="stat-value">12M</div>
+      <div class="stat-label">Over-indebted adults in SA</div>
+    </div>
+    <div class="stat-card blue">
+      <div class="stat-value">90%+</div>
+      <div class="stat-label">Don't seek help — lack access</div>
+    </div>
+    <div class="stat-card red">
+      <div class="stat-value">72.4%</div>
+      <div class="stat-label">Debt review success rate Q4 2025</div>
+    </div>
+  </div>
+
+  <div class="callout gold">
+    <div class="callout-label">The Opportunity</div>
+    <p>A consumer who applies to VodaLend and is declined for affordability has actively sought relief, submitted to income verification, and been assessed as unable to carry more debt. The NCA over-indebtedness test is effectively already done. This is a consumer in a decision window — open to a solution and financially profiled before they arrive at FindBetter.</p>
+  </div>
+
+  <h2 class="sub-heading">Economic Threshold</h2>
+  <p>FindBetter's minimum viable case is a restructured monthly payment of <strong>R3,000</strong>, corresponding to total debt of approximately <strong>R150,000–R220,000</strong>. Every filter in this profile is calibrated to this threshold. Leads below it cannot generate a placed, sustainable case regardless of other characteristics.</p>
+
+  <div class="stat-row">
+    <div class="stat-card light">
+      <div class="stat-value" style="color:#E84C2B;">R3,000</div>
+      <div class="stat-label" style="color:#666;">Min restructured monthly payment</div>
+    </div>
+    <div class="stat-card light">
+      <div class="stat-value" style="color:#1A2D6B;">R150k+</div>
+      <div class="stat-label" style="color:#666;">Minimum total debt for viable case</div>
+    </div>
+    <div class="stat-card light">
+      <div class="stat-value" style="color:#4058D4;">8–14%</div>
+      <div class="stat-label" style="color:#666;">End-to-end conversion (match to placement)</div>
+    </div>
+    <div class="stat-card light">
+      <div class="stat-value" style="color:#1A2D6B;">4–7k</div>
+      <div class="stat-label" style="color:#666;">Estimated placed consumers per 50k leads</div>
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <div class="footer-left">VodaLend Ideal Customer Profile · FindBetter / 3Way Group</div>
+    <div class="footer-logo">3Way Group</div>
+    <div class="footer-right">Page 2 · Confidential</div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════
+     PAGE 3: PROFILE FILTERS
+     ══════════════════════════════════════════════ -->
+<div class="content-page">
+  <div class="page-header">
+    <div class="page-header-left">
+      <div class="page-header-dot"></div>
+      <div class="page-header-title">3Way Group / FindBetter — VodaLend Ideal Customer Profile</div>
+    </div>
+    <div class="page-header-right">March 2026 · Confidential</div>
+  </div>
+
+  <h1 class="section-title">Profile <span>Filters</span></h1>
+  <p class="section-intro">The filters below are applied in sequence. Debt load is the primary gate. Income, credit profile, and demographic filters refine the qualifying pool to maximise conversion economics.</p>
+
+  <h2 class="sub-heading">1. Debt Load and Affordability (Primary Filter)</h2>
+  <table class="filter-table">
+    <tr><th>Variable</th><th>Criteria</th><th>Rationale</th></tr>
+    <tr>
+      <td>Total outstanding debt</td>
+      <td>R150,000+</td>
+      <td>Minimum for a R3,000/month restructured payment to be economically viable.</td>
+    </tr>
+    <tr>
+      <td>Active credit facilities</td>
+      <td>5+</td>
+      <td>Average debt counselling applicant carries 6 facilities. 5+ reliably produces R150k+ total debt at middle-income levels.</td>
+    </tr>
+    <tr>
+      <td>Monthly declared debt repayments</td>
+      <td>R5,000+</td>
+      <td>Fastest proxy for R150k+ total exposure if total debt not directly captured.</td>
+    </tr>
+    <tr>
+      <td>Debt-to-income ratio</td>
+      <td>60%+</td>
+      <td>National average DTI for debt counselling applicants is 67.3%. Below 40% consumer may still self-rescue.</td>
+    </tr>
+  </table>
+
+  <h2 class="sub-heading">2. Income Band</h2>
+  <table class="filter-table">
+    <tr><th>Variable</th><th>Criteria</th><th>Rationale</th></tr>
+    <tr>
+      <td>Monthly gross income</td>
+      <td>R15,000–R60,000</td>
+      <td>Sweet spot: R18k–R40k gross. Below R15k insufficient disposable income; above R60k consumer resolves through private banking.</td>
+    </tr>
+    <tr>
+      <td>Employment status</td>
+      <td>Salaried or verifiable self-employed</td>
+      <td>Consistent monthly income required to fund restructured payment plan under NCA.</td>
+    </tr>
+    <tr>
+      <td>PERSAL / government payroll</td>
+      <td>Preferred</td>
+      <td>Employment stability high; payroll deductions enforceable; counsellors can negotiate directly with payroll.</td>
+    </tr>
+  </table>
+
+  <h2 class="sub-heading">3. Credit and Behavioural Profile</h2>
+  <table class="filter-table">
+    <tr><th>Variable</th><th>Criteria</th><th>Rationale</th></tr>
+    <tr>
+      <td>Decline reason</td>
+      <td>Affordability / over-indebtedness / credit risk</td>
+      <td>Strongest predictor of NCA over-indebtedness. Exclude: fraud, identity, incomplete.</td>
+    </tr>
+    <tr>
+      <td>Credit score</td>
+      <td>300–580</td>
+      <td>Below 300: judgements prevent debt review. Above 580: may still qualify for traditional credit. Densest band: 350–540.</td>
+    </tr>
+    <tr>
+      <td>Current arrears</td>
+      <td>1–3 months on 1+ facility</td>
+      <td>Early-stage stress; consumer actively seeking solutions. 3+ months often signals disengagement.</td>
+    </tr>
+    <tr>
+      <td>Days since application</td>
+      <td>Under 90 days</td>
+      <td>Contact rates drop sharply after 90 days. Sweet spot: 0–30 days (active decision window).</td>
+    </tr>
+    <tr>
+      <td>Recent credit enquiries (6 months)</td>
+      <td>3+</td>
+      <td>Multiple credit-seeking behaviour signals over-indebtedness — consumer trying to plug a gap.</td>
+    </tr>
+    <tr>
+      <td>Existing debt review</td>
+      <td>None</td>
+      <td>Cannot be placed if already under debt review. Must exclude.</td>
+    </tr>
+  </table>
+
+  <h2 class="sub-heading">4. Demographics</h2>
+  <table class="filter-table">
+    <tr><th>Variable</th><th>Criteria</th><th>Rationale</th></tr>
+    <tr>
+      <td>Age</td>
+      <td>28–55</td>
+      <td>Peak earning and peak debt accumulation. 45+ particularly strained — 60%+ carry unsustainable debt (DebtBusters 2025).</td>
+    </tr>
+    <tr>
+      <td>Province</td>
+      <td>National (no exclusion)</td>
+      <td>Highest volumes historically: Gauteng, Western Cape, KZN.</td>
+    </tr>
+    <tr>
+      <td>Valid contactable mobile</td>
+      <td>Yes</td>
+      <td>VodaLend-verified numbers are a significant data quality advantage over cold lists.</td>
+    </tr>
+  </table>
+
+  <div class="page-footer">
+    <div class="footer-left">VodaLend Ideal Customer Profile · FindBetter / 3Way Group</div>
+    <div class="footer-logo">3Way Group</div>
+    <div class="footer-right">Page 3 · Confidential</div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════
+     PAGE 4: SCORECARD, YIELD, EXCLUSIONS, NEXT STEPS
+     ══════════════════════════════════════════════ -->
+<div class="content-page">
+  <div class="page-header">
+    <div class="page-header-left">
+      <div class="page-header-dot"></div>
+      <div class="page-header-title">3Way Group / FindBetter — VodaLend Ideal Customer Profile</div>
+    </div>
+    <div class="page-header-right">March 2026 · Confidential</div>
+  </div>
+
+  <h1 class="section-title">Scorecard Variables <span>&amp; Yield</span></h1>
+
+  <h2 class="sub-heading">Matogen Scorecard — Key Predictive Variables</h2>
+  <p style="margin-bottom:3mm;">Our scoring partner Matogen has identified the following as the strongest predictive variables for a viable debt counselling case from a declined loan base:</p>
+
+  <div class="scorecard-grid">
+    <div class="sc-item">
+      <div class="sc-dot"></div>
+      <div class="sc-text">2+ missed home loan repayments over a short period</div>
+    </div>
+    <div class="sc-item">
+      <div class="sc-dot"></div>
+      <div class="sc-text">Unsecured loan declined, or 3+ accounts in arrears</div>
+    </div>
+    <div class="sc-item">
+      <div class="sc-dot"></div>
+      <div class="sc-text">Debt-to-income ratio above 100%</div>
+    </div>
+    <div class="sc-item">
+      <div class="sc-dot"></div>
+      <div class="sc-text">Payday loan usage and associated defaults</div>
+    </div>
+    <div class="sc-item">
+      <div class="sc-dot"></div>
+      <div class="sc-text">High credit utilisation across facilities</div>
+    </div>
+    <div class="sc-item">
+      <div class="sc-dot"></div>
+      <div class="sc-text">Missed payments on insurance premiums</div>
+    </div>
+  </div>
+
+  <div class="callout gold" style="margin-top:3mm;">
+    <div class="callout-label">Phase 2 — Scorecard Integration</div>
+    <p>Where VodaLend captures these signals at the point of decline assessment, they can be used to rank and prioritise the lead base before it reaches FindBetter — tightening the funnel and improving conversion economics for both parties. Full API integration and automated lead routing is the target architecture for Phase 2.</p>
+  </div>
+
+  <h2 class="sub-heading">Expected Yield Model</h2>
+  <table class="yield-table">
+    <tr><th>Stage</th><th>Expected Rate</th><th>Notes</th></tr>
+    <tr>
+      <td class="stage">Profile match from total declines</td>
+      <td class="rate">20–35%</td>
+      <td class="note">R150k+ threshold narrows volume but significantly improves lead quality</td>
+    </tr>
+    <tr>
+      <td class="stage">Contactable from profile matches</td>
+      <td class="rate">75–85%</td>
+      <td class="note">VodaLend-verified numbers are higher quality than cold purchased data</td>
+    </tr>
+    <tr>
+      <td class="stage">Engaged (willing to discuss)</td>
+      <td class="rate">20–30%</td>
+      <td class="note">Recently declined consumers are in an active financial decision window</td>
+    </tr>
+    <tr>
+      <td class="stage">Qualified under NCA test</td>
+      <td class="rate">65–75%</td>
+      <td class="note">Profile filters pre-qualify the pool strongly — minimal wasted qualification effort</td>
+    </tr>
+    <tr>
+      <td class="stage">Placed with debt counsellor</td>
+      <td class="rate">75–85%</td>
+      <td class="note">High placement rate from pre-qualified pool</td>
+    </tr>
+    <tr>
+      <td class="stage"><strong>End-to-end conversion</strong></td>
+      <td class="rate"><strong>8–14%</strong></td>
+      <td class="note"><strong>50,000 lead POC = estimated 4,000–7,000 placed consumers</strong></td>
+    </tr>
+  </table>
+
+  <h2 class="sub-heading">Exclusion Criteria</h2>
+  <ul class="excl-list">
+    <li>Declined for fraud / identity mismatch</li>
+    <li>Active debt review or administration order</li>
+    <li>Unemployed (no verifiable income)</li>
+    <li>Total debt below R100,000</li>
+    <li>Monthly repayments below R3,500</li>
+    <li>Do-not-contact under POPIA</li>
+    <li>Under 18 years of age</li>
+  </ul>
+
+  <h2 class="sub-heading">Next Steps</h2>
+  <ul class="steps-list">
+    <li><div class="step-num">1</div><span>VodaLend confirms which profile filters are available in application and bureau data</span></li>
+    <li><div class="step-num">2</div><span>Agree lead handoff format and secure transfer mechanism (POPIA compliant)</span></li>
+    <li><div class="step-num">3</div><span>Define POC parameters: 50,000 leads, 90-day window, conversion metrics agreed upfront</span></li>
+    <li><div class="step-num">4</div><span>Execute POC and report against agreed metrics</span></li>
+    <li><div class="step-num">5</div><span>Review, calibrate and scope Phase 2 scorecard integration with Matogen</span></li>
+  </ul>
+
+  <div class="callout" style="margin-top:4mm;">
+    <div class="callout-label">Compliance</div>
+    <p>All processing under POPIA and the NCA. Consent basis: legitimate interest (related financial service to declined application) or direct consent where available. VodaLend retains full control of customer data — 3Way/FindBetter receives pre-qualified leads only. NDA signed. All placed counsellors NCR registered.</p>
+  </div>
+
+  <div class="page-footer">
+    <div class="footer-left">VodaLend Ideal Customer Profile · FindBetter / 3Way Group</div>
+    <div class="footer-logo">3Way Group</div>
+    <div class="footer-right">Page 4 · Confidential</div>
+  </div>
+</div>
+
+</body>
+</html>

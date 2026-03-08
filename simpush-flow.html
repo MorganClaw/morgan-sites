@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SimPush — FNB Funeral Cover | Customer Journey Flow</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+    background: #f0f3fa;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 24px 56px;
+  }
+
+  .page-wrap {
+    width: 100%;
+    max-width: 900px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    text-align: center;
+    margin-bottom: 44px;
+    width: 100%;
+  }
+
+  .logo-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+
+  .logo-mark {
+    width: 34px;
+    height: 34px;
+    background: #1A2D6B;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .logo-mark span {
+    color: #FFC200;
+    font-size: 14px;
+    font-weight: 800;
+  }
+
+  .logo-name {
+    font-size: 12px;
+    font-weight: 700;
+    color: #1A2D6B;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .header h1 {
+    font-size: 24px;
+    font-weight: 800;
+    color: #1A2D6B;
+    letter-spacing: -0.3px;
+    margin-bottom: 7px;
+  }
+
+  .header h1 .highlight {
+    color: #FFC200;
+    background: #1A2D6B;
+    padding: 2px 10px;
+    border-radius: 5px;
+  }
+
+  .header .sub {
+    font-size: 12.5px;
+    color: #8a93b0;
+    margin-bottom: 14px;
+  }
+
+  .pills {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .pill {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 5px 13px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+  }
+
+  .pill-navy  { background: #1A2D6B; color: #FFC200; }
+  .pill-gold  { background: #FFC200; color: #1A2D6B; }
+  .pill-blue  { background: #4058D4; color: #fff; }
+
+  /* ── DIAGRAM ── */
+  .diagram-wrap {
+    position: relative;
+    width: 860px;
+    height: 690px;
+  }
+
+  /* labels above blocks */
+  .blk-label {
+    position: absolute;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #9aa0ba;
+    text-align: center;
+  }
+
+  /* ── PHONE ── */
+  .phone {
+    position: absolute;
+    width: 140px;
+    height: 256px;
+    background: #0e1628;
+    border-radius: 26px;
+    border: 2.5px solid #1e2f5c;
+    box-shadow: 0 14px 44px rgba(26,45,107,0.22), 0 2px 8px rgba(0,0,0,0.14);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .phone-notch {
+    position: absolute;
+    top: 9px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 34px;
+    height: 4px;
+    background: #182040;
+    border-radius: 2px;
+    z-index: 5;
+  }
+
+  .phone-screen {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 26px 13px 10px;
+    text-align: center;
+  }
+
+  .phone-footer {
+    border-top: 1px solid #182040;
+    display: flex;
+    flex-shrink: 0;
+  }
+
+  .phone-footer button {
+    flex: 1;
+    padding: 10px 4px;
+    font-size: 10.5px;
+    font-weight: 700;
+    border: none;
+    background: transparent;
+    cursor: default;
+    font-family: inherit;
+  }
+
+  .btn-decline { color: #E84C2B; border-right: 1px solid #182040; }
+  .btn-accept  { color: #FFC200; }
+
+  /* screen content */
+  .offer-title { font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 9px; line-height: 1.3; }
+  .offer-body  { font-size: 10px; color: #8a95b5; line-height: 1.55; }
+  .offer-body strong { color: #FFC200; }
+  .offer-tc    { font-size: 8px; color: #374060; margin-top: 7px; }
+
+  .confirm-icon  { font-size: 28px; margin-bottom: 9px; }
+  .confirm-title { font-size: 12px; font-weight: 700; color: #FFC200; margin-bottom: 7px; }
+  .confirm-body  { font-size: 9.5px; color: #7a88a8; line-height: 1.5; }
+
+  .decline-icon  { font-size: 26px; margin-bottom: 9px; }
+  .decline-title { font-size: 11px; font-weight: 600; color: #4d5870; margin-bottom: 6px; }
+  .decline-body  { font-size: 9.5px; color: #374060; line-height: 1.5; }
+
+  /* ── SMS BUBBLE ── */
+  .sms-bubble {
+    position: absolute;
+    width: 140px;
+    background: #0e1628;
+    border: 1.5px solid #1e2f5c;
+    border-radius: 11px;
+    padding: 8px 11px;
+  }
+
+  .sms-label {
+    font-size: 8px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: #4058D4;
+    margin-bottom: 4px;
+  }
+
+  .sms-text {
+    font-size: 9px;
+    color: #6070a0;
+    line-height: 1.4;
+    font-style: italic;
+  }
+
+  /* ── CALL CENTRE ── */
+  .callcentre-card {
+    position: absolute;
+    width: 158px;
+    background: #fff;
+    border-radius: 18px;
+    border: 2px solid #e4e9f7;
+    box-shadow: 0 8px 32px rgba(26,45,107,0.10);
+    padding: 22px 16px 20px;
+    text-align: center;
+  }
+
+  .cc-icon {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, #1A2D6B 0%, #4058D4 100%);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 13px;
+    font-size: 22px;
+  }
+
+  .cc-title { font-size: 13px; font-weight: 700; color: #1A2D6B; margin-bottom: 8px; line-height: 1.3; }
+  .cc-desc  { font-size: 9.5px; color: #7a8299; line-height: 1.55; margin-bottom: 14px; }
+
+  .cc-badge {
+    display: inline-block;
+    background: #FFC200;
+    color: #1A2D6B;
+    font-size: 9px;
+    font-weight: 800;
+    padding: 5px 12px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  /* ── SVG overlay ── */
+  .arrows-svg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  /* ── LEGEND ── */
+  .legend {
+    margin-top: 36px;
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 11px;
+    color: #7a8299;
+    font-weight: 500;
+  }
+
+  .legend-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .legend-div { width: 1px; height: 14px; background: #cdd2e6; }
+
+  .footer-note {
+    margin-top: 14px;
+    font-size: 10px;
+    color: #9aa0b5;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+<div class="page-wrap">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="logo-bar">
+      <div class="logo-mark"><span>3W</span></div>
+      <div class="logo-name">3Way Group</div>
+    </div>
+    <h1>SimPush — <span class="highlight">FNB Funeral Cover</span></h1>
+    <p class="sub">Customer Journey Flow · Proposed Test Campaign</p>
+    <div class="pills">
+      <span class="pill pill-navy">50,000 Impressions</span>
+      <span class="pill pill-gold">Static Integration</span>
+      <span class="pill pill-blue">Insurance Category</span>
+    </div>
+  </div>
+
+  <!-- DIAGRAM -->
+  <!--
+    Layout (all coords inside 860 × 690 viewBox):
+    Offer phone   : left=30,  top=192  → right_x=170, center_y=320
+    Confirm phone : left=310, top=30   → right_x=450, center_y=158
+    SMS bubble    : left=310, top=302  → bottom ~358
+    Decline phone : left=310, top=390  → center_y=518
+    CallCentre    : left=610, top=70   
+    Branch point  : x=230
+    Green path    : (170,320)→(230,320)→(230,158)→(310,158)
+    Red path      : (170,320)→(230,320)→(230,518)→(310,518)
+    Blue path     : (450,158)→(610,158)
+  -->
+  <div class="diagram-wrap">
+
+    <!-- SVG ARROWS -->
+    <svg class="arrows-svg" viewBox="0 0 860 690" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="arr-green" markerWidth="9" markerHeight="7" refX="8.5" refY="3.5" orient="auto">
+          <polygon points="0 0,9 3.5,0 7" fill="#22c55e"/>
+        </marker>
+        <marker id="arr-red" markerWidth="9" markerHeight="7" refX="8.5" refY="3.5" orient="auto">
+          <polygon points="0 0,9 3.5,0 7" fill="#E84C2B"/>
+        </marker>
+        <marker id="arr-blue" markerWidth="9" markerHeight="7" refX="8.5" refY="3.5" orient="auto">
+          <polygon points="0 0,9 3.5,0 7" fill="#4058D4"/>
+        </marker>
+      </defs>
+
+      <!-- Shared stem from offer right to branch point -->
+      <line x1="170" y1="320" x2="230" y2="320" stroke="#9aa0ba" stroke-width="2" stroke-dasharray="4 3"/>
+
+      <!-- Green: branch up → confirm -->
+      <polyline points="230,320 230,158 310,158"
+        fill="none" stroke="#22c55e" stroke-width="2.5"
+        stroke-linejoin="round" marker-end="url(#arr-green)"/>
+
+      <!-- Red: branch down → decline -->
+      <polyline points="230,320 230,518 310,518"
+        fill="none" stroke="#E84C2B" stroke-width="2.5"
+        stroke-linejoin="round" marker-end="url(#arr-red)"/>
+
+      <!-- Blue: confirm → call centre -->
+      <line x1="450" y1="158" x2="610" y2="158"
+        stroke="#4058D4" stroke-width="2.5" marker-end="url(#arr-blue)"/>
+
+      <!-- Arrow labels -->
+      <text x="272" y="148" text-anchor="middle" font-family="Inter,sans-serif"
+        font-size="9" font-weight="700" fill="#22c55e" letter-spacing="0.6">CALL ME</text>
+
+      <text x="258" y="482" text-anchor="middle" font-family="Inter,sans-serif"
+        font-size="9" font-weight="700" fill="#E84C2B" letter-spacing="0.6">NOT INTERESTED</text>
+
+      <text x="530" y="148" text-anchor="middle" font-family="Inter,sans-serif"
+        font-size="9" font-weight="700" fill="#4058D4" letter-spacing="0.6">LEAD ROUTED</text>
+    </svg>
+
+    <!-- Block labels -->
+    <div class="blk-label" style="left:30px; top:168px; width:140px;">Offer Screen</div>
+    <div class="blk-label" style="left:310px; top:8px; width:140px;">Confirmation</div>
+    <div class="blk-label" style="left:310px; top:368px; width:140px;">Decline</div>
+    <div class="blk-label" style="left:610px; top:48px; width:158px;">Call Centre</div>
+
+    <!-- PHONE 1: OFFER -->
+    <div class="phone" style="left:30px; top:192px;">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <div class="offer-title">FNB Funeral Cover</div>
+        <div class="offer-body">
+          From <strong>R50pm</strong>. Cover up to <strong>21 family members</strong>.
+          Payout within <strong>24 hours</strong>. No medical exam.
+          Up to <strong>R100,000</strong> cover.
+        </div>
+        <div class="offer-tc">T&amp;Cs apply.</div>
+      </div>
+      <div class="phone-footer">
+        <button class="btn-decline">Not Interested</button>
+        <button class="btn-accept">Call Me ›</button>
+      </div>
+    </div>
+
+    <!-- PHONE 2: CONFIRMATION -->
+    <div class="phone" style="left:310px; top:30px;">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <div class="confirm-icon">✅</div>
+        <div class="confirm-title">You're all set!</div>
+        <div class="confirm-body">A friendly FNB agent will call you shortly to get you covered.</div>
+      </div>
+    </div>
+
+    <!-- SMS BUBBLE (below confirm phone) -->
+    <div class="sms-bubble" style="left:310px; top:302px;">
+      <div class="sms-label">📱 SMS Confirmation</div>
+      <div class="sms-text">"Expect a call from an FNB agent shortly."</div>
+    </div>
+
+    <!-- PHONE 3: DECLINE -->
+    <div class="phone" style="left:310px; top:390px;">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <div class="decline-icon">👋</div>
+        <div class="decline-title">No problem at all.</div>
+        <div class="decline-body">Keep an eye out for other great offers in the future.</div>
+      </div>
+    </div>
+
+    <!-- CALL CENTRE CARD -->
+    <div class="callcentre-card" style="left:610px; top:70px;">
+      <div class="cc-icon">📞</div>
+      <div class="cc-title">Agent Calls Customer</div>
+      <div class="cc-desc">Lead delivered in real time. Agent calls the customer, presents the product and closes the sale.</div>
+      <div class="cc-badge">Live Handoff</div>
+    </div>
+
+  </div>
+  <!-- /diagram -->
+
+  <!-- LEGEND -->
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:#22c55e"></div>Positive path — Call Me</div>
+    <div class="legend-div"></div>
+    <div class="legend-item"><div class="legend-dot" style="background:#E84C2B"></div>Negative path — Not Interested</div>
+    <div class="legend-div"></div>
+    <div class="legend-item"><div class="legend-dot" style="background:#4058D4"></div>Lead routed to call centre</div>
+    <div class="legend-div"></div>
+    <div class="legend-item"><div class="legend-dot" style="background:#FFC200"></div>SMS confirmation to customer</div>
+  </div>
+
+  <p class="footer-note">Prepared by 3Way Group · SimPush Insurance Test Proposal · March 2026 · Confidential</p>
+
+</div>
+</body>
+</html>
