@@ -1,0 +1,1838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3Way Group — The Intelligence Layer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+/* ═══════════════════════════════════════════
+   PASSWORD OVERLAY
+   ═══════════════════════════════════════════ */
+#pw-overlay {
+  position: fixed; inset: 0;
+  background: #0D1B3E;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 1.5rem;
+  font-family: 'Inter', sans-serif;
+}
+#pw-overlay .pw-logo {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #fff;
+}
+#pw-overlay .pw-logo span { color: #FFC200; }
+#pw-overlay p { color: #8A9DC0; font-size: 0.9rem; }
+#pw-overlay input {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(138,157,192,0.25);
+  border-radius: 10px;
+  padding: 0.85rem 1.25rem;
+  color: #fff;
+  font-size: 1rem;
+  font-family: 'Inter', sans-serif;
+  outline: none;
+  width: 280px;
+  text-align: center;
+  letter-spacing: 0.1em;
+  transition: border-color 0.3s;
+}
+#pw-overlay input:focus { border-color: #FFC200; }
+#pw-overlay button {
+  background: #FFC200;
+  color: #0D1B3E;
+  border: none;
+  border-radius: 10px;
+  padding: 0.85rem 2rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  font-family: 'Syne', sans-serif;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  width: 280px;
+}
+#pw-overlay button:hover { opacity: 0.85; }
+#pw-overlay .pw-error {
+  color: #E84C2B;
+  font-size: 0.8rem;
+  min-height: 1rem;
+}
+
+/* ═══════════════════════════════════════════
+   RESET & BASE
+   ═══════════════════════════════════════════ */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --navy: #0D1B3E;
+  --navy-mid: #1A2D6B;
+  --navy-light: #142452;
+  --yellow: #FFC200;
+  --yellow-dim: rgba(255, 194, 0, 0.15);
+  --red: #E84C2B;
+  --blue: #4058D4;
+  --white: #FFFFFF;
+  --muted: #8A9DC0;
+  --glass: rgba(13, 27, 62, 0.7);
+  --glass-border: rgba(138, 157, 192, 0.15);
+  --glow-yellow: 0 0 40px rgba(255, 194, 0, 0.3);
+  --glow-blue: 0 0 40px rgba(64, 88, 212, 0.3);
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--navy);
+  color: var(--white);
+  overflow-x: hidden;
+  line-height: 1.6;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+a { color: var(--yellow); text-decoration: none; }
+
+::selection { background: var(--yellow); color: var(--navy); }
+
+/* ═══════════════════════════════════════════
+   NAVIGATION
+   ═══════════════════════════════════════════ */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.nav.scrolled {
+  background: rgba(13, 27, 62, 0.92);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--glass-border);
+  padding: 0.75rem 2rem;
+}
+
+.nav-logo {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 1.25rem;
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.nav-logo .accent { color: var(--yellow); }
+
+.nav-links { display: flex; gap: 2rem; list-style: none; }
+.nav-links a {
+  color: var(--muted);
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  transition: color 0.3s;
+  text-transform: uppercase;
+}
+.nav-links a:hover { color: var(--yellow); }
+
+.nav-mobile-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--white);
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .nav-links.open {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 100%; left: 0; right: 0;
+    background: rgba(13, 27, 62, 0.97);
+    backdrop-filter: blur(20px);
+    padding: 1.5rem 2rem;
+    gap: 1rem;
+    border-bottom: 1px solid var(--glass-border);
+  }
+  .nav-mobile-toggle { display: block; }
+}
+
+/* ═══════════════════════════════════════════
+   SCROLL ANIMATIONS
+   ═══════════════════════════════════════════ */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+.reveal-left {
+  opacity: 0; transform: translateX(-60px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal-left.visible { opacity: 1; transform: translateX(0); }
+
+.reveal-right {
+  opacity: 0; transform: translateX(60px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal-right.visible { opacity: 1; transform: translateX(0); }
+
+.reveal-scale {
+  opacity: 0; transform: scale(0.85);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal-scale.visible { opacity: 1; transform: scale(1); }
+
+.stagger > * { transition-delay: calc(var(--i, 0) * 0.1s); }
+
+/* ═══════════════════════════════════════════
+   SECTION BASE
+   ═══════════════════════════════════════════ */
+.section {
+  position: relative;
+  padding: 6rem 2rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.section-label {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--yellow);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.section-label::before {
+  content: '';
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--yellow);
+}
+
+.section-title {
+  font-size: clamp(2rem, 4vw, 3rem);
+  margin-bottom: 1.5rem;
+  background: linear-gradient(135deg, var(--white) 0%, var(--muted) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.section-subtitle {
+  font-size: 1.1rem;
+  color: var(--muted);
+  max-width: 640px;
+  line-height: 1.7;
+}
+
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--glass-border), transparent);
+  margin: 0 auto;
+  max-width: 1100px;
+}
+
+/* ═══════════════════════════════════════════
+   HERO
+   ═══════════════════════════════════════════ */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 8rem 2rem 4rem;
+  overflow: hidden;
+}
+
+#particle-canvas {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 0;
+}
+
+.hero-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(138, 157, 192, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(138, 157, 192, 0.05) 1px, transparent 1px);
+  background-size: 60px 60px;
+  z-index: 0;
+}
+
+.hero-glow {
+  position: absolute;
+  width: 500px; height: 500px;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.12;
+  z-index: 0;
+}
+.hero-glow-1 { background: var(--yellow); top: -150px; right: -80px; }
+.hero-glow-2 { background: var(--blue); bottom: -150px; left: -80px; }
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 860px;
+  width: 100%;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--yellow-dim);
+  border: 1px solid rgba(255, 194, 0, 0.25);
+  border-radius: 100px;
+  padding: 0.5rem 1.25rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--yellow);
+  margin-bottom: 2rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.hero-badge .dot {
+  width: 6px; height: 6px;
+  background: var(--yellow);
+  border-radius: 50%;
+  animation: pulse-dot 2s infinite;
+}
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.5); }
+}
+
+.hero h1 {
+  font-size: clamp(2.75rem, 7vw, 5.5rem);
+  font-weight: 800;
+  line-height: 0.95;
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.03em;
+}
+.hero h1 .gradient-text {
+  background: linear-gradient(135deg, var(--yellow), #FFD54F, var(--yellow));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-sub {
+  font-size: clamp(0.95rem, 2vw, 1.15rem);
+  color: var(--muted);
+  max-width: 640px;
+  margin: 0 auto 3rem;
+  line-height: 1.7;
+}
+
+.hero-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+  width: 100%;
+  max-width: 760px;
+  margin: 1rem auto 0;
+}
+
+@media (max-width: 600px) {
+  .hero-stats { grid-template-columns: repeat(2, 1fr); }
+}
+
+.stat-card {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 1.25rem 0.75rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s, border-color 0.3s;
+}
+.stat-card:hover { transform: translateY(-4px); border-color: rgba(255, 194, 0, 0.3); }
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--yellow), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.stat-card:hover::before { opacity: 1; }
+
+.stat-number {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(1.5rem, 2.5vw, 2.25rem);
+  font-weight: 800;
+  color: var(--yellow);
+  margin-bottom: 0.25rem;
+  white-space: nowrap;
+}
+.stat-label { font-size: 0.75rem; color: var(--muted); font-weight: 500; }
+
+.hero-scroll-indicator {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--muted);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  animation: float 3s ease-in-out infinite;
+}
+.scroll-line {
+  width: 1px; height: 40px;
+  background: linear-gradient(to bottom, var(--muted), transparent);
+  animation: scroll-pulse 2s infinite;
+}
+@keyframes float {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(-8px); }
+}
+@keyframes scroll-pulse {
+  0% { opacity: 0; transform: scaleY(0); transform-origin: top; }
+  50% { opacity: 1; transform: scaleY(1); }
+  100% { opacity: 0; transform: scaleY(0); transform-origin: bottom; }
+}
+
+/* ═══════════════════════════════════════════
+   SECTION 1 — WHAT WE'RE BUILDING
+   ═══════════════════════════════════════════ */
+.entity-hub {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+.entities-ring {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  width: 100%;
+  max-width: 800px;
+}
+
+@media (max-width: 640px) {
+  .entities-ring { grid-template-columns: repeat(2, 1fr); }
+}
+
+.entity-card {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 1.5rem;
+  text-align: center;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: default;
+}
+.entity-card:hover {
+  border-color: var(--yellow);
+  transform: translateY(-6px);
+  box-shadow: var(--glow-yellow);
+}
+
+.entity-icon {
+  width: 48px; height: 48px;
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 0.75rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+.entity-card:nth-child(1) .entity-icon { background: rgba(255,194,0,0.15); color: var(--yellow); }
+.entity-card:nth-child(2) .entity-icon { background: rgba(64,88,212,0.15); color: var(--blue); }
+.entity-card:nth-child(3) .entity-icon { background: rgba(232,76,43,0.15); color: var(--red); }
+.entity-card:nth-child(4) .entity-icon { background: rgba(64,88,212,0.15); color: #6C8FFF; }
+
+.entity-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.95rem; margin-bottom: 0.25rem; }
+.entity-type { font-size: 0.75rem; color: var(--muted); }
+
+.flow-connector { display: flex; flex-direction: column; align-items: center; padding: 0.5rem 0; }
+.flow-arrows { display: flex; gap: 3.5rem; }
+.flow-arrow { width: 2px; height: 48px; position: relative; overflow: hidden; }
+.flow-arrow::before {
+  content: '';
+  position: absolute;
+  top: -100%; left: 0;
+  width: 100%; height: 100%;
+  background: linear-gradient(to bottom, transparent, var(--yellow));
+  animation: flow-down 1.5s infinite;
+}
+@keyframes flow-down { 0% { top: -100%; } 100% { top: 100%; } }
+.flow-arrow:nth-child(2)::before { animation-delay: 0.3s; }
+.flow-arrow:nth-child(3)::before { animation-delay: 0.6s; }
+.flow-arrow:nth-child(4)::before { animation-delay: 0.9s; }
+
+.hub-core {
+  background: linear-gradient(135deg, var(--navy-mid), var(--navy));
+  border: 2px solid var(--yellow);
+  border-radius: 20px;
+  padding: 2rem 3.5rem;
+  text-align: center;
+  box-shadow: var(--glow-yellow);
+  animation: hub-pulse 3s infinite;
+}
+@keyframes hub-pulse {
+  0%, 100% { box-shadow: 0 0 30px rgba(255,194,0,0.2); }
+  50% { box-shadow: 0 0 60px rgba(255,194,0,0.35); }
+}
+.hub-core h3 { font-size: 1.4rem; color: var(--yellow); margin-bottom: 0.35rem; }
+.hub-core p { color: var(--muted); font-size: 0.85rem; }
+.hub-core .hub-thread {
+  display: inline-block;
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+  color: rgba(255,194,0,0.6);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-family: 'Syne', sans-serif;
+  font-weight: 600;
+}
+
+/* ═══════════════════════════════════════════
+   SECTION 2 — PROGRESS
+   ═══════════════════════════════════════════ */
+.progress-list {
+  margin-top: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.progress-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  transition: all 0.3s;
+}
+.progress-item:hover {
+  border-color: rgba(138,157,192,0.3);
+  background: rgba(26,45,107,0.3);
+}
+.progress-icon {
+  flex-shrink: 0;
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.85rem;
+  margin-top: 1px;
+}
+.progress-icon.done { background: rgba(72,199,142,0.15); color: #48C78E; }
+.progress-icon.active { background: rgba(255,194,0,0.15); color: var(--yellow); animation: pulse-dot 2s infinite; }
+.progress-icon.pending { background: rgba(138,157,192,0.1); color: var(--muted); }
+
+.progress-text { font-size: 0.95rem; color: var(--white); line-height: 1.5; }
+.progress-text span { color: var(--muted); font-size: 0.85rem; }
+
+/* ═══════════════════════════════════════════
+   SECTION 3 — SIX PILLARS
+   ═══════════════════════════════════════════ */
+.pillars-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+  margin-top: 2.5rem;
+}
+/* 7th card: span full width of last row, constrained to card width */
+.pillars-grid .pillar-card:last-child {
+  grid-column: 2 / 3;
+}
+@media (max-width: 900px) {
+  .pillars-grid { grid-template-columns: repeat(2, 1fr); }
+  .pillars-grid .pillar-card:last-child { grid-column: 1 / -1; max-width: 340px; margin: 0 auto; width: 100%; }
+}
+@media (max-width: 600px) {
+  .pillars-grid { grid-template-columns: 1fr; }
+  .pillars-grid .pillar-card:last-child { grid-column: auto; max-width: 100%; }
+}
+
+.pillar-card {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 1.75rem;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+}
+.pillar-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--yellow);
+  transform: scaleX(0);
+  transition: transform 0.4s;
+  transform-origin: left;
+}
+.pillar-card:hover::before, .pillar-card.expanded::before { transform: scaleX(1); }
+.pillar-card:hover { border-color: rgba(255,194,0,0.3); transform: translateY(-4px); }
+.pillar-card.expanded { border-color: rgba(255,194,0,0.3); background: rgba(26,45,107,0.4); }
+
+.pillar-number { font-family: 'Syne', sans-serif; font-size: 2.5rem; font-weight: 800; color: rgba(255,194,0,0.15); line-height: 1; margin-bottom: 0.5rem; }
+.pillar-title {
+  font-family: 'Syne', sans-serif; font-size: 1.05rem; font-weight: 700;
+  margin-bottom: 0.75rem; color: var(--white);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.pillar-toggle {
+  width: 24px; height: 24px; border-radius: 50%;
+  background: rgba(255,194,0,0.1);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--yellow); font-size: 0.8rem;
+  transition: transform 0.3s; flex-shrink: 0;
+}
+.pillar-card.expanded .pillar-toggle { transform: rotate(45deg); }
+.pillar-detail { max-height: 0; overflow: hidden; transition: max-height 0.5s cubic-bezier(0.16,1,0.3,1), opacity 0.3s; opacity: 0; }
+.pillar-card.expanded .pillar-detail { max-height: 200px; opacity: 1; }
+.pillar-detail p { color: var(--muted); font-size: 0.9rem; line-height: 1.6; padding-top: 0.5rem; border-top: 1px solid var(--glass-border); }
+.pillar-metric { display: inline-block; margin-top: 0.5rem; background: rgba(255,194,0,0.1); color: var(--yellow); padding: 0.35rem 0.75rem; border-radius: 100px; font-size: 0.8rem; font-weight: 600; }
+
+/* ═══════════════════════════════════════════
+   SECTION 4 — DATA UNIVERSE
+   ═══════════════════════════════════════════ */
+.universe-intro {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+  margin-top: 2.5rem;
+  margin-bottom: 2.5rem;
+}
+@media (max-width: 768px) { .universe-intro { grid-template-columns: 1fr; } }
+
+.universe-stat-block {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.universe-stat-block .usb-number {
+  font-family: 'Syne', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--yellow);
+}
+.universe-stat-block .usb-label { font-size: 0.95rem; color: var(--white); font-weight: 500; }
+.universe-stat-block .usb-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
+
+.data-viz-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: center;
+}
+@media (max-width: 768px) { .data-viz-container { grid-template-columns: 1fr; } }
+
+.data-bars { display: flex; flex-direction: column; gap: 1.25rem; }
+.data-bar-item { position: relative; }
+.data-bar-header { display: flex; justify-content: space-between; margin-bottom: 0.5rem; }
+.data-bar-label { font-size: 0.9rem; font-weight: 500; color: var(--white); }
+.data-bar-value { font-family: 'Syne', sans-serif; font-weight: 700; color: var(--yellow); font-size: 0.9rem; }
+.data-bar-track { height: 8px; background: rgba(138,157,192,0.1); border-radius: 100px; overflow: hidden; }
+.data-bar-fill {
+  height: 100%; border-radius: 100px; width: 0%;
+  transition: width 1.5s cubic-bezier(0.16,1,0.3,1);
+  position: relative;
+}
+.data-bar-fill::after {
+  content: '';
+  position: absolute; right: 0; top: 50%; transform: translateY(-50%);
+  width: 4px; height: 14px; border-radius: 2px;
+  background: inherit; filter: brightness(1.3);
+}
+.data-bar-fill.bar-1 { background: linear-gradient(90deg, var(--yellow), #FFD54F); }
+.data-bar-fill.bar-2 { background: linear-gradient(90deg, var(--blue), #6C8FFF); }
+.data-bar-fill.bar-3 { background: linear-gradient(90deg, var(--red), #FF7043); }
+.data-bar-fill.bar-4 { background: linear-gradient(90deg, #48C78E, #69DBA4); }
+.data-bar-fill.bar-5 { background: linear-gradient(90deg, var(--muted), #A8BFDE); }
+.data-bar-fill.bar-6 { background: linear-gradient(90deg, #9B59B6, #C39BD3); }
+
+.chart-container { position: relative; width: 100%; max-width: 380px; margin: 0 auto; }
+.chart-container canvas { width: 100% !important; height: auto !important; }
+
+/* ═══════════════════════════════════════════
+   SECTION 5 — TIMELINE
+   ═══════════════════════════════════════════ */
+.timeline { margin-top: 3rem; position: relative; }
+.timeline-track { position: relative; display: flex; gap: 0; }
+@media (max-width: 768px) { .timeline-track { flex-direction: column; } }
+
+.timeline-line {
+  position: absolute;
+  top: 28px; left: 0; right: 0;
+  height: 3px;
+  background: rgba(138,157,192,0.15);
+  z-index: 0;
+}
+.timeline-line-fill {
+  height: 100%; width: 20%;
+  background: linear-gradient(90deg, var(--yellow), rgba(255,194,0,0.3));
+  border-radius: 100px;
+  transition: width 1.5s cubic-bezier(0.16,1,0.3,1);
+}
+@media (max-width: 768px) {
+  .timeline-line { top: 0; bottom: 0; left: 28px; right: auto; width: 3px; height: 100%; }
+  .timeline-line-fill { width: 100%; height: 20%; }
+}
+
+.timeline-phase { flex: 1; position: relative; z-index: 1; padding: 0 0.75rem; text-align: center; }
+@media (max-width: 768px) { .timeline-phase { text-align: left; padding: 0 0 2rem 4rem; } }
+
+.timeline-dot {
+  width: 16px; height: 16px; border-radius: 50%;
+  background: var(--navy-mid); border: 3px solid var(--muted);
+  margin: 20px auto 1.25rem;
+  position: relative; z-index: 2;
+  transition: all 0.4s;
+}
+@media (max-width: 768px) { .timeline-dot { position: absolute; left: 20px; top: 0; margin: 0; } }
+.timeline-phase.active .timeline-dot { border-color: var(--yellow); background: var(--yellow); box-shadow: 0 0 20px rgba(255,194,0,0.5); }
+.timeline-phase.completed .timeline-dot { border-color: #48C78E; background: #48C78E; }
+
+.timeline-phase-label { font-family: 'Syne', sans-serif; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 0.5rem; }
+.timeline-phase.active .timeline-phase-label { color: var(--yellow); }
+.timeline-phase-title { font-family: 'Syne', sans-serif; font-size: 0.88rem; font-weight: 700; margin-bottom: 0.25rem; }
+.timeline-phase-date { font-size: 0.8rem; color: var(--muted); }
+
+.timeline-here {
+  display: inline-flex; align-items: center; gap: 0.35rem;
+  background: rgba(255,194,0,0.15); color: var(--yellow);
+  padding: 0.25rem 0.75rem; border-radius: 100px;
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.05em;
+  text-transform: uppercase; margin-top: 0.5rem;
+  animation: pulse-badge 2s infinite;
+}
+@keyframes pulse-badge { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
+
+/* ═══════════════════════════════════════════
+   SECTION 6 — TEAM
+   ═══════════════════════════════════════════ */
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+  margin-top: 2.5rem;
+}
+@media (max-width: 900px) { .team-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 500px) { .team-grid { grid-template-columns: 1fr; } }
+
+.team-card {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 1.75rem;
+  text-align: center;
+  transition: all 0.3s;
+}
+.team-card:hover { border-color: rgba(255,194,0,0.25); transform: translateY(-4px); }
+.team-card.sponsor { border-color: rgba(255,194,0,0.3); background: linear-gradient(135deg, rgba(255,194,0,0.05), var(--glass)); }
+
+.team-avatar {
+  width: 56px; height: 56px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 1rem;
+  font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.1rem;
+  background: rgba(64,88,212,0.15); color: var(--blue);
+}
+.team-card.sponsor .team-avatar { background: rgba(255,194,0,0.15); color: var(--yellow); }
+.team-card.partner .team-avatar { background: rgba(72,199,142,0.15); color: #48C78E; }
+
+.team-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem; margin-bottom: 0.25rem; }
+.team-role { font-size: 0.8rem; color: var(--muted); line-height: 1.4; }
+.team-badge {
+  display: inline-block; margin-top: 0.5rem;
+  font-size: 0.65rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.08em; padding: 0.2rem 0.6rem; border-radius: 100px;
+  background: rgba(255,194,0,0.1); color: var(--yellow);
+}
+
+/* ═══════════════════════════════════════════
+   SECTION 7 — VISION
+   ═══════════════════════════════════════════ */
+.vision-section {
+  text-align: center;
+  padding: 8rem 2rem;
+  position: relative;
+  overflow: hidden;
+}
+.vision-section::before {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%; transform: translate(-50%, -50%);
+  width: 700px; height: 700px;
+  background: radial-gradient(circle, rgba(255,194,0,0.06), transparent 70%);
+  pointer-events: none;
+}
+
+.vision-statements {
+  max-width: 820px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.vision-quote {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(1.1rem, 3vw, 1.75rem);
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--muted);
+  transition: color 0.6s;
+  position: relative;
+  padding-left: 1.5rem;
+  text-align: left;
+}
+.vision-quote::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: var(--glass-border);
+  border-radius: 100px;
+  transition: background 0.6s;
+}
+.vision-quote.visible { color: var(--white); }
+.vision-quote.visible::before { background: var(--yellow); }
+
+/* ═══════════════════════════════════════════
+   FOOTER
+   ═══════════════════════════════════════════ */
+.footer { border-top: 1px solid var(--glass-border); padding: 3rem 2rem; text-align: center; }
+.footer-brand { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.5rem; margin-bottom: 0.5rem; }
+.footer-brand .accent { color: var(--yellow); }
+.footer-sub { color: var(--muted); font-size: 0.85rem; margin-bottom: 0.25rem; }
+.footer-credit { color: rgba(138,157,192,0.5); font-size: 0.75rem; margin-top: 1rem; }
+.footer-divider { width: 40px; height: 2px; background: var(--yellow); margin: 1.5rem auto; border-radius: 100px; }
+
+/* Smooth page load */
+body { animation: fadeInBody 0.8s ease; }
+@keyframes fadeInBody { from { opacity: 0; } to { opacity: 1; } }
+
+.text-yellow { color: var(--yellow); }
+.text-muted { color: var(--muted); }
+
+/* ═══════════════════════════════════════════
+   SCORING & AI SECTION
+   ═══════════════════════════════════════════ */
+.scoring-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-top: 2.5rem;
+}
+@media (max-width: 768px) { .scoring-grid { grid-template-columns: 1fr; } }
+
+.scoring-card {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  padding: 2rem;
+  transition: all 0.3s;
+}
+.scoring-card:hover { border-color: rgba(255,194,0,0.3); transform: translateY(-4px); }
+.scoring-card.featured {
+  border-color: rgba(255,194,0,0.25);
+  background: linear-gradient(135deg, rgba(255,194,0,0.04), var(--glass));
+  grid-column: 1 / -1;
+}
+.scoring-icon {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+.scoring-card h3 {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+.scoring-card p {
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.65;
+}
+.scoring-tag {
+  display: inline-block;
+  margin-top: 1rem;
+  background: rgba(64,88,212,0.12);
+  color: #6C8FFF;
+  padding: 0.3rem 0.75rem;
+  border-radius: 100px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+.scoring-tag.yellow { background: rgba(255,194,0,0.12); color: var(--yellow); }
+.scoring-tag.green { background: rgba(72,199,142,0.12); color: #48C78E; }
+
+.partner-row {
+  display: flex;
+  gap: 1.25rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+}
+.partner-chip {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  padding: 0.85rem 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  transition: border-color 0.3s;
+}
+.partner-chip:hover { border-color: rgba(255,194,0,0.3); }
+.partner-chip .chip-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--yellow); }
+.partner-chip .chip-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.9rem; }
+.partner-chip .chip-desc { font-size: 0.8rem; color: var(--muted); }
+
+/* ═══════════════════════════════════════════
+   2027 FUTURE SECTION
+   ═══════════════════════════════════════════ */
+.future-section {
+  position: relative;
+  padding: 6rem 2rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.future-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-top: 2.5rem;
+}
+@media (max-width: 900px) { .future-cards { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 600px) { .future-cards { grid-template-columns: 1fr; } }
+
+.future-card {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  padding: 2rem;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+.future-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--yellow), rgba(255,194,0,0.3));
+  transform: scaleX(0);
+  transition: transform 0.4s;
+  transform-origin: left;
+}
+.future-card:hover::after { transform: scaleX(1); }
+.future-card:hover { transform: translateY(-4px); border-color: rgba(255,194,0,0.2); }
+
+.future-year {
+  font-family: 'Syne', sans-serif;
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: rgba(255,194,0,0.12);
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+.future-card h3 {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+.future-card p {
+  font-size: 0.9rem;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+</style>
+</head>
+<body>
+
+<!-- PASSWORD OVERLAY -->
+<div id="pw-overlay">
+  <div class="pw-logo"><span>3</span>Way Group</div>
+  <p>This document is confidential.</p>
+  <input type="password" id="pw-input" placeholder="Enter password" autocomplete="off" />
+  <button onclick="checkPw()">Access</button>
+  <div class="pw-error" id="pw-error"></div>
+</div>
+
+<!-- NAVIGATION -->
+<nav class="nav" id="nav">
+  <div class="nav-logo">
+    <span class="accent">3</span>Way Group <span class="text-muted" style="font-weight:400;font-size:0.8rem;margin-left:0.5rem;">Data Warehouse</span>
+  </div>
+  <button class="nav-mobile-toggle" id="navToggle" aria-label="Menu">☰</button>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#building">Overview</a></li>
+    <li><a href="#progress">Progress</a></li>
+    <li><a href="#pillars">Pillars</a></li>
+    <li><a href="#universe">Data</a></li>
+    <li><a href="#timeline">Timeline</a></li>
+    <li><a href="#team">Team</a></li>
+    <li><a href="#scoring">Scoring & AI</a></li>
+    <li><a href="#future">2027</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <canvas id="particle-canvas"></canvas>
+  <div class="hero-grid"></div>
+  <div class="hero-glow hero-glow-1"></div>
+  <div class="hero-glow hero-glow-2"></div>
+
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="dot"></span>
+      Project Active
+    </div>
+    <h1>
+      The<br>
+      <span class="gradient-text">Intelligence Layer</span>
+    </h1>
+    <p class="hero-sub">
+      3Way Group is building the data infrastructure that will define how Africa's leading distribution business operates, competes and monetises for the next decade.
+    </p>
+
+    <div class="hero-stats">
+      <div class="stat-card">
+        <div class="stat-number"><span class="counter" data-target="27">0</span>M+</div>
+        <div class="stat-label">Records</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number"><span class="counter" data-target="100">0</span>M+</div>
+        <div class="stat-label">AVM Interactions</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number"><span class="counter" data-target="710">0</span></div>
+        <div class="stat-label">Fields Catalogued</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number"><span class="counter" data-target="4">0</span></div>
+        <div class="stat-label">Entities Unified</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-scroll-indicator">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 1 — WHAT WE'RE BUILDING -->
+<section class="section" id="building">
+  <div class="reveal">
+    <div class="section-label">Overview</div>
+    <h2 class="section-title">What We're Building</h2>
+    <p class="section-subtitle">
+      A centralised data warehouse unifying customer data across all 3Way Group entities — a single source of truth and the golden thread connecting every customer interaction across the group.
+    </p>
+  </div>
+
+  <div class="reveal" style="transition-delay:0.2s;">
+    <div class="entity-hub">
+      <div class="entities-ring stagger">
+        <div class="entity-card" style="--i:0">
+          <div class="entity-icon">3W</div>
+          <div class="entity-name">3Way Marketing</div>
+          <div class="entity-type">Lead Generation</div>
+        </div>
+        <div class="entity-card" style="--i:1">
+          <div class="entity-icon">PF</div>
+          <div class="entity-name">PhoneFinder</div>
+          <div class="entity-type">Contact Discovery</div>
+        </div>
+        <div class="entity-card" style="--i:2">
+          <div class="entity-icon">SH</div>
+          <div class="entity-name">SayHi</div>
+          <div class="entity-type">VAS & Mobile</div>
+        </div>
+        <div class="entity-card" style="--i:3">
+          <div class="entity-icon">FB</div>
+          <div class="entity-name">FindBetter</div>
+          <div class="entity-type">Consumer Offers & Finance</div>
+        </div>
+      </div>
+
+      <div class="flow-connector">
+        <div class="flow-arrows">
+          <div class="flow-arrow"></div>
+          <div class="flow-arrow"></div>
+          <div class="flow-arrow"></div>
+          <div class="flow-arrow"></div>
+        </div>
+      </div>
+
+      <div class="hub-core">
+        <h3>Unified Data Warehouse</h3>
+        <p>Single source of truth across every entity</p>
+        <div class="hub-thread">⸻ The Golden Thread ⸻</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 2 — WHAT HAS BEEN DONE -->
+<section class="section" id="progress">
+  <div class="reveal">
+    <div class="section-label">Progress</div>
+    <h2 class="section-title">What Has Been Done</h2>
+    <p class="section-subtitle">
+      Significant groundwork completed. The foundation is laid and the path forward is clear.
+    </p>
+  </div>
+
+  <div class="progress-list stagger">
+    <div class="progress-item reveal" style="--i:0">
+      <div class="progress-icon done">✓</div>
+      <div class="progress-text">Business Requirements Document complete</div>
+    </div>
+    <div class="progress-item reveal" style="--i:1">
+      <div class="progress-icon done">✓</div>
+      <div class="progress-text">710 fields across 35 data sources catalogued</div>
+    </div>
+    <div class="progress-item reveal" style="--i:2">
+      <div class="progress-icon done">✓</div>
+      <div class="progress-text">27M XDS records | 100M AVM CDRs | 100M SMS records mapped</div>
+    </div>
+    <div class="progress-item reveal" style="--i:3">
+      <div class="progress-icon done">✓</div>
+      <div class="progress-text">20+ business outcome KPIs defined across 6 pillars</div>
+    </div>
+    <div class="progress-item reveal" style="--i:4">
+      <div class="progress-icon done">✓</div>
+      <div class="progress-text">Data dictionary gap analysis complete — prioritised action list ready</div>
+    </div>
+    <div class="progress-item reveal" style="--i:5">
+      <div class="progress-icon done">✓</div>
+      <div class="progress-text">Implementation partner engaged: Elucidate <span>(Saul, Joshua, Tristan)</span></div>
+    </div>
+    <div class="progress-item reveal" style="--i:6">
+      <div class="progress-icon active">●</div>
+      <div class="progress-text">Data dictionary descriptions in progress <span>(Ricky / Poveshni)</span></div>
+    </div>
+    <div class="progress-item reveal" style="--i:7">
+      <div class="progress-icon active">●</div>
+      <div class="progress-text">LeadByte field triage underway <span>(307 fields)</span></div>
+    </div>
+    <div class="progress-item reveal" style="--i:8">
+      <div class="progress-icon pending">○</div>
+      <div class="progress-text">Technical deep-dive sessions with Elucidate <span>— scheduled once dictionary complete</span></div>
+    </div>
+    <div class="progress-item reveal" style="--i:9">
+      <div class="progress-icon pending">○</div>
+      <div class="progress-text">Requirements and Roadmap Document</div>
+    </div>
+    <div class="progress-item reveal" style="--i:10">
+      <div class="progress-icon pending">○</div>
+      <div class="progress-text">Implementation</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 3 — THE SIX PILLARS -->
+<section class="section" id="pillars">
+  <div class="reveal">
+    <div class="section-label">Strategic Value — 7 Pillars</div>
+    <h2 class="section-title">The Strategic Pillars</h2>
+    <p class="section-subtitle">
+      Seven measurable outcomes that define the warehouse's value to the business. Each pillar has a clear target and timeline.
+    </p>
+  </div>
+
+  <div class="pillars-grid">
+    <div class="pillar-card reveal" style="--i:0" onclick="togglePillar(this)">
+      <div class="pillar-number">01</div>
+      <div class="pillar-title">Reduce Marketing Cost <div class="pillar-toggle">+</div></div>
+      <div class="pillar-detail">
+        <p>Stop spending on contacts that will never respond. Suppress dead numbers, deduplicate across entities, and target only qualified leads.</p>
+        <div class="pillar-metric">15–25% reduction in CPQL, Year 1</div>
+      </div>
+    </div>
+    <div class="pillar-card reveal" style="--i:1" onclick="togglePillar(this)">
+      <div class="pillar-number">02</div>
+      <div class="pillar-title">Save Resource Time <div class="pillar-toggle">+</div></div>
+      <div class="pillar-detail">
+        <p>Eliminate manual data wrangling, automate reporting, and free technical teams for higher-value work. From 2-day DSAR resolution to 4 hours.</p>
+        <div class="pillar-metric">60%+ reduction in manual wrangling, 6 months</div>
+      </div>
+    </div>
+    <div class="pillar-card reveal" style="--i:2" onclick="togglePillar(this)">
+      <div class="pillar-number">03</div>
+      <div class="pillar-title">Right Customer. Right Time. Right Channel. <div class="pillar-toggle">+</div></div>
+      <div class="pillar-detail">
+        <p>Move beyond contact rate to precision. Know which consumer is ready, on which channel, for which product — and reach them at the moment they are most likely to respond.</p>
+        <div class="pillar-metric">10–15% RPC improvement, Year 1</div>
+      </div>
+    </div>
+    <div class="pillar-card reveal" style="--i:3" onclick="togglePillar(this)">
+      <div class="pillar-number">04</div>
+      <div class="pillar-title">Improve Customer Quality <div class="pillar-toggle">+</div></div>
+      <div class="pillar-detail">
+        <p>Higher quality leads mean better conversion, lower churn and stronger client relationships. Use data to distinguish a likely buyer from a number that will never convert — before the call is made.</p>
+        <div class="pillar-metric">Measurable uplift in lead-to-sale conversion</div>
+      </div>
+    </div>
+    <div class="pillar-card reveal" style="--i:4" onclick="togglePillar(this)">
+      <div class="pillar-number">05</div>
+      <div class="pillar-title">Better Customer Experience <div class="pillar-toggle">+</div></div>
+      <div class="pillar-detail">
+        <p>Consumers who receive relevant offers at the right moment have a fundamentally different experience. Suppress irrelevant contacts, personalise product matching, and protect 3Way's reputation with end consumers.</p>
+        <div class="pillar-metric">Reduction in consumer complaints and opt-outs</div>
+      </div>
+    </div>
+    <div class="pillar-card reveal" style="--i:5" onclick="togglePillar(this)">
+      <div class="pillar-number">06</div>
+      <div class="pillar-title">Enable Scoring and Modelling <div class="pillar-toggle">+</div></div>
+      <div class="pillar-detail">
+        <p>Propensity to respond, convert, pay. Build predictive models that transform campaign selection from guesswork to precision targeting.</p>
+        <div class="pillar-metric">2–4x campaign lift vs unscored baseline</div>
+      </div>
+    </div>
+    <div class="pillar-card reveal" style="--i:6" onclick="togglePillar(this)">
+      <div class="pillar-number">07</div>
+      <div class="pillar-title">Monetisable Data Asset <div class="pillar-toggle">+</div></div>
+      <div class="pillar-detail">
+        <p>Data as a product. Scored segments at premium pricing. A data asset that makes the business acquirable and the valuation defensible.</p>
+        <div class="pillar-metric">Data as a revenue line</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 4 — THE DATA UNIVERSE -->
+<section class="section" id="universe">
+  <div class="reveal">
+    <div class="section-label">Scale</div>
+    <h2 class="section-title">The Data Universe</h2>
+    <p class="section-subtitle">
+      Decades of interactions, responses and outcomes accumulated across 3Way Group's entities. When unified, this becomes one of the most comprehensive consumer behaviour datasets in Southern Africa.
+    </p>
+  </div>
+
+  <div class="universe-intro reveal" style="transition-delay:0.15s;">
+    <div class="universe-stat-block">
+      <div class="usb-number">27M+</div>
+      <div class="usb-label">Consumer Records</div>
+      <div class="usb-desc">South African consumer profiles sourced via XDS, covering demographics, contact data and credit behaviour signals. The foundation of every campaign audience.</div>
+    </div>
+    <div class="universe-stat-block">
+      <div class="usb-number">300M+</div>
+      <div class="usb-label">Interaction Events</div>
+      <div class="usb-desc">AVM calls, SMS sends, MNO lookups and campaign responses — each one a data point that tells us what works, what doesn't, and who is worth reaching again.</div>
+    </div>
+    <div class="universe-stat-block">
+      <div class="usb-number">35</div>
+      <div class="usb-label">Data Sources</div>
+      <div class="usb-desc">Across LeadByte, PhoneFinder, AVM CDRs, SayHi, Vantage and FindBetter. Currently siloed. The warehouse connects them into a single queryable layer.</div>
+    </div>
+    <div class="universe-stat-block">
+      <div class="usb-number">710</div>
+      <div class="usb-label">Fields Catalogued</div>
+      <div class="usb-desc">Every field across 35 tables defined, classified and prioritised. 226 confirmed for inclusion. The dictionary is the blueprint for what gets built.</div>
+    </div>
+  </div>
+
+  <div class="data-viz-container reveal" style="transition-delay:0.3s;">
+    <div class="data-bars" id="dataBars">
+      <div class="data-bar-item">
+        <div class="data-bar-header">
+          <span class="data-bar-label">XDS Consumer Records</span>
+          <span class="data-bar-value">27M+</span>
+        </div>
+        <div class="data-bar-track"><div class="data-bar-fill bar-1" data-width="27"></div></div>
+      </div>
+      <div class="data-bar-item">
+        <div class="data-bar-header">
+          <span class="data-bar-label">AVM Call Records</span>
+          <span class="data-bar-value">100M+</span>
+        </div>
+        <div class="data-bar-track"><div class="data-bar-fill bar-2" data-width="100"></div></div>
+      </div>
+      <div class="data-bar-item">
+        <div class="data-bar-header">
+          <span class="data-bar-label">SMS Records</span>
+          <span class="data-bar-value">100M+</span>
+        </div>
+        <div class="data-bar-track"><div class="data-bar-fill bar-3" data-width="100"></div></div>
+      </div>
+      <div class="data-bar-item">
+        <div class="data-bar-header">
+          <span class="data-bar-label">Mobile Network Lookups</span>
+          <span class="data-bar-value">100M+</span>
+        </div>
+        <div class="data-bar-track"><div class="data-bar-fill bar-4" data-width="100"></div></div>
+      </div>
+      <div class="data-bar-item">
+        <div class="data-bar-header">
+          <span class="data-bar-label">Data Sources</span>
+          <span class="data-bar-value">35 tables</span>
+        </div>
+        <div class="data-bar-track"><div class="data-bar-fill bar-5" data-width="35"></div></div>
+      </div>
+      <div class="data-bar-item">
+        <div class="data-bar-header">
+          <span class="data-bar-label">Fields Catalogued</span>
+          <span class="data-bar-value">710</span>
+        </div>
+        <div class="data-bar-track"><div class="data-bar-fill bar-6" data-width="71"></div></div>
+      </div>
+    </div>
+    <div class="chart-container">
+      <canvas id="dataChart"></canvas>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 5 — TIMELINE -->
+<section class="section" id="timeline">
+  <div class="reveal">
+    <div class="section-label">Roadmap</div>
+    <h2 class="section-title">Critical Path</h2>
+    <p class="section-subtitle">
+      Five clear phases from foundation to monetisation. We are in Phase 1.
+    </p>
+  </div>
+
+  <div class="timeline reveal" style="transition-delay:0.2s;">
+    <div class="timeline-track">
+      <div class="timeline-line">
+        <div class="timeline-line-fill" id="timelineFill"></div>
+      </div>
+
+      <div class="timeline-phase active">
+        <div class="timeline-dot"></div>
+        <div class="timeline-phase-label">Phase 1</div>
+        <div class="timeline-phase-title">Data Dictionary & Requirements</div>
+        <div class="timeline-phase-date">Now</div>
+        <div class="timeline-here">◆ You are here</div>
+      </div>
+      <div class="timeline-phase">
+        <div class="timeline-dot"></div>
+        <div class="timeline-phase-label">Phase 2</div>
+        <div class="timeline-phase-title">Technical Deep-Dive</div>
+        <div class="timeline-phase-date">Q2 2026</div>
+      </div>
+      <div class="timeline-phase">
+        <div class="timeline-dot"></div>
+        <div class="timeline-phase-label">Phase 3</div>
+        <div class="timeline-phase-title">Requirements & Roadmap</div>
+        <div class="timeline-phase-date">Q3 2026</div>
+      </div>
+      <div class="timeline-phase">
+        <div class="timeline-dot"></div>
+        <div class="timeline-phase-label">Phase 4</div>
+        <div class="timeline-phase-title">Implementation</div>
+        <div class="timeline-phase-date">Q4 2026</div>
+      </div>
+      <div class="timeline-phase">
+        <div class="timeline-dot"></div>
+        <div class="timeline-phase-label">Phase 5</div>
+        <div class="timeline-phase-title">Go-Live & Monetisation</div>
+        <div class="timeline-phase-date">2027</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 6 — THE TEAM -->
+<section class="section" id="team">
+  <div class="reveal">
+    <div class="section-label">People</div>
+    <h2 class="section-title">The Team</h2>
+    <p class="section-subtitle">
+      Cross-functional leadership driving the warehouse from concept to delivery.
+    </p>
+  </div>
+
+  <div class="team-grid stagger">
+    <div class="team-card sponsor reveal" style="--i:0">
+      <div class="team-avatar">RS</div>
+      <div class="team-name">Ricky Silberman</div>
+      <div class="team-role">Chief Data Officer, 3Way Group</div>
+      <div class="team-badge">Project Lead</div>
+    </div>
+    <div class="team-card reveal" style="--i:1">
+      <div class="team-avatar">D</div>
+      <div class="team-name">Dylan</div>
+      <div class="team-role">Chief Executive Officer</div>
+      <div class="team-badge" style="background:rgba(64,88,212,0.1);color:var(--blue);">Stakeholder</div>
+    </div>
+    <div class="team-card reveal" style="--i:2">
+      <div class="team-avatar">D</div>
+      <div class="team-name">Danny</div>
+      <div class="team-role">Founder</div>
+      <div class="team-badge" style="background:rgba(64,88,212,0.1);color:var(--blue);">Stakeholder</div>
+    </div>
+    <div class="team-card reveal" style="--i:3">
+      <div class="team-avatar">Y</div>
+      <div class="team-name">Yoav</div>
+      <div class="team-role">Chief Operating Officer</div>
+      <div class="team-badge" style="background:rgba(64,88,212,0.1);color:var(--blue);">Stakeholder</div>
+    </div>
+    <div class="team-card partner reveal" style="--i:4">
+      <div class="team-avatar">S</div>
+      <div class="team-name">Saul</div>
+      <div class="team-role">Elucidate</div>
+      <div class="team-badge" style="background:rgba(72,199,142,0.1);color:#48C78E;">Partner</div>
+    </div>
+    <div class="team-card partner reveal" style="--i:5">
+      <div class="team-avatar">J</div>
+      <div class="team-name">Joshua</div>
+      <div class="team-role">Elucidate</div>
+      <div class="team-badge" style="background:rgba(72,199,142,0.1);color:#48C78E;">Partner</div>
+    </div>
+    <div class="team-card partner reveal" style="--i:6">
+      <div class="team-avatar">T</div>
+      <div class="team-name">Tristan</div>
+      <div class="team-role">Elucidate</div>
+      <div class="team-badge" style="background:rgba(72,199,142,0.1);color:#48C78E;">Partner</div>
+    </div>
+    <div class="team-card reveal" style="--i:7">
+      <div class="team-avatar">P</div>
+      <div class="team-name">Poveshni</div>
+      <div class="team-role">Tech Ops Lead, Data Dictionary</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 7 — WHAT BECOMES POSSIBLE -->
+
+<div class="divider"></div>
+
+<!-- SECTION: SCORING, MODELLING & AI -->
+<section class="section" id="scoring">
+  <div class="reveal">
+    <div class="section-label">Intelligence Engine</div>
+    <h2 class="section-title">Scoring, Modelling & AI</h2>
+    <p class="section-subtitle">
+      The data warehouse is not just a storage layer. It is the foundation for a scoring and modelling capability that will fundamentally change how 3Way targets, qualifies and converts. This is a core reason the warehouse is being built.
+    </p>
+  </div>
+
+  <div class="scoring-grid">
+    <div class="scoring-card featured reveal" style="transition-delay:0.1s;">
+      <div class="scoring-icon">🎯</div>
+      <h3>Why Scoring Changes Everything</h3>
+      <p>Today, marketing spend is allocated across a broad contact base with limited ability to predict who will respond, convert or qualify. With a unified warehouse, every record can be scored before a rand is spent. Propensity to respond. Propensity to convert. Creditworthiness signals. Contactability likelihood. Campaigns shift from volume-based to precision-based — and cost per qualified lead drops accordingly.</p>
+      <div class="scoring-tag yellow">Propensity Modelling</div>
+      <div class="scoring-tag yellow" style="margin-left:0.5rem;">Credit Scoring</div>
+      <div class="scoring-tag yellow" style="margin-left:0.5rem;">Contactability Scoring</div>
+    </div>
+
+    <div class="scoring-card reveal" style="transition-delay:0.15s;">
+      <div class="scoring-icon">🤝</div>
+      <h3>Matogen — Scorecard Partner</h3>
+      <p>Matogen is 3Way's third-party scoring partner. Their phone scorecard, built on 3Way's own interaction data, predicts which leads are most likely to pass MTN's Illula system before a marketing rand is spent on them. The warehouse provides the clean, unified data layer that makes this scoring reliable and scalable across all entities.</p>
+      <div class="scoring-tag green">Third-Party Partner</div>
+      <div class="scoring-tag green" style="margin-left:0.5rem;">Phone Scorecard</div>
+    </div>
+
+    <div class="scoring-card reveal" style="transition-delay:0.2s;">
+      <div class="scoring-icon">⚡</div>
+      <h3>Internal AI & Automation</h3>
+      <p>Beyond third-party scorecards, the warehouse enables 3Way to build and run its own models using internal resources. Automated campaign audience selection. Dynamic suppression lists. Real-time scoring at the point of lead acquisition. The intelligence layer that turns data into decisions without manual intervention.</p>
+      <div class="scoring-tag">Internal Capability</div>
+      <div class="scoring-tag" style="margin-left:0.5rem;">Automation</div>
+    </div>
+  </div>
+
+  <div class="reveal" style="transition-delay:0.25s;">
+    <p style="color:var(--muted);font-size:0.85rem;margin-top:1.5rem;font-style:italic;">Third-party scoring partners being leveraged:</p>
+    <div class="partner-row">
+      <div class="partner-chip">
+        <div class="chip-dot"></div>
+        <div>
+          <div class="chip-name">Matogen</div>
+          <div class="chip-desc">Phone &amp; propensity scorecards</div>
+        </div>
+      </div>
+      <div class="partner-chip">
+        <div class="chip-dot" style="background:var(--blue);"></div>
+        <div>
+          <div class="chip-name">Experian</div>
+          <div class="chip-desc">Credit &amp; identity scoring</div>
+        </div>
+      </div>
+      <div class="partner-chip">
+        <div class="chip-dot" style="background:#48C78E;"></div>
+        <div>
+          <div class="chip-name">XDS</div>
+          <div class="chip-desc">Consumer credit bureau data</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION: THE FUTURE — 2027 -->
+<section class="future-section" id="future">
+  <div class="reveal">
+    <div class="section-label">Looking Ahead</div>
+    <h2 class="section-title">The Future — 2027</h2>
+    <p class="section-subtitle">
+      Once the warehouse is deployed and operational, the focus shifts from building to extracting value. Two pillars define the 2027 roadmap.
+    </p>
+  </div>
+
+  <div class="future-cards">
+    <div class="future-card reveal" style="transition-delay:0.1s;">
+      <div class="future-year">27</div>
+      <h3>Dedicated Data Team</h3>
+      <p>A full-time data specialist joins the 3Way team — embedded in the business, not outsourced. Responsible for maintaining the warehouse, running models and translating data into commercial decisions. The move from project to permanent capability.</p>
+    </div>
+    <div class="future-card reveal" style="transition-delay:0.2s;">
+      <div class="future-year">AI</div>
+      <h3>AI-Powered Analytics</h3>
+      <p>Leverage the latest and greatest of AI to extract value from the warehouse at scale. Automated insight generation. Natural language querying. Predictive campaign planning. The warehouse becomes a living intelligence layer, not a static data store.</p>
+    </div>
+    <div class="future-card reveal" style="transition-delay:0.3s;">
+      <div class="future-year">∞</div>
+      <h3>Continuous Innovation</h3>
+      <p>New data sources onboarded as the business grows. Scoring models retrained on fresh outcomes. New product verticals unlocked using the same infrastructure. A compounding data advantage that widens with every campaign run and every lead processed.</p>
+    </div>
+  </div>
+</section>
+
+
+<div class="divider"></div>
+
+<section class="vision-section" id="vision">
+  <div class="section" style="padding-top:0;padding-bottom:0;">
+    <div class="reveal">
+      <div class="section-label" style="justify-content:center;">The Vision</div>
+      <h2 class="section-title" style="text-align:center;">What Becomes Possible</h2>
+    </div>
+
+    <div class="vision-statements">
+      <div class="vision-quote reveal">
+        "Know which of your 27 million contacts will respond — before spending a rand on marketing."
+      </div>
+      <div class="vision-quote reveal">
+        "Make a decision in the morning. See the campaign results by afternoon."
+      </div>
+      <div class="vision-quote reveal">
+        "Decisions made from propensity models, not gut feel."
+      </div>
+      <div class="vision-quote reveal">
+        "Every entity in the group. One view of every customer, every interaction, every outcome."
+      </div>
+      <div class="vision-quote reveal">
+        "Data packaged, priced and sold as a standalone revenue line."
+      </div>
+      <div class="vision-quote reveal">
+        "Enter any new market with a scored, ready-to-deploy audience already in hand."
+      </div>
+      <div class="vision-quote reveal">
+        "A business valued on the quality and depth of its data asset — not just its revenue."
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-brand"><span class="accent">3</span>Way Group</div>
+  <div class="footer-sub">Data Warehouse Project — Confidential</div>
+  <div class="footer-divider"></div>
+  <div class="footer-credit">Built by Morgan — Executive Chief of Staff AI · March 2026</div>
+</footer>
+
+<!-- JAVASCRIPT -->
+<script>
+(function() {
+  'use strict';
+
+  /* ─── PASSWORD ─── */
+  const stored = sessionStorage.getItem('dw_auth');
+  if (stored === '1') {
+    document.getElementById('pw-overlay').style.display = 'none';
+  }
+
+  window.checkPw = function() {
+    const val = document.getElementById('pw-input').value.trim();
+    if (val === 'lead.connect.grow') {
+      sessionStorage.setItem('dw_auth', '1');
+      const overlay = document.getElementById('pw-overlay');
+      overlay.style.transition = 'opacity 0.5s';
+      overlay.style.opacity = '0';
+      setTimeout(() => overlay.style.display = 'none', 500);
+    } else {
+      const err = document.getElementById('pw-error');
+      err.textContent = 'Incorrect password.';
+      setTimeout(() => err.textContent = '', 2000);
+    }
+  };
+
+  document.getElementById('pw-input').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') window.checkPw();
+  });
+
+  /* ─── NAV ─── */
+  const nav = document.getElementById('nav');
+  const navToggle = document.getElementById('navToggle');
+  const navLinks = document.getElementById('navLinks');
+
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  });
+  navToggle.addEventListener('click', () => {
+    navLinks.classList.toggle('open');
+    navToggle.textContent = navLinks.classList.contains('open') ? '✕' : '☰';
+  });
+  navLinks.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+      navToggle.textContent = '☰';
+    });
+  });
+
+  /* ─── PARTICLES ─── */
+  const canvas = document.getElementById('particle-canvas');
+  const ctx = canvas.getContext('2d');
+  let particles = [];
+
+  function resizeCanvas() {
+    canvas.width = canvas.parentElement.offsetWidth;
+    canvas.height = canvas.parentElement.offsetHeight;
+  }
+
+  function createParticles() {
+    particles = [];
+    const count = Math.min(70, Math.floor((canvas.width * canvas.height) / 14000));
+    for (let i = 0; i < count; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        vx: (Math.random() - 0.5) * 0.35,
+        vy: (Math.random() - 0.5) * 0.35,
+        size: Math.random() * 2 + 0.5,
+        opacity: Math.random() * 0.45 + 0.1,
+        color: Math.random() > 0.7 ? 'rgba(255,194,0,' : 'rgba(138,157,192,'
+      });
+    }
+  }
+
+  function animateParticles() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach((p, i) => {
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < 0) p.x = canvas.width;
+      if (p.x > canvas.width) p.x = 0;
+      if (p.y < 0) p.y = canvas.height;
+      if (p.y > canvas.height) p.y = 0;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+      ctx.fillStyle = p.color + p.opacity + ')';
+      ctx.fill();
+      for (let j = i + 1; j < particles.length; j++) {
+        const p2 = particles[j];
+        const dx = p.x - p2.x, dy = p.y - p2.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 110) {
+          ctx.beginPath();
+          ctx.moveTo(p.x, p.y);
+          ctx.lineTo(p2.x, p2.y);
+          ctx.strokeStyle = `rgba(138,157,192,${0.06 * (1 - dist / 110)})`;
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
+        }
+      }
+    });
+    requestAnimationFrame(animateParticles);
+  }
+
+  resizeCanvas(); createParticles(); animateParticles();
+  window.addEventListener('resize', () => { resizeCanvas(); createParticles(); });
+
+  /* ─── SCROLL REVEAL ─── */
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+  }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+  document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale, .vision-quote').forEach(el => revealObserver.observe(el));
+
+  /* ─── COUNTERS ─── */
+  const counters = document.querySelectorAll('.counter');
+  let countersAnimated = false;
+  const counterObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !countersAnimated) {
+        countersAnimated = true;
+        counters.forEach(counter => {
+          const target = parseInt(counter.getAttribute('data-target'));
+          const duration = 1800;
+          const startTime = performance.now();
+          function updateCounter(currentTime) {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            counter.textContent = Math.floor(eased * target).toLocaleString();
+            if (progress < 1) requestAnimationFrame(updateCounter);
+            else counter.textContent = target.toLocaleString();
+          }
+          requestAnimationFrame(updateCounter);
+        });
+      }
+    });
+  }, { threshold: 0.5 });
+  document.querySelectorAll('.hero-stats').forEach(el => counterObserver.observe(el));
+
+  /* ─── DATA BARS ─── */
+  const dataBarsObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.querySelectorAll('.data-bar-fill').forEach((bar, i) => {
+          setTimeout(() => { bar.style.width = bar.getAttribute('data-width') + '%'; }, i * 150);
+        });
+        dataBarsObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.3 });
+  const dataBarsEl = document.getElementById('dataBars');
+  if (dataBarsEl) dataBarsObserver.observe(dataBarsEl);
+
+  /* ─── RADAR CHART ─── */
+  function initChart() {
+    const chartCanvas = document.getElementById('dataChart');
+    if (!chartCanvas) return;
+    const chartObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          new Chart(chartCanvas, {
+            type: 'radar',
+            data: {
+              labels: ['XDS Records', 'AVM CDRs', 'SMS Records', 'Network Lookups', 'Data Sources', 'Fields'],
+              datasets: [{
+                label: 'Data Volume',
+                data: [27, 100, 100, 100, 35, 71],
+                backgroundColor: 'rgba(255,194,0,0.1)',
+                borderColor: 'rgba(255,194,0,0.7)',
+                borderWidth: 2,
+                pointBackgroundColor: '#FFC200',
+                pointBorderColor: '#FFC200',
+                pointRadius: 4, pointHoverRadius: 6,
+              }]
+            },
+            options: {
+              responsive: true, maintainAspectRatio: true,
+              plugins: { legend: { display: false } },
+              scales: {
+                r: {
+                  beginAtZero: true, max: 110,
+                  ticks: { display: false },
+                  grid: { color: 'rgba(138,157,192,0.1)', lineWidth: 1 },
+                  angleLines: { color: 'rgba(138,157,192,0.1)' },
+                  pointLabels: { color: '#8A9DC0', font: { family: 'Inter', size: 11, weight: '500' } },
+                }
+              },
+              animation: { duration: 1500, easing: 'easeOutCubic' },
+            },
+          });
+          chartObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.3 });
+    chartObserver.observe(chartCanvas);
+  }
+  if (typeof Chart !== 'undefined') initChart();
+  else window.addEventListener('load', initChart);
+
+  /* ─── TIMELINE FILL ─── */
+  const timelineObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const fill = document.getElementById('timelineFill');
+        if (fill) setTimeout(() => { fill.style.width = '20%'; fill.style.height = '20%'; }, 300);
+        timelineObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.2 });
+  const timelineEl = document.querySelector('.timeline');
+  if (timelineEl) timelineObserver.observe(timelineEl);
+
+})();
+
+function togglePillar(card) {
+  const wasExpanded = card.classList.contains('expanded');
+  document.querySelectorAll('.pillar-card').forEach(c => c.classList.remove('expanded'));
+  if (!wasExpanded) card.classList.add('expanded');
+}
+</script>
+
+</body>
+</html>
