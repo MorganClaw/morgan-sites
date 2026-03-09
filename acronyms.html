@@ -4,59 +4,109 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>3Way Group — Acronym Dictionary</title>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--navy:#0D1B3E;--navy2:#1A2D6B;--green:#25D366;--yellow:#FFC200;--white:#fff;--light:#E8EDF5;--gray:#8A9DC0;--border:rgba(255,255,255,.08)}
-body{font-family:'Nunito',sans-serif;background:var(--navy);color:var(--white);min-height:100vh}
-nav{background:rgba(13,27,62,.97);border-bottom:1px solid var(--border);padding:16px 40px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
-.nav-brand{font-size:20px;font-weight:900;color:var(--green)}
-.nav-sub{font-size:13px;color:var(--gray)}
-.hero{background:linear-gradient(135deg,#0D1B3E,#1A2D6B);padding:56px 40px 40px;text-align:center;border-bottom:1px solid var(--border)}
-.hero h1{font-size:clamp(28px,4vw,44px);font-weight:900;margin-bottom:10px}
-.hero p{font-size:15px;color:var(--gray);max-width:500px;margin:0 auto 28px}
-.search-wrap{max-width:480px;margin:0 auto;position:relative}
-#search{width:100%;padding:14px 20px 14px 48px;border-radius:50px;border:2px solid rgba(255,255,255,.1);background:rgba(255,255,255,.06);color:#fff;font-size:15px;font-family:'Nunito',sans-serif;outline:none;transition:border-color .2s}
-#search::placeholder{color:var(--gray)}
-#search:focus{border-color:var(--green)}
-.search-icon{position:absolute;left:18px;top:50%;transform:translateY(-50%);font-size:18px}
-.main{max-width:1100px;margin:0 auto;padding:48px 40px 80px}
+:root{--dark:#022F5C;--mid:#3053AE;--yellow:#FFD337;--light:#F5F9FF;--white:#fff;--gray:#6B7A99;--border:#DDE6F0}
+body{font-family:'Outfit',sans-serif;background:var(--light);color:var(--dark);overflow-x:hidden}
+
+/* NAV */
+nav{background:var(--dark);padding:18px 48px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.nav-logo{display:flex;align-items:center;gap:10px}
+.nav-logo img{height:36px}
+.nav-logo-text{font-size:20px;font-weight:700;color:var(--white)}
+.nav-tagline{font-size:13px;color:rgba(255,255,255,.5);font-weight:300}
+
+/* HERO */
+.hero{background:var(--dark);padding:72px 48px 56px;position:relative;overflow:hidden}
+.hero::after{content:'';position:absolute;bottom:0;right:0;width:320px;height:320px;background:url('https://3waygroup.com/wp-content/uploads/2023/09/2007.png') no-repeat bottom right;background-size:contain;opacity:.12;pointer-events:none}
+.hero-inner{max-width:680px;position:relative;z-index:1}
+.hero-eyebrow{display:inline-block;background:var(--yellow);color:var(--dark);font-size:11px;font-weight:700;padding:5px 14px;border-radius:50px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:20px}
+.hero h1{font-size:clamp(32px,5vw,54px);font-weight:600;color:var(--white);line-height:1.15;margin-bottom:14px}
+.hero h1 span{color:var(--yellow)}
+.hero p{font-size:17px;font-weight:300;color:rgba(255,255,255,.7);line-height:1.6;margin-bottom:32px;max-width:520px}
+.search-wrap{position:relative;max-width:480px}
+#search{width:100%;padding:16px 20px 16px 50px;border-radius:30px;border:2px solid rgba(255,255,255,.15);background:rgba(255,255,255,.08);color:#fff;font-size:15px;font-family:'Outfit',sans-serif;outline:none;transition:border-color .2s}
+#search::placeholder{color:rgba(255,255,255,.4);font-weight:300}
+#search:focus{border-color:var(--yellow);background:rgba(255,255,255,.12)}
+.search-icon{position:absolute;left:18px;top:50%;transform:translateY(-50%);font-size:18px;opacity:.6}
+
+/* STATS BAR */
+.stats-bar{background:var(--yellow);padding:20px 48px;display:flex;gap:48px;flex-wrap:wrap}
+.stat{display:flex;align-items:baseline;gap:8px}
+.stat-num{font-size:28px;font-weight:700;color:var(--dark)}
+.stat-label{font-size:13px;font-weight:400;color:var(--dark);opacity:.7}
+
+/* MAIN */
+.main{max-width:1200px;margin:0 auto;padding:56px 48px 80px}
+
+/* CATEGORY */
 .category{margin-bottom:56px}
-.category-header{display:flex;align-items:center;gap:12px;margin-bottom:24px;padding-bottom:12px;border-bottom:2px solid rgba(37,211,102,.2)}
-.category-icon{font-size:24px}
-.category-title{font-size:20px;font-weight:900;color:var(--green)}
-.category-count{font-size:12px;color:var(--gray);background:rgba(255,255,255,.06);padding:3px 10px;border-radius:20px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
-.card{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:14px;padding:20px 22px;transition:border-color .2s,transform .15s;cursor:default}
-.card:hover{border-color:rgba(37,211,102,.3);transform:translateY(-2px)}
-.card-acronym{font-size:22px;font-weight:900;color:var(--white);margin-bottom:4px}
-.card-full{font-size:14px;font-weight:700;color:var(--green);margin-bottom:8px}
-.card-desc{font-size:13px;color:var(--gray);line-height:1.6}
+.category-header{display:flex;align-items:center;gap:12px;margin-bottom:24px;padding-bottom:14px;border-bottom:2px solid var(--yellow)}
+.category-icon{font-size:22px}
+.category-title{font-size:19px;font-weight:700;color:var(--dark)}
+.category-count{font-size:12px;color:var(--gray);background:var(--border);padding:3px 12px;border-radius:20px;font-weight:500}
+
+/* GRID */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:16px}
+.card{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:22px 24px;transition:box-shadow .2s,border-color .2s,transform .15s;cursor:default;position:relative;overflow:hidden}
+.card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--mid);border-radius:4px 0 0 4px;opacity:0;transition:opacity .2s}
+.card:hover{box-shadow:0 6px 24px rgba(2,47,92,.1);border-color:rgba(48,83,174,.25);transform:translateY(-2px)}
+.card:hover::before{opacity:1}
+.card-acronym{font-size:24px;font-weight:700;color:var(--dark);margin-bottom:3px}
+.card-full{font-size:13px;font-weight:600;color:var(--mid);margin-bottom:10px}
+.card-desc{font-size:13px;font-weight:300;color:var(--gray);line-height:1.6}
 .card.hidden{display:none}
-.no-results{text-align:center;color:var(--gray);padding:60px 20px;display:none}
-.version-note{text-align:center;color:var(--gray);font-size:12px;margin-top:48px;padding-top:24px;border-top:1px solid var(--border)}
-@media(max-width:768px){nav{padding:14px 20px}.hero{padding:40px 20px 32px}.main{padding:32px 20px 60px}.grid{grid-template-columns:1fr}}
+
+/* EMPTY */
+.no-results{text-align:center;color:var(--gray);padding:60px 20px;display:none;grid-column:1/-1}
+.no-results-icon{font-size:48px;margin-bottom:12px}
+
+/* FOOTER */
+.footer{background:var(--dark);padding:32px 48px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-top:48px;border-top:4px solid var(--yellow)}
+.footer-brand{font-size:16px;font-weight:600;color:var(--white)}
+.footer-note{font-size:13px;font-weight:300;color:rgba(255,255,255,.5)}
+
+@media(max-width:768px){
+  nav{padding:14px 20px}
+  .hero{padding:48px 20px 40px}
+  .stats-bar{padding:16px 20px;gap:24px}
+  .main{padding:36px 20px 60px}
+  .footer{padding:24px 20px}
+  .grid{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body>
 
 <nav>
-  <div class="nav-brand">3waygroup.com</div>
-  <div class="nav-sub">Acronym Dictionary — v1</div>
+  <div class="nav-logo">
+    <img src="https://3waygroup.com/wp-content/uploads/2023/11/3way-logo-blue.png" alt="3Way Group" onerror="this.style.display='none'">
+    <div class="nav-logo-text">3Way Group</div>
+  </div>
+  <div class="nav-tagline">Acronym Dictionary — v1 · March 2026</div>
 </nav>
 
 <div class="hero">
-  <h1>📖 Acronym Dictionary</h1>
-  <p>Every acronym you'll hear at 3Way. Search below or browse by category.</p>
-  <div class="search-wrap">
-    <div class="search-icon">🔍</div>
-    <input id="search" type="text" placeholder="Search acronyms e.g. CPL, AVM, POPIA...">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Internal Reference</div>
+    <h1>The 3Way <span>Acronym</span> Dictionary</h1>
+    <p>Every acronym, abbreviation and shorthand used at 3Way Group. Search below or browse by category.</p>
+    <div class="search-wrap">
+      <div class="search-icon">🔍</div>
+      <input id="search" type="text" placeholder="Search — try CPL, AVM, POPIA...">
+    </div>
   </div>
+</div>
+
+<div class="stats-bar">
+  <div class="stat"><span class="stat-num">47</span><span class="stat-label">Acronyms</span></div>
+  <div class="stat"><span class="stat-num">5</span><span class="stat-label">Categories</span></div>
+  <div class="stat"><span class="stat-num">v1</span><span class="stat-label">March 2026</span></div>
 </div>
 
 <div class="main">
 
-  <!-- COMMERCIAL & PERFORMANCE -->
   <div class="category" data-cat>
     <div class="category-header">
       <span class="category-icon">💰</span>
@@ -64,18 +114,17 @@ nav{background:rgba(13,27,62,.97);border-bottom:1px solid var(--border);padding:
       <span class="category-count">8</span>
     </div>
     <div class="grid">
-      <div class="card"><div class="card-acronym">CPL</div><div class="card-full">Cost Per Lead</div><div class="card-desc">How much it costs to generate one lead. Core metric used when pricing and evaluating campaigns.</div></div>
+      <div class="card"><div class="card-acronym">CPL</div><div class="card-full">Cost Per Lead</div><div class="card-desc">How much it costs to generate one lead. Core metric when pricing and evaluating campaigns.</div></div>
       <div class="card"><div class="card-acronym">EPL</div><div class="card-full">Earnings Per Lead</div><div class="card-desc">Revenue earned for each lead delivered to a client. Used alongside CPL to calculate campaign margin.</div></div>
       <div class="card"><div class="card-acronym">CPA</div><div class="card-full">Cost Per Acquisition</div><div class="card-desc">Total cost to acquire one paying customer, including all marketing and operational costs.</div></div>
       <div class="card"><div class="card-acronym">CPM</div><div class="card-full">Cost Per Mille</div><div class="card-desc">Cost per 1,000 impressions. Used in broadcast and display advertising.</div></div>
-      <div class="card"><div class="card-acronym">CTR</div><div class="card-full">Click-Through Rate</div><div class="card-desc">Percentage of people who click a link after seeing it. Used to measure the effectiveness of SMS and digital campaigns.</div></div>
-      <div class="card"><div class="card-acronym">ROI</div><div class="card-full">Return on Investment</div><div class="card-desc">How much revenue was generated relative to the cost. The ultimate campaign success measure.</div></div>
+      <div class="card"><div class="card-acronym">CTR</div><div class="card-full">Click-Through Rate</div><div class="card-desc">Percentage of people who click a link after seeing it. Measures effectiveness of SMS and digital campaigns.</div></div>
+      <div class="card"><div class="card-acronym">ROI</div><div class="card-full">Return on Investment</div><div class="card-desc">How much revenue was generated relative to cost. The ultimate campaign success measure.</div></div>
       <div class="card"><div class="card-acronym">KPI</div><div class="card-full">Key Performance Indicator</div><div class="card-desc">A measurable target used to track performance. Every campaign, team and project has KPIs.</div></div>
       <div class="card"><div class="card-acronym">SLA</div><div class="card-full">Service Level Agreement</div><div class="card-desc">A formal contract defining commitments on volumes, quality and timelines. 3Way has SLAs with major clients like FNB.</div></div>
     </div>
   </div>
 
-  <!-- CHANNELS & TECH -->
   <div class="category" data-cat>
     <div class="category-header">
       <span class="category-icon">📡</span>
@@ -83,21 +132,20 @@ nav{background:rgba(13,27,62,.97);border-bottom:1px solid var(--border);padding:
       <span class="category-count">11</span>
     </div>
     <div class="grid">
-      <div class="card"><div class="card-acronym">AVM</div><div class="card-full">Automated Voice Message</div><div class="card-desc">Pre-recorded outbound voice calls sent at scale. A core 3Way channel — runs through Archimedes (Archi) platform.</div></div>
+      <div class="card"><div class="card-acronym">AVM</div><div class="card-full">Automated Voice Message</div><div class="card-desc">Pre-recorded outbound voice calls sent at scale. A core 3Way channel — runs through the Archimedes (Archi) platform.</div></div>
       <div class="card"><div class="card-acronym">SMS</div><div class="card-full">Short Message Service</div><div class="card-desc">Text messaging channel. Used for outbound lead generation campaigns and customer communications.</div></div>
       <div class="card"><div class="card-acronym">USSD</div><div class="card-full">Unstructured Supplementary Service Data</div><div class="card-desc">The "dial *120*xxx#" technology used on mobile phones. Common in SA for low-data customer journeys.</div></div>
-      <div class="card"><div class="card-acronym">DCB</div><div class="card-full">Direct Carrier Billing</div><div class="card-desc">Payment method where charges go directly to a customer's mobile phone bill. SayHi originally operated on DCB rails before pivoting to credit card.</div></div>
-      <div class="card"><div class="card-acronym">VAS</div><div class="card-full">Value Added Service</div><div class="card-desc">Mobile services billed to a subscriber's account beyond standard calls/data. SayHi operates as a VAS entity.</div></div>
+      <div class="card"><div class="card-acronym">DCB</div><div class="card-full">Direct Carrier Billing</div><div class="card-desc">Payment charged directly to a customer's mobile phone bill. SayHi originally operated on DCB rails.</div></div>
+      <div class="card"><div class="card-acronym">VAS</div><div class="card-full">Value Added Service</div><div class="card-desc">Mobile services billed to a subscriber's account beyond standard calls and data. SayHi operates as a VAS entity.</div></div>
       <div class="card"><div class="card-acronym">API</div><div class="card-full">Application Programming Interface</div><div class="card-desc">A technical connection between two software systems. Used to exchange lead data, access scorecards and connect platforms.</div></div>
       <div class="card"><div class="card-acronym">PCM</div><div class="card-full">Pre-Connection Message</div><div class="card-desc">A channel where subscribers hear a short audio message before their call connects. Vodacom PCM campaigns are managed by 3Way.</div></div>
       <div class="card"><div class="card-acronym">CLI</div><div class="card-full">Calling Line Identification</div><div class="card-desc">The phone number displayed on an inbound or outbound call. Used in call centre operations and campaign tracking.</div></div>
       <div class="card"><div class="card-acronym">OTP</div><div class="card-full">One-Time Password</div><div class="card-desc">A single-use code sent via SMS or voice to verify identity. Used in customer authentication flows.</div></div>
       <div class="card"><div class="card-acronym">MNO</div><div class="card-full">Mobile Network Operator</div><div class="card-desc">A mobile carrier — e.g. MTN, Vodacom, Telkom. 3Way runs campaigns across multiple MNOs.</div></div>
-      <div class="card"><div class="card-acronym">MSISDN</div><div class="card-full">Mobile Station Integrated Services Digital Network Number</div><div class="card-desc">The full international format of a mobile phone number. Used in data files and telco systems instead of plain phone numbers.</div></div>
+      <div class="card"><div class="card-acronym">MSISDN</div><div class="card-full">Mobile Station Integrated Services Digital Network Number</div><div class="card-desc">The full international format of a mobile phone number. Used in data files and telco systems.</div></div>
     </div>
   </div>
 
-  <!-- DATA & COMPLIANCE -->
   <div class="category" data-cat>
     <div class="category-header">
       <span class="category-icon">🔒</span>
@@ -106,16 +154,15 @@ nav{background:rgba(13,27,62,.97);border-bottom:1px solid var(--border);padding:
     </div>
     <div class="grid">
       <div class="card"><div class="card-acronym">POPIA</div><div class="card-full">Protection of Personal Information Act</div><div class="card-desc">South Africa's data privacy law. Governs how 3Way can collect, store and use customer data. Consent and opt-out management are critical obligations.</div></div>
-      <div class="card"><div class="card-acronym">DW</div><div class="card-full">Data Warehouse</div><div class="card-desc">3Way's major infrastructure project. A centralised system for storing and querying all business data. Being built with Elucidate.</div></div>
-      <div class="card"><div class="card-acronym">ETL</div><div class="card-full">Extract, Transform, Load</div><div class="card-desc">The process of pulling data from source systems, cleaning/formatting it and loading it into a warehouse or database.</div></div>
-      <div class="card"><div class="card-acronym">POC</div><div class="card-full">Proof of Concept</div><div class="card-desc">A small-scale test to validate an idea before full rollout. 3Way runs POCs with partners like FindBetter, Tracker and Matagen before committing.</div></div>
+      <div class="card"><div class="card-acronym">DW</div><div class="card-full">Data Warehouse</div><div class="card-desc">3Way's major infrastructure project. A centralised system for storing and querying all business data, being built with Elucidate.</div></div>
+      <div class="card"><div class="card-acronym">ETL</div><div class="card-full">Extract, Transform, Load</div><div class="card-desc">The process of pulling data from source systems, cleaning and formatting it, then loading it into a warehouse or database.</div></div>
+      <div class="card"><div class="card-acronym">POC</div><div class="card-full">Proof of Concept</div><div class="card-desc">A small-scale test to validate an idea before full rollout. 3Way runs POCs with partners before committing to full campaigns.</div></div>
       <div class="card"><div class="card-acronym">CRM</div><div class="card-full">Customer Relationship Management</div><div class="card-desc">Software used to track customer interactions, leads and relationships. Referenced in campaign management and lead routing.</div></div>
       <div class="card"><div class="card-acronym">PII</div><div class="card-full">Personally Identifiable Information</div><div class="card-desc">Any data that can identify an individual — name, ID number, phone number. Subject to POPIA protections.</div></div>
-      <div class="card"><div class="card-acronym">CIPC</div><div class="card-full">Companies and Intellectual Property Commission</div><div class="card-desc">The South African body that registers companies. 3Way's annual returns are filed here. Due date: 27 March.</div></div>
+      <div class="card"><div class="card-acronym">CIPC</div><div class="card-full">Companies and Intellectual Property Commission</div><div class="card-desc">The South African body that registers companies. 3Way's annual returns are filed here.</div></div>
     </div>
   </div>
 
-  <!-- FINANCIAL SERVICES -->
   <div class="category" data-cat>
     <div class="category-header">
       <span class="category-icon">🏦</span>
@@ -128,13 +175,12 @@ nav{background:rgba(13,27,62,.97);border-bottom:1px solid var(--border);padding:
       <div class="card"><div class="card-acronym">FSCA</div><div class="card-full">Financial Sector Conduct Authority</div><div class="card-desc">The South African regulator for financial services. Governs how insurance, credit and investment products are marketed.</div></div>
       <div class="card"><div class="card-acronym">NCA</div><div class="card-full">National Credit Act</div><div class="card-desc">Legislation governing credit products in South Africa. Relevant to debt counselling (FindBetter) and credit lead generation.</div></div>
       <div class="card"><div class="card-acronym">NCR</div><div class="card-full">National Credit Regulator</div><div class="card-desc">The body that enforces the NCA. FindBetter and debt counselling partners must be NCR-registered.</div></div>
-      <div class="card"><div class="card-acronym">FNB</div><div class="card-full">First National Bank</div><div class="card-desc">3Way's largest lead generation client. A formal SLA is in place. Primary contacts: Thato Modise and Kugen Pillay.</div></div>
+      <div class="card"><div class="card-acronym">FNB</div><div class="card-full">First National Bank</div><div class="card-desc">3Way's largest lead generation client. A formal SLA is in place with primary contacts Thato Modise and Kugen Pillay.</div></div>
       <div class="card"><div class="card-acronym">DC</div><div class="card-full">Debt Counselling / Debt Counsellor</div><div class="card-desc">A regulated service helping over-indebted consumers restructure their debt. FindBetter operates in this space.</div></div>
       <div class="card"><div class="card-acronym">JV</div><div class="card-full">Joint Venture</div><div class="card-desc">A business partnership between two or more companies. FindBetter is a JV between 3Way and Confluent.</div></div>
     </div>
   </div>
 
-  <!-- INTERNAL PLATFORMS -->
   <div class="category" data-cat>
     <div class="category-header">
       <span class="category-icon">🛠️</span>
@@ -142,26 +188,32 @@ nav{background:rgba(13,27,62,.97);border-bottom:1px solid var(--border);padding:
       <span class="category-count">6</span>
     </div>
     <div class="grid">
-      <div class="card"><div class="card-acronym">Archi</div><div class="card-full">Archimedes</div><div class="card-desc">3Way's AVM (automated voice message) delivery platform. Operated by BizVoIP/Frans Schneider. Handles outbound call campaigns at scale.</div></div>
-      <div class="card"><div class="card-acronym">DLVR</div><div class="card-full">DLVR Platform</div><div class="card-desc">Internal delivery/campaign platform. Used alongside Archi and Dripcell for managing outbound messaging campaigns.</div></div>
-      <div class="card"><div class="card-acronym">SALT</div><div class="card-full">SALT Platform</div><div class="card-desc">Reporting/volume tracking system. Daily SALT volume reports arrive in the inbox and are a key operational indicator.</div></div>
-      <div class="card"><div class="card-acronym">Dripcell</div><div class="card-full">Dripcell</div><div class="card-desc">Software platform used in 3Way's campaign operations. Part of the core tech stack referenced in platform standing items.</div></div>
+      <div class="card"><div class="card-acronym">Archi</div><div class="card-full">Archimedes</div><div class="card-desc">3Way's AVM delivery platform operated by BizVoIP. Handles outbound call campaigns at scale.</div></div>
+      <div class="card"><div class="card-acronym">DLVR</div><div class="card-full">DLVR Platform</div><div class="card-desc">Internal delivery and campaign platform. Used alongside Archi and Dripcell for managing outbound messaging campaigns.</div></div>
+      <div class="card"><div class="card-acronym">SALT</div><div class="card-full">SALT Platform</div><div class="card-desc">Reporting and volume tracking system. Daily SALT volume reports are a key operational indicator.</div></div>
+      <div class="card"><div class="card-acronym">Dripcell</div><div class="card-full">Dripcell</div><div class="card-desc">Software platform used in 3Way's campaign operations. Part of the core tech stack.</div></div>
       <div class="card"><div class="card-acronym">MNM</div><div class="card-full">MNM Channel</div><div class="card-desc">A key internal distribution channel encompassing PCM, OnePin and SimPush. MNM Channel Relaunch is a current high-priority project.</div></div>
-      <div class="card"><div class="card-acronym">SimPush</div><div class="card-full">SIM Push</div><div class="card-desc">A channel that delivers messages directly to a subscriber's SIM card. Part of the MNM channel suite. Approval contact: Zunaid.</div></div>
-    </div>
-  </div>
-<div class="card"><div class="card-acronym">CEO</div><div class="card-full">Chief Executive Officer</div><div class="card-desc">Dylan Koen is CEO of 3Way Group. Leads overall business strategy and operations.</div></div>
-      <div class="card"><div class="card-acronym">COO</div><div class="card-full">Chief Operating Officer</div><div class="card-desc">Yoav Dogan is COO of 3Way Group. David is COO of FindBetter.</div></div>
-      <div class="card"><div class="card-acronym">CMO</div><div class="card-full">Chief Marketing Officer</div><div class="card-desc">Victor — recently discussed as a potential CMO appointment at 3Way Group.</div></div>
-      <div class="card"><div class="card-acronym">EXCO</div><div class="card-full">Executive Committee</div><div class="card-desc">The senior leadership team of 3Way Group. Ricky is a member and shareholder.</div></div>
-      <div class="card"><div class="card-acronym">B2B</div><div class="card-full">Business to Business</div><div class="card-desc">Selling to companies rather than individual consumers. Some 3Way partnerships and data services are B2B.</div></div>
-      <div class="card"><div class="card-acronym">B2C</div><div class="card-full">Business to Consumer</div><div class="card-desc">Selling directly to individual consumers. Lead generation campaigns (FNB, Vodacom) are B2C focused.</div></div>
+      <div class="card"><div class="card-acronym">SimPush</div><div class="card-full">SIM Push</div><div class="card-desc">A channel that delivers messages directly to a subscriber's SIM card. Part of the MNM channel suite.</div></div>
     </div>
   </div>
 
-  <div id="no-results" class="no-results">No acronyms found for that search. Try a shorter term.</div>
+  <div id="no-results" class="no-results" style="display:none">
+    <div class="no-results-icon">🔍</div>
+    <p>No acronyms found for that search. Try a shorter term or message Ricky to add it.</p>
+  </div>
 
-  <div class="version-note">Version 1.0 — March 2026 · Compiled by Morgan · Add missing acronyms by messaging Ricky or Morgan directly.</div>
+  <div style="background:var(--mid);border-radius:20px;padding:32px 36px;color:white;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-top:48px">
+    <div>
+      <div style="font-size:18px;font-weight:600;margin-bottom:6px">Something missing?</div>
+      <div style="font-size:14px;font-weight:300;opacity:.8">This is v1. If you spot a missing acronym, flag it to Ricky or Morgan and it will be added.</div>
+    </div>
+    <div style="background:var(--yellow);color:var(--dark);padding:12px 28px;border-radius:25px;font-weight:600;font-size:14px;white-space:nowrap">Flag a missing acronym →</div>
+  </div>
+</div>
+
+<div class="footer">
+  <div class="footer-brand">3Way Group — Internal Reference</div>
+  <div class="footer-note">Acronym Dictionary v1 · March 2026 · Compiled by Morgan</div>
 </div>
 
 <script>
@@ -173,26 +225,16 @@ const cats = document.querySelectorAll('[data-cat]');
 search.addEventListener('input', () => {
   const q = search.value.toLowerCase().trim();
   let visible = 0;
-
   cards.forEach(card => {
-    const text = card.textContent.toLowerCase();
-    if (!q || text.includes(q)) {
-      card.classList.remove('hidden');
-      visible++;
-    } else {
-      card.classList.add('hidden');
-    }
+    const match = !q || card.textContent.toLowerCase().includes(q);
+    card.classList.toggle('hidden', !match);
+    if (match) visible++;
   });
-
-  // Show/hide categories with no visible cards
   cats.forEach(cat => {
-    const visibleCards = cat.querySelectorAll('.card:not(.hidden)').length;
-    cat.style.display = visibleCards > 0 ? 'block' : 'none';
+    cat.style.display = cat.querySelectorAll('.card:not(.hidden)').length > 0 ? 'block' : 'none';
   });
-
   noResults.style.display = visible === 0 ? 'block' : 'none';
 });
 </script>
-
 </body>
 </html>
