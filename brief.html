@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daily Brief — 3Way Group</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23022F5C'/%3E%3Ctext x='16' y='23' font-family='Arial Black,sans-serif' font-weight='900' font-size='15' fill='%23FFD337' text-anchor='middle'%3E3W%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #022F5C;
+  --mid-blue: #3053AE;
+  --yellow: #FFD337;
+  --bg: #F5F9FF;
+  --white: #FFFFFF;
+  --border: #DDE6F0;
+  --text: #1A2744;
+  --muted: #6B7D99;
+  --red: #DC2626;
+  --orange: #EA580C;
+  --green: #16A34A;
+  --purple: #7C3AED;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { font-family:'Outfit',sans-serif; background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased; }
+body { min-height:100vh; }
+
+/* ── PASSWORD GATE ── */
+#gate {
+  position:fixed; inset:0; background:var(--navy); z-index:9999;
+  display:flex; align-items:center; justify-content:center; flex-direction:column; gap:20px;
+}
+#gate.hidden { display:none; }
+.gate-title { font-size:1.6rem; font-weight:800; color:var(--white); }
+.gate-title span { color:var(--yellow); }
+.gate-sub { font-size:0.75rem; color:rgba(255,255,255,0.4); text-transform:uppercase; letter-spacing:0.15em; margin-bottom:8px; }
+.gate-row { display:flex; gap:0; border-radius:10px; overflow:hidden; box-shadow:0 8px 32px rgba(0,0,0,0.4); }
+#pw-input { padding:14px 20px; font-size:15px; font-family:'Outfit',sans-serif; border:none; outline:none; width:260px; background:var(--white); color:var(--navy); }
+#pw-btn { padding:14px 24px; background:var(--yellow); color:var(--navy); font-weight:800; font-size:14px; font-family:'Outfit',sans-serif; border:none; cursor:pointer; }
+#pw-btn:hover { opacity:0.85; }
+#pw-err { color:#ff6b6b; font-size:13px; min-height:18px; }
+
+/* ── MAIN CONTENT ── */
+#content { display:none; }
+#content.visible { display:block; }
+
+.brief-header {
+  background:var(--navy); color:var(--white); padding:28px 5% 24px;
+  border-bottom:3px solid var(--yellow);
+}
+.brief-header-inner { max-width:960px; margin:0 auto; }
+.brief-top { display:flex; align-items:flex-start; justify-content:space-between; flex-wrap:wrap; gap:12px; margin-bottom:20px; }
+.brief-brand { font-size:0.7rem; text-transform:uppercase; letter-spacing:0.18em; color:var(--yellow); font-weight:700; margin-bottom:4px; }
+.brief-date { font-size:1.8rem; font-weight:800; line-height:1.15; }
+.brief-meta { text-align:right; font-size:0.78rem; color:rgba(255,255,255,0.5); }
+.brief-meta a { color:var(--yellow); text-decoration:none; }
+.brief-meta a:hover { text-decoration:underline; }
+
+.stats-strip {
+  display:grid; grid-template-columns:repeat(auto-fit, minmax(120px, 1fr)); gap:12px;
+}
+.stat-card {
+  background:rgba(255,255,255,0.06); border-radius:10px; padding:14px 16px;
+  border-left:3px solid var(--mid-blue);
+}
+.stat-card.alert { border-left-color:var(--red); background:rgba(220,38,38,0.08); }
+.stat-card.warn { border-left-color:var(--orange); background:rgba(234,88,12,0.06); }
+.stat-card.ok { border-left-color:var(--green); }
+.stat-num { font-size:1.5rem; font-weight:800; }
+.stat-label { font-size:0.72rem; text-transform:uppercase; letter-spacing:0.1em; color:rgba(255,255,255,0.5); margin-top:2px; }
+
+/* ── SECTIONS ── */
+.brief-body { max-width:960px; margin:0 auto; padding:28px 5% 60px; }
+.section { margin-bottom:32px; }
+.section-title {
+  font-size:0.72rem; text-transform:uppercase; letter-spacing:0.15em;
+  color:var(--muted); font-weight:700; margin-bottom:14px;
+  padding-bottom:8px; border-bottom:1px solid var(--border);
+  display:flex; align-items:center; gap:8px;
+}
+.section-title .count {
+  background:var(--navy); color:var(--white); font-size:0.65rem;
+  padding:2px 8px; border-radius:10px; font-weight:700;
+}
+
+/* ── CARDS ── */
+.card {
+  background:var(--white); border:1px solid var(--border); border-radius:10px;
+  padding:16px 20px; margin-bottom:10px;
+  transition:box-shadow 0.2s;
+}
+.card:hover { box-shadow:0 4px 16px rgba(0,0,0,0.06); }
+.card-top { display:flex; align-items:center; gap:10px; margin-bottom:6px; flex-wrap:wrap; }
+.card-id { font-size:0.68rem; font-weight:700; color:var(--mid-blue); background:rgba(48,83,174,0.08); padding:2px 8px; border-radius:6px; }
+.card-urgency { font-size:0.62rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; padding:2px 8px; border-radius:6px; }
+.card-urgency.urgent { background:rgba(220,38,38,0.1); color:var(--red); }
+.card-urgency.high { background:rgba(234,88,12,0.1); color:var(--orange); }
+.card-urgency.medium { background:rgba(48,83,174,0.1); color:var(--mid-blue); }
+.card-status { font-size:0.62rem; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:0.06em; margin-left:auto; }
+.card-title { font-size:0.95rem; font-weight:700; line-height:1.4; margin-bottom:4px; }
+.card-detail { font-size:0.82rem; color:var(--muted); line-height:1.5; }
+.card-blocker { font-size:0.78rem; color:var(--red); margin-top:6px; padding:6px 10px; background:rgba(220,38,38,0.04); border-radius:6px; border-left:3px solid var(--red); }
+.card-deadline { font-size:0.72rem; font-weight:600; margin-top:6px; }
+.card-deadline.overdue { color:var(--red); }
+.card-deadline.soon { color:var(--orange); }
+.card-deadline.ok { color:var(--muted); }
+
+.card-progress {
+  height:4px; background:var(--border); border-radius:2px; margin-top:8px; overflow:hidden;
+}
+.card-progress-fill { height:100%; border-radius:2px; background:var(--mid-blue); transition:width 0.5s; }
+
+/* ── OVERDUE ALERT ── */
+.alert-banner {
+  background:rgba(220,38,38,0.06); border:1px solid rgba(220,38,38,0.2);
+  border-radius:10px; padding:16px 20px; margin-bottom:10px;
+  border-left:4px solid var(--red);
+}
+.alert-banner .card-title { color:var(--red); }
+.alert-days { font-size:0.72rem; font-weight:700; color:var(--red); background:rgba(220,38,38,0.1); padding:2px 10px; border-radius:10px; }
+
+/* ── PROJECT CARDS ── */
+.project-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:14px; }
+.project-card {
+  background:var(--white); border:1px solid var(--border); border-radius:10px;
+  padding:18px 20px; position:relative; overflow:hidden;
+}
+.project-card::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:3px;
+}
+.project-card.healthy::before { background:var(--green); }
+.project-card.at-risk::before { background:var(--orange); }
+.project-card.critical::before { background:var(--red); }
+.project-name { font-size:0.95rem; font-weight:800; margin-bottom:4px; }
+.project-stats { font-size:0.78rem; color:var(--muted); margin-bottom:10px; }
+.project-bar { height:6px; background:var(--border); border-radius:3px; overflow:hidden; }
+.project-bar-fill { height:100%; border-radius:3px; }
+.project-bar-fill.healthy { background:var(--green); }
+.project-bar-fill.at-risk { background:var(--orange); }
+.project-bar-fill.critical { background:var(--red); }
+.project-items { margin-top:10px; }
+.project-item { font-size:0.78rem; color:var(--text); padding:3px 0; border-bottom:1px solid rgba(0,0,0,0.04); }
+.project-item:last-child { border-bottom:none; }
+.project-item .pi-id { color:var(--mid-blue); font-weight:600; }
+
+/* ── THREAD LIST ── */
+.thread-item {
+  background:var(--white); border:1px solid var(--border); border-radius:8px;
+  padding:12px 16px; margin-bottom:8px; font-size:0.82rem; line-height:1.5;
+}
+.thread-item strong { color:var(--navy); }
+
+/* ── TIMELINE ── */
+.timeline { position:relative; padding-left:24px; }
+.timeline::before {
+  content:''; position:absolute; left:7px; top:4px; bottom:4px;
+  width:2px; background:var(--border);
+}
+.tl-item { position:relative; margin-bottom:16px; }
+.tl-dot {
+  position:absolute; left:-20px; top:4px; width:10px; height:10px;
+  border-radius:50%; border:2px solid var(--mid-blue); background:var(--white);
+}
+.tl-dot.today { background:var(--yellow); border-color:var(--yellow); }
+.tl-dot.overdue { background:var(--red); border-color:var(--red); }
+.tl-day { font-size:0.72rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted); }
+.tl-day.today { color:var(--yellow); }
+.tl-day.overdue { color:var(--red); }
+.tl-tasks { margin-top:4px; }
+.tl-task { font-size:0.82rem; color:var(--text); padding:2px 0; }
+.tl-task .tl-id { color:var(--mid-blue); font-weight:600; font-size:0.72rem; }
+
+/* ── FOOTER ── */
+.brief-footer {
+  text-align:center; padding:24px; font-size:0.72rem; color:var(--muted);
+  border-top:1px solid var(--border); margin-top:20px;
+}
+.brief-footer a { color:var(--mid-blue); text-decoration:none; }
+
+/* ── RESPONSIVE ── */
+@media (max-width:640px) {
+  .brief-date { font-size:1.3rem; }
+  .stats-strip { grid-template-columns:repeat(2, 1fr); }
+  .project-grid { grid-template-columns:1fr; }
+  .brief-body { padding:20px 4% 40px; }
+  .brief-header { padding:20px 4% 18px; }
+}
+</style>
+</head>
+<body>
+
+<!-- PASSWORD GATE -->
+<div id="gate">
+  <div class="gate-title">3Way<span>Group</span></div>
+  <div class="gate-sub">Executive Daily Brief</div>
+  <div class="gate-row">
+    <input type="password" id="pw-input" placeholder="Access code" autocomplete="off" />
+    <button id="pw-btn" onclick="checkPw()">Enter</button>
+  </div>
+  <div id="pw-err"></div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div id="content">
+
+<div class="brief-header">
+  <div class="brief-header-inner">
+    <div class="brief-top">
+      <div>
+        <div class="brief-brand">Executive Daily Brief</div>
+        <div class="brief-date">Monday, 09 March 2026</div>
+      </div>
+      <div class="brief-meta">
+        Generated 23:04 SAST<br>
+        <a href="index.html">Back to Portal</a>
+      </div>
+    </div>
+    <div class="stats-strip">
+      <div class="stat-card  alert">
+        <div class="stat-num">6</div>
+        <div class="stat-label">Overdue</div>
+      </div>
+      <div class="stat-card warn">
+        <div class="stat-num">11</div>
+        <div class="stat-label">Awaiting Response</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">27</div>
+        <div class="stat-label">Active Tasks</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">8</div>
+        <div class="stat-label">In Progress</div>
+      </div>
+      <div class="stat-card ok">
+        <div class="stat-num">33%</div>
+        <div class="stat-label">Avg Progress</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="brief-body">
+
+<div class="section">
+  <div class="section-title">Overdue Items <span class="count">6</span></div>
+
+  <div class="alert-banner">
+    <div class="card-top">
+      <span class="card-id">#004</span>
+      <span class="alert-days">2 days overdue</span>
+      <span class="card-status">Ricky Silberman</span>
+    </div>
+    <div class="card-title">Poveshni to respond to outstanding questions from the data dictionary review session. Ricky to verify field descriptions</div>
+    <div class="card-detail">Questions sent to Poveshni. Awaiting her response.</div>
+    <div class="card-blocker">⚠️ OVERDUE — Deadline 7 March passed. Poveshni has not responded. Follow up in person Monday 9 March.</div>
+  </div>
+
+  <div class="alert-banner">
+    <div class="card-top">
+      <span class="card-id">#032</span>
+      <span class="alert-days">2 days overdue</span>
+      <span class="card-status">Ricky Silberman</span>
+    </div>
+    <div class="card-title">Track leadership responses to Morgan introduction website. Flag if no response by end of week 7 March.</div>
+    <div class="card-detail">Email sent by Ricky from Outlook ~20:18 UTC 4 March. Awaiting replies from Dylan, Danny, Yoav, Stefano, Lance.</div>
+    <div class="card-blocker">Awaiting leadership responses.</div>
+  </div>
+
+  <div class="alert-banner">
+    <div class="card-top">
+      <span class="card-id">#019</span>
+      <span class="alert-days">0 days overdue</span>
+      <span class="card-status">Ricky Silberman</span>
+    </div>
+    <div class="card-title">Complete contracting with Corepulse/CallForce Direct, agree data source position with Dylan, then pull and share data.</div>
+    <div class="card-detail">Monday follow-up scheduled. Need status update from Clare and to communicate data source position to Corepulse.</div>
+    <div class="card-blocker">1. Agreement status from Clare. 2. Final alignment with Dylan on data source answer for Corepulse.</div>
+  </div>
+
+  <div class="alert-banner">
+    <div class="card-top">
+      <span class="card-id">#025</span>
+      <span class="alert-days">0 days overdue</span>
+      <span class="card-status">Ricky Silberman</span>
+    </div>
+    <div class="card-title">Send Danny the completed forecast table and OnePin update by Monday 9 March.</div>
+    <div class="card-detail">Danny response sent 5 March. Forecast Excel with Ricky to complete numbers by Monday.</div>
+    <div class="card-blocker">Ricky to complete forecast numbers by Monday.</div>
+  </div>
+
+  <div class="alert-banner">
+    <div class="card-top">
+      <span class="card-id">#037</span>
+      <span class="alert-days">0 days overdue</span>
+      <span class="card-status">self</span>
+    </div>
+    <div class="card-title">Prepare Ricky for Monday Tracker/Vouch session at 15:30 SAST. Understand the commercial opportunity and 3Way&#x27;s role.</div>
+    <div class="card-detail">Session held 15:30 SAST today. Awaiting Ricky&#x27;s debrief on outcomes and next steps.</div>
+    <div class="card-blocker">Ricky to debrief on session outcomes.</div>
+  </div>
+
+  <div class="alert-banner">
+    <div class="card-top">
+      <span class="card-id">#038</span>
+      <span class="alert-days">0 days overdue</span>
+      <span class="card-status">self</span>
+    </div>
+    <div class="card-title">Produce a single consolidated MNM email covering all campaigns (OnePin, SimPush, Click-to-SMS, PCM) with high-level volu</div>
+    <div class="card-detail">Draft v4 complete. Awaiting Ricky&#x27;s final forecast numbers to include before sending. Reminder for Sally to book the alignment session.</div>
+    <div class="card-blocker">Ricky to provide forecast numbers and trigger Sally for the booking.</div>
+  </div>
+</div>
+<div class="section">
+  <div class="section-title">Priority Actions <span class="count">14</span></div>
+
+  <div class="card">
+    <div class="card-top">
+      <span class="card-id">#012</span>
+      <span class="card-urgency urgent">urgent</span>
+      <span class="card-status">Waiting On Human</span>
+    </div>
+    <div class="card-title">Share pitch/journey flow document with Zunaid to progress SimPush/1Pin campaign approval.</div>
+    <div class="card-detail">Email and SimPush flow sent by Ricky to Zunaid on 5 March 2026. Awaiting Zunaid&#x27;s response.</div>
+    <div class="card-blocker">Awaiting Zunaid response.</div>
+    <div class="card-progress"><div class="card-progress-fill" style="width:80%"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-top">
+      <span class="card-id">#006</span>
+      <span class="card-urgency urgent">urgent</span>
+      <span class="card-status">In Progress</span>
+    </div>
+    <div class="card-title">Relaunch SimPush and 1Pin campaigns with necessary approvals in place.</div>
+    <div class="card-detail">FNB suppression process parked. Moving forward with Clientele + Dischem on Silver campaign (R121.30 per lead). Danny approved. Awaiting Zunaid/Mohammed feedback.</div>
+    <div class="card-blocker">Awaiting Zunaid response. Awaiting Mohammed confirmation on campaign setup timelines. BrandX case studies not yet reviewed (Task 024).</div>
+    <div class="card-progress"><div class="card-progress-fill" style="width:60%"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-top">
+      <span class="card-id">#037</span>
+      <span class="card-urgency high">high</span>
+      <span class="card-status">Waiting On Human</span>
+    </div>
+    <div class="card-title">Prepare Ricky for Monday Tracker/Vouch session at 15:30 SAST. Understand the commercial opportunity and 3Way&#x27;s role.</div>
+    <div class="card-detail">Session held 15:30 SAST today. Awaiting Ricky&#x27;s debrief on outcomes and next steps.</div>
+    <div class="card-blocker">Ricky to debrief on session outcomes.</div>
+    <div class="card-progress"><div class="card-progress-fill" style="width:95%"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-top">
+      <span class="card-id">#014</span>
+      <span class="card-urgency high">high</span>
+      <span class="card-status">Waiting On Human</span>
+    </div>
+    <div class="card-title">Supply Vodacom Financial Services (VodaLend) with an ideal customer profile that correlates to the FindBetter/3Way debt scorecard.</div>
+    <div class="card-detail">Customer profile v2 PDF sent by Ricky to Mark Young on 5 March. Covering email also sent. Awaiting Mark&#x27;s response and next steps.</div>
+    <div class="card-blocker">Awaiting Mark Young response.</div>
+    <div class="card-progress"><div class="card-progress-fill" style="width:80%"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-top">
+      <span class="card-id">#025</span>
+      <span class="card-urgency high">high</span>
+      <span class="card-status">Waiting On Human</span>
+    </div>
+    <div class="card-title">Send Danny the completed forecast table and OnePin update by Monday 9 March.</div>
+    <div class="card-detail">Danny response sent 5 March. Forecast Excel with Ricky to complete numbers by Monday.</div>
+    <div class="card-blocker">Ricky to complete forecast numbers by Monday.</div>
+    <div class="card-progress"><div class="card-progress-fill" style="width:70%"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-top">
+      <span class="card-id">#010</span>
+      <span class="card-urgency high">high</span>
+      <span class="card-status">In Progress</span>
+    </div>
+    <div class="card-title">Complete Matagen phone scorecard review on Tuesday, pass ~1M records to Donovan for execution, go live by end of week of 9 March.</div>
+    <div class="card-detail">Phone file scoring complete. Meeting with Matagen Tuesday morning to review new variables and confidence levels. ~1M records to be passed to Donovan post-meeting for execution.</div>
+    <div class="card-blocker">Tuesday meeting needed before handover to Donovan.</div>
+    <div class="card-progress"><div class="card-progress-fill" style="width:60%"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-top">
+      <span class="card-id">#038</span>
+      <span class="card-urgency high">high</span>
+      <span class="card-status">Waiting On Human</span>
+    </div>
+    <div class="card-title">Produce a single consolidated MNM email covering all campaigns (OnePin, SimPush, Click-to-SMS, PCM) with high-level volume forecasts. Then c</div>
+    <div class="card-detail">Draft v4 complete. Awaiting Ricky&#x27;s final forecast numbers to include before sending. Reminder for Sally to book the alignment session.</div>
+    <div class="card-blocker">Ricky to provide forecast numbers and trigger Sally for the booking.</div>
+    <div class="card-progress"><div class="card-progress-fill" style="width:60%"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-top">
+      <span class="card-id">#002</span>
+      <span class="card-urgency high">high</span>
+      <span class="card-status">In Progress</span>
+    </div>
+    <div class="card-title">Complete the consolidated data dictionary covering all key 3Way Group data sources, required by Elucidate as a prerequisite input to the tec</div>
+    <div class="card-detail">Outstanding questions sent to Poveshni (Tech Ops Lead). Awaiting her response.</div>
+    <div class="card-blocker">Awaiting Poveshni&#x27;s response to outstanding questions.</div>
+    <div class="card-progress"><div class="card-progress-fill" style="width:55%"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-top">
+      <span class="card-id">#019</span>
+      <span class="card-urgency high">high</span>
+      <span class="card-status">In Progress</span>
+    </div>
+    <div class="card-title">Complete contracting with Corepulse/CallForce Direct, agree data source position with Dylan, then pull and share data.</div>
+    <div class="card-detail">Monday follow-up scheduled. Need status update from Clare and to communicate data source position to Corepulse.</div>
+    <div class="card-blocker">1. Agreement status from Clare. 2. Final alignment with Dylan on data source answer for Corepulse.</div>
+    <div class="card-progress"><div class="card-progress-fill" style="width:30%"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-top">
+      <span class="card-id">#040</span>
+      <span class="card-urgency high">high</span>
+      <span class="card-status">In Progress</span>
+    </div>
+    <div class="card-title">Build a unified operations platform for 3Way Group with three modules: Stakeholder Tracker (health scoring, follow-up drafting, contact mana</div>
+    <div class="card-detail">Ops platform live at 3waygroup.netlify.app/ops.html with all 3 modules functional. Task dashboard live at tasks.html. 36 stakeholders seeded. Remaining: Supabase backend, visual design from company de</div>
+    <div class="card-blocker">Company decks (Ricky sharing Monday). Supabase project credentials.</div>
+    <div class="card-progress"><div class="card-progress-fill" style="width:30%"></div></div>
+  </div>
+</div>
+<div class="section">
+  <div class="section-title">Awaiting External Responses <span class="count">5</span></div>
+
+  <div class="thread-item">Zunaid — SimPush pitch: Sent 5 March. Awaiting response. Task 012. Follow-up drafted at drafts/follow_ups_2026-03-10.md.</div>
+
+  <div class="thread-item">Mohammed Rassool — MTN campaigns: Dischem Funeral + SmartLoan briefs sent 5 March. Follow-up meeting proposed Mon/Tue. Deadline 10 March. Task 029.</div>
+
+  <div class="thread-item">Mark Young — VodaLend profile: Customer profile v2 PDF sent 5 March. Awaiting response. Task 014.</div>
+
+  <div class="thread-item">Poveshni — Data dictionary questions: Sent 5 March. ⚠️ OVERDUE (was due 7 March). Follow up in person Monday 9 March. Tasks 002, 004.</div>
+
+  <div class="thread-item">Leadership team — Morgan website: Sent 4 March. ⚠️ OVERDUE (was due 7 March). No responses received. Ricky to flag in person Monday. Task 032.</div>
+</div>
+<div class="section">
+  <div class="section-title">This Week's Deadlines <span class="count">6</span></div>
+  <div class="timeline">
+
+    <div class="tl-item">
+      <div class="tl-dot "></div>
+      <div class="tl-day ">Tuesday 10 Mar</div>
+      <div class="tl-tasks">
+
+        <div class="tl-task"><span class="tl-id">#029</span> Get confirmation from Mohammed Rassool on MTN campaign setup timelines for both Dischem Funeral and </div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot "></div>
+      <div class="tl-day ">Wednesday 11 Mar</div>
+      <div class="tl-tasks">
+
+        <div class="tl-task"><span class="tl-id">#036</span> Analyse the Clientele unmet file to understand collections performance by data source, age band and </div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot "></div>
+      <div class="tl-day ">Friday 13 Mar</div>
+      <div class="tl-tasks">
+
+        <div class="tl-task"><span class="tl-id">#010</span> Complete Matagen phone scorecard review on Tuesday, pass ~1M records to Donovan for execution, go li</div>
+
+        <div class="tl-task"><span class="tl-id">#013</span> Prepare and share a fresh dataset with Mark for the persal exercise.</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot "></div>
+      <div class="tl-day ">Saturday 14 Mar</div>
+      <div class="tl-tasks">
+
+        <div class="tl-task"><span class="tl-id">#020</span> Gabriel to produce a deduplicated lead volume analysis across loans and phones data, showing availab</div>
+
+        <div class="tl-task"><span class="tl-id">#028</span> Ricky transitions to open plan 2 days per week starting week of 10 March. Zalman sets up workspace.</div>
+      </div>
+    </div>  </div>
+</div>
+<div class="section">
+  <div class="section-title">Your Action Items <span class="count">14</span></div>
+
+  <div class="thread-item"><strong>1.</strong> Monday kickoff: briefs/monday_kickoff_2026-03-10.md has the full day plan with hour-by-hour schedule.</div>
+
+  <div class="thread-item"><strong>2.</strong> Tracker/Vouch session (Task 037): Monday 15:30 SAST. Briefing note at briefs/tracker_vouch_prep_20260309.md. Check for Jacqueline&#x27;s prep note. Briefing emailed to Ricky 7 March.</div>
+
+  <div class="thread-item"><strong>3.</strong> MNM consolidated email (Task 038): v4 at mnm/mnm_consolidated_email_v4.md. Add forecast numbers from Excel and send. Ask Sally to book 45-min alignment session.</div>
+
+  <div class="thread-item"><strong>4.</strong> Danny forecast (Task 025): Excel at mnm/OnePin_Forecast_March2026.xlsx. Complete numbers and send. Due Monday.</div>
+
+  <div class="thread-item"><strong>5.</strong> Corepulse follow-up (Task 019): Monday. Clare agreement status + Dylan data source alignment.</div>
+
+  <div class="thread-item"><strong>6.</strong> James/Dylan email (Task 027): COMPLETE.</div>
+
+  <div class="thread-item"><strong>7.</strong> Clientele analysis (Task 036): Framework at briefs/clientele_unmet_analysis_framework.md. 5 questions for Ricky at the bottom. Ricky to share unmet file (shared via Teams/Gabby). Due Wednesday.</div>
+
+  <div class="thread-item"><strong>8.</strong> Gabriel brief (Task 020): Brief at briefs/gabriel_lead_exercise_brief.md. Deadline pushed to Friday 14 March (Task 036 takes priority).</div>
+
+  <div class="thread-item"><strong>9.</strong> Michaela case studies (Task 024): SUPERSEDED (Task 029). Going direct with Mohammed from MTN.</div>
+
+  <div class="thread-item"><strong>10.</strong> Danny 1:1 (Task 034): Ask Sally to schedule.</div>
+
+  <div class="thread-item"><strong>11.</strong> Open plan 2 days/week (Task 028): Starts this week. Zalman to set up workspace.</div>
+
+  <div class="thread-item"><strong>12.</strong> David (Kendall Capital) meeting (Task 033): Awaiting David&#x27;s WhatsApp response.</div>
+
+  <div class="thread-item"><strong>13.</strong> Data Warehouse stakeholder email (Task 041): Draft in Ricky&#x27;s inbox (rickys@3waygroup.com). Awaiting sign-off before sending to Dylan, Danny, Yoav, Poveshni and Elucidate. Do not send without explicit Ricky approval.</div>
+
+  <div class="thread-item"><strong>14.</strong> Operations Platform (Task 040): Build in progress. Schema complete. Awaiting company decks (3Way intro, SayHi, FindBetter) from Ricky before visual design can proceed. Supabase credentials also needed.</div>
+</div>
+<div class="section">
+  <div class="section-title">Project Health <span class="count">6</span></div>
+  <div class="project-grid">
+
+    <div class="project-card critical">
+      <div class="project-name">Other</div>
+      <div class="project-stats">14 tasks &middot; 22% avg &middot; 14 blocked &middot; 2 overdue</div>
+      <div class="project-bar"><div class="project-bar-fill critical" style="width:22%"></div></div>
+      <div class="project-items">
+
+        <div class="project-item"><span class="pi-id">#009</span> Get Mark Menzies to complete the MTN SMS bind API integration.</div>
+
+        <div class="project-item"><span class="pi-id">#010</span> Complete Matagen phone scorecard review on Tuesday, pass ~1M records to Donovan </div>
+
+        <div class="project-item"><span class="pi-id">#019</span> Complete contracting with Corepulse/CallForce Direct, agree data source position</div>
+
+        <div class="project-item"><span class="pi-id">#023</span> Extract 400-500 Experian-qualified leads and route to iTalk to test Telkom as a </div>
+        <div class="project-item" style="color:var(--muted);">+10 more</div>      </div>
+    </div>
+    <div class="project-card critical">
+      <div class="project-name">MNM Channel Relaunch</div>
+      <div class="project-stats">6 tasks &middot; 51% avg &middot; 6 blocked &middot; 2 overdue</div>
+      <div class="project-bar"><div class="project-bar-fill critical" style="width:51%"></div></div>
+      <div class="project-items">
+
+        <div class="project-item"><span class="pi-id">#006</span> Relaunch SimPush and 1Pin campaigns with necessary approvals in place.</div>
+
+        <div class="project-item"><span class="pi-id">#012</span> Share pitch/journey flow document with Zunaid to progress SimPush/1Pin campaign </div>
+
+        <div class="project-item"><span class="pi-id">#007</span> Relaunch PCM channel including message copy, USSD setup and booking confirmation</div>
+
+        <div class="project-item"><span class="pi-id">#025</span> Send Danny the completed forecast table and OnePin update by Monday 9 March.</div>
+        <div class="project-item" style="color:var(--muted);">+2 more</div>      </div>
+    </div>
+    <div class="project-card critical">
+      <div class="project-name">Data Warehouse</div>
+      <div class="project-stats">3 tasks &middot; 41% avg &middot; 3 blocked &middot; 1 overdue</div>
+      <div class="project-bar"><div class="project-bar-fill critical" style="width:41%"></div></div>
+      <div class="project-items">
+
+        <div class="project-item"><span class="pi-id">#002</span> Complete the consolidated data dictionary covering all key 3Way Group data sourc</div>
+
+        <div class="project-item"><span class="pi-id">#004</span> Poveshni to respond to outstanding questions from the data dictionary review ses</div>
+
+        <div class="project-item"><span class="pi-id">#041</span> Ricky to review, approve and send the data warehouse stakeholder email to Dylan,</div>
+      </div>
+    </div>
+    <div class="project-card critical">
+      <div class="project-name">Infrastructure</div>
+      <div class="project-stats">2 tasks &middot; 40% avg &middot; 2 blocked &middot; 1 overdue</div>
+      <div class="project-bar"><div class="project-bar-fill critical" style="width:40%"></div></div>
+      <div class="project-items">
+
+        <div class="project-item"><span class="pi-id">#040</span> Build a unified operations platform for 3Way Group with three modules: Stakehold</div>
+
+        <div class="project-item"><span class="pi-id">#032</span> Track leadership responses to Morgan introduction website. Flag if no response b</div>
+      </div>
+    </div>
+    <div class="project-card at-risk">
+      <div class="project-name">FindBetter</div>
+      <div class="project-stats">1 task &middot; 80% avg &middot; 1 blocked</div>
+      <div class="project-bar"><div class="project-bar-fill at-risk" style="width:80%"></div></div>
+      <div class="project-items">
+
+        <div class="project-item"><span class="pi-id">#014</span> Supply Vodacom Financial Services (VodaLend) with an ideal customer profile that</div>
+      </div>
+    </div>
+    <div class="project-card at-risk">
+      <div class="project-name">Golden Goose Group</div>
+      <div class="project-stats">1 task &middot; 0% avg &middot; 0 blocked</div>
+      <div class="project-bar"><div class="project-bar-fill at-risk" style="width:0%"></div></div>
+      <div class="project-items">
+
+        <div class="project-item"><span class="pi-id">#026</span> File Golden Goose Group Annual Return with CIPC before 27 March 2026.</div>
+      </div>
+    </div>  </div>
+</div>
+<div class="section">
+  <div class="section-title">All Waiting on Response <span class="count">11</span></div>
+
+  <div class="card">
+    <div class="card-top">
+      <span class="card-id">#012</span>
+      <span class="card-urgency urgent">urgent</span>
+      <span class="card-status">Waiting 4 days</span>
+    </div>
+    <div class="card-title">Share pitch/journey flow document with Zunaid to progress SimPush/1Pin campaign approval.</div>
+    <div class="card-detail">Email and SimPush flow sent by Ricky to Zunaid on 5 March 2026. Awaiting Zunaid&#x27;s response.</div>
+    <div class="card-blocker">Awaiting Zunaid response.</div>
+    <div class="card-progress"><div class="card-progress-fill" style="width:80%"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-top">
+      <span class="card-id">#009</span>
+      <span class="card-urgency high">high</span>
+      <span class="card-status">Waiting 5 days</span>
+    </div>
+    <div class="card-title">Get Mark Menzies to complete the MTN SMS bind API integration.</div>
+    <div class="card-detail">Ricky spoke to Mark directly on 3 March. Mark confirmed it is not simple — working on it, no defined timeline.</div>
+    <div class="card-blocker">Mark working on resolution — no defined timeline.</div>
+    <div class="card-progress"><div class="card-progress-fill" style="width:10%"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-top">
+      <span class="card-id">#014</span>
+      <span class="card-urgency high">high</span>
+      <span class="card-status">Waiting 4 days</span>
+    </div>
+    <div class="card-title">Supply Vodacom Financial Services (VodaLend) with an ideal customer profile that correlates to the FindBetter/3Way debt scorecard.</div>
+    <div class="card-detail">Customer profile v2 PDF sent by Ricky to Mark Young on 5 March. Covering email also sent. Awaiting Mark&#x27;s response and next steps.</div>
+    <div class="card-blocker">Awaiting Mark Young response.</div>
+    <div class="card-progress"><div class="card-progress-fill" style="width:80%"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-top">
+      <span class="card-id">#025</span>
+      <span class="card-urgency high">high</span>
+      <span class="card-status">Waiting 4 days</span>
+    </div>
+    <div class="card-title">Send Danny the completed forecast table and OnePin update by Monday 9 March.</div>
+    <div class="card-detail">Danny response sent 5 March. Forecast Excel with Ricky to complete numbers by Monday.</div>
+    <div class="card-blocker">Ricky to complete forecast numbers by Monday.</div>
+    <div class="card-progress"><div class="card-progress-fill" style="width:70%"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-top">
+      <span class="card-id">#029</span>
+      <span class="card-urgency high">high</span>
+      <span class="card-status">Waiting 4 days</span>
+    </div>
+    <div class="card-title">Get confirmation from Mohammed Rassool on MTN campaign setup timelines for both Dischem Funeral and SmartLoan briefs.</div>
+    <div class="card-detail">Briefs sent by Ricky on 5 March. Awaiting Mohammed&#x27;s response.</div>
+    <div class="card-blocker">Awaiting Mohammed response.</div>
+    <div class="card-progress"><div class="card-progress-fill" style="width:20%"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-top">
+      <span class="card-id">#037</span>
+      <span class="card-urgency high">high</span>
+      <span class="card-status">Waiting 0 days</span>
+    </div>
+    <div class="card-title">Prepare Ricky for Monday Tracker/Vouch session at 15:30 SAST. Understand the commercial opportunity and 3Way&#x27;s role.</div>
+    <div class="card-detail">Session held 15:30 SAST today. Awaiting Ricky&#x27;s debrief on outcomes and next steps.</div>
+    <div class="card-blocker">Ricky to debrief on session outcomes.</div>
+    <div class="card-progress"><div class="card-progress-fill" style="width:95%"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-top">
+      <span class="card-id">#038</span>
+      <span class="card-urgency high">high</span>
+      <span class="card-status">Waiting 0 days</span>
+    </div>
+    <div class="card-title">Produce a single consolidated MNM email covering all campaigns (OnePin, SimPush, Click-to-SMS, PCM) with high-level volume forecasts. Then c</div>
+    <div class="card-detail">Draft v4 complete. Awaiting Ricky&#x27;s final forecast numbers to include before sending. Reminder for Sally to book the alignment session.</div>
+    <div class="card-blocker">Ricky to provide forecast numbers and trigger Sally for the booking.</div>
+    <div class="card-progress"><div class="card-progress-fill" style="width:60%"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-top">
+      <span class="card-id">#004</span>
+      <span class="card-urgency medium">medium</span>
+      <span class="card-status">Waiting 1 day</span>
+    </div>
+    <div class="card-title">Poveshni to respond to outstanding questions from the data dictionary review session. Ricky to verify field descriptions and triage LeadByte</div>
+    <div class="card-detail">Questions sent to Poveshni. Awaiting her response.</div>
+    <div class="card-blocker">⚠️ OVERDUE — Deadline 7 March passed. Poveshni has not responded. Follow up in person Monday 9 March.</div>
+    <div class="card-progress"><div class="card-progress-fill" style="width:10%"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-top">
+      <span class="card-id">#032</span>
+      <span class="card-urgency medium">medium</span>
+      <span class="card-status">Waiting 1 day</span>
+    </div>
+    <div class="card-title">Track leadership responses to Morgan introduction website. Flag if no response by end of week 7 March.</div>
+    <div class="card-detail">Email sent by Ricky from Outlook ~20:18 UTC 4 March. Awaiting replies from Dylan, Danny, Yoav, Stefano, Lance.</div>
+    <div class="card-blocker">Awaiting leadership responses.</div>
+    <div class="card-progress"><div class="card-progress-fill" style="width:50%"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-top">
+      <span class="card-id">#033</span>
+      <span class="card-urgency medium">medium</span>
+      <span class="card-status">Waiting 3 days</span>
+    </div>
+    <div class="card-title">Schedule a coffee or lunch meeting with David from Kendall Capital, following up on the WhatsApp Ricky sent on 5 March.</div>
+    <div class="card-detail">Ricky sent WhatsApp on 5 March. Awaiting David&#x27;s response.</div>
+    <div class="card-blocker">Awaiting David response to WhatsApp.</div>
+    <div class="card-progress"><div class="card-progress-fill" style="width:10%"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-top">
+      <span class="card-id">#041</span>
+      <span class="card-urgency medium">medium</span>
+      <span class="card-status">Waiting 0 days</span>
+    </div>
+    <div class="card-title">Ricky to review, approve and send the data warehouse stakeholder email to Dylan, Danny, Yoav, Poveshni and the Elucidate team. Email include</div>
+    <div class="card-detail">Draft sent to Ricky&#x27;s inbox on 8 March. Awaiting Ricky sign-off before sending externally.</div>
+    <div class="card-blocker">Awaiting Ricky sign-off. Not to be sent without explicit approval.</div>
+    <div class="card-progress"><div class="card-progress-fill" style="width:60%"></div></div>
+  </div>
+</div>
+<div class="brief-footer">
+  Generated by Morgan &middot; 09 March 2026 at 23:04 SAST &middot;
+  <a href="ops.html">Ops Platform</a> &middot;
+  <a href="tasks.html">Task Dashboard</a> &middot;
+  <a href="index.html">Portal</a>
+</div>
+
+</div><!-- brief-body -->
+</div><!-- content -->
+
+<script>
+const PW = "lead.connect.grow";
+function checkPw() {
+  const v = document.getElementById('pw-input').value;
+  if (v === PW) {
+    document.getElementById('gate').classList.add('hidden');
+    document.getElementById('content').classList.add('visible');
+    try { sessionStorage.setItem('3w_auth','1'); } catch(e) {}
+  } else {
+    document.getElementById('pw-err').textContent = 'Incorrect code';
+  }
+}
+document.getElementById('pw-input').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') checkPw();
+});
+// Auto-login if already authenticated
+if (sessionStorage.getItem('3w_auth') === '1') {
+  document.getElementById('gate').classList.add('hidden');
+  document.getElementById('content').classList.add('visible');
+}
+document.getElementById('pw-input').focus();
+</script>
+
+</body>
+</html>
