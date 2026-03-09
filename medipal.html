@@ -9,14 +9,6 @@
 *{margin:0;padding:0;box-sizing:border-box}
 :root{--navy:#0D1B3E;--green:#25D366;--yellow:#FFC200;--teal:#00B4D8;--white:#fff;--light:#E8EDF5;--gray:#8A9DC0}
 body{font-family:'Nunito',sans-serif;background:var(--navy);color:var(--white);overflow-x:hidden}
-#gate{position:fixed;inset:0;background:var(--navy);z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:20px}
-#gate.gone{display:none}
-.gate-logo{font-size:28px;font-weight:900;color:var(--teal)}
-.gate-sub{font-size:13px;color:var(--gray)}
-.gate-box{display:flex;border-radius:12px;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,.5)}
-#gate input{padding:14px 20px;font-size:15px;font-family:'Nunito',sans-serif;border:none;outline:none;width:240px;background:#fff;color:var(--navy)}
-#gate button{padding:14px 24px;background:var(--teal);color:#fff;font-weight:900;font-size:14px;font-family:'Nunito',sans-serif;border:none;cursor:pointer}
-.gate-err{color:#ff6b6b;font-size:13px;opacity:0;transition:opacity .3s}
 nav{position:sticky;top:0;z-index:100;background:rgba(13,27,62,.95);backdrop-filter:blur(10px);padding:16px 40px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.08)}
 .nav-brand{font-size:22px;font-weight:900;color:var(--teal)}
 .nav-cta{background:var(--green);color:#fff;padding:10px 24px;border-radius:50px;font-weight:900;font-size:14px;text-decoration:none;transition:opacity .2s}
@@ -75,21 +67,13 @@ footer{background:#060F26;padding:40px;text-align:center;border-top:1px solid rg
 </style>
 </head>
 <body>
-<div id="gate">
-  <div class="gate-logo">💊 MediPal</div>
-  <div class="gate-sub">Confidential — 3Way Group</div>
+<div class="gate-sub">Confidential — 3Way Group</div>
   <div class="gate-box">
     <input id="gpw" type="password" placeholder="Enter password">
     <button onclick="gateCheck()">→</button>
   </div>
   <div class="gate-err" id="gerr">Incorrect password</div>
 </div>
-<script>
-function gateCheck(){if(document.getElementById('gpw').value==='lead.connect.grow'){document.getElementById('gate').classList.add('gone');sessionStorage.setItem('sayhi_page','1');}else{var e=document.getElementById('gerr');e.style.opacity=1;document.getElementById('gpw').value='';setTimeout(()=>e.style.opacity=0,2000);}}
-document.getElementById('gpw').addEventListener('keydown',e=>{if(e.key==='Enter')gateCheck()});
-if(sessionStorage.getItem('sayhi_page'))document.getElementById('gate').classList.add('gone');
-</script>
-
 <nav>
   <div class="nav-brand">💊 MediPal</div>
   <a href="#subscribe" class="nav-cta">START FREE TRIAL →</a>
