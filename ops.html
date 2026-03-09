@@ -1,0 +1,1344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ops Platform — 3Way Group</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230D1B3E'/%3E%3Ctext x='16' y='23' font-family='Arial Black,sans-serif' font-weight='900' font-size='15' fill='%23FFC200' text-anchor='middle'%3E3W%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #1A2D6B;
+  --navy2: #0E1A42;
+  --yellow: #FFC200;
+  --red: #E84C2B;
+  --blue: #4058D4;
+  --white: #FFFFFF;
+  --offwhite: #F5F7FC;
+  --gray: #6B7280;
+  --light: #E8ECF8;
+  --green: #22C55E;
+  --orange: #F59E0B;
+  --sidebar-w: 240px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html, body { height:100%; font-family:'Nunito',sans-serif; background:var(--offwhite); color:var(--navy); }
+
+/* ── PASSWORD GATE ── */
+#pw-gate {
+  position:fixed; inset:0; background:var(--navy2); z-index:9999;
+  display:none; align-items:center; justify-content:center; flex-direction:column; gap:24px;
+}
+.pw-logo { display:flex; align-items:center; gap:10px; margin-bottom:8px; }
+.pw-pills { display:flex; gap:3px; align-items:flex-end; }
+.pw-pill { width:7px; background:var(--yellow); border-radius:4px; }
+.pw-pill:nth-child(1){height:12px} .pw-pill:nth-child(2){height:18px} .pw-pill:nth-child(3){height:24px}
+.pw-brand { font-size:22px; font-weight:900; color:var(--white); }
+.pw-sub { font-size:13px; color:rgba(255,255,255,0.5); text-align:center; }
+.pw-box { display:flex; gap:0; border-radius:10px; overflow:hidden; box-shadow:0 8px 32px rgba(0,0,0,0.4); }
+#pw-input { padding:14px 20px; font-size:15px; font-family:'Nunito',sans-serif; border:none; outline:none; width:260px; background:var(--white); color:var(--navy); }
+#pw-btn { padding:14px 24px; background:var(--yellow); color:var(--navy); font-weight:900; font-size:14px; font-family:'Nunito',sans-serif; border:none; cursor:pointer; transition:opacity .2s; }
+#pw-btn:hover { opacity:.85; }
+#pw-err { color:#ff6b6b; font-size:13px; opacity:0; transition:opacity .3s; }
+
+/* ── LAYOUT ── */
+#app { display:flex; height:100vh; overflow:hidden; }
+
+/* ── SIDEBAR ── */
+#sidebar {
+  width:var(--sidebar-w); background:var(--navy2); display:flex; flex-direction:column;
+  flex-shrink:0; height:100vh; position:fixed; left:0; top:0; z-index:100;
+}
+.sb-logo { padding:24px 20px 20px; display:flex; align-items:center; gap:10px; border-bottom:1px solid rgba(255,255,255,0.08); }
+.sb-pills { display:flex; gap:3px; align-items:flex-end; }
+.sb-pill { width:7px; background:var(--yellow); border-radius:4px; }
+.sb-pill:nth-child(1){height:12px} .sb-pill:nth-child(2){height:18px} .sb-pill:nth-child(3){height:24px}
+.sb-brand { font-size:17px; font-weight:900; color:var(--white); }
+.sb-sep { width:1px; height:20px; background:rgba(255,255,255,0.15); margin:0 4px; }
+.sb-sub { font-size:11px; font-weight:700; color:rgba(255,255,255,0.4); }
+
+.sb-nav { flex:1; padding:16px 12px; display:flex; flex-direction:column; gap:4px; }
+.nav-item {
+  display:flex; align-items:center; gap:12px; padding:11px 14px; border-radius:8px;
+  cursor:pointer; color:rgba(255,255,255,0.6); font-size:14px; font-weight:700;
+  transition:all .2s; border-left:3px solid transparent; user-select:none;
+}
+.nav-item:hover { background:rgba(255,255,255,0.06); color:rgba(255,255,255,0.9); }
+.nav-item.active { background:rgba(255,194,0,0.12); color:var(--yellow); border-left-color:var(--yellow); }
+.nav-item svg { flex-shrink:0; }
+
+.sb-user { padding:16px 20px; border-top:1px solid rgba(255,255,255,0.08); }
+.sb-user-name { font-size:12px; font-weight:800; color:var(--white); }
+.sb-user-role { font-size:11px; color:rgba(255,255,255,0.4); margin-top:2px; }
+
+/* ── MAIN ── */
+#main { margin-left:var(--sidebar-w); flex:1; overflow-y:auto; height:100vh; }
+.page { display:none; padding:32px 36px; min-height:100%; }
+.page.active { display:block; }
+
+.page-header { margin-bottom:28px; }
+.page-title { font-size:26px; font-weight:900; color:var(--navy); }
+.page-sub { font-size:14px; color:var(--gray); margin-top:4px; }
+
+/* ── CARDS ── */
+.stat-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:28px; }
+.stat-card {
+  background:var(--white); border-radius:12px; padding:20px 24px;
+  box-shadow:0 1px 4px rgba(26,45,107,0.07);
+}
+.stat-label { font-size:12px; font-weight:700; color:var(--gray); text-transform:uppercase; letter-spacing:.04em; }
+.stat-value { font-size:32px; font-weight:900; color:var(--navy); margin-top:6px; }
+.stat-sub { font-size:12px; color:var(--gray); margin-top:4px; }
+
+/* ── SECTION ── */
+.section { background:var(--white); border-radius:12px; padding:24px; box-shadow:0 1px 4px rgba(26,45,107,0.07); margin-bottom:20px; }
+.section-title { font-size:15px; font-weight:800; color:var(--navy); margin-bottom:16px; display:flex; align-items:center; justify-content:space-between; }
+
+/* ── BUTTONS ── */
+.btn { display:inline-flex; align-items:center; gap:6px; padding:9px 18px; border-radius:8px; font-size:13px; font-weight:800; font-family:'Nunito',sans-serif; cursor:pointer; border:none; transition:all .2s; }
+.btn-primary { background:var(--yellow); color:var(--navy); }
+.btn-primary:hover { opacity:.88; transform:translateY(-1px); }
+.btn-secondary { background:var(--light); color:var(--navy); }
+.btn-secondary:hover { background:#d8dff0; }
+.btn-danger { background:#fee2e2; color:var(--red); }
+.btn-danger:hover { background:#fecaca; }
+.btn-ghost { background:transparent; color:var(--gray); }
+.btn-ghost:hover { background:var(--light); color:var(--navy); }
+.btn-sm { padding:6px 12px; font-size:12px; }
+
+/* ── TOOLBAR ── */
+.toolbar { display:flex; align-items:center; gap:10px; margin-bottom:20px; flex-wrap:wrap; }
+.search-box {
+  display:flex; align-items:center; gap:8px; background:var(--white); border:1.5px solid var(--light);
+  border-radius:8px; padding:8px 14px; flex:1; min-width:200px; max-width:340px;
+}
+.search-box input { border:none; outline:none; font-size:14px; font-family:'Nunito',sans-serif; color:var(--navy); background:transparent; width:100%; }
+.filter-select {
+  padding:9px 14px; border:1.5px solid var(--light); border-radius:8px; font-size:13px;
+  font-family:'Nunito',sans-serif; color:var(--navy); background:var(--white); outline:none; cursor:pointer;
+}
+
+/* ── TABLE ── */
+.data-table { width:100%; border-collapse:collapse; }
+.data-table th { font-size:11px; font-weight:800; color:var(--gray); text-transform:uppercase; letter-spacing:.05em; padding:10px 14px; text-align:left; border-bottom:2px solid var(--light); }
+.data-table td { padding:12px 14px; font-size:13px; border-bottom:1px solid var(--light); vertical-align:middle; }
+.data-table tr:hover td { background:var(--offwhite); cursor:pointer; }
+.data-table tr:last-child td { border-bottom:none; }
+
+/* ── HEALTH DOT ── */
+.health-dot { width:10px; height:10px; border-radius:50%; display:inline-block; margin-right:6px; }
+.health-green { background:var(--green); }
+.health-yellow { background:var(--orange); }
+.health-red { background:var(--red); }
+
+/* ── BADGE ── */
+.badge { display:inline-flex; align-items:center; padding:3px 10px; border-radius:20px; font-size:11px; font-weight:800; }
+.badge-internal { background:#EEF2FF; color:var(--blue); }
+.badge-client { background:#FFF7ED; color:#C2410C; }
+.badge-partner { background:#F0FDF4; color:#15803D; }
+.badge-vendor { background:#F5F3FF; color:#7C3AED; }
+.badge-personal { background:#FFF1F2; color:#BE123C; }
+.badge-draft { background:#F3F4F6; color:#374151; }
+.badge-sent { background:#EFF6FF; color:#1D4ED8; }
+.badge-approved { background:#F0FDF4; color:#15803D; }
+.badge-declined { background:#FFF1F2; color:#BE123C; }
+.badge-expired { background:#F3F4F6; color:#6B7280; }
+.badge-upcoming { background:#EEF2FF; color:var(--blue); }
+.badge-completed { background:#F0FDF4; color:#15803D; }
+.badge-cancelled { background:#F3F4F6; color:#6B7280; }
+.badge-high { background:#FFF7ED; color:#C2410C; }
+.badge-medium { background:#EFF6FF; color:#1D4ED8; }
+.badge-low { background:#F0FDF4; color:#15803D; }
+
+/* ── PANEL (slide-in) ── */
+#panel-backdrop {
+  position:fixed; inset:0; background:rgba(14,26,66,0.45); z-index:200; display:none; opacity:0; transition:opacity .25s;
+}
+#panel-backdrop.open { display:block; opacity:1; }
+#panel {
+  position:fixed; top:0; right:-520px; width:520px; height:100vh; background:var(--white);
+  z-index:201; box-shadow:-8px 0 40px rgba(14,26,66,0.18); transition:right .3s cubic-bezier(.4,0,.2,1);
+  display:flex; flex-direction:column; overflow:hidden;
+}
+#panel.open { right:0; }
+.panel-header { padding:24px 28px 20px; border-bottom:1px solid var(--light); display:flex; align-items:center; justify-content:space-between; flex-shrink:0; }
+.panel-title { font-size:18px; font-weight:900; color:var(--navy); }
+.panel-body { flex:1; overflow-y:auto; padding:24px 28px; }
+.panel-footer { padding:16px 28px; border-top:1px solid var(--light); display:flex; gap:10px; justify-content:flex-end; flex-shrink:0; }
+.close-btn { background:none; border:none; cursor:pointer; color:var(--gray); padding:4px; border-radius:6px; }
+.close-btn:hover { background:var(--light); color:var(--navy); }
+
+/* ── MODAL ── */
+#modal-backdrop {
+  position:fixed; inset:0; background:rgba(14,26,66,0.5); z-index:300; display:none; opacity:0; transition:opacity .2s; align-items:center; justify-content:center;
+}
+#modal-backdrop.open { display:flex; opacity:1; }
+#modal {
+  background:var(--white); border-radius:16px; width:560px; max-width:95vw; max-height:90vh;
+  display:flex; flex-direction:column; box-shadow:0 24px 80px rgba(14,26,66,0.3); transform:translateY(20px); transition:transform .25s;
+  overflow:hidden;
+}
+#modal-backdrop.open #modal { transform:translateY(0); }
+.modal-header { padding:24px 28px 18px; border-bottom:1px solid var(--light); display:flex; justify-content:space-between; align-items:center; flex-shrink:0; }
+.modal-title { font-size:18px; font-weight:900; color:var(--navy); }
+.modal-body { padding:24px 28px; overflow-y:auto; flex:1; }
+.modal-footer { padding:16px 28px; border-top:1px solid var(--light); display:flex; gap:10px; justify-content:flex-end; flex-shrink:0; }
+
+/* ── FORM ── */
+.form-group { margin-bottom:18px; }
+.form-label { display:block; font-size:12px; font-weight:800; color:var(--navy); margin-bottom:6px; text-transform:uppercase; letter-spacing:.04em; }
+.form-control {
+  width:100%; padding:10px 14px; border:1.5px solid var(--light); border-radius:8px;
+  font-size:14px; font-family:'Nunito',sans-serif; color:var(--navy); outline:none; transition:border-color .2s;
+  background:var(--white);
+}
+.form-control:focus { border-color:var(--blue); }
+.form-control.error { border-color:var(--red); }
+textarea.form-control { resize:vertical; min-height:100px; }
+.form-row { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.form-hint { font-size:11px; color:var(--gray); margin-top:4px; }
+
+/* ── INTERACTION LIST ── */
+.interaction-item { border:1px solid var(--light); border-radius:8px; padding:14px; margin-bottom:10px; }
+.interaction-meta { display:flex; align-items:center; gap:8px; margin-bottom:6px; flex-wrap:wrap; }
+.interaction-date { font-size:12px; color:var(--gray); }
+.interaction-subject { font-size:13px; font-weight:700; color:var(--navy); }
+.interaction-summary { font-size:13px; color:var(--gray); margin-top:4px; }
+
+/* ── MEETING CARD ── */
+.meeting-card {
+  border:1px solid var(--light); border-radius:10px; padding:18px 20px; margin-bottom:12px;
+  cursor:pointer; transition:box-shadow .2s, border-color .2s;
+}
+.meeting-card:hover { box-shadow:0 4px 16px rgba(26,45,107,0.1); border-color:var(--blue); }
+.meeting-card-title { font-size:15px; font-weight:800; color:var(--navy); margin-bottom:6px; }
+.meeting-card-meta { font-size:12px; color:var(--gray); display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
+
+/* ── ACTION ITEMS ── */
+.action-item { display:flex; align-items:center; gap:10px; padding:8px 0; border-bottom:1px solid var(--light); }
+.action-item:last-child { border-bottom:none; }
+.action-item input[type=checkbox] { width:16px; height:16px; cursor:pointer; accent-color:var(--blue); }
+.action-item-text { flex:1; font-size:13px; }
+.action-item-text.done { text-decoration:line-through; color:var(--gray); }
+.action-item-meta { font-size:11px; color:var(--gray); }
+
+/* ── ATTENTION CARD ── */
+.attention-item { display:flex; align-items:center; gap:12px; padding:12px 0; border-bottom:1px solid var(--light); }
+.attention-item:last-child { border-bottom:none; }
+.attention-info { flex:1; }
+.attention-name { font-size:13px; font-weight:800; color:var(--navy); }
+.attention-detail { font-size:12px; color:var(--gray); margin-top:2px; }
+
+/* ── ACTIVITY FEED ── */
+.activity-item { display:flex; gap:12px; padding:10px 0; border-bottom:1px solid var(--light); }
+.activity-item:last-child { border-bottom:none; }
+.activity-dot { width:8px; height:8px; border-radius:50%; background:var(--blue); flex-shrink:0; margin-top:5px; }
+.activity-text { font-size:13px; color:var(--navy); }
+.activity-time { font-size:11px; color:var(--gray); margin-top:2px; }
+
+/* ── EMPTY STATE ── */
+.empty-state { text-align:center; padding:60px 20px; color:var(--gray); }
+.empty-state-icon { font-size:40px; margin-bottom:12px; }
+.empty-state-text { font-size:14px; font-weight:700; }
+.empty-state-sub { font-size:13px; margin-top:4px; }
+
+/* ── PROPOSAL CARD ── */
+.proposal-card {
+  border:1px solid var(--light); border-radius:10px; padding:18px 20px; margin-bottom:12px;
+  cursor:pointer; transition:box-shadow .2s, border-color .2s; display:flex; align-items:center; gap:16px;
+}
+.proposal-card:hover { box-shadow:0 4px 16px rgba(26,45,107,0.1); border-color:var(--blue); }
+.proposal-info { flex:1; }
+.proposal-title { font-size:15px; font-weight:800; color:var(--navy); }
+.proposal-meta { font-size:12px; color:var(--gray); margin-top:4px; }
+
+/* ── DIVIDER ── */
+.divider { height:1px; background:var(--light); margin:20px 0; }
+
+/* ── TOAST ── */
+#toast {
+  position:fixed; bottom:24px; right:24px; background:var(--navy); color:var(--white);
+  padding:12px 20px; border-radius:10px; font-size:13px; font-weight:700;
+  z-index:9999; opacity:0; transform:translateY(10px); transition:all .3s; pointer-events:none;
+}
+#toast.show { opacity:1; transform:translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- PASSWORD GATE -->
+<div id="pw-gate">
+  <div class="pw-logo">
+    <div class="pw-pills">
+      <div class="pw-pill"></div><div class="pw-pill"></div><div class="pw-pill"></div>
+    </div>
+    <span class="pw-brand">3Way Group</span>
+  </div>
+  <div class="pw-sub">Operations Platform — Restricted Access</div>
+  <div class="pw-box">
+    <input id="pw-input" type="password" placeholder="Enter password">
+    <button id="pw-btn">Unlock</button>
+  </div>
+  <div id="pw-err">Incorrect password</div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <!-- SIDEBAR -->
+  <div id="sidebar">
+    <div class="sb-logo">
+      <div class="sb-pills">
+        <div class="sb-pill"></div><div class="sb-pill"></div><div class="sb-pill"></div>
+      </div>
+      <span class="sb-brand">3Way</span>
+      <div class="sb-sep"></div>
+      <span class="sb-sub">OPS</span>
+    </div>
+    <nav class="sb-nav">
+      <div class="nav-item active" data-page="dashboard">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        Dashboard
+      </div>
+      <div class="nav-item" data-page="stakeholders">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Stakeholders
+      </div>
+      <div class="nav-item" data-page="meetings">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        Meetings
+      </div>
+      <div class="nav-item" data-page="proposals">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        Proposals
+      </div>
+      <div class="nav-item" data-page="settings">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        Settings
+      </div>
+    </nav>
+    <div class="sb-user">
+      <div class="sb-user-name">Ricky Silberman</div>
+      <div class="sb-user-role">Chief Data Officer</div>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div id="main">
+    <!-- DASHBOARD -->
+    <div class="page active" id="page-dashboard">
+      <div class="page-header">
+        <div class="page-title">Dashboard</div>
+        <div class="page-sub" id="dash-date"></div>
+      </div>
+      <div class="stat-grid" id="dash-stats"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+        <div class="section">
+          <div class="section-title">Attention Required <span id="attention-count" class="badge badge-client" style="font-size:11px;"></span></div>
+          <div id="attention-list"></div>
+        </div>
+        <div class="section">
+          <div class="section-title">Recent Activity</div>
+          <div id="activity-list"></div>
+        </div>
+      </div>
+      <div class="section" style="margin-top:0">
+        <div class="section-title">Quick Actions</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <button class="btn btn-primary" onclick="openAddStakeholder()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Add Stakeholder
+          </button>
+          <button class="btn btn-secondary" onclick="openLogInteraction()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Log Interaction
+          </button>
+          <button class="btn btn-secondary" onclick="openAddMeeting()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            New Meeting
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- STAKEHOLDERS -->
+    <div class="page" id="page-stakeholders">
+      <div class="page-header" style="display:flex;align-items:center;justify-content:space-between;">
+        <div>
+          <div class="page-title">Stakeholders</div>
+          <div class="page-sub">Track relationships and contact health</div>
+        </div>
+        <button class="btn btn-primary" onclick="openAddStakeholder()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Add Stakeholder
+        </button>
+      </div>
+      <div class="section">
+        <div class="toolbar">
+          <div class="search-box">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input id="s-search" type="text" placeholder="Search name or company…" oninput="renderStakeholders()">
+          </div>
+          <select class="filter-select" id="s-cat" onchange="renderStakeholders()">
+            <option value="">All Categories</option>
+            <option value="internal">Internal</option>
+            <option value="client">Client</option>
+            <option value="partner">Partner</option>
+            <option value="vendor">Vendor</option>
+            <option value="personal">Personal</option>
+          </select>
+          <select class="filter-select" id="s-health" onchange="renderStakeholders()">
+            <option value="">All Health</option>
+            <option value="green">Green</option>
+            <option value="yellow">Yellow</option>
+            <option value="red">Red</option>
+          </select>
+        </div>
+        <div style="overflow-x:auto;">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Company</th>
+                <th>Role</th>
+                <th>Category</th>
+                <th>Health</th>
+                <th>Last Contact</th>
+                <th>Follow-up</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="stakeholder-tbody"></tbody>
+          </table>
+        </div>
+        <div id="stakeholder-empty" class="empty-state" style="display:none;">
+          <div class="empty-state-icon">👥</div>
+          <div class="empty-state-text">No stakeholders yet</div>
+          <div class="empty-state-sub">Add your first stakeholder to get started</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MEETINGS -->
+    <div class="page" id="page-meetings">
+      <div class="page-header" style="display:flex;align-items:center;justify-content:space-between;">
+        <div>
+          <div class="page-title">Meetings</div>
+          <div class="page-sub">Meeting prep and post-meeting notes</div>
+        </div>
+        <button class="btn btn-primary" onclick="openAddMeeting()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          New Meeting
+        </button>
+      </div>
+      <div class="section">
+        <div class="toolbar">
+          <div class="search-box">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input id="m-search" type="text" placeholder="Search meetings…" oninput="renderMeetings()">
+          </div>
+          <select class="filter-select" id="m-status" onchange="renderMeetings()">
+            <option value="">All Status</option>
+            <option value="upcoming">Upcoming</option>
+            <option value="completed">Completed</option>
+            <option value="cancelled">Cancelled</option>
+          </select>
+        </div>
+        <div id="meetings-list"></div>
+        <div id="meetings-empty" class="empty-state" style="display:none;">
+          <div class="empty-state-icon">📅</div>
+          <div class="empty-state-text">No meetings yet</div>
+          <div class="empty-state-sub">Create your first meeting to get started</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROPOSALS -->
+    <div class="page" id="page-proposals">
+      <div class="page-header" style="display:flex;align-items:center;justify-content:space-between;">
+        <div>
+          <div class="page-title">Proposals</div>
+          <div class="page-sub">Build and track client proposals</div>
+        </div>
+        <button class="btn btn-primary" onclick="openAddProposal()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          New Proposal
+        </button>
+      </div>
+      <div class="section">
+        <div class="toolbar">
+          <div class="search-box">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input id="p-search" type="text" placeholder="Search proposals…" oninput="renderProposals()">
+          </div>
+          <select class="filter-select" id="p-status" onchange="renderProposals()">
+            <option value="">All Status</option>
+            <option value="draft">Draft</option>
+            <option value="sent">Sent</option>
+            <option value="approved">Approved</option>
+            <option value="declined">Declined</option>
+            <option value="expired">Expired</option>
+          </select>
+        </div>
+        <div id="proposals-list"></div>
+        <div id="proposals-empty" class="empty-state" style="display:none;">
+          <div class="empty-state-icon">📄</div>
+          <div class="empty-state-text">No proposals yet</div>
+          <div class="empty-state-sub">Create your first proposal to get started</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SETTINGS -->
+    <div class="page" id="page-settings">
+      <div class="page-header">
+        <div class="page-title">Settings</div>
+        <div class="page-sub">Platform configuration</div>
+      </div>
+      <div class="section">
+        <div class="section-title">Data Management</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <button class="btn btn-secondary" onclick="exportData()">Export All Data (JSON)</button>
+          <button class="btn btn-danger" onclick="clearData()">Clear All Data</button>
+        </div>
+        <p style="font-size:12px;color:var(--gray);margin-top:12px;">All data is stored locally in your browser. Export regularly to back up your data.</p>
+      </div>
+      <div class="section">
+        <div class="section-title">Supabase Integration</div>
+        <p style="font-size:13px;color:var(--gray);">Phase 2 — connect to Supabase for cloud sync and multi-device access. Coming soon.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PANEL -->
+<div id="panel-backdrop" onclick="closePanel()"></div>
+<div id="panel">
+  <div class="panel-header">
+    <div class="panel-title" id="panel-title">Detail</div>
+    <button class="close-btn" onclick="closePanel()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <div class="panel-body" id="panel-body"></div>
+  <div class="panel-footer" id="panel-footer"></div>
+</div>
+
+<!-- MODAL -->
+<div id="modal-backdrop" onclick="handleModalBackdrop(event)">
+  <div id="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="modal-title">Add</div>
+      <button class="close-btn" onclick="closeModal()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+    <div class="modal-footer" id="modal-footer"></div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<script>
+// ── PASSWORD ──
+(function(){
+  const PW = 'lead.connect.grow';
+  const KEY = 'morgan_auth';
+  const gate = document.getElementById('pw-gate');
+  if(sessionStorage.getItem(KEY) === '1') return;
+  gate.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+  function attempt(){
+    const val = document.getElementById('pw-input').value.trim().toLowerCase();
+    if(val === PW){
+      gate.style.opacity='0'; gate.style.transition='opacity 0.4s';
+      setTimeout(()=>{ gate.style.display='none'; document.body.style.overflow=''; },400);
+      sessionStorage.setItem(KEY,'1');
+    } else {
+      const err = document.getElementById('pw-err');
+      err.style.opacity='1';
+      document.getElementById('pw-input').value='';
+      setTimeout(()=>{ err.style.opacity='0'; },2000);
+    }
+  }
+  document.getElementById('pw-btn').addEventListener('click', attempt);
+  document.getElementById('pw-input').addEventListener('keydown', e=>{ if(e.key==='Enter') attempt(); });
+  document.getElementById('pw-input').focus();
+})();
+
+// ── DATA STORE ──
+class DataStore {
+  constructor(key){ this.key = key; }
+  getAll(){ return JSON.parse(localStorage.getItem(this.key)||'[]'); }
+  save(items){ localStorage.setItem(this.key, JSON.stringify(items)); }
+  add(item){
+    const items = this.getAll();
+    const newItem = {...item, id: crypto.randomUUID(), created_at: new Date().toISOString(), updated_at: new Date().toISOString()};
+    items.push(newItem); this.save(items); return newItem;
+  }
+  update(id, patch){
+    const items = this.getAll().map(i => i.id===id ? {...i,...patch, updated_at:new Date().toISOString()} : i);
+    this.save(items);
+  }
+  delete(id){ this.save(this.getAll().filter(i=>i.id!==id)); }
+  find(id){ return this.getAll().find(i=>i.id===id); }
+}
+const DB = {
+  stakeholders: new DataStore('ops_stakeholders'),
+  interactions: new DataStore('ops_interactions'),
+  meetings: new DataStore('ops_meetings'),
+  proposals: new DataStore('ops_proposals'),
+};
+
+// ── SEED DATA ──
+function seedIfEmpty(){
+  if(DB.stakeholders.getAll().length > 0) return;
+  const now = new Date();
+  const daysAgo = n => { const d=new Date(now); d.setDate(d.getDate()-n); return d.toISOString(); };
+  const seeds = [
+    {name:'Dylan Koen',email:'dylan@3waygroup.com',company:'3way Group',role:'CEO',category:'internal',priority:'high',last_contact:daysAgo(5),notes:'CEO. Primary decision maker.'},
+    {name:'Yoav Dogan',email:'yoav@3waygroup.com',company:'3way Group',role:'COO',category:'internal',priority:'high',last_contact:daysAgo(3),notes:'COO. Operations and execution.'},
+    {name:'Danny',email:'danny@3waygroup.com',company:'3way Group',role:'Founder',category:'internal',priority:'high',last_contact:daysAgo(8),notes:'Founder. Strategic input.'},
+    {name:'Poveshni',email:'poveshni@3waygroup.com',company:'3way Group',role:'Tech Ops Lead',category:'internal',priority:'medium',last_contact:daysAgo(4),notes:'Tech Ops. Data dictionary questions outstanding.'},
+    {name:'Mark Young',email:'mark.young@vodacom.co.za',company:'Vodacom Financial Services',role:'ME VodaLend',category:'partner',priority:'high',last_contact:daysAgo(4),notes:'VodaLend POC contact. Customer profile v2 PDF sent 5 March.'},
+    {name:'Zunaid',email:'',company:'1Pin/SimPush',role:'Campaign Approvals',category:'partner',priority:'high',last_contact:daysAgo(4),notes:'SimPush pitch sent 5 March. Awaiting response.'},
+    {name:'Mohammed Rassool',email:'',company:'MTN',role:'Campaigns Manager',category:'client',priority:'high',last_contact:daysAgo(4),notes:'MTN campaigns. Dischem Funeral + SmartLoan briefs sent 5 March.'},
+    {name:'Thato Modise',email:'thato.modise@fnb.co.za',company:'FNB',role:'Client Relations',category:'client',priority:'high',last_contact:daysAgo(14),notes:'Most active FNB contact. Formal SLA in place.'},
+    {name:'Nicole Russell',email:'nicole@italtile.co.za',company:'Italtile',role:'Marketing',category:'client',priority:'medium',last_contact:daysAgo(30),notes:'Major client — 288 emails. RSM, digital, SMS campaigns.'},
+    {name:'Elucidate (Saul/Joshua)',email:'',company:'Elucidate',role:'Implementation Partner',category:'partner',priority:'high',last_contact:daysAgo(4),notes:'Data warehouse implementation partner. Waiting on data dictionary.'},
+  ];
+  seeds.forEach(s => DB.stakeholders.add(s));
+}
+seedIfEmpty();
+
+// ── HELPERS ──
+function formatDate(iso){
+  if(!iso) return '—';
+  return new Date(iso).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
+}
+function formatDateTime(iso){
+  if(!iso) return '—';
+  const d = new Date(iso);
+  // Convert to SAST (UTC+2)
+  const sast = new Date(d.getTime() + 2*60*60*1000);
+  return sast.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}) + ' ' +
+    sast.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
+}
+function healthFromDate(iso){
+  if(!iso) return 'red';
+  const diff = (new Date() - new Date(iso)) / (1000*60*60*24);
+  if(diff < 7) return 'green';
+  if(diff <= 21) return 'yellow';
+  return 'red';
+}
+function healthDot(h){ return `<span class="health-dot health-${h}"></span>`; }
+function badge(val, type){ return `<span class="badge badge-${type||val}">${val}</span>`; }
+function daysAgoText(iso){
+  if(!iso) return 'Never';
+  const diff = Math.floor((new Date()-new Date(iso))/(1000*60*60*24));
+  if(diff===0) return 'Today';
+  if(diff===1) return 'Yesterday';
+  return `${diff} days ago`;
+}
+
+function toast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2500); }
+
+// ── NAV ──
+document.querySelectorAll('.nav-item').forEach(item=>{
+  item.addEventListener('click',()=>{
+    document.querySelectorAll('.nav-item').forEach(i=>i.classList.remove('active'));
+    item.classList.add('active');
+    const page = item.dataset.page;
+    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+    document.getElementById('page-'+page).classList.add('active');
+    if(page==='dashboard') renderDashboard();
+    if(page==='stakeholders') renderStakeholders();
+    if(page==='meetings') renderMeetings();
+    if(page==='proposals') renderProposals();
+  });
+});
+
+// ── PANEL ──
+function openPanel(title, bodyHTML, footerHTML){
+  document.getElementById('panel-title').textContent = title;
+  document.getElementById('panel-body').innerHTML = bodyHTML;
+  document.getElementById('panel-footer').innerHTML = footerHTML||'';
+  document.getElementById('panel-backdrop').classList.add('open');
+  document.getElementById('panel').classList.add('open');
+}
+function closePanel(){ 
+  document.getElementById('panel-backdrop').classList.remove('open');
+  document.getElementById('panel').classList.remove('open');
+}
+
+// ── MODAL ──
+let _modalCallback = null;
+function openModal(title, bodyHTML, footerHTML){
+  document.getElementById('modal-title').textContent = title;
+  document.getElementById('modal-body').innerHTML = bodyHTML;
+  document.getElementById('modal-footer').innerHTML = footerHTML||'';
+  document.getElementById('modal-backdrop').classList.add('open');
+}
+function closeModal(){ document.getElementById('modal-backdrop').classList.remove('open'); }
+function handleModalBackdrop(e){ if(e.target===document.getElementById('modal-backdrop')) closeModal(); }
+
+// ── DASHBOARD ──
+function renderDashboard(){
+  const now = new Date();
+  document.getElementById('dash-date').textContent = now.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+
+  const stakeholders = DB.stakeholders.getAll();
+  const meetings = DB.meetings.getAll();
+  const proposals = DB.proposals.getAll();
+  const interactions = DB.interactions.getAll();
+
+  // Stats
+  const weekStart = new Date(); weekStart.setDate(weekStart.getDate() - weekStart.getDay());
+  const weekEnd = new Date(weekStart); weekEnd.setDate(weekEnd.getDate()+7);
+  const meetingsThisWeek = meetings.filter(m=>{ const d=new Date(m.datetime); return d>=weekStart && d<=weekEnd && m.status==='upcoming'; }).length;
+  const openProposals = proposals.filter(p=>p.status==='draft'||p.status==='sent').length;
+  const followupsDue = stakeholders.filter(s=>s.next_followup && new Date(s.next_followup)<=now).length;
+
+  document.getElementById('dash-stats').innerHTML = `
+    <div class="stat-card"><div class="stat-label">Stakeholders</div><div class="stat-value">${stakeholders.length}</div><div class="stat-sub">Total tracked</div></div>
+    <div class="stat-card"><div class="stat-label">Meetings This Week</div><div class="stat-value">${meetingsThisWeek}</div><div class="stat-sub">Upcoming</div></div>
+    <div class="stat-card"><div class="stat-label">Open Proposals</div><div class="stat-value">${openProposals}</div><div class="stat-sub">Draft or sent</div></div>
+    <div class="stat-card"><div class="stat-label">Follow-ups Due</div><div class="stat-value" style="color:${followupsDue>0?'var(--red)':'var(--navy)'}">${followupsDue}</div><div class="stat-sub">Overdue today</div></div>
+  `;
+
+  // Attention
+  const red = stakeholders.filter(s=>healthFromDate(s.last_contact)==='red');
+  const attEl = document.getElementById('attention-list');
+  const cntEl = document.getElementById('attention-count');
+  cntEl.textContent = red.length;
+  cntEl.style.display = red.length ? 'inline-flex' : 'none';
+  if(red.length===0){ attEl.innerHTML='<div style="font-size:13px;color:var(--gray);padding:12px 0;">All stakeholders are up to date.</div>'; }
+  else {
+    attEl.innerHTML = red.map(s=>`
+      <div class="attention-item">
+        <span class="health-dot health-red"></span>
+        <div class="attention-info">
+          <div class="attention-name">${s.name}</div>
+          <div class="attention-detail">${s.company||''} · Last contact: ${daysAgoText(s.last_contact)}</div>
+        </div>
+        <button class="btn btn-sm btn-secondary" onclick="openStakeholderDetail('${s.id}')">View</button>
+      </div>
+    `).join('');
+  }
+
+  // Activity
+  const recent = [...interactions].sort((a,b)=>new Date(b.created_at)-new Date(a.created_at)).slice(0,5);
+  const actEl = document.getElementById('activity-list');
+  if(recent.length===0){ actEl.innerHTML='<div style="font-size:13px;color:var(--gray);padding:12px 0;">No interactions logged yet.</div>'; }
+  else {
+    actEl.innerHTML = recent.map(i=>{
+      const s = DB.stakeholders.find(i.stakeholder_id);
+      return `<div class="activity-item">
+        <div class="activity-dot"></div>
+        <div>
+          <div class="activity-text">${i.type} with <strong>${s?s.name:'Unknown'}</strong>${i.subject?' — '+i.subject:''}</div>
+          <div class="activity-time">${formatDate(i.date)}</div>
+        </div>
+      </div>`;
+    }).join('');
+  }
+}
+
+// ── STAKEHOLDERS ──
+function renderStakeholders(){
+  const q = document.getElementById('s-search').value.toLowerCase();
+  const cat = document.getElementById('s-cat').value;
+  const health = document.getElementById('s-health').value;
+  let items = DB.stakeholders.getAll().filter(s=>{
+    if(q && !s.name.toLowerCase().includes(q) && !(s.company||'').toLowerCase().includes(q)) return false;
+    if(cat && s.category!==cat) return false;
+    if(health && healthFromDate(s.last_contact)!==health) return false;
+    return true;
+  });
+  const tbody = document.getElementById('stakeholder-tbody');
+  const empty = document.getElementById('stakeholder-empty');
+  if(items.length===0){ tbody.innerHTML=''; empty.style.display='block'; return; }
+  empty.style.display='none';
+  const h = healthFromDate;
+  tbody.innerHTML = items.map(s=>`
+    <tr onclick="openStakeholderDetail('${s.id}')">
+      <td><strong>${s.name}</strong></td>
+      <td>${s.company||'—'}</td>
+      <td>${s.role||'—'}</td>
+      <td>${badge(s.category||'')}</td>
+      <td>${healthDot(h(s.last_contact))}${h(s.last_contact)}</td>
+      <td>${daysAgoText(s.last_contact)}</td>
+      <td>${s.next_followup ? formatDate(s.next_followup) : '—'}</td>
+      <td><button class="btn btn-sm btn-ghost" onclick="event.stopPropagation();openStakeholderDetail('${s.id}')">Open</button></td>
+    </tr>
+  `).join('');
+}
+
+function openStakeholderDetail(id){
+  const s = DB.stakeholders.find(id);
+  if(!s) return;
+  const interactions = DB.interactions.getAll().filter(i=>i.stakeholder_id===id).sort((a,b)=>new Date(b.date)-new Date(a.date));
+  const h = healthFromDate(s.last_contact);
+  const body = `
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px;">
+      ${healthDot(h)}
+      <div>
+        <div style="font-size:20px;font-weight:900;color:var(--navy)">${s.name}</div>
+        <div style="font-size:13px;color:var(--gray)">${s.role||''} ${s.company?'· '+s.company:''}</div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;">
+      <div><div style="font-size:11px;font-weight:800;color:var(--gray);text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px">Category</div><div>${badge(s.category||'')}</div></div>
+      <div><div style="font-size:11px;font-weight:800;color:var(--gray);text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px">Priority</div><div>${badge(s.priority||'medium', 'badge-'+s.priority)}</div></div>
+      <div><div style="font-size:11px;font-weight:800;color:var(--gray);text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px">Email</div><div style="font-size:13px">${s.email||'—'}</div></div>
+      <div><div style="font-size:11px;font-weight:800;color:var(--gray);text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px">Phone</div><div style="font-size:13px">${s.phone||'—'}</div></div>
+      <div><div style="font-size:11px;font-weight:800;color:var(--gray);text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px">Last Contact</div><div style="font-size:13px">${daysAgoText(s.last_contact)}</div></div>
+      <div><div style="font-size:11px;font-weight:800;color:var(--gray);text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px">Next Follow-up</div><div style="font-size:13px">${s.next_followup?formatDate(s.next_followup):'—'}</div></div>
+    </div>
+    ${s.notes?`<div style="background:var(--offwhite);border-radius:8px;padding:14px;font-size:13px;color:var(--navy);margin-bottom:20px">${s.notes}</div>`:''}
+    ${s.followup_note?`<div style="background:#FFF7ED;border-radius:8px;padding:14px;font-size:13px;color:var(--navy);margin-bottom:20px"><strong>Follow-up note:</strong> ${s.followup_note}</div>`:''}
+    <div class="divider"></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+      <div style="font-size:14px;font-weight:800">Interaction History</div>
+      <button class="btn btn-sm btn-secondary" onclick="openLogInteractionFor('${id}')">+ Log Interaction</button>
+    </div>
+    ${interactions.length===0?'<div style="font-size:13px;color:var(--gray)">No interactions logged yet.</div>':
+      interactions.map(i=>`
+        <div class="interaction-item">
+          <div class="interaction-meta">
+            ${badge(i.type||'email')}
+            <span class="interaction-date">${formatDate(i.date)}</span>
+            ${i.followup_required?'<span class="badge badge-client">Follow-up</span>':''}
+          </div>
+          ${i.subject?`<div class="interaction-subject">${i.subject}</div>`:''}
+          ${i.summary?`<div class="interaction-summary">${i.summary}</div>`:''}
+          ${i.outcome?`<div style="font-size:12px;color:var(--blue);margin-top:4px">Outcome: ${i.outcome}</div>`:''}
+        </div>
+      `).join('')
+    }
+  `;
+  const footer = `
+    <button class="btn btn-secondary" onclick="openEditStakeholder('${id}')">Edit</button>
+    <button class="btn btn-danger" onclick="deleteStakeholder('${id}')">Delete</button>
+  `;
+  openPanel(s.name, body, footer);
+}
+
+function openAddStakeholder(){
+  openModal('Add Stakeholder', `
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Name *</label><input class="form-control" id="f-name" type="text" placeholder="Full name"></div>
+      <div class="form-group"><label class="form-label">Company</label><input class="form-control" id="f-company" type="text" placeholder="Organisation"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Role</label><input class="form-control" id="f-role" type="text" placeholder="Job title"></div>
+      <div class="form-group"><label class="form-label">Category</label>
+        <select class="form-control" id="f-category">
+          <option value="internal">Internal</option><option value="client">Client</option>
+          <option value="partner">Partner</option><option value="vendor">Vendor</option><option value="personal">Personal</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Email</label><input class="form-control" id="f-email" type="email" placeholder="email@example.com"></div>
+      <div class="form-group"><label class="form-label">Phone</label><input class="form-control" id="f-phone" type="text" placeholder="+27..."></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Priority</label>
+        <select class="form-control" id="f-priority"><option value="high">High</option><option value="medium" selected>Medium</option><option value="low">Low</option></select>
+      </div>
+      <div class="form-group"><label class="form-label">Last Contact</label><input class="form-control" id="f-last" type="date"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Next Follow-up</label><input class="form-control" id="f-followup" type="date"></div>
+      <div class="form-group"><label class="form-label">Follow-up Note</label><input class="form-control" id="f-followup-note" type="text" placeholder="What to cover"></div>
+    </div>
+    <div class="form-group"><label class="form-label">Notes</label><textarea class="form-control" id="f-notes" placeholder="Relationship context, comm style, background…"></textarea></div>
+  `, `
+    <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+    <button class="btn btn-primary" onclick="saveStakeholder()">Add Stakeholder</button>
+  `);
+}
+
+function saveStakeholder(editId){
+  const name = document.getElementById('f-name').value.trim();
+  if(!name){ document.getElementById('f-name').classList.add('error'); return; }
+  const data = {
+    name, company:document.getElementById('f-company').value,
+    role:document.getElementById('f-role').value,
+    category:document.getElementById('f-category').value,
+    email:document.getElementById('f-email').value,
+    phone:document.getElementById('f-phone').value,
+    priority:document.getElementById('f-priority').value,
+    last_contact:document.getElementById('f-last').value ? new Date(document.getElementById('f-last').value).toISOString() : null,
+    next_followup:document.getElementById('f-followup').value ? new Date(document.getElementById('f-followup').value).toISOString() : null,
+    followup_note:document.getElementById('f-followup-note').value,
+    notes:document.getElementById('f-notes').value,
+  };
+  if(editId){ DB.stakeholders.update(editId,data); toast('Stakeholder updated'); }
+  else { DB.stakeholders.add(data); toast('Stakeholder added'); }
+  closeModal(); closePanel(); renderStakeholders(); renderDashboard();
+}
+
+function openEditStakeholder(id){
+  const s = DB.stakeholders.find(id);
+  if(!s) return;
+  closePanel();
+  openModal('Edit Stakeholder', `
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Name *</label><input class="form-control" id="f-name" type="text" value="${s.name||''}"></div>
+      <div class="form-group"><label class="form-label">Company</label><input class="form-control" id="f-company" type="text" value="${s.company||''}"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Role</label><input class="form-control" id="f-role" type="text" value="${s.role||''}"></div>
+      <div class="form-group"><label class="form-label">Category</label>
+        <select class="form-control" id="f-category">
+          ${['internal','client','partner','vendor','personal'].map(c=>`<option value="${c}"${s.category===c?' selected':''}>${c.charAt(0).toUpperCase()+c.slice(1)}</option>`).join('')}
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Email</label><input class="form-control" id="f-email" type="email" value="${s.email||''}"></div>
+      <div class="form-group"><label class="form-label">Phone</label><input class="form-control" id="f-phone" type="text" value="${s.phone||''}"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Priority</label>
+        <select class="form-control" id="f-priority">${['high','medium','low'].map(p=>`<option value="${p}"${s.priority===p?' selected':''}>${p.charAt(0).toUpperCase()+p.slice(1)}</option>`).join('')}</select>
+      </div>
+      <div class="form-group"><label class="form-label">Last Contact</label><input class="form-control" id="f-last" type="date" value="${s.last_contact?s.last_contact.split('T')[0]:''}"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Next Follow-up</label><input class="form-control" id="f-followup" type="date" value="${s.next_followup?s.next_followup.split('T')[0]:''}"></div>
+      <div class="form-group"><label class="form-label">Follow-up Note</label><input class="form-control" id="f-followup-note" type="text" value="${s.followup_note||''}"></div>
+    </div>
+    <div class="form-group"><label class="form-label">Notes</label><textarea class="form-control" id="f-notes">${s.notes||''}</textarea></div>
+  `, `
+    <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+    <button class="btn btn-primary" onclick="saveStakeholder('${id}')">Save Changes</button>
+  `);
+}
+
+function deleteStakeholder(id){
+  if(!confirm('Delete this stakeholder? This cannot be undone.')) return;
+  DB.stakeholders.delete(id);
+  DB.interactions.save(DB.interactions.getAll().filter(i=>i.stakeholder_id!==id));
+  toast('Stakeholder deleted'); closePanel(); renderStakeholders(); renderDashboard();
+}
+
+// ── LOG INTERACTION ──
+function openLogInteraction(){
+  const stks = DB.stakeholders.getAll();
+  openModal('Log Interaction', `
+    <div class="form-group"><label class="form-label">Stakeholder *</label>
+      <select class="form-control" id="fi-stakeholder">
+        <option value="">Select stakeholder…</option>
+        ${stks.map(s=>`<option value="${s.id}">${s.name} — ${s.company||''}</option>`).join('')}
+      </select>
+    </div>
+    ${interactionFields()}
+  `,`
+    <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+    <button class="btn btn-primary" onclick="saveInteraction()">Log Interaction</button>
+  `);
+}
+
+function openLogInteractionFor(stakeholderId){
+  const s = DB.stakeholders.find(stakeholderId);
+  closePanel();
+  openModal(`Log Interaction — ${s?s.name:''}`, `
+    <input type="hidden" id="fi-stakeholder" value="${stakeholderId}">
+    ${interactionFields()}
+  `,`
+    <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+    <button class="btn btn-primary" onclick="saveInteraction()">Log Interaction</button>
+  `);
+}
+
+function interactionFields(){
+  const today = new Date().toISOString().split('T')[0];
+  return `
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Type *</label>
+        <select class="form-control" id="fi-type">
+          <option value="email">Email</option><option value="call">Call</option>
+          <option value="meeting">Meeting</option><option value="whatsapp">WhatsApp</option><option value="in-person">In Person</option>
+        </select>
+      </div>
+      <div class="form-group"><label class="form-label">Date *</label><input class="form-control" id="fi-date" type="date" value="${today}"></div>
+    </div>
+    <div class="form-group"><label class="form-label">Subject</label><input class="form-control" id="fi-subject" type="text" placeholder="Brief subject"></div>
+    <div class="form-group"><label class="form-label">Summary</label><textarea class="form-control" id="fi-summary" placeholder="What was discussed…" style="min-height:80px"></textarea></div>
+    <div class="form-group"><label class="form-label">Outcome</label><input class="form-control" id="fi-outcome" type="text" placeholder="Result or decision"></div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Follow-up Required?</label>
+        <select class="form-control" id="fi-followup"><option value="">No</option><option value="yes">Yes</option></select>
+      </div>
+      <div class="form-group"><label class="form-label">Follow-up Date</label><input class="form-control" id="fi-followup-date" type="date"></div>
+    </div>
+  `;
+}
+
+function saveInteraction(){
+  const sid = document.getElementById('fi-stakeholder').value||document.getElementById('fi-stakeholder').getAttribute('value');
+  if(!sid){ toast('Select a stakeholder'); return; }
+  const date = document.getElementById('fi-date').value;
+  if(!date){ document.getElementById('fi-date').classList.add('error'); return; }
+  const data = {
+    stakeholder_id: sid,
+    type: document.getElementById('fi-type').value,
+    date: new Date(date).toISOString(),
+    subject: document.getElementById('fi-subject').value,
+    summary: document.getElementById('fi-summary').value,
+    outcome: document.getElementById('fi-outcome').value,
+    followup_required: document.getElementById('fi-followup').value==='yes',
+    followup_date: document.getElementById('fi-followup-date').value ? new Date(document.getElementById('fi-followup-date').value).toISOString() : null,
+  };
+  DB.interactions.add(data);
+  // Update last_contact on stakeholder
+  DB.stakeholders.update(sid, {last_contact: data.date});
+  toast('Interaction logged');
+  closeModal(); renderDashboard(); renderStakeholders();
+}
+
+// ── MEETINGS ──
+function renderMeetings(){
+  const q = (document.getElementById('m-search').value||'').toLowerCase();
+  const st = document.getElementById('m-status').value;
+  let items = DB.meetings.getAll().filter(m=>{
+    if(q && !m.title.toLowerCase().includes(q)) return false;
+    if(st && m.status!==st) return false;
+    return true;
+  }).sort((a,b)=>new Date(a.datetime)-new Date(b.datetime));
+  const list = document.getElementById('meetings-list');
+  const empty = document.getElementById('meetings-empty');
+  if(items.length===0){ list.innerHTML=''; empty.style.display='block'; return; }
+  empty.style.display='none';
+  list.innerHTML = items.map(m=>{
+    const attendees = (m.attendee_ids||[]).map(id=>{ const s=DB.stakeholders.find(id); return s?s.name:''; }).filter(Boolean).join(', ');
+    return `<div class="meeting-card" onclick="openMeetingDetail('${m.id}')">
+      <div class="meeting-card-title">${m.title}</div>
+      <div class="meeting-card-meta">
+        ${badge(m.status||'upcoming')}
+        <span>📅 ${formatDateTime(m.datetime)}</span>
+        ${m.duration_min?`<span>⏱ ${m.duration_min} min</span>`:''}
+        ${m.location?`<span>📍 ${m.location}</span>`:''}
+        ${attendees?`<span>👥 ${attendees}</span>`:''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function openAddMeeting(){
+  const stks = DB.stakeholders.getAll();
+  const now = new Date(); now.setMinutes(0,0,0);
+  const localISO = new Date(now.getTime()-now.getTimezoneOffset()*60000).toISOString().slice(0,16);
+  openModal('New Meeting', `
+    <div class="form-group"><label class="form-label">Title *</label><input class="form-control" id="fm-title" type="text" placeholder="Meeting title"></div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Date & Time *</label><input class="form-control" id="fm-datetime" type="datetime-local" value="${localISO}"></div>
+      <div class="form-group"><label class="form-label">Duration (min)</label><input class="form-control" id="fm-duration" type="number" value="60" min="15" step="15"></div>
+    </div>
+    <div class="form-group"><label class="form-label">Location</label><input class="form-control" id="fm-location" type="text" placeholder="Room, link, or address"></div>
+    <div class="form-group"><label class="form-label">Attendees</label>
+      <select class="form-control" id="fm-attendees" multiple style="height:100px">
+        ${stks.map(s=>`<option value="${s.id}">${s.name} — ${s.company||''}</option>`).join('')}
+      </select>
+      <div class="form-hint">Hold Ctrl/Cmd to select multiple</div>
+    </div>
+    <div class="form-group"><label class="form-label">Pre-meeting Brief</label><textarea class="form-control" id="fm-brief" placeholder="Prep notes, agenda, context…"></textarea></div>
+  `, `
+    <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+    <button class="btn btn-primary" onclick="saveMeeting()">Create Meeting</button>
+  `);
+}
+
+function saveMeeting(editId){
+  const title = document.getElementById('fm-title').value.trim();
+  if(!title){ document.getElementById('fm-title').classList.add('error'); return; }
+  const dt = document.getElementById('fm-datetime').value;
+  if(!dt){ document.getElementById('fm-datetime').classList.add('error'); return; }
+  const attendeeSelect = document.getElementById('fm-attendees');
+  const attendee_ids = attendeeSelect ? Array.from(attendeeSelect.selectedOptions).map(o=>o.value) : [];
+  const data = {
+    title, datetime: new Date(dt).toISOString(),
+    duration_min: parseInt(document.getElementById('fm-duration').value)||60,
+    location: document.getElementById('fm-location').value,
+    attendee_ids,
+    brief: document.getElementById('fm-brief').value,
+    notes: editId ? (DB.meetings.find(editId)||{}).notes||'' : '',
+    action_items: editId ? (DB.meetings.find(editId)||{}).action_items||[] : [],
+    status: editId ? (DB.meetings.find(editId)||{}).status||'upcoming' : 'upcoming',
+  };
+  if(editId){ DB.meetings.update(editId,data); toast('Meeting updated'); }
+  else { DB.meetings.add(data); toast('Meeting created'); }
+  closeModal(); closePanel(); renderMeetings();
+}
+
+function openMeetingDetail(id){
+  const m = DB.meetings.find(id);
+  if(!m) return;
+  const attendees = (m.attendee_ids||[]).map(aid=>{ const s=DB.stakeholders.find(aid); return s?s.name:''; }).filter(Boolean);
+  const actionItems = m.action_items||[];
+  const body = `
+    <div style="margin-bottom:16px;">${badge(m.status||'upcoming')}</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;">
+      <div><div style="font-size:11px;font-weight:800;color:var(--gray);text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px">Date & Time</div><div style="font-size:13px">${formatDateTime(m.datetime)} SAST</div></div>
+      <div><div style="font-size:11px;font-weight:800;color:var(--gray);text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px">Duration</div><div style="font-size:13px">${m.duration_min||'—'} min</div></div>
+      <div><div style="font-size:11px;font-weight:800;color:var(--gray);text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px">Location</div><div style="font-size:13px">${m.location||'—'}</div></div>
+      <div><div style="font-size:11px;font-weight:800;color:var(--gray);text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px">Attendees</div><div style="font-size:13px">${attendees.join(', ')||'—'}</div></div>
+    </div>
+    ${m.brief?`<div class="form-group"><label class="form-label">Pre-meeting Brief</label><div style="background:var(--offwhite);border-radius:8px;padding:14px;font-size:13px;white-space:pre-wrap">${m.brief}</div></div>`:''}
+    <div class="form-group">
+      <label class="form-label">Post-meeting Notes</label>
+      <textarea class="form-control" id="md-notes" placeholder="Notes from the meeting…" style="min-height:80px">${m.notes||''}</textarea>
+    </div>
+    <div class="divider"></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+      <div style="font-size:14px;font-weight:800">Action Items</div>
+      <button class="btn btn-sm btn-secondary" onclick="addActionItem('${id}')">+ Add</button>
+    </div>
+    <div id="action-items-list">
+      ${actionItems.length===0?'<div style="font-size:13px;color:var(--gray)">No action items yet.</div>':
+        actionItems.map((ai,idx)=>`
+          <div class="action-item">
+            <input type="checkbox" ${ai.done?'checked':''} onchange="toggleActionItem('${id}',${idx},this.checked)">
+            <div class="action-item-text ${ai.done?'done':''}">${ai.text}</div>
+            <div class="action-item-meta">${ai.owner||''} ${ai.due?'· '+formatDate(ai.due):''}</div>
+          </div>
+        `).join('')}
+    </div>
+    <div class="divider"></div>
+    <div class="form-group">
+      <label class="form-label">Status</label>
+      <select class="form-control" id="md-status">
+        ${['upcoming','completed','cancelled'].map(s=>`<option value="${s}"${m.status===s?' selected':''}>${s.charAt(0).toUpperCase()+s.slice(1)}</option>`).join('')}
+      </select>
+    </div>
+  `;
+  const footer = `
+    <button class="btn btn-secondary" onclick="saveMeetingNotes('${id}')">Save Notes</button>
+    <button class="btn btn-secondary" onclick="openEditMeeting('${id}')">Edit</button>
+    <button class="btn btn-danger" onclick="deleteMeeting('${id}')">Delete</button>
+  `;
+  openPanel(m.title, body, footer);
+}
+
+function saveMeetingNotes(id){
+  DB.meetings.update(id, {
+    notes: document.getElementById('md-notes').value,
+    status: document.getElementById('md-status').value,
+  });
+  toast('Meeting saved'); closePanel(); renderMeetings();
+}
+
+function addActionItem(id){
+  const text = prompt('Action item:');
+  if(!text) return;
+  const owner = prompt('Owner (optional):');
+  const m = DB.meetings.find(id);
+  const items = m.action_items||[];
+  items.push({text, owner:owner||'', done:false, due:null});
+  DB.meetings.update(id,{action_items:items});
+  closePanel(); openMeetingDetail(id);
+}
+
+function toggleActionItem(id, idx, checked){
+  const m = DB.meetings.find(id);
+  const items = m.action_items||[];
+  if(items[idx]) items[idx].done = checked;
+  DB.meetings.update(id,{action_items:items});
+}
+
+function openEditMeeting(id){
+  const m = DB.meetings.find(id);
+  if(!m) return;
+  closePanel();
+  const stks = DB.stakeholders.getAll();
+  const dtLocal = m.datetime ? new Date(new Date(m.datetime).getTime()-new Date().getTimezoneOffset()*60000).toISOString().slice(0,16) : '';
+  openModal('Edit Meeting',`
+    <div class="form-group"><label class="form-label">Title *</label><input class="form-control" id="fm-title" type="text" value="${m.title||''}"></div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Date & Time *</label><input class="form-control" id="fm-datetime" type="datetime-local" value="${dtLocal}"></div>
+      <div class="form-group"><label class="form-label">Duration (min)</label><input class="form-control" id="fm-duration" type="number" value="${m.duration_min||60}"></div>
+    </div>
+    <div class="form-group"><label class="form-label">Location</label><input class="form-control" id="fm-location" type="text" value="${m.location||''}"></div>
+    <div class="form-group"><label class="form-label">Attendees</label>
+      <select class="form-control" id="fm-attendees" multiple style="height:100px">
+        ${stks.map(s=>`<option value="${s.id}"${(m.attendee_ids||[]).includes(s.id)?' selected':''}>${s.name} — ${s.company||''}</option>`).join('')}
+      </select>
+    </div>
+    <div class="form-group"><label class="form-label">Pre-meeting Brief</label><textarea class="form-control" id="fm-brief">${m.brief||''}</textarea></div>
+  `,`
+    <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+    <button class="btn btn-primary" onclick="saveMeeting('${id}')">Save Changes</button>
+  `);
+}
+
+function deleteMeeting(id){
+  if(!confirm('Delete this meeting?')) return;
+  DB.meetings.delete(id);
+  toast('Meeting deleted'); closePanel(); renderMeetings();
+}
+
+// ── PROPOSALS ──
+function renderProposals(){
+  const q = (document.getElementById('p-search').value||'').toLowerCase();
+  const st = document.getElementById('p-status').value;
+  let items = DB.proposals.getAll().filter(p=>{
+    if(q && !p.title.toLowerCase().includes(q)) return false;
+    if(st && p.status!==st) return false;
+    return true;
+  }).sort((a,b)=>new Date(b.created_at)-new Date(a.created_at));
+  const list = document.getElementById('proposals-list');
+  const empty = document.getElementById('proposals-empty');
+  if(items.length===0){ list.innerHTML=''; empty.style.display='block'; return; }
+  empty.style.display='none';
+  list.innerHTML = items.map(p=>{
+    const client = p.client_id ? DB.stakeholders.find(p.client_id) : null;
+    return `<div class="proposal-card" onclick="openProposalDetail('${p.id}')">
+      <div class="proposal-info">
+        <div class="proposal-title">${p.title}</div>
+        <div class="proposal-meta">${client?client.name+' · '+client.company:'No client'} ${p.value?'· R'+Number(p.value).toLocaleString('en-ZA'):''} · Created ${formatDate(p.created_at)}</div>
+      </div>
+      ${badge(p.status||'draft')}
+    </div>`;
+  }).join('');
+}
+
+function openAddProposal(){
+  const stks = DB.stakeholders.getAll();
+  openModal('New Proposal',`
+    <div class="form-group"><label class="form-label">Title *</label><input class="form-control" id="fp-title" type="text" placeholder="Proposal title"></div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Client</label>
+        <select class="form-control" id="fp-client">
+          <option value="">Select client…</option>
+          ${stks.map(s=>`<option value="${s.id}">${s.name} — ${s.company||''}</option>`).join('')}
+        </select>
+      </div>
+      <div class="form-group"><label class="form-label">Deal Value (R)</label><input class="form-control" id="fp-value" type="number" placeholder="0"></div>
+    </div>
+    <div class="form-group"><label class="form-label">Status</label>
+      <select class="form-control" id="fp-status">
+        <option value="draft">Draft</option><option value="sent">Sent</option>
+        <option value="approved">Approved</option><option value="declined">Declined</option><option value="expired">Expired</option>
+      </select>
+    </div>
+    <div class="form-group"><label class="form-label">Content</label><textarea class="form-control" id="fp-content" placeholder="Proposal body — markdown supported…" style="min-height:160px"></textarea></div>
+    <div class="form-group"><label class="form-label">Notes</label><textarea class="form-control" id="fp-notes" placeholder="Internal notes…" style="min-height:60px"></textarea></div>
+  `,`
+    <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+    <button class="btn btn-primary" onclick="saveProposal()">Create Proposal</button>
+  `);
+}
+
+function saveProposal(editId){
+  const title = document.getElementById('fp-title').value.trim();
+  if(!title){ document.getElementById('fp-title').classList.add('error'); return; }
+  const data = {
+    title,
+    client_id: document.getElementById('fp-client').value||null,
+    value: document.getElementById('fp-value').value||null,
+    status: document.getElementById('fp-status').value,
+    content: document.getElementById('fp-content').value,
+    notes: document.getElementById('fp-notes').value,
+  };
+  if(editId){ DB.proposals.update(editId,data); toast('Proposal updated'); }
+  else { DB.proposals.add(data); toast('Proposal created'); }
+  closeModal(); closePanel(); renderProposals();
+}
+
+function openProposalDetail(id){
+  const p = DB.proposals.find(id);
+  if(!p) return;
+  const client = p.client_id ? DB.stakeholders.find(p.client_id) : null;
+  const body = `
+    <div style="margin-bottom:16px;display:flex;gap:8px;align-items:center;">${badge(p.status||'draft')} ${p.value?`<span style="font-size:14px;font-weight:800;color:var(--navy)">R${Number(p.value).toLocaleString('en-ZA')}</span>`:''}</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;">
+      <div><div style="font-size:11px;font-weight:800;color:var(--gray);text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px">Client</div><div style="font-size:13px">${client?client.name+' · '+client.company:'—'}</div></div>
+      <div><div style="font-size:11px;font-weight:800;color:var(--gray);text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px">Created</div><div style="font-size:13px">${formatDate(p.created_at)}</div></div>
+    </div>
+    ${p.content?`<div class="form-group"><label class="form-label">Content</label><div style="background:var(--offwhite);border-radius:8px;padding:14px;font-size:13px;white-space:pre-wrap;max-height:300px;overflow-y:auto">${p.content}</div></div>`:''}
+    ${p.notes?`<div class="form-group"><label class="form-label">Internal Notes</label><div style="background:#FFF7ED;border-radius:8px;padding:14px;font-size:13px">${p.notes}</div></div>`:''}
+    <div class="divider"></div>
+    <div class="form-group">
+      <label class="form-label">Update Status</label>
+      <select class="form-control" id="pd-status">
+        ${['draft','sent','approved','declined','expired'].map(s=>`<option value="${s}"${p.status===s?' selected':''}>${s.charAt(0).toUpperCase()+s.slice(1)}</option>`).join('')}
+      </select>
+    </div>
+  `;
+  const footer = `
+    <button class="btn btn-secondary" onclick="updateProposalStatus('${id}')">Update Status</button>
+    <button class="btn btn-secondary" onclick="openEditProposal('${id}')">Edit</button>
+    <button class="btn btn-danger" onclick="deleteProposal('${id}')">Delete</button>
+  `;
+  openPanel(p.title, body, footer);
+}
+
+function updateProposalStatus(id){
+  DB.proposals.update(id,{status:document.getElementById('pd-status').value});
+  toast('Status updated'); closePanel(); renderProposals();
+}
+
+function openEditProposal(id){
+  const p = DB.proposals.find(id);
+  if(!p) return;
+  closePanel();
+  const stks = DB.stakeholders.getAll();
+  openModal('Edit Proposal',`
+    <div class="form-group"><label class="form-label">Title *</label><input class="form-control" id="fp-title" type="text" value="${p.title||''}"></div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Client</label>
+        <select class="form-control" id="fp-client">
+          <option value="">Select client…</option>
+          ${stks.map(s=>`<option value="${s.id}"${p.client_id===s.id?' selected':''}>${s.name} — ${s.company||''}</option>`).join('')}
+        </select>
+      </div>
+      <div class="form-group"><label class="form-label">Deal Value (R)</label><input class="form-control" id="fp-value" type="number" value="${p.value||''}"></div>
+    </div>
+    <div class="form-group"><label class="form-label">Status</label>
+      <select class="form-control" id="fp-status">${['draft','sent','approved','declined','expired'].map(s=>`<option value="${s}"${p.status===s?' selected':''}>${s.charAt(0).toUpperCase()+s.slice(1)}</option>`).join('')}</select>
+    </div>
+    <div class="form-group"><label class="form-label">Content</label><textarea class="form-control" id="fp-content" style="min-height:160px">${p.content||''}</textarea></div>
+    <div class="form-group"><label class="form-label">Notes</label><textarea class="form-control" id="fp-notes" style="min-height:60px">${p.notes||''}</textarea></div>
+  `,`
+    <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+    <button class="btn btn-primary" onclick="saveProposal('${id}')">Save Changes</button>
+  `);
+}
+
+function deleteProposal(id){
+  if(!confirm('Delete this proposal?')) return;
+  DB.proposals.delete(id);
+  toast('Proposal deleted'); closePanel(); renderProposals();
+}
+
+// ── SETTINGS ──
+function exportData(){
+  const data = {
+    stakeholders: DB.stakeholders.getAll(),
+    interactions: DB.interactions.getAll(),
+    meetings: DB.meetings.getAll(),
+    proposals: DB.proposals.getAll(),
+    exported_at: new Date().toISOString(),
+  };
+  const blob = new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  const a = document.createElement('a'); a.href=URL.createObjectURL(blob);
+  a.download=`ops-export-${new Date().toISOString().split('T')[0]}.json`; a.click();
+  toast('Data exported');
+}
+
+function clearData(){
+  if(!confirm('This will delete ALL data. Are you sure?')) return;
+  ['ops_stakeholders','ops_interactions','ops_meetings','ops_proposals'].forEach(k=>localStorage.removeItem(k));
+  toast('All data cleared'); renderDashboard();
+}
+
+// ── INIT ──
+renderDashboard();
+</script>
+</body>
+</html>
