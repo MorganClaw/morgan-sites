@@ -685,16 +685,47 @@ function seedIfEmpty(){
   const now = new Date();
   const daysAgo = n => { const d=new Date(now); d.setDate(d.getDate()-n); return d.toISOString(); };
   const seeds = [
-    {name:'Dylan Koen',email:'dylan@3waygroup.com',company:'3way Group',role:'CEO',category:'internal',priority:'high',last_contact:daysAgo(5),notes:'CEO. Primary decision maker.'},
-    {name:'Yoav Dogan',email:'yoav@3waygroup.com',company:'3way Group',role:'COO',category:'internal',priority:'high',last_contact:daysAgo(3),notes:'COO. Operations and execution.'},
-    {name:'Danny',email:'danny@3waygroup.com',company:'3way Group',role:'Founder',category:'internal',priority:'high',last_contact:daysAgo(8),notes:'Founder. Strategic input.'},
-    {name:'Poveshni',email:'poveshni@3waygroup.com',company:'3way Group',role:'Tech Ops Lead',category:'internal',priority:'medium',last_contact:daysAgo(4),notes:'Tech Ops. Data dictionary questions outstanding.'},
-    {name:'Mark Young',email:'mark.young@vodacom.co.za',company:'Vodacom Financial Services',role:'ME VodaLend',category:'partner',priority:'high',last_contact:daysAgo(4),notes:'VodaLend POC contact. Customer profile v2 PDF sent 5 March.'},
-    {name:'Zunaid',email:'',company:'1Pin/SimPush',role:'Campaign Approvals',category:'partner',priority:'high',last_contact:daysAgo(4),notes:'SimPush pitch sent 5 March. Awaiting response.'},
-    {name:'Mohammed Rassool',email:'',company:'MTN',role:'Campaigns Manager',category:'client',priority:'high',last_contact:daysAgo(4),notes:'MTN campaigns. Dischem Funeral + SmartLoan briefs sent 5 March.'},
-    {name:'Thato Modise',email:'thato.modise@fnb.co.za',company:'FNB',role:'Client Relations',category:'client',priority:'high',last_contact:daysAgo(14),notes:'Most active FNB contact. Formal SLA in place.'},
-    {name:'Nicole Russell',email:'nicole@italtile.co.za',company:'Italtile',role:'Marketing',category:'client',priority:'medium',last_contact:daysAgo(30),notes:'Major client — 288 emails. RSM, digital, SMS campaigns.'},
-    {name:'Elucidate (Saul/Joshua)',email:'',company:'Elucidate',role:'Implementation Partner',category:'partner',priority:'high',last_contact:daysAgo(4),notes:'Data warehouse implementation partner. Waiting on data dictionary.'},
+    // ── Internal Team ──
+    {name:'Dylan Koen',email:'dylan@3waygroup.com',company:'3Way Group',role:'CEO',category:'internal',priority:'high',last_contact:daysAgo(4),notes:'CEO. Primary decision maker. Interested in data monetisation long-term. Estimated 30% of prospects could be removed from campaigns with no impact.'},
+    {name:'Yoav Dogan',email:'yoav@3waygroup.com',company:'3Way Group',role:'COO',category:'internal',priority:'high',last_contact:daysAgo(3),notes:'COO. Operations and execution. Handling Experian/iTalk Telkom test. Go-live mid week of 9 March.'},
+    {name:'Danny Aaron',email:'danny@3waygroup.com',company:'3Way Group',role:'Founder',category:'internal',priority:'high',last_contact:daysAgo(3),notes:'Founder. Strategic input. Requested MNM consolidated email and 45-min alignment session. Approved Clientele on Silver campaign (R121.30/lead).'},
+    {name:'Poveshni',email:'poveshni@3waygroup.com',company:'3Way Group',role:'Tech Ops Lead',category:'internal',priority:'medium',last_contact:daysAgo(4),notes:'Tech Ops Lead. Data dictionary questions outstanding since 5 March. Overdue response. Follow up in person Monday.'},
+    {name:'Stefano',email:'',company:'SayHi',role:'CEO',category:'internal',priority:'medium',last_contact:daysAgo(5),notes:'CEO of SayHi (VAS/DCB entity). SayHi pivot from DCB billing to credit card rails under pressure.'},
+    {name:'Gabriel Maletsky',email:'',company:'3Way Group',role:'Data Analyst',category:'internal',priority:'medium',last_contact:daysAgo(3),notes:'Data analyst. Assigned lead exercise (loans and phones unique leads). Deprioritised for Clientele unmet analysis. Brief at briefs/gabriel_lead_exercise_brief.md.'},
+    {name:'Donovan Barrett',email:'',company:'3Way Group',role:'Execution',category:'internal',priority:'medium',last_contact:daysAgo(7),notes:'Execution and USSD setup for PCM campaigns. 1,225 emails in 6-month export. Key for campaign go-live.'},
+    {name:'Jessica Goldstein',email:'',company:'3Way Group',role:'Team',category:'internal',priority:'medium',last_contact:daysAgo(7),notes:'Highest volume internal email contact (1,301 emails). Copy sign-off for PCM campaigns.'},
+    {name:'Clare Aitken',email:'',company:'3Way Group',role:'Legal/Contracts',category:'internal',priority:'medium',last_contact:daysAgo(3),notes:'Managing Corepulse/CallForce Direct data sharing agreement. Also involved in SGHC/JackpotCity legal stage.'},
+    {name:'Sally',email:'',company:'3Way Group',role:'EA/Admin',category:'internal',priority:'low',last_contact:daysAgo(7),notes:'EA/admin. Books meetings and manages calendar. Ask her to schedule Danny 1:1 and MNM alignment session.'},
+    {name:'Zalman',email:'',company:'3Way Group',role:'IT Admin',category:'internal',priority:'low',last_contact:daysAgo(14),notes:'IT admin. Needs to enable IMAP for morgan@3waygroup.com in Exchange Admin. Also setting up open plan workspace.'},
+    // ── Partners ──
+    {name:'Mark Young',email:'mark.young@vodacom.co.za',company:'Vodacom Financial Services',role:'ME VodaLend',category:'partner',priority:'high',last_contact:daysAgo(4),notes:'VodaLend POC contact. Customer profile v2 PDF sent 5 March. ~50k loan applications/month, 95% unserviced.'},
+    {name:'Zunaid',email:'',company:'1Pin/SimPush',role:'Campaign Approvals',category:'partner',priority:'high',last_contact:daysAgo(4),notes:'1Pin/SimPush approval contact (alternate to John). SimPush pitch and flow diagram sent 5 March. Awaiting response.'},
+    {name:'Storm',email:'',company:'1Pin',role:'Route to John',category:'partner',priority:'medium',last_contact:daysAgo(4),notes:'Route to John at 1Pin. John is the campaign approver. Met 5 March. Confirmed MTN route via Mohammed Rassool.'},
+    {name:'Michaela',email:'',company:'1Pin',role:'Contact',category:'partner',priority:'medium',last_contact:daysAgo(5),notes:'1Pin contact. Meeting 4 March. BrandX deck received.'},
+    {name:'Saul (Elucidate)',email:'',company:'Elucidate',role:'Implementation Lead',category:'partner',priority:'high',last_contact:daysAgo(4),notes:'Data warehouse implementation partner. Waiting on completed data dictionary before first technical session.'},
+    {name:'Joshua (Elucidate)',email:'',company:'Elucidate',role:'Technical',category:'partner',priority:'medium',last_contact:daysAgo(4),notes:'Elucidate technical team member. Data warehouse project.'},
+    {name:'Tristan (Elucidate)',email:'',company:'Elucidate',role:'Technical',category:'partner',priority:'medium',last_contact:daysAgo(4),notes:'Elucidate technical team member. Data warehouse project.'},
+    {name:'David',email:'',company:'Kendall Capital',role:'Contact',category:'partner',priority:'medium',last_contact:daysAgo(4),notes:'Dylan recommended Ricky meet with David. WhatsApp sent 5 March. Awaiting response for coffee/lunch.'},
+    {name:'Stefan Venter',email:'',company:'Experian',role:'Contact',category:'partner',priority:'medium',last_contact:daysAgo(3),notes:'Experian contact. Replied 6 March confirming 50k scored records. Yoav handling execution.'},
+    // ── Clients ──
+    {name:'Mohammed Rassool',email:'mohammed.Rassool@mtn.com',company:'MTN',role:'Campaigns',category:'client',priority:'high',last_contact:daysAgo(4),notes:'MTN campaigns contact. Dischem Funeral + SmartLoan briefs sent 5 March. CPM: Insurance R150, Loans R200. Follow-up session Mon/Tue.'},
+    {name:'Thato Modise',email:'thato.modise@fnb.co.za',company:'FNB',role:'Client Relations',category:'client',priority:'high',last_contact:daysAgo(14),notes:'Most active FNB contact (307 emails). Formal SLA in place (FSR-IMANDOCS.FID857560).'},
+    {name:'Kugen Pillay',email:'',company:'FNB',role:'Contact',category:'client',priority:'medium',last_contact:daysAgo(21),notes:'FNB contact. 186 emails. Works alongside Thato Modise.'},
+    {name:'Nicole Russell',email:'nicole@italtile.co.za',company:'Italtile',role:'Marketing',category:'client',priority:'medium',last_contact:daysAgo(30),notes:'Major client (288 emails). RSM spend, digital marketing proposal, SMS campaigns, IEDM.'},
+    {name:'Lydia Mokoma',email:'',company:'Vodacom',role:'PCM Operations',category:'client',priority:'medium',last_contact:daysAgo(14),notes:'Highest-volume Vodacom contact (96 emails). PCM campaign reports and go-live updates. Primary PCM ops contact.'},
+    {name:'Valrey Sebake',email:'',company:'MTN',role:'Contact',category:'client',priority:'medium',last_contact:daysAgo(21),notes:'Most active MTN contact by email volume (77 emails). Not Dhirendra Mewa.'},
+    {name:'Mark Menzies',email:'',company:'SayHi',role:'Technical',category:'partner',priority:'medium',last_contact:daysAgo(6),notes:'MTN SMS bind API integration. Working on it, no defined timeline. ~15 days since first email.'},
+    // ── Vendors ──
+    {name:'Tracy-Ann (Matagen)',email:'',company:'Matagen/Matogen',role:'Scorecard',category:'vendor',priority:'high',last_contact:daysAgo(3),notes:'Scorecard provider. Phone file scoring complete. Tuesday meeting to review new variables. ~1M records ready.'},
+    {name:'Jacobus (Matagen)',email:'',company:'Matagen/Matogen',role:'Scorecard',category:'vendor',priority:'medium',last_contact:daysAgo(7),notes:'Matagen/Matogen scorecard team.'},
+    {name:'Chapelle De Hahn',email:'',company:'Vodacom',role:'PCM Bookings',category:'vendor',priority:'medium',last_contact:daysAgo(14),notes:'Booking contact for PCM campaigns.'},
+    // ── Untracked / Low Touch ──
+    {name:'Gavin Moir',email:'',company:'IDM Group',role:'POC Lead',category:'partner',priority:'medium',last_contact:daysAgo(7),notes:'IDM Group weekly POC stand-up since Nov 2025. Debt/credit data, CLI info for FindBetter and Smart Loan.'},
+    {name:'Guy Eagle',email:'',company:'Seeker Digital (Australia)',role:'Partner',category:'partner',priority:'low',last_contact:daysAgo(30),notes:'Debt vertical revival and DT1 performance reporting. Offshore digital partner. 69 emails.'},
+    {name:'Sarah Shakir',email:'',company:'Tornet/Korektel (Iraq)',role:'Contact',category:'partner',priority:'low',last_contact:daysAgo(30),notes:'Iraq data sharing commitment pending. Ricky committed to sharing data "as soon as possible." International expansion.'},
+    {name:'Moagisi Motsumi',email:'',company:'Selemo',role:'Contact',category:'client',priority:'low',last_contact:daysAgo(21),notes:'Selemo go-live imminent. Ricky suggested meeting to progress.'},
+    {name:'Albie Aucamp',email:'',company:'Tracker',role:'Contact',category:'partner',priority:'medium',last_contact:daysAgo(7),notes:'Tracker POC. Monday 15:30 SAST session with Tracker/Vouch.'},
+    {name:'Jacqueline',email:'',company:'Vouch',role:'Contact',category:'partner',priority:'medium',last_contact:daysAgo(7),notes:'Vouch/Connex API. Check for prep note ahead of Monday 15:30 session.'},
   ];
   seeds.forEach(s => DB.stakeholders.add(s));
 }
