@@ -1202,11 +1202,17 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
 function filterTasks(filter, btn){
   document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
+  // Hide Requires Attention section when filtering
+  const attnHeading = document.querySelector('.section-heading');
+  if(attnHeading && attnHeading.parentElement){
+    attnHeading.parentElement.style.display = filter==='all' ? '' : 'none';
+  }
+  // Filter task cards
   document.querySelectorAll('.task-card').forEach(card=>{
-    const show = filter==='all' ||
-      card.querySelector('.status-badge')?.textContent.toLowerCase().replace(/\s/g,'_')===filter ||
-      card.querySelector('.urgency-badge')?.textContent.toLowerCase()===filter ||
-      (filter==='overdue' && card.classList.contains('task-overdue'));
+    const status = card.querySelector('.status-badge')?.textContent.toLowerCase().replace(/\s/g,'_') || '';
+    const urgency = card.querySelector('.urgency-badge')?.textContent.toLowerCase() || '';
+    const overdue = card.classList.contains('task-overdue');
+    const show = filter==='all' || status===filter || urgency===filter || (filter==='overdue' && overdue);
     card.style.display = show ? '' : 'none';
   });
   // Show/hide empty project sections
@@ -1343,18 +1349,15 @@ function clearTimer(){
 function sendQ(){
   if(!Q.length)return;
   clearTimer();
-  var lines=['📋 *TASK UPDATES from Ricky*
-'];
+  var lines=['📋 *TASK UPDATES from Ricky*\n'];
   Q.forEach(function(q){
     var icons={COMPLETE:'✅',DELETE:'🗑️',PROGRESS:'📊',NOTE:'📝'};
     var line=(icons[q.action]||'•')+' Task #'+q.id+' — *'+q.action+'*';
     if(q.extra)line+=': '+q.extra;
-    line+='
-_'+q.title+'_';
+    line+='\n_'+q.title+'_';
     lines.push(line);
   });
-  lines.push('
-_Sent from 3Way Intelligence Hub_');
+  lines.push('\n_Sent from 3Way Intelligence Hub_');
   fetch('https://api.telegram.org/bot'+BOT+'/sendMessage',{
     method:'POST',headers:{'Content-Type':'application/json'},
     body:JSON.stringify({chat_id:CID,text:lines.join('
