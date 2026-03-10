@@ -1,9 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<script>
-(function(){if(localStorage.getItem('3way_session')!=='granted'){location.replace('/?r='+encodeURIComponent(location.pathname+location.search));return;}})();
-</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Daily Brief — 3Way Group</title>
@@ -30,14 +27,22 @@ html { font-family:'Outfit',sans-serif; background:var(--bg); color:var(--text);
 body { min-height:100vh; }
 
 /* ── PASSWORD GATE ── */
+#gate {
+  position:fixed; inset:0; background:var(--navy); z-index:9999;
+  display:flex; align-items:center; justify-content:center; flex-direction:column; gap:20px;
+}
+#gate.hidden { display:none; }
+.gate-title { font-size:1.6rem; font-weight:800; color:var(--white); }
 .gate-title span { color:var(--yellow); }
+.gate-sub { font-size:0.75rem; color:rgba(255,255,255,0.4); text-transform:uppercase; letter-spacing:0.15em; margin-bottom:8px; }
+.gate-row { display:flex; gap:0; border-radius:10px; overflow:hidden; box-shadow:0 8px 32px rgba(0,0,0,0.4); }
 #pw-input { padding:14px 20px; font-size:15px; font-family:'Outfit',sans-serif; border:none; outline:none; width:260px; background:var(--white); color:var(--navy); }
 #pw-btn { padding:14px 24px; background:var(--yellow); color:var(--navy); font-weight:800; font-size:14px; font-family:'Outfit',sans-serif; border:none; cursor:pointer; }
 #pw-btn:hover { opacity:0.85; }
 #pw-err { color:#ff6b6b; font-size:13px; min-height:18px; }
 
 /* ── MAIN CONTENT ── */
-#content { display:block; }
+#content { display:none; }
 #content.visible { display:block; }
 
 .brief-header {
@@ -205,6 +210,16 @@ body { min-height:100vh; }
 <body>
 
 <!-- PASSWORD GATE -->
+<div id="gate">
+  <div class="gate-title">3Way<span>Group</span></div>
+  <div class="gate-sub">Executive Daily Brief</div>
+  <div class="gate-row">
+    <input type="password" id="pw-input" placeholder="Access code" autocomplete="off" />
+    <button id="pw-btn" onclick="checkPw()">Enter</button>
+  </div>
+  <div id="pw-err"></div>
+</div>
+
 <!-- MAIN CONTENT -->
 <div id="content">
 
@@ -216,7 +231,7 @@ body { min-height:100vh; }
         <div class="brief-date">Tuesday, 10 March 2026</div>
       </div>
       <div class="brief-meta">
-        Generated 11:14 SAST<br>
+        Generated 12:16 SAST<br>
         <a href="index.html">Back to Portal</a>
       </div>
     </div>
@@ -226,7 +241,7 @@ body { min-height:100vh; }
         <div class="stat-label">Overdue</div>
       </div>
       <div class="stat-card warn">
-        <div class="stat-num">9</div>
+        <div class="stat-num">8</div>
         <div class="stat-label">Awaiting Response</div>
       </div>
       <div class="stat-card">
@@ -234,11 +249,11 @@ body { min-height:100vh; }
         <div class="stat-label">Active Tasks</div>
       </div>
       <div class="stat-card">
-        <div class="stat-num">11</div>
+        <div class="stat-num">12</div>
         <div class="stat-label">In Progress</div>
       </div>
       <div class="stat-card ok">
-        <div class="stat-num">33%</div>
+        <div class="stat-num">37%</div>
         <div class="stat-label">Avg Progress</div>
       </div>
     </div>
@@ -255,7 +270,7 @@ body { min-height:100vh; }
       <span class="top3-num">1</span>
       <span class="top3-title">#038: Produce a single consolidated MNM email covering all campaigns (OnePin, SimPush, Click-to-SMS, PCM) with high-level volu</span>
     </div>
-    <div class="top3-detail">⚠️ OVERDUE. Draft v4 complete. Awaiting Ricky&#x27;s final forecast numbers. Replaced placeholder Michael (Jackpot City) with Michael Barnett after contact confirmed.</div>
+    <div class="top3-detail">Consolidated MNM forecast shared with Danny on Monday 9 March. Pending confirmation of 45-min alignment session via Sally.</div>
   </div>
 
   <div class="top3-item">
@@ -263,7 +278,7 @@ body { min-height:100vh; }
       <span class="top3-num">2</span>
       <span class="top3-title">#025: Send Danny the completed forecast table and OnePin update by Monday 9 March.</span>
     </div>
-    <div class="top3-detail">Danny response sent 5 March. Forecast Excel with Ricky to complete numbers by Monday.</div>
+    <div class="top3-detail">Forecast numbers completed and sent to Danny on Monday 9 March.</div>
   </div>
 
   <div class="top3-item">
@@ -275,7 +290,7 @@ body { min-height:100vh; }
   </div>
 </div>
 <div class="section">
-  <div class="section-title">Your Day <span class="count">5 slots</span></div>
+  <div class="section-title">Your Day <span class="count">6 slots</span></div>
   <div class="card" style="padding:0;overflow:hidden;">
   <table class="schedule-table">
 
@@ -297,6 +312,11 @@ body { min-height:100vh; }
     <tr>
       <td class="sched-time">10:30</td>
       <td><div class="sched-what">In-person follow-ups (6 overdue)</div><div class="sched-detail">Chase overdue items if in office</div></td>
+    </tr>
+
+    <tr>
+      <td class="sched-time">13:30</td>
+      <td><div class="sched-what">#042: Manage the Jackpot City revival campaign with Michael Barnett.</div><div class="sched-detail">Coffee meeting confirmed with Michael Barnett for Thursday 12 March 13:30 SAST (The Grind). Calendar</div></td>
     </tr>
 
     <tr>
@@ -338,8 +358,8 @@ body { min-height:100vh; }
       <span class="card-status">Ricky Silberman</span>
     </div>
     <div class="card-title">Send Danny the completed forecast table and OnePin update by Monday 9 March.</div>
-    <div class="card-detail">Danny response sent 5 March. Forecast Excel with Ricky to complete numbers by Monday.</div>
-    <div class="card-blocker">Ricky to complete forecast numbers by Monday.</div>
+    <div class="card-detail">Forecast numbers completed and sent to Danny on Monday 9 March.</div>
+    
   </div>
 
   <div class="alert-banner">
@@ -349,8 +369,8 @@ body { min-height:100vh; }
       <span class="card-status">Ricky Silberman</span>
     </div>
     <div class="card-title">Produce a single consolidated MNM email covering all campaigns (OnePin, SimPush, Click-to-SMS, PCM) with high-level volu</div>
-    <div class="card-detail">⚠️ OVERDUE. Draft v4 complete. Awaiting Ricky&#x27;s final forecast numbers. Replaced placeholder Michael (Jackpot City) with Michael Barnett after contact confirmed.</div>
-    <div class="card-blocker">⚠️ OVERDUE — Ricky to provide forecast numbers and trigger Sally for the booking.</div>
+    <div class="card-detail">Consolidated MNM forecast shared with Danny on Monday 9 March. Pending confirmation of 45-min alignment session via Sally.</div>
+    <div class="card-blocker">Sally to book 45-min alignment session with Ricky, Yoav, Dylan, Donovan.</div>
   </div>
 
   <div class="alert-banner">
@@ -380,6 +400,18 @@ body { min-height:100vh; }
 
   <div class="card">
     <div class="card-top">
+      <span class="card-id">#038</span>
+      <span class="card-urgency urgent">urgent</span>
+      <span class="card-status">In Progress</span>
+    </div>
+    <div class="card-title">Produce a single consolidated MNM email covering all campaigns (OnePin, SimPush, Click-to-SMS, PCM) with high-level volume forecasts. Then c</div>
+    <div class="card-detail">Consolidated MNM forecast shared with Danny on Monday 9 March. Pending confirmation of 45-min alignment session via Sally.</div>
+    <div class="card-blocker">Sally to book 45-min alignment session with Ricky, Yoav, Dylan, Donovan.</div>
+    <div class="card-progress"><div class="card-progress-fill" style="width:90%"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-top">
       <span class="card-id">#012</span>
       <span class="card-urgency urgent">urgent</span>
       <span class="card-status">Waiting On Human</span>
@@ -388,18 +420,6 @@ body { min-height:100vh; }
     <div class="card-detail">Email and SimPush flow sent by Ricky to Zunaid on 5 March 2026. Awaiting Zunaid&#x27;s response.</div>
     <div class="card-blocker">Awaiting Zunaid response.</div>
     <div class="card-progress"><div class="card-progress-fill" style="width:80%"></div></div>
-  </div>
-
-  <div class="card">
-    <div class="card-top">
-      <span class="card-id">#038</span>
-      <span class="card-urgency urgent">urgent</span>
-      <span class="card-status">In Progress</span>
-    </div>
-    <div class="card-title">Produce a single consolidated MNM email covering all campaigns (OnePin, SimPush, Click-to-SMS, PCM) with high-level volume forecasts. Then c</div>
-    <div class="card-detail">⚠️ OVERDUE. Draft v4 complete. Awaiting Ricky&#x27;s final forecast numbers. Replaced placeholder Michael (Jackpot City) with Michael Barnett after contact confirmed.</div>
-    <div class="card-blocker">⚠️ OVERDUE — Ricky to provide forecast numbers and trigger Sally for the booking.</div>
-    <div class="card-progress"><div class="card-progress-fill" style="width:65%"></div></div>
   </div>
 
   <div class="card">
@@ -416,6 +436,30 @@ body { min-height:100vh; }
 
   <div class="card">
     <div class="card-top">
+      <span class="card-id">#025</span>
+      <span class="card-urgency high">high</span>
+      <span class="card-status">In Progress</span>
+    </div>
+    <div class="card-title">Send Danny the completed forecast table and OnePin update by Monday 9 March.</div>
+    <div class="card-detail">Forecast numbers completed and sent to Danny on Monday 9 March.</div>
+    
+    <div class="card-progress"><div class="card-progress-fill" style="width:100%"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-top">
+      <span class="card-id">#010</span>
+      <span class="card-urgency high">high</span>
+      <span class="card-status">In Progress</span>
+    </div>
+    <div class="card-title">Complete Matagen phone scorecard review on Tuesday, pass ~1M records to Donovan for execution, go live by end of week of 9 March.</div>
+    <div class="card-detail">Matagen meeting held Tuesday 10 March. Data card and phone scorecard ready. Passing ~1M records to Donovan for execution.</div>
+    
+    <div class="card-progress"><div class="card-progress-fill" style="width:85%"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-top">
       <span class="card-id">#014</span>
       <span class="card-urgency high">high</span>
       <span class="card-status">Waiting On Human</span>
@@ -428,30 +472,6 @@ body { min-height:100vh; }
 
   <div class="card">
     <div class="card-top">
-      <span class="card-id">#025</span>
-      <span class="card-urgency high">high</span>
-      <span class="card-status">Waiting On Human</span>
-    </div>
-    <div class="card-title">Send Danny the completed forecast table and OnePin update by Monday 9 March.</div>
-    <div class="card-detail">Danny response sent 5 March. Forecast Excel with Ricky to complete numbers by Monday.</div>
-    <div class="card-blocker">Ricky to complete forecast numbers by Monday.</div>
-    <div class="card-progress"><div class="card-progress-fill" style="width:70%"></div></div>
-  </div>
-
-  <div class="card">
-    <div class="card-top">
-      <span class="card-id">#010</span>
-      <span class="card-urgency high">high</span>
-      <span class="card-status">In Progress</span>
-    </div>
-    <div class="card-title">Complete Matagen phone scorecard review on Tuesday, pass ~1M records to Donovan for execution, go live by end of week of 9 March.</div>
-    <div class="card-detail">Phone file scoring complete. Meeting with Matagen Tuesday morning to review new variables and confidence levels. ~1M records to be passed to Donovan post-meeting for execution.</div>
-    <div class="card-blocker">Tuesday meeting needed before handover to Donovan.</div>
-    <div class="card-progress"><div class="card-progress-fill" style="width:60%"></div></div>
-  </div>
-
-  <div class="card">
-    <div class="card-top">
       <span class="card-id">#002</span>
       <span class="card-urgency high">high</span>
       <span class="card-status">In Progress</span>
@@ -460,6 +480,18 @@ body { min-height:100vh; }
     <div class="card-detail">Outstanding questions sent to Poveshni (Tech Ops Lead). Awaiting her response.</div>
     <div class="card-blocker">Awaiting Poveshni&#x27;s response to outstanding questions.</div>
     <div class="card-progress"><div class="card-progress-fill" style="width:55%"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-top">
+      <span class="card-id">#042</span>
+      <span class="card-urgency high">high</span>
+      <span class="card-status">In Progress</span>
+    </div>
+    <div class="card-title">Manage the Jackpot City revival campaign with Michael Barnett.</div>
+    <div class="card-detail">Coffee meeting confirmed with Michael Barnett for Thursday 12 March 13:30 SAST (The Grind). Calendar invite already sent.</div>
+    
+    <div class="card-progress"><div class="card-progress-fill" style="width:40%"></div></div>
   </div>
 
   <div class="card">
@@ -484,18 +516,6 @@ body { min-height:100vh; }
     <div class="card-detail">Monday follow-up scheduled. Need status update from Clare and to communicate data source position to Corepulse.</div>
     <div class="card-blocker">1. Agreement status from Clare. 2. Final alignment with Dylan on data source answer for Corepulse.</div>
     <div class="card-progress"><div class="card-progress-fill" style="width:30%"></div></div>
-  </div>
-
-  <div class="card">
-    <div class="card-top">
-      <span class="card-id">#007</span>
-      <span class="card-urgency high">high</span>
-      <span class="card-status">In Progress</span>
-    </div>
-    <div class="card-title">Relaunch PCM channel including message copy, USSD setup and booking confirmation.</div>
-    <div class="card-detail">Brief sent to team by Ricky on 3 March. Copy drafts ready. Awaiting USSD shortcode from Donovan and copy sign-off from Gaby/Jax/Jess.</div>
-    <div class="card-blocker">USSD shortcode pending Donovan. Copy sign-off pending Gaby/Jax/Jess. Dischem and Clientele pricing placeholders need confirming.</div>
-    <div class="card-progress"><div class="card-progress-fill" style="width:20%"></div></div>
   </div>
 </div>
 <div class="section">
@@ -589,8 +609,8 @@ body { min-height:100vh; }
 
     <div class="project-card critical">
       <div class="project-name">Other</div>
-      <div class="project-stats">14 tasks &middot; 22% avg &middot; 14 blocked &middot; 2 overdue</div>
-      <div class="project-bar"><div class="project-bar-fill critical" style="width:22%"></div></div>
+      <div class="project-stats">14 tasks &middot; 24% avg &middot; 13 blocked &middot; 2 overdue</div>
+      <div class="project-bar"><div class="project-bar-fill critical" style="width:24%"></div></div>
       <div class="project-items">
 
         <div class="project-item"><span class="pi-id">#009</span> Get Mark Menzies to complete the MTN SMS bind API integration.</div>
@@ -604,8 +624,8 @@ body { min-height:100vh; }
     </div>
     <div class="project-card critical">
       <div class="project-name">MNM Channel Relaunch</div>
-      <div class="project-stats">7 tasks &middot; 47% avg &middot; 6 blocked &middot; 2 overdue</div>
-      <div class="project-bar"><div class="project-bar-fill critical" style="width:47%"></div></div>
+      <div class="project-stats">7 tasks &middot; 58% avg &middot; 5 blocked &middot; 2 overdue</div>
+      <div class="project-bar"><div class="project-bar-fill critical" style="width:58%"></div></div>
       <div class="project-items">
 
         <div class="project-item"><span class="pi-id">#006</span> Relaunch SimPush and 1Pin campaigns with necessary approvals in place.</div>
@@ -661,7 +681,7 @@ body { min-height:100vh; }
     </div>  </div>
 </div>
 <div class="section">
-  <div class="section-title">All Waiting on Response <span class="count">9</span></div>
+  <div class="section-title">All Waiting on Response <span class="count">8</span></div>
 
   <div class="card">
     <div class="card-top">
@@ -697,18 +717,6 @@ body { min-height:100vh; }
     <div class="card-detail">Customer profile v2 PDF sent by Ricky to Mark Young on 5 March. Covering email also sent. Awaiting Mark&#x27;s response and next steps.</div>
     <div class="card-blocker">Awaiting Mark Young response.</div>
     <div class="card-progress"><div class="card-progress-fill" style="width:80%"></div></div>
-  </div>
-
-  <div class="card">
-    <div class="card-top">
-      <span class="card-id">#025</span>
-      <span class="card-urgency high">high</span>
-      <span class="card-status">Waiting 4 days</span>
-    </div>
-    <div class="card-title">Send Danny the completed forecast table and OnePin update by Monday 9 March.</div>
-    <div class="card-detail">Danny response sent 5 March. Forecast Excel with Ricky to complete numbers by Monday.</div>
-    <div class="card-blocker">Ricky to complete forecast numbers by Monday.</div>
-    <div class="card-progress"><div class="card-progress-fill" style="width:70%"></div></div>
   </div>
 
   <div class="card">
@@ -772,7 +780,7 @@ body { min-height:100vh; }
   </div>
 </div>
 <div class="brief-footer">
-  Generated by Morgan &middot; 10 March 2026 at 11:14 SAST &middot;
+  Generated by Morgan &middot; 10 March 2026 at 12:16 SAST &middot;
   <a href="ops.html">Ops Platform</a> &middot;
   <a href="tasks.html">Task Dashboard</a> &middot;
   <a href="index.html">Portal</a>
@@ -783,12 +791,26 @@ body { min-height:100vh; }
 
 <script>
 const PW = "lead.connect.grow";
+function checkPw() {
+  const v = document.getElementById('pw-input').value;
+  if (v === PW) {
+    document.getElementById('gate').classList.add('hidden');
+    document.getElementById('content').classList.add('visible');
+    try { sessionStorage.setItem('3w_auth','1'); } catch(e) {}
+  } else {
+    document.getElementById('pw-err').textContent = 'Incorrect code';
+  }
+}
+document.getElementById('pw-input').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') checkPw();
+});
+// Auto-login if already authenticated
+if (sessionStorage.getItem('3w_auth') === '1') {
+  document.getElementById('gate').classList.add('hidden');
+  document.getElementById('content').classList.add('visible');
+}
+document.getElementById('pw-input').focus();
+</script>
 
-
-<style>
-#hub-pill{position:fixed;bottom:20px;left:20px;z-index:99999;display:flex;align-items:center;gap:7px;background:#FFD337;color:#022F5C;font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;padding:10px 18px;border-radius:50px;box-shadow:0 4px 20px rgba(0,0,0,.25);cursor:pointer;text-decoration:none;transition:transform .15s;}
-#hub-pill:hover{transform:translateY(-2px);}
-</style>
-<a id="hub-pill" href="/"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5.5 11.5L1.5 7.5L5.5 3.5" stroke="#022F5C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M1.5 7.5H12.5" stroke="#022F5C" stroke-width="1.8" stroke-linecap="round"/></svg>Hub</a>
 </body>
 </html>
