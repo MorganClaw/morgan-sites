@@ -1364,5 +1364,298 @@ function filterTasks(filter, btn){
   Hub
 </a>
 <!-- /HUB-PILL -->
+<!-- TASK UPDATE SYSTEM -->
+<style>
+/* Action buttons on task cards */
+.task-actions {
+  display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap;
+}
+.ta-btn {
+  font-size: 11px; font-weight: 600; font-family: inherit;
+  padding: 4px 10px; border-radius: 5px; border: 1px solid;
+  cursor: pointer; transition: all .15s; white-space: nowrap;
+  background: transparent;
+}
+.ta-btn-done   { color: #4FCE7A; border-color: rgba(79,206,122,.35); }
+.ta-btn-done:hover   { background: rgba(79,206,122,.12); }
+.ta-btn-pct    { color: #7B95FF; border-color: rgba(123,149,255,.35); }
+.ta-btn-pct:hover    { background: rgba(123,149,255,.12); }
+.ta-btn-del    { color: #FF6B6B; border-color: rgba(255,107,107,.35); }
+.ta-btn-del:hover    { background: rgba(255,107,107,.12); }
+.ta-btn-note   { color: #FFC200; border-color: rgba(255,194,0,.35); }
+.ta-btn-note:hover   { background: rgba(255,194,0,.12); }
+
+/* Queue bar */
+#update-bar {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: #0D1B3E; border-top: 2px solid #FFC200;
+  padding: 12px 20px; display: none;
+  align-items: center; justify-content: space-between;
+  gap: 12px; z-index: 9999; flex-wrap: wrap;
+  font-family: 'Syne', 'Inter', sans-serif;
+}
+#update-bar.visible { display: flex; }
+#update-bar-label {
+  color: #fff; font-size: 13px; font-weight: 600;
+}
+#update-bar-label span { color: #FFC200; }
+#update-bar-timer { color: rgba(255,255,255,.5); font-size: 11px; }
+#update-bar-items {
+  flex: 1; display: flex; flex-wrap: wrap; gap: 5px; min-width: 0;
+}
+.queue-item {
+  background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12);
+  border-radius: 4px; padding: 3px 8px; font-size: 11px; color: rgba(255,255,255,.75);
+  display: flex; align-items: center; gap: 5px;
+}
+.queue-item-remove {
+  cursor: pointer; color: rgba(255,107,107,.7); font-size: 13px; line-height: 1;
+  background: none; border: none; padding: 0; margin-left: 2px;
+}
+#update-bar-actions { display: flex; gap: 8px; flex-shrink: 0; }
+.bar-btn {
+  font-family: inherit; font-size: 12px; font-weight: 700;
+  padding: 7px 16px; border-radius: 6px; cursor: pointer;
+  border: none; transition: opacity .15s;
+}
+.bar-btn-send { background: #FFC200; color: #0D1B3E; }
+.bar-btn-send:hover { opacity: .9; }
+.bar-btn-clear { background: rgba(255,255,255,.1); color: rgba(255,255,255,.6); }
+.bar-btn-clear:hover { background: rgba(255,255,255,.15); }
+
+/* Pct modal */
+#pct-modal-bg {
+  position: fixed; inset: 0; background: rgba(0,0,0,.6);
+  z-index: 99999; display: none; align-items: center; justify-content: center;
+}
+#pct-modal-bg.open { display: flex; }
+#pct-modal {
+  background: #0D1B3E; border: 1px solid rgba(138,157,192,.2);
+  border-radius: 12px; padding: 24px; width: 300px; text-align: center;
+}
+#pct-modal h3 { font-size: 15px; color: #fff; margin-bottom: 4px; }
+#pct-modal p  { font-size: 12px; color: rgba(138,157,192,.8); margin-bottom: 16px; }
+#pct-slider   { width: 100%; margin-bottom: 8px; accent-color: #FFC200; }
+#pct-val      { font-size: 22px; font-weight: 700; color: #FFC200; margin-bottom: 16px; }
+#pct-note-input {
+  width: 100%; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.15);
+  color: #fff; font-family: inherit; font-size: 13px; padding: 8px 12px;
+  border-radius: 6px; outline: none; margin-bottom: 16px; resize: none;
+}
+.pct-modal-btns { display: flex; gap: 8px; justify-content: center; }
+.pct-modal-btns button {
+  font-family: inherit; font-size: 13px; font-weight: 600;
+  padding: 8px 20px; border-radius: 6px; border: none; cursor: pointer;
+}
+.pct-ok  { background: #FFC200; color: #0D1B3E; }
+.pct-cancel { background: rgba(255,255,255,.1); color: rgba(255,255,255,.6); }
+</style>
+
+<!-- Pct Modal -->
+<div id="pct-modal-bg">
+  <div id="pct-modal">
+    <h3 id="pct-modal-title">Update Progress</h3>
+    <p id="pct-modal-sub">Task #000</p>
+    <input type="range" id="pct-slider" min="0" max="100" step="5" value="50">
+    <div id="pct-val">50%</div>
+    <textarea id="pct-note-input" rows="2" placeholder="Optional note (optional)"></textarea>
+    <div class="pct-modal-btns">
+      <button class="pct-ok" onclick="pctConfirm()">Confirm</button>
+      <button class="pct-cancel" onclick="pctClose()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Queue Bar -->
+<div id="update-bar">
+  <div>
+    <div id="update-bar-label">Updates queued: <span id="queue-count">0</span></div>
+    <div id="update-bar-timer"></div>
+  </div>
+  <div id="update-bar-items"></div>
+  <div id="update-bar-actions">
+    <button class="bar-btn bar-btn-clear" onclick="clearQueue()">Clear</button>
+    <button class="bar-btn bar-btn-send" onclick="sendNow()">Send to Morgan</button>
+  </div>
+</div>
+
+<script>
+(function(){
+  var BOT_TOKEN = '8532850681:AAHAPZGfUGIL7PxnZmRKi0dRPennJV5pyK4';
+  var CHAT_ID   = '395421212';
+  var DELAY_MS  = 30000; // 30 seconds debounce
+
+  var queue = [];
+  var timer = null;
+  var timerInterval = null;
+  var timerEnd = 0;
+  var pctTarget = null;
+
+  // ── Inject action buttons into every task card ──────────────
+  function init() {
+    document.querySelectorAll('.task-card').forEach(function(card) {
+      var idEl = card.querySelector('.task-id');
+      if (!idEl) return;
+      var taskId = idEl.textContent.replace('#','').trim();
+      var titleEl = card.querySelector('.task-title');
+      var title = titleEl ? titleEl.textContent.trim() : 'Task #' + taskId;
+
+      var actions = document.createElement('div');
+      actions.className = 'task-actions';
+      actions.innerHTML =
+        '<button class="ta-btn ta-btn-done"  onclick="queueUpdate(\''+taskId+'\',\''+escQ(title)+'\',\'complete\',null)">✓ Done</button>' +
+        '<button class="ta-btn ta-btn-pct"   onclick="openPct(\''+taskId+'\',\''+escQ(title)+'\')">% Update</button>' +
+        '<button class="ta-btn ta-btn-note"  onclick="queueUpdate(\''+taskId+'\',\''+escQ(title)+'\',\'note\',null)">+ Note</button>' +
+        '<button class="ta-btn ta-btn-del"   onclick="queueUpdate(\''+taskId+'\',\''+escQ(title)+'\',\'delete\',null)">✕ Delete</button>';
+      card.appendChild(actions);
+    });
+  }
+
+  function escQ(s) { return s.replace(/'/g,"\\'").replace(/"/g,'&quot;').substring(0,50); }
+
+  // ── Queue an update ──────────────────────────────────────────
+  window.queueUpdate = function(taskId, title, action, extra) {
+    // For 'note' action, prompt inline
+    if (action === 'note') {
+      var note = prompt('Note for Task #' + taskId + ':');
+      if (!note) return;
+      extra = note;
+    }
+    // Remove duplicate for same task+action
+    queue = queue.filter(function(q){ return !(q.id===taskId && q.action===action); });
+    queue.push({ id: taskId, title: title, action: action, extra: extra, ts: Date.now() });
+    renderBar();
+    resetTimer();
+  };
+
+  // ── % Modal ─────────────────────────────────────────────────
+  window.openPct = function(taskId, title) {
+    pctTarget = { id: taskId, title: title };
+    document.getElementById('pct-modal-title').textContent = 'Update Progress';
+    document.getElementById('pct-modal-sub').textContent = 'Task #' + taskId + ': ' + title.substring(0,40);
+    document.getElementById('pct-note-input').value = '';
+    var slider = document.getElementById('pct-slider');
+    slider.value = 50;
+    document.getElementById('pct-val').textContent = '50%';
+    slider.oninput = function(){ document.getElementById('pct-val').textContent = slider.value + '%'; };
+    document.getElementById('pct-modal-bg').classList.add('open');
+  };
+  window.pctConfirm = function() {
+    if (!pctTarget) return;
+    var pct = document.getElementById('pct-slider').value;
+    var note = document.getElementById('pct-note-input').value.trim();
+    var extra = pct + '%' + (note ? ' — ' + note : '');
+    queueUpdate(pctTarget.id, pctTarget.title, 'progress', extra);
+    pctClose();
+  };
+  window.pctClose = function() {
+    document.getElementById('pct-modal-bg').classList.remove('open');
+    pctTarget = null;
+  };
+
+  // ── Bar rendering ────────────────────────────────────────────
+  function renderBar() {
+    var bar = document.getElementById('update-bar');
+    if (queue.length === 0) { bar.classList.remove('visible'); return; }
+    bar.classList.add('visible');
+    document.getElementById('queue-count').textContent = queue.length;
+    var itemsEl = document.getElementById('update-bar-items');
+    itemsEl.innerHTML = queue.map(function(q, i) {
+      var label = '#'+q.id+' → '+q.action+(q.extra?' ('+q.extra.substring(0,20)+')':'');
+      return '<div class="queue-item">'+label+
+        '<button class="queue-item-remove" onclick="removeQueueItem('+i+')">×</button></div>';
+    }).join('');
+  }
+
+  window.removeQueueItem = function(i) {
+    queue.splice(i, 1);
+    renderBar();
+    if (queue.length === 0) clearTimer();
+  };
+
+  window.clearQueue = function() {
+    queue = [];
+    clearTimer();
+    renderBar();
+  };
+
+  // ── Timer ───────────────────────────────────────────────────
+  function resetTimer() {
+    clearTimer();
+    timerEnd = Date.now() + DELAY_MS;
+    timer = setTimeout(sendNow, DELAY_MS);
+    timerInterval = setInterval(function(){
+      var remaining = Math.max(0, Math.ceil((timerEnd - Date.now()) / 1000));
+      var el = document.getElementById('update-bar-timer');
+      if (el) el.textContent = remaining > 0 ? 'Sending in ' + remaining + 's — or click Send now' : '';
+    }, 500);
+  }
+
+  function clearTimer() {
+    if (timer) { clearTimeout(timer); timer = null; }
+    if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
+    var el = document.getElementById('update-bar-timer');
+    if (el) el.textContent = '';
+  }
+
+  // ── Send to Telegram ─────────────────────────────────────────
+  window.sendNow = function() {
+    if (queue.length === 0) return;
+    clearTimer();
+
+    var lines = ['📋 *TASK UPDATES from Ricky*\n'];
+    queue.forEach(function(q) {
+      var icon = q.action==='complete'?'✅':q.action==='delete'?'🗑️':q.action==='progress'?'📊':'📝';
+      var line = icon + ' Task #' + q.id + ' — *' + q.action.toUpperCase() + '*';
+      if (q.extra) line += ': ' + q.extra;
+      line += '\n_' + q.title.substring(0,60) + '_';
+      lines.push(line);
+    });
+    lines.push('\n_Sent from 3Way Intelligence Hub_');
+
+    var msg = lines.join('\n');
+
+    fetch('https://api.telegram.org/bot' + BOT_TOKEN + '/sendMessage', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chat_id: CHAT_ID, text: msg, parse_mode: 'Markdown' })
+    })
+    .then(function(r){ return r.json(); })
+    .then(function(data) {
+      if (data.ok) {
+        showToast('✓ ' + queue.length + ' update' + (queue.length>1?'s':'') + ' sent to Morgan');
+        queue = [];
+        renderBar();
+      } else {
+        showToast('Failed to send — try again');
+      }
+    })
+    .catch(function(){ showToast('Network error — check connection'); });
+  };
+
+  // ── Toast ────────────────────────────────────────────────────
+  function showToast(msg) {
+    var t = document.getElementById('toast');
+    if (!t) {
+      t = document.createElement('div');
+      t.id = 'toast';
+      t.style.cssText = 'position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#1A7A3C;color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;font-weight:600;z-index:99999;transition:opacity .4s;pointer-events:none;';
+      document.body.appendChild(t);
+    }
+    t.textContent = msg;
+    t.style.opacity = '1';
+    setTimeout(function(){ t.style.opacity = '0'; }, 3000);
+  }
+
+  // Init after DOM ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>
+<!-- /TASK UPDATE SYSTEM -->
+
 </body>
 </html>
