@@ -1,2 +1,62 @@
 [build]
   publish = "."
+
+[[redirects]]
+  from = "/tasks"
+  to = "/tasks.html"
+  status = 200
+
+[[redirects]]
+  from = "/ops"
+  to = "/ops.html"
+  status = 200
+
+[[redirects]]
+  from = "/organogram"
+  to = "/team-organogram.html"
+  status = 200
+
+[[redirects]]
+  from = "/data-warehouse"
+  to = "/data-warehouse.html"
+  status = 200
+
+[[redirects]]
+  from = "/email"
+  to = "/email-performance.html"
+  status = 200
+
+[[redirects]]
+  from = "/morgan"
+  to = "/meetmorgan.html"
+  status = 200
+
+[[redirects]]
+  from = "/simpush"
+  to = "/simpush-flow.html"
+  status = 200
+
+[[redirects]]
+  from = "/vodalend"
+  to = "/vodalend-profile.html"
+  status = 200
+
+[[redirects]]
+  from = "/splitit"
+  to = "/splitit.html"
+  status = 200
+
+[[redirects]]
+  from = "/cvbuilder"
+  to = "/cvbuilder.html"
+  status = 200
+
+[[redirects]]
+  from = "/caloriesnap"
+  to = "/caloriesnap.html"
+  status = 200
+
+[[redirects]]
+  from = "/medipal"
+  to = "/medipal.html"
+  status = 200
