@@ -2,12 +2,7 @@
 <html lang="en">
 <head>
 <script>
-(function(){
-  if(localStorage.getItem('3way_session')!=='granted'){
-    location.replace('/?r='+encodeURIComponent(location.pathname+location.search));
-    return;
-  }
-})();
+(function(){if(localStorage.getItem('3way_session')!=='granted'){location.replace('/?r='+encodeURIComponent(location.pathname+location.search));return;}})();
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,7 +21,7 @@
   --surface: rgba(255,255,255,0.06);
 }
 * { margin:0; padding:0; box-sizing:border-box; }
-html,body { min-height:100vh; font-family:'Inter',sans-serif; background:var(--navy); color:var(--white); -webkit-font-smoothing:antialiased;  max-width:1200px; margin:0 auto;}
+html,body { min-height:100vh; font-family:'Inter',sans-serif; background:var(--navy); color:var(--white); -webkit-font-smoothing:antialiased; }
 body::before { content:''; position:fixed; inset:0; background-image:linear-gradient(rgba(138,157,192,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(138,157,192,.03) 1px,transparent 1px); background-size:50px 50px; pointer-events:none; z-index:0; }
 
 /* Gate */
@@ -156,7 +151,7 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
     </div>
     <div class="dash-meta">
       <div class="dash-date">Tuesday 10 March 2026</div>
-      <div class="dash-gen">Generated Tuesday 10 March 2026, 09:16 SAST</div>
+      <div class="dash-gen">Generated Tuesday 10 March 2026, 12:00 SAST</div>
     </div>
   </div>
 
@@ -168,23 +163,23 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
     </div>
     <div class="stat">
       <div class="stat-label">In Progress</div>
-      <div class="stat-value" style="color:#4058D4">11</div>
+      <div class="stat-value" style="color:#4058D4">12</div>
     </div>
     <div class="stat">
       <div class="stat-label">Waiting</div>
-      <div class="stat-value" style="color:#F59E0B">9</div>
+      <div class="stat-value" style="color:#F59E0B">8</div>
     </div>
     <div class="stat">
       <div class="stat-label">Overdue</div>
-      <div class="stat-value stat-alert">5</div>
+      <div class="stat-value stat-alert">6</div>
     </div>
     <div class="stat">
       <div class="stat-label">Blocked</div>
-      <div class="stat-value stat-alert">26</div>
+      <div class="stat-value stat-alert">24</div>
     </div>
     <div class="stat">
       <div class="stat-label">Avg Progress</div>
-      <div class="stat-value">34%</div>
+      <div class="stat-value">37%</div>
       <div class="stat-sub">28 tasks</div>
     </div>
   </div>
@@ -203,7 +198,7 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
   <!-- Attention -->
   
         <div class="attention-section">
-            <h2 class="section-heading">⚠️ Requires Attention <span class="attn-count">26</span></h2>
+            <h2 class="section-heading">⚠️ Requires Attention <span class="attn-count">25</span></h2>
             
             <div class="attn-item">
                 <div class="attn-flags"><span class="attn-flag attn-blocked">Blocked</span></div>
@@ -238,13 +233,6 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
                 <div class="attn-title">#009 — Get Mark Menzies to complete the MTN SMS bind API integration.</div>
                 <div class="attn-meta">👤 Ricky · Other</div>
                 <div class="attn-blocker">Mark working on resolution — no defined timeline.</div>
-            </div>
-            
-            <div class="attn-item">
-                <div class="attn-flags"><span class="attn-flag attn-blocked">Blocked</span></div>
-                <div class="attn-title">#010 — Complete Matagen phone scorecard review on Tuesday, pass ~1M records to Donovan </div>
-                <div class="attn-meta">👤 Ricky · Other</div>
-                <div class="attn-blocker">Tuesday meeting needed before handover to Donovan.</div>
             </div>
             
             <div class="attn-item">
@@ -297,10 +285,10 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
             </div>
             
             <div class="attn-item">
-                <div class="attn-flags"><span class="attn-flag attn-overdue">Overdue</span><span class="attn-flag attn-blocked">Blocked</span></div>
+                <div class="attn-flags"><span class="attn-flag attn-overdue">Overdue</span></div>
                 <div class="attn-title">#025 — Send Danny the completed forecast table and OnePin update by Monday 9 March.</div>
                 <div class="attn-meta">👤 Ricky · MNM Channel Relaunch</div>
-                <div class="attn-blocker">Ricky to complete forecast numbers by Monday.</div>
+                
             </div>
             
             <div class="attn-item">
@@ -360,7 +348,7 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
             </div>
             
             <div class="attn-item">
-                <div class="attn-flags"><span class="attn-flag attn-blocked">Blocked</span></div>
+                <div class="attn-flags"><span class="attn-flag attn-overdue">Overdue</span><span class="attn-flag attn-blocked">Blocked</span></div>
                 <div class="attn-title">#037 — Capture outcomes from the Monday Tracker/Vouch session and action next steps.</div>
                 <div class="attn-meta">👤 Ricky · Other</div>
                 <div class="attn-blocker">Ricky to debrief on session outcomes.</div>
@@ -370,7 +358,7 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
                 <div class="attn-flags"><span class="attn-flag attn-overdue">Overdue</span><span class="attn-flag attn-blocked">Blocked</span></div>
                 <div class="attn-title">#038 — Produce a single consolidated MNM email covering all campaigns (OnePin, SimPush,</div>
                 <div class="attn-meta">👤 Ricky · MNM Channel Relaunch</div>
-                <div class="attn-blocker">⚠️ OVERDUE — Ricky to provide forecast numbers and trigger Sally for the booking.</div>
+                <div class="attn-blocker">Sally to book 45-min alignment session with Ricky, Yoav, Dylan, Donovan.</div>
             </div>
             
             <div class="attn-item">
@@ -402,8 +390,8 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
                     <span class="project-overdue-badge">2 overdue</span>
                 </div>
                 <div class="project-progress-mini">
-                    <div class="progress-bar-mini"><div class="progress-fill-mini" style="width:48%"></div></div>
-                    <span class="progress-pct-mini">48%</span>
+                    <div class="progress-bar-mini"><div class="progress-fill-mini" style="width:59%"></div></div>
+                    <span class="progress-pct-mini">59%</span>
                 </div>
             </div>
             <div class="project-tasks">
@@ -424,12 +412,12 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
                 </div>
                 <div class="progress-wrap">
                     <div class="progress-bar">
-                        <div class="progress-fill" style="width:65%;background:#4058D4"></div>
+                        <div class="progress-fill" style="width:90%;background:#4058D4"></div>
                     </div>
-                    <span class="progress-pct">65%</span>
+                    <span class="progress-pct">90%</span>
                 </div>
-                <div class="task-activity">⚠️ OVERDUE. Draft v4 complete. Awaiting Ricky&#x27;s final forecast numbers. Replaced placeholder Michael (Jackpot City) with Michael Barnett after contact confirmed.</div>
-                <div class="task-blocker">⚠️ ⚠️ OVERDUE — Ricky to provide forecast numbers and trigger Sally for the booking.</div>
+                <div class="task-activity">Consolidated MNM forecast shared with Danny on Monday 9 March. Pending confirmation of 45-min alignment session via Sally.</div>
+                <div class="task-blocker">⚠️ Sally to book 45-min alignment session with Ricky, Yoav, Dylan, Donovan.</div>
                 <div class="deliverables"><div class="deliv-item">○ Consolidated MNM summary email with campaign status and forecasts — OVERDUE</div><div class="deliv-item">○ 45-min alignment session scheduled via Sally — Ricky, Yoav, Dylan, Donovan</div></div>
             </div>
             
@@ -438,7 +426,7 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
                     <div class="task-id">#025</div>
                     <div class="task-badges">
                         <span class="urgency-badge" style="background:#EA580C15;color:#EA580C">high</span>
-                        <span class="status-badge" style="background:#F59E0B15;color:#F59E0B">Waiting on Human</span>
+                        <span class="status-badge" style="background:#4058D415;color:#4058D4">In Progress</span>
                         <span class="dl-badge dl-overdue">OVERDUE Mon 09 Mar</span>
                     </div>
                 </div>
@@ -449,12 +437,12 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
                 </div>
                 <div class="progress-wrap">
                     <div class="progress-bar">
-                        <div class="progress-fill" style="width:70%;background:#F59E0B"></div>
+                        <div class="progress-fill" style="width:100%;background:#4058D4"></div>
                     </div>
-                    <span class="progress-pct">70%</span>
+                    <span class="progress-pct">100%</span>
                 </div>
-                <div class="task-activity">Danny response sent 5 March. Forecast Excel with Ricky to complete numbers by Monday.</div>
-                <div class="task-blocker">⚠️ Ricky to complete forecast numbers by Monday.</div>
+                <div class="task-activity">Forecast numbers completed and sent to Danny on Monday 9 March.</div>
+                
                 
             </div>
             
@@ -510,6 +498,31 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
             
             <div class="task-card">
                 <div class="task-header">
+                    <div class="task-id">#042</div>
+                    <div class="task-badges">
+                        <span class="urgency-badge" style="background:#EA580C15;color:#EA580C">high</span>
+                        <span class="status-badge" style="background:#4058D415;color:#4058D4">In Progress</span>
+                        
+                    </div>
+                </div>
+                <div class="task-title">Manage the Jackpot City revival campaign with Michael Barnett.</div>
+                <div class="task-meta">
+                    <span class="task-owner">👤 Ricky</span>
+                    <span class="task-category">communication</span>
+                </div>
+                <div class="progress-wrap">
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width:40%;background:#4058D4"></div>
+                    </div>
+                    <span class="progress-pct">40%</span>
+                </div>
+                <div class="task-activity">Coffee meeting confirmed with Michael Barnett for Thursday 12 March 13:30 SAST (The Grind). Calendar invite already sent.</div>
+                
+                <div class="deliverables"><div class="deliv-item">○ Review Michael&#x27;s 3 emails from 9 March</div><div class="deliv-item">○ Draft reply for Ricky&#x27;s review</div></div>
+            </div>
+            
+            <div class="task-card">
+                <div class="task-header">
                     <div class="task-id">#007</div>
                     <div class="task-badges">
                         <span class="urgency-badge" style="background:#EA580C15;color:#EA580C">high</span>
@@ -556,31 +569,6 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
                 <div class="task-activity">Briefs sent by Ricky on 5 March. Awaiting Mohammed&#x27;s response.</div>
                 <div class="task-blocker">⚠️ Awaiting Mohammed response.</div>
                 
-            </div>
-            
-            <div class="task-card">
-                <div class="task-header">
-                    <div class="task-id">#042</div>
-                    <div class="task-badges">
-                        <span class="urgency-badge" style="background:#EA580C15;color:#EA580C">high</span>
-                        <span class="status-badge" style="background:#4058D415;color:#4058D4">In Progress</span>
-                        
-                    </div>
-                </div>
-                <div class="task-title">Manage the Jackpot City revival campaign with Michael Barnett.</div>
-                <div class="task-meta">
-                    <span class="task-owner">👤 Ricky</span>
-                    <span class="task-category">communication</span>
-                </div>
-                <div class="progress-wrap">
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width:20%;background:#4058D4"></div>
-                    </div>
-                    <span class="progress-pct">20%</span>
-                </div>
-                <div class="task-activity">Contact established. Michael replied to Ricky&#x27;s outreach. Awaiting Ricky to review content and draft response.</div>
-                
-                <div class="deliverables"><div class="deliv-item">○ Review Michael&#x27;s 3 emails from 9 March</div><div class="deliv-item">○ Draft reply for Ricky&#x27;s review</div></div>
             </div>
             
             </div>
@@ -685,11 +673,11 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
                     <span class="project-chevron">▾</span>
                     <h2 class="project-name">Other</h2>
                     <span class="project-count">14 tasks</span>
-                    <span class="project-overdue-badge">1 overdue</span>
+                    <span class="project-overdue-badge">2 overdue</span>
                 </div>
                 <div class="project-progress-mini">
-                    <div class="progress-bar-mini"><div class="progress-fill-mini" style="width:23%"></div></div>
-                    <span class="progress-pct-mini">23%</span>
+                    <div class="progress-bar-mini"><div class="progress-fill-mini" style="width:25%"></div></div>
+                    <span class="progress-pct-mini">25%</span>
                 </div>
             </div>
             <div class="project-tasks">
@@ -717,6 +705,31 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
                 <div class="task-activity">Monday follow-up scheduled. Need status update from Clare and to communicate data source position to Corepulse.</div>
                 <div class="task-blocker">⚠️ 1. Agreement status from Clare. 2. Final alignment with Dylan on data source answer for Corepulse.</div>
                 
+            </div>
+            
+            <div class="task-card task-overdue">
+                <div class="task-header">
+                    <div class="task-id">#037</div>
+                    <div class="task-badges">
+                        <span class="urgency-badge" style="background:#2563EB15;color:#2563EB">medium</span>
+                        <span class="status-badge" style="background:#4058D415;color:#4058D4">In Progress</span>
+                        <span class="dl-badge dl-overdue">OVERDUE Tue 10 Mar</span>
+                    </div>
+                </div>
+                <div class="task-title">Capture outcomes from the Monday Tracker/Vouch session and action next steps.</div>
+                <div class="task-meta">
+                    <span class="task-owner">👤 Ricky</span>
+                    <span class="task-category">analysis</span>
+                </div>
+                <div class="progress-wrap">
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width:95%;background:#4058D4"></div>
+                    </div>
+                    <span class="progress-pct">95%</span>
+                </div>
+                <div class="task-activity">Session held 15:30 SAST today. Awaiting Ricky&#x27;s debrief on outcomes and next steps.</div>
+                <div class="task-blocker">⚠️ Ricky to debrief on session outcomes.</div>
+                <div class="deliverables"><div class="deliv-item" class="done">✅ Briefing note for Ricky covering Tracker and Vouch opportunity — DONE</div><div class="deliv-item" class="done">✅ View on 3Way&#x27;s angle and what Ricky should contribute in the session — DONE</div><div class="deliv-item" class="done">✅ Ricky reviews briefing before session — DONE</div><div class="deliv-item">○ Capture outcomes from the session — PENDING DEBRIEF</div></div>
             </div>
             
             <div class="task-card">
@@ -760,12 +773,12 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
                 </div>
                 <div class="progress-wrap">
                     <div class="progress-bar">
-                        <div class="progress-fill" style="width:60%;background:#4058D4"></div>
+                        <div class="progress-fill" style="width:85%;background:#4058D4"></div>
                     </div>
-                    <span class="progress-pct">60%</span>
+                    <span class="progress-pct">85%</span>
                 </div>
-                <div class="task-activity">Phone file scoring complete. Meeting with Matagen Tuesday morning to review new variables and confidence levels. ~1M records to be passed to Donovan post-meeting for execution.</div>
-                <div class="task-blocker">⚠️ Tuesday meeting needed before handover to Donovan.</div>
+                <div class="task-activity">Matagen meeting held Tuesday 10 March. Data card and phone scorecard ready. Passing ~1M records to Donovan for execution.</div>
+                
                 
             </div>
             
@@ -817,31 +830,6 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
                 <div class="task-activity">Ricky spoke to Mark directly on 3 March. Mark confirmed it is not simple — working on it, no defined timeline.</div>
                 <div class="task-blocker">⚠️ Mark working on resolution — no defined timeline.</div>
                 
-            </div>
-            
-            <div class="task-card">
-                <div class="task-header">
-                    <div class="task-id">#037</div>
-                    <div class="task-badges">
-                        <span class="urgency-badge" style="background:#2563EB15;color:#2563EB">medium</span>
-                        <span class="status-badge" style="background:#4058D415;color:#4058D4">In Progress</span>
-                        <span class="dl-badge dl-soon">Tue 10 Mar</span>
-                    </div>
-                </div>
-                <div class="task-title">Capture outcomes from the Monday Tracker/Vouch session and action next steps.</div>
-                <div class="task-meta">
-                    <span class="task-owner">👤 Ricky</span>
-                    <span class="task-category">analysis</span>
-                </div>
-                <div class="progress-wrap">
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width:95%;background:#4058D4"></div>
-                    </div>
-                    <span class="progress-pct">95%</span>
-                </div>
-                <div class="task-activity">Session held 15:30 SAST today. Awaiting Ricky&#x27;s debrief on outcomes and next steps.</div>
-                <div class="task-blocker">⚠️ Ricky to debrief on session outcomes.</div>
-                <div class="deliverables"><div class="deliv-item" class="done">✅ Briefing note for Ricky covering Tracker and Vouch opportunity — DONE</div><div class="deliv-item" class="done">✅ View on 3Way&#x27;s angle and what Ricky should contribute in the session — DONE</div><div class="deliv-item" class="done">✅ Ricky reviews briefing before session — DONE</div><div class="deliv-item">○ Capture outcomes from the session — PENDING DEBRIEF</div></div>
             </div>
             
             <div class="task-card">
@@ -1204,7 +1192,7 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
   </div>
 
   <div class="dash-footer">
-    3Way Group Intelligence Platform · Generated by Morgan · Tuesday 10 March 2026, 09:16 SAST
+    3Way Group Intelligence Platform · Generated by Morgan · Tuesday 10 March 2026, 12:00 SAST
   </div>
 </div>
 
@@ -1214,22 +1202,13 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
 function filterTasks(filter, btn){
   document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
-  // Filter task cards in project sections
   document.querySelectorAll('.task-card').forEach(card=>{
-    const statusEl = card.querySelector('.status-badge');
-    const urgencyEl = card.querySelector('.urgency-badge');
-    const status = statusEl ? statusEl.textContent.toLowerCase().replace(/\s/g,'_') : '';
-    const urgency = urgencyEl ? urgencyEl.textContent.toLowerCase() : '';
-    const overdue = card.classList.contains('task-overdue');
-    const show = filter==='all' || status===filter || urgency===filter || (filter==='overdue' && overdue);
+    const show = filter==='all' ||
+      card.querySelector('.status-badge')?.textContent.toLowerCase().replace(/\s/g,'_')===filter ||
+      card.querySelector('.urgency-badge')?.textContent.toLowerCase()===filter ||
+      (filter==='overdue' && card.classList.contains('task-overdue'));
     card.style.display = show ? '' : 'none';
   });
-  // Hide Requires Attention section when filtering (it duplicates cards)
-  const attnSection = document.querySelector('.attn-section, .section-heading');
-  if(attnSection){
-    const wrapper = attnSection.closest('.dashboard > div') || attnSection.parentElement;
-    if(wrapper) wrapper.style.display = filter==='all' ? '' : 'none';
-  }
   // Show/hide empty project sections
   document.querySelectorAll('.project-section').forEach(sec=>{
     const visible = sec.querySelectorAll('.task-card:not([style*="display: none"])').length;
@@ -1237,50 +1216,11 @@ function filterTasks(filter, btn){
   });
 }
 </script>
-
 <style>
-#hub-pill{position:fixed;bottom:20px;left:20px;z-index:99999;display:flex;align-items:center;gap:7px;background:#FFD337;color:#022F5C;font-family:'Outfit','Helvetica Neue',Arial,sans-serif;font-size:13px;font-weight:700;padding:10px 18px;border-radius:50px;box-shadow:0 4px 20px rgba(0,0,0,.25);cursor:pointer;text-decoration:none;transition:transform .15s ease;}
+#hub-pill{position:fixed;bottom:20px;left:20px;z-index:99999;display:flex;align-items:center;gap:7px;background:#FFD337;color:#022F5C;font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;padding:10px 18px;border-radius:50px;box-shadow:0 4px 20px rgba(0,0,0,.25);cursor:pointer;text-decoration:none;transition:transform .15s;}
 #hub-pill:hover{transform:translateY(-2px);}
 </style>
 <a id="hub-pill" href="/"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5.5 11.5L1.5 7.5L5.5 3.5" stroke="#022F5C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M1.5 7.5H12.5" stroke="#022F5C" stroke-width="1.8" stroke-linecap="round"/></svg>Hub</a>
-
-<style>
-.task-actions{display:flex;gap:6px;margin-top:12px;flex-wrap:wrap;}
-.ta-btn{font-size:11px;font-weight:600;font-family:inherit;padding:5px 11px;border-radius:5px;border:1px solid;cursor:pointer;transition:all .15s;white-space:nowrap;background:transparent;}
-.ta-done{color:#4FCE7A;border-color:rgba(79,206,122,.4);}.ta-done:hover{background:rgba(79,206,122,.12);}
-.ta-pct{color:#7B95FF;border-color:rgba(123,149,255,.4);}.ta-pct:hover{background:rgba(123,149,255,.12);}
-.ta-note{color:#FFC200;border-color:rgba(255,194,0,.4);}.ta-note:hover{background:rgba(255,194,0,.12);}
-.ta-del{color:#FF6B6B;border-color:rgba(255,107,107,.4);}.ta-del:hover{background:rgba(255,107,107,.12);}
-/* Queue bar */
-#qbar{position:fixed;bottom:0;left:0;right:0;background:#0A1628;border-top:2px solid #FFC200;padding:12px 20px;display:none;align-items:center;gap:12px;z-index:99998;flex-wrap:wrap;font-family:inherit;}
-#qbar.on{display:flex;}
-#qbar-info{flex-shrink:0;}
-#qbar-count{font-size:14px;font-weight:700;color:#fff;}
-#qbar-count span{color:#FFC200;}
-#qbar-timer{font-size:11px;color:rgba(255,255,255,.4);margin-top:2px;}
-#qbar-items{flex:1;display:flex;flex-wrap:wrap;gap:5px;}
-.qi{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:4px;padding:3px 8px;font-size:11px;color:rgba(255,255,255,.7);display:flex;align-items:center;gap:4px;}
-.qi-x{background:none;border:none;color:rgba(255,107,107,.7);cursor:pointer;font-size:14px;padding:0;line-height:1;}
-#qbar-btns{display:flex;gap:8px;flex-shrink:0;}
-.qb{font-family:inherit;font-size:12px;font-weight:700;padding:8px 16px;border-radius:6px;border:none;cursor:pointer;transition:opacity .15s;}
-.qb-send{background:#FFC200;color:#0A1628;}.qb-send:hover{opacity:.9;}
-.qb-clear{background:rgba(255,255,255,.1);color:rgba(255,255,255,.6);}
-/* Pct modal */
-#pct-bg{position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:999999;display:none;align-items:center;justify-content:center;}
-#pct-bg.on{display:flex;}
-#pct-box{background:#0D1B3E;border:1px solid rgba(138,157,192,.2);border-radius:12px;padding:28px;width:300px;text-align:center;}
-#pct-box h3{font-size:15px;color:#fff;margin-bottom:4px;}
-#pct-box p{font-size:11px;color:#8A9DC0;margin-bottom:16px;}
-#pct-slider{width:100%;margin-bottom:6px;accent-color:#FFC200;}
-#pct-num{font-size:26px;font-weight:800;color:#FFC200;margin-bottom:14px;}
-#pct-note{width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);color:#fff;font-family:inherit;font-size:13px;padding:8px 12px;border-radius:6px;outline:none;margin-bottom:16px;resize:none;}
-.pct-btns{display:flex;gap:8px;justify-content:center;}
-.pct-btns button{font-family:inherit;font-size:13px;font-weight:700;padding:8px 22px;border-radius:6px;border:none;cursor:pointer;}
-.pct-ok{background:#FFC200;color:#0D1B3E;}.pct-cancel{background:rgba(255,255,255,.1);color:rgba(255,255,255,.6);}
-/* Toast */
-#toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#1A7A3C;color:#fff;padding:10px 22px;border-radius:8px;font-size:13px;font-weight:600;z-index:999999;opacity:0;transition:opacity .4s;pointer-events:none;}
-</style>
-
 <!-- Pct Modal -->
 <div id="pct-bg">
   <div id="pct-box">
