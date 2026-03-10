@@ -1316,7 +1316,7 @@ var Q=[], timer=null, tInterval=null, tEnd=0, pctTarget=null;
 
 function initActions(){
   // Inject into both task-cards and attn-items
-  var cards = Array.from(document.querySelectorAll('.task-card, .attn-item'));
+  var cards = Array.from(document.querySelectorAll('.task-card, .attn-item, .task-row, .task-item'));
   cards.forEach(function(card){
     if(card.querySelector('.task-actions'))return;
     var idEl=card.querySelector('.task-id');
@@ -1434,6 +1434,19 @@ function showToast(msg){
 if(document.readyState==='loading'){
   document.addEventListener('DOMContentLoaded',initActions);
 }else{initActions();}
+console.log('Morgan Action System Initializing...');
+function verifyMorganButtons() {
+    const cards = document.querySelectorAll('.task-card, .attn-item, .task-row, .task-item');
+    console.log('Found ' + cards.length + ' cards/items');
+    cards.forEach(card => {
+        if (!card.querySelector('.task-actions')) {
+            console.warn('Card missing buttons, re-running initActions');
+            initActions();
+        }
+    });
+}
+window.addEventListener('load', verifyMorganButtons);
+
 </script>
 </body>
 </html>
