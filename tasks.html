@@ -1,9 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<script>
-(function(){if(localStorage.getItem('3way_session')!=='granted'){location.replace('/?r='+encodeURIComponent(location.pathname+location.search));return;}})();
-</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Task Dashboard — 3Way Group</title>
@@ -25,10 +22,20 @@ html,body { min-height:100vh; font-family:'Inter',sans-serif; background:var(--n
 body::before { content:''; position:fixed; inset:0; background-image:linear-gradient(rgba(138,157,192,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(138,157,192,.03) 1px,transparent 1px); background-size:50px 50px; pointer-events:none; z-index:0; }
 
 /* Gate */
+.gate { position:fixed; inset:0; z-index:200; display:flex; align-items:center; justify-content:center; background:var(--navy); transition:opacity .5s; padding:1.5rem; }
+.gate.gone { opacity:0; pointer-events:none; }
+.gate-box { text-align:center; max-width:380px; width:100%; }
+.gate-lock { font-size:2rem; margin-bottom:1.5rem; opacity:.4; }
+.gate-wm { font-family:'Syne',sans-serif; font-weight:800; font-size:2rem; margin-bottom:.3rem; }
 .gate-wm span { color:var(--yellow); }
+.gate-sub { font-size:.72rem; color:var(--muted); text-transform:uppercase; letter-spacing:.2em; margin-bottom:2.5rem; }
+.gate-input { width:100%; background:rgba(255,255,255,.05); border:1px solid var(--border); color:var(--white); font-family:'Inter',sans-serif; font-size:1rem; padding:.95rem 1.1rem; outline:none; transition:border-color .2s; -webkit-appearance:none; border-radius:0; }
 .gate-input:focus { border-color:var(--yellow); }
 .gate-input::placeholder { color:rgba(138,157,192,.35); }
+.gate-btn { width:100%; background:var(--yellow); color:#0A0A0A; border:none; padding:1rem; font-family:'Syne',sans-serif; font-weight:700; font-size:.9rem; letter-spacing:.08em; text-transform:uppercase; cursor:pointer; margin-top:.5rem; -webkit-appearance:none; border-radius:0; }
 .gate-btn:active { background:#cc9800; }
+.gate-err { font-size:.76rem; color:#E84C2B; margin-top:.45rem; min-height:1.1em; }
+
 /* Layout */
 .dashboard { position:relative; z-index:1; max-width:1100px; margin:0 auto; padding:24px 20px 60px; }
 
@@ -138,8 +145,6 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
 </head>
 <body>
 
-</div>
-
 <!-- Dashboard -->
 <div class="dashboard" id="dashboard">
   <div class="dash-header">
@@ -151,7 +156,7 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
     </div>
     <div class="dash-meta">
       <div class="dash-date">Tuesday 10 March 2026</div>
-      <div class="dash-gen">Generated Tuesday 10 March 2026, 12:00 SAST</div>
+      <div class="dash-gen">Generated Tuesday 10 March 2026, 12:15 SAST</div>
     </div>
   </div>
 
@@ -419,6 +424,12 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
                 <div class="task-activity">Consolidated MNM forecast shared with Danny on Monday 9 March. Pending confirmation of 45-min alignment session via Sally.</div>
                 <div class="task-blocker">⚠️ Sally to book 45-min alignment session with Ricky, Yoav, Dylan, Donovan.</div>
                 <div class="deliverables"><div class="deliv-item">○ Consolidated MNM summary email with campaign status and forecasts — OVERDUE</div><div class="deliv-item">○ 45-min alignment session scheduled via Sally — Ricky, Yoav, Dylan, Donovan</div></div>
+                <div class="task-actions" data-tid="#038">
+                  <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
+                  <button class="ta-btn ta-pct" onclick="openPct(this)">% Progress</button>
+                  <button class="ta-btn ta-note" onclick="qNote(this)">+ Note</button>
+                  <button class="ta-btn ta-del" onclick="qAdd2(this)">&#10005; Delete</button>
+                </div>
             </div>
             
             <div class="task-card task-overdue">
@@ -444,6 +455,12 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
                 <div class="task-activity">Forecast numbers completed and sent to Danny on Monday 9 March.</div>
                 
                 
+                <div class="task-actions" data-tid="#025">
+                  <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
+                  <button class="ta-btn ta-pct" onclick="openPct(this)">% Progress</button>
+                  <button class="ta-btn ta-note" onclick="qNote(this)">+ Note</button>
+                  <button class="ta-btn ta-del" onclick="qAdd2(this)">&#10005; Delete</button>
+                </div>
             </div>
             
             <div class="task-card">
@@ -469,6 +486,12 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
                 <div class="task-activity">Email and SimPush flow sent by Ricky to Zunaid on 5 March 2026. Awaiting Zunaid&#x27;s response.</div>
                 <div class="task-blocker">⚠️ Awaiting Zunaid response.</div>
                 
+                <div class="task-actions" data-tid="#012">
+                  <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
+                  <button class="ta-btn ta-pct" onclick="openPct(this)">% Progress</button>
+                  <button class="ta-btn ta-note" onclick="qNote(this)">+ Note</button>
+                  <button class="ta-btn ta-del" onclick="qAdd2(this)">&#10005; Delete</button>
+                </div>
             </div>
             
             <div class="task-card">
@@ -494,6 +517,12 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
                 <div class="task-activity">FNB suppression process parked. Moving forward with Clientele + Dischem on Silver campaign (R121.30 per lead). Danny approved. Awaiting Zunaid/Mohammed feedback.</div>
                 <div class="task-blocker">⚠️ Awaiting Zunaid response. Awaiting Mohammed confirmation on campaign setup timelines. BrandX case studies not yet reviewed (Task 024).</div>
                 <div class="deliverables"><div class="deliv-item" class="done">✅ Storm meeting attended — DONE (5 March). MTN route confirmed via Mohammed Rassool.</div><div class="deliv-item" class="done">✅ Michaela meeting attended — DONE (4 March). BrandX deck received.</div><div class="deliv-item" class="done">✅ Zunaid pitch sent — DONE (5 March). Awaiting response.</div><div class="deliv-item" class="done">✅ Mohammed briefs sent — DONE (5 March). Dischem + SmartLoan.</div><div class="deliv-item" class="done">✅ Danny forecast and update sent — DONE (5 March).</div></div>
+                <div class="task-actions" data-tid="#006">
+                  <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
+                  <button class="ta-btn ta-pct" onclick="openPct(this)">% Progress</button>
+                  <button class="ta-btn ta-note" onclick="qNote(this)">+ Note</button>
+                  <button class="ta-btn ta-del" onclick="qAdd2(this)">&#10005; Delete</button>
+                </div>
             </div>
             
             <div class="task-card">
@@ -519,6 +548,12 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
                 <div class="task-activity">Coffee meeting confirmed with Michael Barnett for Thursday 12 March 13:30 SAST (The Grind). Calendar invite already sent.</div>
                 
                 <div class="deliverables"><div class="deliv-item">○ Review Michael&#x27;s 3 emails from 9 March</div><div class="deliv-item">○ Draft reply for Ricky&#x27;s review</div></div>
+                <div class="task-actions" data-tid="#042">
+                  <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
+                  <button class="ta-btn ta-pct" onclick="openPct(this)">% Progress</button>
+                  <button class="ta-btn ta-note" onclick="qNote(this)">+ Note</button>
+                  <button class="ta-btn ta-del" onclick="qAdd2(this)">&#10005; Delete</button>
+                </div>
             </div>
             
             <div class="task-card">
@@ -544,6 +579,12 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
                 <div class="task-activity">Brief sent to team by Ricky on 3 March. Copy drafts ready. Awaiting USSD shortcode from Donovan and copy sign-off from Gaby/Jax/Jess.</div>
                 <div class="task-blocker">⚠️ USSD shortcode pending Donovan. Copy sign-off pending Gaby/Jax/Jess. Dischem and Clientele pricing placeholders need confirming.</div>
                 <div class="deliverables"><div class="deliv-item">○ Message copy finalised and approved by Gaby/Jax/Jess</div><div class="deliv-item">○ USSD shortcode confirmed by Donovan</div><div class="deliv-item">○ Pricing placeholders (Dischem, Clientele) confirmed</div><div class="deliv-item">○ Booking made through Chapelle De Hahn</div><div class="deliv-item">○ Campaigns live on Vodacom and MTN</div></div>
+                <div class="task-actions" data-tid="#007">
+                  <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
+                  <button class="ta-btn ta-pct" onclick="openPct(this)">% Progress</button>
+                  <button class="ta-btn ta-note" onclick="qNote(this)">+ Note</button>
+                  <button class="ta-btn ta-del" onclick="qAdd2(this)">&#10005; Delete</button>
+                </div>
             </div>
             
             <div class="task-card">
@@ -569,6 +610,12 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
                 <div class="task-activity">Briefs sent by Ricky on 5 March. Awaiting Mohammed&#x27;s response.</div>
                 <div class="task-blocker">⚠️ Awaiting Mohammed response.</div>
                 
+                <div class="task-actions" data-tid="#029">
+                  <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
+                  <button class="ta-btn ta-pct" onclick="openPct(this)">% Progress</button>
+                  <button class="ta-btn ta-note" onclick="qNote(this)">+ Note</button>
+                  <button class="ta-btn ta-del" onclick="qAdd2(this)">&#10005; Delete</button>
+                </div>
             </div>
             
             </div>
@@ -612,6 +659,12 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
                 <div class="task-activity">Questions sent to Poveshni. Awaiting her response.</div>
                 <div class="task-blocker">⚠️ ⚠️ OVERDUE — Deadline 7 March passed. Poveshni has not responded. Follow up in person Monday 9 March.</div>
                 <div class="deliverables"><div class="deliv-item">○ Poveshni&#x27;s answers to outstanding questions</div><div class="deliv-item">○ Verified field descriptions for Tier 1 sources</div><div class="deliv-item">○ LeadByte field triage (20-30 critical fields identified)</div><div class="deliv-item">○ Confirmation of system table exclusions</div></div>
+                <div class="task-actions" data-tid="#004">
+                  <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
+                  <button class="ta-btn ta-pct" onclick="openPct(this)">% Progress</button>
+                  <button class="ta-btn ta-note" onclick="qNote(this)">+ Note</button>
+                  <button class="ta-btn ta-del" onclick="qAdd2(this)">&#10005; Delete</button>
+                </div>
             </div>
             
             <div class="task-card">
@@ -637,6 +690,12 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
                 <div class="task-activity">Outstanding questions sent to Poveshni (Tech Ops Lead). Awaiting her response.</div>
                 <div class="task-blocker">⚠️ Awaiting Poveshni&#x27;s response to outstanding questions.</div>
                 <div class="deliverables"><div class="deliv-item">○ Per data source: table structures, field definitions, relationships</div><div class="deliv-item">○ Data volume estimates and record counts per source</div><div class="deliv-item">○ Update and access frequency per source</div><div class="deliv-item">○ Data lineage — upstream systems feeding each source</div><div class="deliv-item">○ Known data quality issues, integration challenges, and performance concerns</div></div>
+                <div class="task-actions" data-tid="#002">
+                  <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
+                  <button class="ta-btn ta-pct" onclick="openPct(this)">% Progress</button>
+                  <button class="ta-btn ta-note" onclick="qNote(this)">+ Note</button>
+                  <button class="ta-btn ta-del" onclick="qAdd2(this)">&#10005; Delete</button>
+                </div>
             </div>
             
             <div class="task-card">
@@ -662,6 +721,12 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
                 <div class="task-activity">Draft sent to Ricky&#x27;s inbox on 8 March. Awaiting Ricky sign-off before sending externally.</div>
                 <div class="task-blocker">⚠️ Awaiting Ricky sign-off. Not to be sent without explicit approval.</div>
                 <div class="deliverables"><div class="deliv-item">○ Ricky reviews draft in inbox (rickys@3waygroup.com)</div><div class="deliv-item">○ Email sent to Dylan, Danny, Yoav, Poveshni and Elucidate team</div></div>
+                <div class="task-actions" data-tid="#041">
+                  <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
+                  <button class="ta-btn ta-pct" onclick="openPct(this)">% Progress</button>
+                  <button class="ta-btn ta-note" onclick="qNote(this)">+ Note</button>
+                  <button class="ta-btn ta-del" onclick="qAdd2(this)">&#10005; Delete</button>
+                </div>
             </div>
             
             </div>
@@ -705,6 +770,12 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
                 <div class="task-activity">Monday follow-up scheduled. Need status update from Clare and to communicate data source position to Corepulse.</div>
                 <div class="task-blocker">⚠️ 1. Agreement status from Clare. 2. Final alignment with Dylan on data source answer for Corepulse.</div>
                 
+                <div class="task-actions" data-tid="#019">
+                  <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
+                  <button class="ta-btn ta-pct" onclick="openPct(this)">% Progress</button>
+                  <button class="ta-btn ta-note" onclick="qNote(this)">+ Note</button>
+                  <button class="ta-btn ta-del" onclick="qAdd2(this)">&#10005; Delete</button>
+                </div>
             </div>
             
             <div class="task-card task-overdue">
@@ -730,6 +801,12 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
                 <div class="task-activity">Session held 15:30 SAST today. Awaiting Ricky&#x27;s debrief on outcomes and next steps.</div>
                 <div class="task-blocker">⚠️ Ricky to debrief on session outcomes.</div>
                 <div class="deliverables"><div class="deliv-item" class="done">✅ Briefing note for Ricky covering Tracker and Vouch opportunity — DONE</div><div class="deliv-item" class="done">✅ View on 3Way&#x27;s angle and what Ricky should contribute in the session — DONE</div><div class="deliv-item" class="done">✅ Ricky reviews briefing before session — DONE</div><div class="deliv-item">○ Capture outcomes from the session — PENDING DEBRIEF</div></div>
+                <div class="task-actions" data-tid="#037">
+                  <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
+                  <button class="ta-btn ta-pct" onclick="openPct(this)">% Progress</button>
+                  <button class="ta-btn ta-note" onclick="qNote(this)">+ Note</button>
+                  <button class="ta-btn ta-del" onclick="qAdd2(this)">&#10005; Delete</button>
+                </div>
             </div>
             
             <div class="task-card">
@@ -755,6 +832,12 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
                 <div class="task-activity">Ricky&#x27;s role complete. Delegated to Yoav for execution. Go-live mid week of 9 March. Results due back 18 March. Monitoring only.</div>
                 <div class="task-blocker">⚠️ None — Yoav executing.</div>
                 
+                <div class="task-actions" data-tid="#023">
+                  <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
+                  <button class="ta-btn ta-pct" onclick="openPct(this)">% Progress</button>
+                  <button class="ta-btn ta-note" onclick="qNote(this)">+ Note</button>
+                  <button class="ta-btn ta-del" onclick="qAdd2(this)">&#10005; Delete</button>
+                </div>
             </div>
             
             <div class="task-card">
@@ -780,6 +863,12 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
                 <div class="task-activity">Matagen meeting held Tuesday 10 March. Data card and phone scorecard ready. Passing ~1M records to Donovan for execution.</div>
                 
                 
+                <div class="task-actions" data-tid="#010">
+                  <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
+                  <button class="ta-btn ta-pct" onclick="openPct(this)">% Progress</button>
+                  <button class="ta-btn ta-note" onclick="qNote(this)">+ Note</button>
+                  <button class="ta-btn ta-del" onclick="qAdd2(this)">&#10005; Delete</button>
+                </div>
             </div>
             
             <div class="task-card">
@@ -805,6 +894,12 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
                 <div class="task-activity">Analysis framework and brief complete (briefs/clientele_unmet_analysis_framework.md). 5 questions for Ricky to answer before Gabby starts. Gabby needs to confirm data access Monday.</div>
                 <div class="task-blocker">⚠️ Unmet file needs to be shared with Morgan by Gabby or Ricky.</div>
                 <div class="deliverables"><div class="deliv-item">○ Split unmets by data source: 3Way vs Blue Label (funeral only)</div><div class="deliv-item">○ Split unmets by age band: under 30 vs over 30 (normalised to Laura&#x27;s over-30 cutoff)</div><div class="deliv-item">○ Split unmets by lead segment: phones, loans, profiled (8k income)</div><div class="deliv-item">○ DebiCheck vs non-DebiCheck performance breakdown</div><div class="deliv-item">○ Summary of learnings and recommendations for April onwards</div></div>
+                <div class="task-actions" data-tid="#036">
+                  <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
+                  <button class="ta-btn ta-pct" onclick="openPct(this)">% Progress</button>
+                  <button class="ta-btn ta-note" onclick="qNote(this)">+ Note</button>
+                  <button class="ta-btn ta-del" onclick="qAdd2(this)">&#10005; Delete</button>
+                </div>
             </div>
             
             <div class="task-card">
@@ -830,6 +925,12 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
                 <div class="task-activity">Ricky spoke to Mark directly on 3 March. Mark confirmed it is not simple — working on it, no defined timeline.</div>
                 <div class="task-blocker">⚠️ Mark working on resolution — no defined timeline.</div>
                 
+                <div class="task-actions" data-tid="#009">
+                  <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
+                  <button class="ta-btn ta-pct" onclick="openPct(this)">% Progress</button>
+                  <button class="ta-btn ta-note" onclick="qNote(this)">+ Note</button>
+                  <button class="ta-btn ta-del" onclick="qAdd2(this)">&#10005; Delete</button>
+                </div>
             </div>
             
             <div class="task-card">
@@ -855,6 +956,12 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
                 <div class="task-activity">Brief prepared at briefs/gabriel_lead_exercise_brief.md. Deadline pushed out — Task 036 (Clientele unmet/Mahen POC analysis) takes priority for Gabby.</div>
                 <div class="task-blocker">⚠️ Deprioritised pending Task 036 completion. Revised deadline TBC.</div>
                 
+                <div class="task-actions" data-tid="#020">
+                  <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
+                  <button class="ta-btn ta-pct" onclick="openPct(this)">% Progress</button>
+                  <button class="ta-btn ta-note" onclick="qNote(this)">+ Note</button>
+                  <button class="ta-btn ta-del" onclick="qAdd2(this)">&#10005; Delete</button>
+                </div>
             </div>
             
             <div class="task-card">
@@ -880,6 +987,12 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
                 <div class="task-activity">Ricky sent WhatsApp on 5 March. Awaiting David&#x27;s response.</div>
                 <div class="task-blocker">⚠️ Awaiting David response to WhatsApp.</div>
                 <div class="deliverables"><div class="deliv-item">○ David responds to Ricky&#x27;s WhatsApp</div><div class="deliv-item">○ Meeting date and time confirmed</div></div>
+                <div class="task-actions" data-tid="#033">
+                  <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
+                  <button class="ta-btn ta-pct" onclick="openPct(this)">% Progress</button>
+                  <button class="ta-btn ta-note" onclick="qNote(this)">+ Note</button>
+                  <button class="ta-btn ta-del" onclick="qAdd2(this)">&#10005; Delete</button>
+                </div>
             </div>
             
             <div class="task-card">
@@ -905,6 +1018,12 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
                 <div class="task-activity">Data received from Yaba, not yet actioned.</div>
                 <div class="task-blocker">⚠️ Ricky to extract positives and negatives and pass to team</div>
                 
+                <div class="task-actions" data-tid="#011">
+                  <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
+                  <button class="ta-btn ta-pct" onclick="openPct(this)">% Progress</button>
+                  <button class="ta-btn ta-note" onclick="qNote(this)">+ Note</button>
+                  <button class="ta-btn ta-del" onclick="qAdd2(this)">&#10005; Delete</button>
+                </div>
             </div>
             
             <div class="task-card">
@@ -930,6 +1049,12 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
                 <div class="task-activity">Ricky will action next week (week of 9 March).</div>
                 <div class="task-blocker">⚠️ Awaiting Ricky — week of 9 March</div>
                 
+                <div class="task-actions" data-tid="#013">
+                  <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
+                  <button class="ta-btn ta-pct" onclick="openPct(this)">% Progress</button>
+                  <button class="ta-btn ta-note" onclick="qNote(this)">+ Note</button>
+                  <button class="ta-btn ta-del" onclick="qAdd2(this)">&#10005; Delete</button>
+                </div>
             </div>
             
             <div class="task-card">
@@ -955,6 +1080,12 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
                 <div class="task-activity">Agreed with Dylan on 5 March. Zalman to set up workspace. Ricky to start next week.</div>
                 <div class="task-blocker">⚠️ Zalman to set up open plan workspace.</div>
                 
+                <div class="task-actions" data-tid="#028">
+                  <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
+                  <button class="ta-btn ta-pct" onclick="openPct(this)">% Progress</button>
+                  <button class="ta-btn ta-note" onclick="qNote(this)">+ Note</button>
+                  <button class="ta-btn ta-del" onclick="qAdd2(this)">&#10005; Delete</button>
+                </div>
             </div>
             
             <div class="task-card">
@@ -980,6 +1111,12 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
                 <div class="task-activity">Discovered via email analysis. Not previously tracked. Need Ricky to brief Morgan on current status, deliverables, and what support is needed.</div>
                 <div class="task-blocker">⚠️ Ricky to brief Morgan on current IDM Group POC status.</div>
                 
+                <div class="task-actions" data-tid="#030">
+                  <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
+                  <button class="ta-btn ta-pct" onclick="openPct(this)">% Progress</button>
+                  <button class="ta-btn ta-note" onclick="qNote(this)">+ Note</button>
+                  <button class="ta-btn ta-del" onclick="qAdd2(this)">&#10005; Delete</button>
+                </div>
             </div>
             
             <div class="task-card">
@@ -1005,6 +1142,12 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
                 <div class="task-activity">Commitment identified from email analysis. Status unknown. Ricky to confirm whether this has been actioned or is still pending.</div>
                 <div class="task-blocker">⚠️ Ricky to confirm status.</div>
                 
+                <div class="task-actions" data-tid="#031">
+                  <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
+                  <button class="ta-btn ta-pct" onclick="openPct(this)">% Progress</button>
+                  <button class="ta-btn ta-note" onclick="qNote(this)">+ Note</button>
+                  <button class="ta-btn ta-del" onclick="qAdd2(this)">&#10005; Delete</button>
+                </div>
             </div>
             
             <div class="task-card">
@@ -1030,6 +1173,12 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
                 <div class="task-activity">Not yet actioned. Ricky to approach Sally to schedule.</div>
                 <div class="task-blocker">⚠️ Ricky to initiate with Sally.</div>
                 <div class="deliverables"><div class="deliv-item">○ Ricky asks Sally to schedule 1:1 with Danny</div><div class="deliv-item">○ Meeting confirmed in diary</div><div class="deliv-item">○ 1:1 held</div></div>
+                <div class="task-actions" data-tid="#034">
+                  <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
+                  <button class="ta-btn ta-pct" onclick="openPct(this)">% Progress</button>
+                  <button class="ta-btn ta-note" onclick="qNote(this)">+ Note</button>
+                  <button class="ta-btn ta-del" onclick="qAdd2(this)">&#10005; Delete</button>
+                </div>
             </div>
             
             </div>
@@ -1073,6 +1222,12 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
                 <div class="task-activity">Customer profile v2 PDF sent by Ricky to Mark Young on 5 March. Covering email also sent. Awaiting Mark&#x27;s response and next steps.</div>
                 <div class="task-blocker">⚠️ Awaiting Mark Young response.</div>
                 
+                <div class="task-actions" data-tid="#014">
+                  <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
+                  <button class="ta-btn ta-pct" onclick="openPct(this)">% Progress</button>
+                  <button class="ta-btn ta-note" onclick="qNote(this)">+ Note</button>
+                  <button class="ta-btn ta-del" onclick="qAdd2(this)">&#10005; Delete</button>
+                </div>
             </div>
             
             </div>
@@ -1116,6 +1271,12 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
                 <div class="task-activity">Email sent by Ricky from Outlook ~20:18 UTC 4 March. Awaiting replies from Dylan, Danny, Yoav, Stefano, Lance.</div>
                 <div class="task-blocker">⚠️ Awaiting leadership responses.</div>
                 
+                <div class="task-actions" data-tid="#032">
+                  <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
+                  <button class="ta-btn ta-pct" onclick="openPct(this)">% Progress</button>
+                  <button class="ta-btn ta-note" onclick="qNote(this)">+ Note</button>
+                  <button class="ta-btn ta-del" onclick="qAdd2(this)">&#10005; Delete</button>
+                </div>
             </div>
             
             <div class="task-card">
@@ -1141,6 +1302,12 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
                 <div class="task-activity">Ops platform live with all 3 modules + task dashboard + daily brief. 7 live pages in portal. Remaining: Supabase backend, visual design from company decks, proposal templates.</div>
                 <div class="task-blocker">⚠️ Company decks (Ricky sharing Monday). Supabase project credentials.</div>
                 <div class="deliverables"><div class="deliv-item" class="done">✅ Database schema designed — DONE (ops_platform/SCHEMA.md)</div><div class="deliv-item" class="done">✅ Dashboard shell with left-side navigation — DONE</div><div class="deliv-item" class="done">✅ Stakeholder Tracker module with health scoring, search, filter, detail panel, interaction logging — DONE (36 contacts seeded)</div><div class="deliv-item" class="done">✅ Meeting Prep module — DONE (CRUD, attendees, briefs, notes, action items)</div><div class="deliv-item" class="done">✅ Proposal Builder module — DONE (CRUD, client linking, status tracking)</div></div>
+                <div class="task-actions" data-tid="#040">
+                  <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
+                  <button class="ta-btn ta-pct" onclick="openPct(this)">% Progress</button>
+                  <button class="ta-btn ta-note" onclick="qNote(this)">+ Note</button>
+                  <button class="ta-btn ta-del" onclick="qAdd2(this)">&#10005; Delete</button>
+                </div>
             </div>
             
             </div>
@@ -1184,6 +1351,12 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
                 <div class="task-activity">Not yet started. Due date 27 March 2026.</div>
                 
                 
+                <div class="task-actions" data-tid="#026">
+                  <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
+                  <button class="ta-btn ta-pct" onclick="openPct(this)">% Progress</button>
+                  <button class="ta-btn ta-note" onclick="qNote(this)">+ Note</button>
+                  <button class="ta-btn ta-del" onclick="qAdd2(this)">&#10005; Delete</button>
+                </div>
             </div>
             
             </div>
@@ -1192,49 +1365,56 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
   </div>
 
   <div class="dash-footer">
-    3Way Group Intelligence Platform · Generated by Morgan · Tuesday 10 March 2026, 12:00 SAST
+    3Way Group Intelligence Platform · Generated by Morgan · Tuesday 10 March 2026, 12:15 SAST
   </div>
 </div>
 
-<script>
-
-// Filters
-function filterTasks(filter, btn){
-  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  // Hide Requires Attention section when filtering
-  const attnHeading = document.querySelector('.section-heading');
-  if(attnHeading && attnHeading.parentElement){
-    attnHeading.parentElement.style.display = filter==='all' ? '' : 'none';
-  }
-  // Filter task cards
-  document.querySelectorAll('.task-card').forEach(card=>{
-    const status = card.querySelector('.status-badge')?.textContent.toLowerCase().replace(/\s/g,'_') || '';
-    const urgency = card.querySelector('.urgency-badge')?.textContent.toLowerCase() || '';
-    const overdue = card.classList.contains('task-overdue');
-    const show = filter==='all' || status===filter || urgency===filter || (filter==='overdue' && overdue);
-    card.style.display = show ? '' : 'none';
-  });
-  // Show/hide empty project sections
-  document.querySelectorAll('.project-section').forEach(sec=>{
-    const visible = sec.querySelectorAll('.task-card:not([style*="display: none"])').length;
-    sec.style.display = visible > 0 || filter==='all' ? '' : 'none';
-  });
-}
-</script>
 <style>
-#hub-pill{position:fixed;bottom:20px;left:20px;z-index:99999;display:flex;align-items:center;gap:7px;background:#FFD337;color:#022F5C;font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;padding:10px 18px;border-radius:50px;box-shadow:0 4px 20px rgba(0,0,0,.25);cursor:pointer;text-decoration:none;transition:transform .15s;}
+/* Task action buttons */
+.task-actions{display:flex;gap:6px;margin-top:12px;flex-wrap:wrap;}
+.ta-btn{font-size:11px;font-weight:600;font-family:inherit;padding:5px 11px;border-radius:5px;border:1px solid;cursor:pointer;transition:all .15s;white-space:nowrap;background:transparent;}
+.ta-done{color:#4FCE7A;border-color:rgba(79,206,122,.4);}.ta-done:hover{background:rgba(79,206,122,.12);}
+.ta-pct{color:#7B95FF;border-color:rgba(123,149,255,.4);}.ta-pct:hover{background:rgba(123,149,255,.12);}
+.ta-note{color:#FFC200;border-color:rgba(255,194,0,.4);}.ta-note:hover{background:rgba(255,194,0,.12);}
+.ta-del{color:#FF6B6B;border-color:rgba(255,107,107,.4);}.ta-del:hover{background:rgba(255,107,107,.12);}
+/* Queue bar */
+#qbar{position:fixed;bottom:0;left:0;right:0;background:#0A1628;border-top:2px solid #FFC200;padding:12px 20px;display:none;align-items:center;gap:12px;z-index:9999;flex-wrap:wrap;font-family:inherit;}
+#qbar.on{display:flex;}
+#qbar-count{font-size:14px;font-weight:700;color:#fff;}
+#qbar-count span{color:#FFC200;}
+#qbar-timer{font-size:11px;color:rgba(255,255,255,.4);margin-top:2px;}
+#qbar-items{flex:1;display:flex;flex-wrap:wrap;gap:5px;}
+.qi{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:4px;padding:3px 8px;font-size:11px;color:rgba(255,255,255,.7);display:flex;align-items:center;gap:4px;}
+.qi-x{background:none;border:none;color:rgba(255,107,107,.7);cursor:pointer;font-size:14px;padding:0;line-height:1;}
+#qbar-btns{display:flex;gap:8px;flex-shrink:0;}
+.qb{font-family:inherit;font-size:12px;font-weight:700;padding:8px 16px;border-radius:6px;border:none;cursor:pointer;}
+.qb-send{background:#FFC200;color:#0A1628;}.qb-clear{background:rgba(255,255,255,.1);color:rgba(255,255,255,.6);}
+/* Pct Modal */
+#pct-bg{position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:99999;display:none;align-items:center;justify-content:center;}
+#pct-bg.on{display:flex;}
+#pct-box{background:#0D1B3E;border:1px solid rgba(138,157,192,.2);border-radius:12px;padding:28px;width:300px;text-align:center;}
+#pct-box h3{font-size:15px;color:#fff;margin-bottom:4px;}
+#pct-box p{font-size:11px;color:#8A9DC0;margin-bottom:16px;}
+#pct-slider{width:100%;margin-bottom:6px;accent-color:#FFC200;}
+#pct-num{font-size:26px;font-weight:800;color:#FFC200;margin-bottom:14px;}
+#pct-note-inp{width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);color:#fff;font-family:inherit;font-size:13px;padding:8px 12px;border-radius:6px;outline:none;margin-bottom:16px;resize:none;}
+.pct-btns{display:flex;gap:8px;justify-content:center;}
+.pct-btns button{font-family:inherit;font-size:13px;font-weight:700;padding:8px 22px;border-radius:6px;border:none;cursor:pointer;}
+.pct-ok{background:#FFC200;color:#0D1B3E;}.pct-cancel{background:rgba(255,255,255,.1);color:rgba(255,255,255,.6);}
+#toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#1A7A3C;color:#fff;padding:10px 22px;border-radius:8px;font-size:13px;font-weight:600;z-index:99999;opacity:0;transition:opacity .4s;pointer-events:none;}
+/* Hub pill */
+#hub-pill{position:fixed;bottom:20px;left:20px;z-index:9998;display:flex;align-items:center;gap:7px;background:#FFD337;color:#022F5C;font-family:'Outfit','Helvetica Neue',Arial,sans-serif;font-size:13px;font-weight:700;padding:10px 18px;border-radius:50px;box-shadow:0 4px 20px rgba(0,0,0,.25);cursor:pointer;text-decoration:none;transition:transform .15s;}
 #hub-pill:hover{transform:translateY(-2px);}
 </style>
-<a id="hub-pill" href="/"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5.5 11.5L1.5 7.5L5.5 3.5" stroke="#022F5C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M1.5 7.5H12.5" stroke="#022F5C" stroke-width="1.8" stroke-linecap="round"/></svg>Hub</a>
+
 <!-- Pct Modal -->
 <div id="pct-bg">
   <div id="pct-box">
     <h3>Update Progress</h3>
-    <p id="pct-sub">Task #000</p>
+    <p id="pct-sub"></p>
     <input type="range" id="pct-slider" min="0" max="100" step="5" value="50" oninput="document.getElementById('pct-num').textContent=this.value+'%'">
     <div id="pct-num">50%</div>
-    <textarea id="pct-note" rows="2" placeholder="Optional note..."></textarea>
+    <textarea id="pct-note-inp" rows="2" placeholder="Optional note..."></textarea>
     <div class="pct-btns">
       <button class="pct-ok" onclick="pctOK()">Confirm</button>
       <button class="pct-cancel" onclick="pctClose()">Cancel</button>
@@ -1244,7 +1424,7 @@ function filterTasks(filter, btn){
 
 <!-- Queue Bar -->
 <div id="qbar">
-  <div id="qbar-info">
+  <div>
     <div id="qbar-count">Queued: <span id="qc">0</span></div>
     <div id="qbar-timer"></div>
   </div>
@@ -1256,140 +1436,148 @@ function filterTasks(filter, btn){
 </div>
 <div id="toast"></div>
 
+<!-- Hub Pill -->
+<a id="hub-pill" href="/"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5.5 11.5L1.5 7.5L5.5 3.5" stroke="#022F5C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M1.5 7.5H12.5" stroke="#022F5C" stroke-width="1.8" stroke-linecap="round"/></svg>Hub</a>
+
 <script>
+// Auth
+(function(){
+  if(localStorage.getItem('3way_session')!=='granted'){
+    location.replace('/?r='+encodeURIComponent(location.pathname+location.search));
+  }
+})();
+
+// Filters
+function filterTasks(filter, btn){
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  var attnSec = document.querySelector('.attention-section');
+  if(attnSec) attnSec.style.display = filter==='all' ? '' : 'none';
+  document.querySelectorAll('.task-card').forEach(function(card){
+    var status = (card.querySelector('.status-badge')||{}).textContent||'';
+    status = status.toLowerCase().replace(/\s/g,'_');
+    var urgency = (card.querySelector('.urgency-badge')||{}).textContent||'';
+    urgency = urgency.toLowerCase();
+    var overdue = card.classList.contains('task-overdue');
+    var show = filter==='all' || status===filter || urgency===filter || (filter==='overdue' && overdue);
+    card.style.display = show ? '' : 'none';
+  });
+  document.querySelectorAll('.project-section').forEach(function(sec){
+    var visible = sec.querySelectorAll('.task-card:not([style*="display: none"])').length;
+    sec.style.display = visible > 0 || filter==='all' ? '' : 'none';
+  });
+}
+
+// Queue system
 var BOT='8532850681:AAHAPZGfUGIL7PxnZmRKi0dRPennJV5pyK4', CID='395421212';
 var Q=[], timer=null, tInterval=null, tEnd=0, pctTarget=null;
 
-function initActions(){
-  // Inject into both task-cards and attn-items
-  var cards = Array.from(document.querySelectorAll('.task-card, .attn-item, .task-row, .task-item'));
-  cards.forEach(function(card){
-    if(card.querySelector('.task-actions'))return;
-    var idEl=card.querySelector('.task-id');
-    // For attn-items, extract ID from title text
-    var id = '';
-    if(idEl){ id = idEl.textContent.replace('#','').trim(); }
-    else {
-      var titleEl2 = card.querySelector('.attn-title');
-      if(titleEl2){ var m = titleEl2.textContent.match(/#(\d+)/); if(m) id = m[1]; }
-    }
-    if(!id)return;
-    var titleEl=card.querySelector('.task-title,.attn-title,.task-name');
-    var title=titleEl?titleEl.textContent.trim().replace(/^#\d+\s*[—-]\s*/,'').substring(0,50):'Task #'+id;
-    var div=document.createElement('div');
-    div.className='task-actions';
-    div.innerHTML=
-      '<button class="ta-btn ta-done" onclick="qAdd(''+id+'',''+esc(title)+'','COMPLETE',null)">&#10003; Done</button>'+
-      '<button class="ta-btn ta-pct" onclick="openPct(''+id+'',''+esc(title)+'')">% Progress</button>'+
-      '<button class="ta-btn ta-note" onclick="qNote(''+id+'',''+esc(title)+'')">+ Note</button>'+
-      '<button class="ta-btn ta-del" onclick="qAdd(''+id+'',''+esc(title)+'','DELETE',null)">&#10005; Delete</button>';
-    card.appendChild(div);
-  });
+function getCardInfo(btn){
+  var card = btn.closest('.task-card');
+  var actionsDiv = card.querySelector('.task-actions');
+  var tid = actionsDiv.getAttribute('data-tid') || '';
+  var titleEl = card.querySelector('.task-title');
+  var title = titleEl ? titleEl.textContent.trim().substring(0,50) : tid;
+  return {id: tid.replace('#',''), title: title};
 }
 
-function esc(s){return s.replace(/'/g,"\'").replace(/"/g,'&quot;');}
-
-function qAdd(id,title,action,extra){
-  Q=Q.filter(function(q){return !(q.id===id&&q.action===action);});
-  Q.push({id:id,title:title,action:action,extra:extra});
-  renderBar(); resetTimer();
+function qAdd(btn){
+  var info = getCardInfo(btn);
+  pushQ(info.id, info.title, 'COMPLETE', null);
 }
-function qNote(id,title){
-  var n=prompt('Add note for Task #'+id+':');
-  if(n)qAdd(id,title,'NOTE',n);
+function qAdd2(btn){
+  var info = getCardInfo(btn);
+  pushQ(info.id, info.title, 'DELETE', null);
 }
-function openPct(id,title){
-  pctTarget={id:id,title:title};
-  document.getElementById('pct-sub').textContent='Task #'+id+': '+title.substring(0,40);
-  document.getElementById('pct-slider').value=50;
-  document.getElementById('pct-num').textContent='50%';
-  document.getElementById('pct-note').value='';
+function qNote(btn){
+  var info = getCardInfo(btn);
+  var n = prompt('Add note for Task ' + info.id + ':');
+  if(n) pushQ(info.id, info.title, 'NOTE', n);
+}
+function openPct(btn){
+  pctTarget = getCardInfo(btn);
+  document.getElementById('pct-sub').textContent = 'Task ' + pctTarget.id + ': ' + pctTarget.title;
+  document.getElementById('pct-slider').value = 50;
+  document.getElementById('pct-num').textContent = '50%';
+  document.getElementById('pct-note-inp').value = '';
   document.getElementById('pct-bg').classList.add('on');
 }
 function pctOK(){
-  if(!pctTarget)return;
-  var pct=document.getElementById('pct-slider').value;
-  var n=document.getElementById('pct-note').value.trim();
-  qAdd(pctTarget.id,pctTarget.title,'PROGRESS',pct+'%'+(n?' — '+n:''));
+  if(!pctTarget) return;
+  var pct = document.getElementById('pct-slider').value;
+  var n = document.getElementById('pct-note-inp').value.trim();
+  pushQ(pctTarget.id, pctTarget.title, 'PROGRESS', pct + '%' + (n ? ' — ' + n : ''));
   pctClose();
 }
-function pctClose(){document.getElementById('pct-bg').classList.remove('on');pctTarget=null;}
+function pctClose(){ document.getElementById('pct-bg').classList.remove('on'); pctTarget=null; }
+
+function pushQ(id, title, action, extra){
+  Q = Q.filter(function(q){ return !(q.id===id && q.action===action); });
+  Q.push({id:id, title:title, action:action, extra:extra});
+  renderBar(); resetTimer();
+}
 
 function renderBar(){
-  var bar=document.getElementById('qbar');
-  if(!Q.length){bar.classList.remove('on');return;}
+  var bar = document.getElementById('qbar');
+  if(!Q.length){ bar.classList.remove('on'); return; }
   bar.classList.add('on');
-  document.getElementById('qc').textContent=Q.length;
-  document.getElementById('qbar-items').innerHTML=Q.map(function(q,i){
+  document.getElementById('qc').textContent = Q.length;
+  document.getElementById('qbar-items').innerHTML = Q.map(function(q,i){
     return '<div class="qi">#'+q.id+' → '+q.action+(q.extra?' ('+q.extra.substring(0,20)+')':'')+
-      '<button class="qi-x" onclick="removeQ('+i+')">×</button></div>';
+      '<button class="qi-x" onclick="removeQ('+i+')">x</button></div>';
   }).join('');
 }
-function removeQ(i){Q.splice(i,1);renderBar();if(!Q.length)clearTimer();}
-function clearQ(){Q=[];clearTimer();renderBar();}
+function removeQ(i){ Q.splice(i,1); renderBar(); if(!Q.length) clearTimer(); }
+function clearQ(){ Q=[]; clearTimer(); renderBar(); }
 
 function resetTimer(){
   clearTimer();
-  tEnd=Date.now()+30000;
-  timer=setTimeout(sendQ,30000);
-  tInterval=setInterval(function(){
-    var r=Math.max(0,Math.ceil((tEnd-Date.now())/1000));
-    var el=document.getElementById('qbar-timer');
-    if(el)el.textContent=r>0?'Sending in '+r+'s  •  or tap Send now':'';
-  },500);
+  tEnd = Date.now() + 30000;
+  timer = setTimeout(sendQ, 30000);
+  tInterval = setInterval(function(){
+    var r = Math.max(0, Math.ceil((tEnd - Date.now())/1000));
+    var el = document.getElementById('qbar-timer');
+    if(el) el.textContent = r>0 ? 'Sending in '+r+'s  •  or tap Send now' : '';
+  }, 500);
 }
 function clearTimer(){
-  if(timer)clearTimeout(timer);
-  if(tInterval)clearInterval(tInterval);
-  timer=tInterval=null;
-  var el=document.getElementById('qbar-timer');
-  if(el)el.textContent='';
+  if(timer) clearTimeout(timer);
+  if(tInterval) clearInterval(tInterval);
+  timer = tInterval = null;
+  var el = document.getElementById('qbar-timer');
+  if(el) el.textContent = '';
 }
 
 function sendQ(){
-  if(!Q.length)return;
+  if(!Q.length) return;
   clearTimer();
-  var lines=['📋 *TASK UPDATES from Ricky*\n'];
+  var lines = ['*TASK UPDATES from Ricky*
+'];
+  var icons = {COMPLETE:'[DONE]', DELETE:'[DEL]', PROGRESS:'[PCT]', NOTE:'[NOTE]'};
   Q.forEach(function(q){
-    var icons={COMPLETE:'✅',DELETE:'🗑️',PROGRESS:'📊',NOTE:'📝'};
-    var line=(icons[q.action]||'•')+' Task #'+q.id+' — *'+q.action+'*';
-    if(q.extra)line+=': '+q.extra;
-    line+='\n_'+q.title+'_';
+    var line = (icons[q.action]||'•') + ' Task #'+q.id+' — *'+q.action+'*';
+    if(q.extra) line += ': '+q.extra;
+    line += '
+_'+q.title+'_';
     lines.push(line);
   });
-  lines.push('\n_Sent from 3Way Intelligence Hub_');
+  lines.push('
+_Sent from 3Way Intelligence Hub_');
   fetch('https://api.telegram.org/bot'+BOT+'/sendMessage',{
-    method:'POST',headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({chat_id:CID,text:lines.join('
-'),parse_mode:'Markdown'})
-  }).then(function(r){return r.json();}).then(function(d){
-    if(d.ok){showToast('✓ '+Q.length+' update'+(Q.length>1?'s':'')+' sent to Morgan');Q=[];renderBar();}
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({chat_id:CID, text:lines.join('
+'), parse_mode:'Markdown'})
+  }).then(function(r){ return r.json(); }).then(function(d){
+    if(d.ok){ showToast('✓ '+Q.length+' update'+(Q.length>1?'s':'')+' sent'); Q=[]; renderBar(); }
     else showToast('Failed — try again');
-  }).catch(function(){showToast('Network error');});
+  }).catch(function(){ showToast('Network error'); });
 }
 
 function showToast(msg){
-  var t=document.getElementById('toast');
-  t.textContent=msg;t.style.opacity='1';
-  setTimeout(function(){t.style.opacity='0';},3000);
+  var t = document.getElementById('toast');
+  t.textContent = msg; t.style.opacity = '1';
+  setTimeout(function(){ t.style.opacity='0'; }, 3000);
 }
-
-if(document.readyState==='loading'){
-  document.addEventListener('DOMContentLoaded',initActions);
-}else{initActions();}
-console.log('Morgan Action System Initializing...');
-function verifyMorganButtons() {
-    const cards = document.querySelectorAll('.task-card, .attn-item, .task-row, .task-item');
-    console.log('Found ' + cards.length + ' cards/items');
-    cards.forEach(card => {
-        if (!card.querySelector('.task-actions')) {
-            console.warn('Card missing buttons, re-running initActions');
-            initActions();
-        }
-    });
-}
-window.addEventListener('load', verifyMorganButtons);
-
 </script>
 </body>
 </html>
