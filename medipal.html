@@ -1,7 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
-<head><script src="/auth.js"></script>
-<meta charset="UTF-8">
+<head>
+<script>
+(function(){
+  if(localStorage.getItem('3way_session')!=='granted'){
+    location.replace('/?r='+encodeURIComponent(location.pathname+location.search));
+    return;
+  }
+  // Set every legacy auth key so old gate JS thinks user is authenticated
+  var keys=['morgan_auth','morgan_tasks_auth','3w_auth','dw_auth','K'];
+  keys.forEach(function(k){ try{sessionStorage.setItem(k,'1');}catch(e){} });
+
+  // Inject CSS to hide gate overlays immediately
+  var s=document.createElement('style');
+  s.id='gate-killer-css';
+  s.textContent=
+    '#pw-gate,#gate,#_gate,.gate,.pw-gate,'+
+    '[id*="gate"],[id*="pw-gate"],'+
+    '.pw-overlay,.auth-overlay,.lock-screen{display:none!important;visibility:hidden!important;}'+
+    'body{overflow:auto!important;}'+
+    '#app{display:flex!important;}'+
+    '#main,#content,.app,.main,.content{display:block!important;opacity:1!important;}';
+  document.head.appendChild(s);
+
+  // After DOM ready — remove gate elements and fix overflow
+  document.addEventListener('DOMContentLoaded',function(){
+    // Kill any element containing a password input that is fixed/absolute positioned
+    document.querySelectorAll('input[type="password"]').forEach(function(inp){
+      var el=inp;
+      for(var i=0;i<10;i++){
+        el=el.parentElement;
+        if(!el)break;
+        try{
+          var cs=getComputedStyle(el);
+          if((cs.position==='fixed'||cs.position==='absolute')&&(parseInt(cs.zIndex)||0)>5){
+            el.remove(); break;
+          }
+        }catch(e){}
+      }
+    });
+    // Remove by known IDs
+    ['pw-gate','gate','_gate','password-gate','auth-gate','login-gate','pw-overlay','auth-overlay'].forEach(function(id){
+      var el=document.getElementById(id);
+      if(el)el.remove();
+    });
+    document.body.style.overflow='';
+    document.body.style.overflowY='';
+  });
+})();
+</script>
+<script>
+// Gate Killer — runs before page paints
+(function(){
+  if(localStorage.getItem('3way_session')!=='granted'){
+    var d=encodeURIComponent(location.pathname+location.search);
+    location.replace('/?r='+d);
+    return;
+  }
+  // Hide gate elements immediately via style injection
+  var s=document.createElement('style');
+  s.textContent=
+    '#pw-gate,#gate,#_gate,.gate,.pw-gate,[id*="gate"],[class*="pw-gate"]{display:none!important;}'+
+    'body{overflow:auto!important;}'+
+    '#app,#main,#content,.app,.main,.content{display:block!important;opacity:1!important;}';
+  document.head.appendChild(s);
+  // Also queue DOM removal after parse
+  document.addEventListener('DOMContentLoaded',function(){
+    var ids=['pw-gate','gate','_gate','password-gate','auth-gate','access-gate','login-gate','auth-overlay','lock-screen','pw-overlay'];
+    ids.forEach(function(id){
+      var el=document.getElementById(id);
+      if(el)el.remove();
+    });
+    // Remove any fixed full-viewport overlay with a password input
+    document.querySelectorAll('input[type="password"]').forEach(function(inp){
+      var parent=inp;
+      for(var i=0;i<8;i++){
+        parent=parent.parentElement;
+        if(!parent)break;
+        var cs=window.getComputedStyle(parent);
+        if(cs.position==='fixed'&&parseInt(cs.zIndex)>10){
+          parent.remove();
+          break;
+        }
+      }
+    });
+    document.body.style.overflow='';
+  });
+})();
+</script><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MediPal — Your health. Sorted. On WhatsApp.</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
