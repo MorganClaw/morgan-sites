@@ -102,7 +102,7 @@
   --surface: rgba(255,255,255,0.06);
 }
 * { margin:0; padding:0; box-sizing:border-box; }
-html,body { min-height:100vh; font-family:'Inter',sans-serif; background:var(--navy); color:var(--white); -webkit-font-smoothing:antialiased; }
+html,body { min-height:100vh; font-family:'Inter',sans-serif; max-width:1200px; margin:0 auto; background:var(--navy); color:var(--white); -webkit-font-smoothing:antialiased; }
 body::before { content:''; position:fixed; inset:0; background-image:linear-gradient(rgba(138,157,192,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(138,157,192,.03) 1px,transparent 1px); background-size:50px 50px; pointer-events:none; z-index:0; }
 
 /* Gate */
@@ -1259,6 +1259,7 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
 </div>
 
 
+<script>
 // Filters
 function filterTasks(filter, btn){
   document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
