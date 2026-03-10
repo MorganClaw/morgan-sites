@@ -90,33 +90,7 @@
 </script><meta charset="UTF-8">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230D1B3E'/%3E%3Ctext x='16' y='23' font-family='Arial Black,sans-serif' font-weight='900' font-size='15' fill='%23FFC200' text-anchor='middle'%3E3W%3C/text%3E%3C/svg%3E">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script>
-(function(){
-  const PW = 'lead.connect.grow';
-  const KEY = 'morgan_auth';
-  if(sessionStorage.getItem(KEY) === '1') return;
-  document.addEventListener('DOMContentLoaded', function(){
-    const input = document.getElementById('pw-input');
-    const btn = document.getElementById('pw-btn');
-    const err = document.getElementById('pw-err');
-    document.body.style.overflow = 'hidden';
-    function attempt(){
-      if(input.value.trim().toLowerCase() === PW){
-        setTimeout(()=>{ document.body.style.overflow=''; }, 500);
-        sessionStorage.setItem(KEY,'1');
-      } else {
-        err.style.opacity = '1';
-        input.value = '';
-        input.focus();
-        setTimeout(()=>{ err.style.opacity='0'; }, 2000);
-      }
-    }
-    btn.addEventListener('click', attempt);
-    input.addEventListener('keydown', function(e){ if(e.key==='Enter') attempt(); });
-    input.focus();
-  });
-})();
-</script>
+
 <title>Morgan — Chief of Staff | 3Way Group</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -461,25 +435,7 @@
     <button class="gb2" id="_gbtn">Access</button>
   </div>
 </div>
-<script>
-(function(){
-  var K="3wg_page";
-  function go(){
-    var v=document.getElementById("_gpw").value;
-    if(v==="lead.connect.grow"){
-      sessionStorage.setItem(K,"1");
-      document.getElementById("_gate").classList.add("gone");
-    } else {
-      document.getElementById("_ge").textContent="Incorrect password.";
-      document.getElementById("_gpw").value="";
-      document.getElementById("_gpw").focus();
-    }
-  }
-  document.getElementById("_gbtn").addEventListener("click",go);
-  document.getElementById("_gpw").addEventListener("keydown",function(e){if(e.key==="Enter")go();});
-  if(sessionStorage.getItem(K)){document.getElementById("_gate").classList.add("gone");}
-})();
-</script>
+
 
 <!-- Heading -->
     <h1 style="font-family:Nunito,sans-serif;font-size:28px;font-weight:900;color:#FFFFFF;letter-spacing:-0.03em;margin-bottom:12px;line-height:1.1;">You've been given access.</h1>

@@ -162,25 +162,7 @@
     <button class="gb2" id="_gbtn">Access</button>
   </div>
 </div>
-<script>
-(function(){
-  var K="3wg_page";
-  function go(){
-    var v=document.getElementById("_gpw").value;
-    if(v==="lead.connect.grow"){
-      sessionStorage.setItem(K,"1");
-      document.getElementById("_gate").classList.add("gone");
-    } else {
-      document.getElementById("_ge").textContent="Incorrect password.";
-      document.getElementById("_gpw").value="";
-      document.getElementById("_gpw").focus();
-    }
-  }
-  document.getElementById("_gbtn").addEventListener("click",go);
-  document.getElementById("_gpw").addEventListener("keydown",function(e){if(e.key==="Enter")go();});
-  if(sessionStorage.getItem(K)){document.getElementById("_gate").classList.add("gone");}
-})();
-</script>
+
 
 <div class="header"><div class="header-inner">
     <div>

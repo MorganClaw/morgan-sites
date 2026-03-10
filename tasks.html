@@ -15,9 +15,7 @@
   var s=document.createElement('style');
   s.id='gate-killer-css';
   s.textContent=
-    '#pw-gate,#gate,#_gate,.gate,.pw-gate,'+
-    '[id*="gate"],[id*="pw-gate"],'+
-    '.pw-overlay,.auth-overlay,.lock-screen{display:none!important;visibility:hidden!important;}'+
+    '#pw-gate,#gate,#_gate,'+
     'body{overflow:auto!important;}'+
     '#app{display:flex!important;}'+
     '#main,#content,.app,.main,.content{display:block!important;opacity:1!important;}';
@@ -60,7 +58,7 @@
   // Hide gate elements immediately via style injection
   var s=document.createElement('style');
   s.textContent=
-    '#pw-gate,#gate,#_gate,.gate,.pw-gate,[id*="gate"],[class*="pw-gate"]{display:none!important;}'+
+    '#pw-gate,#gate,#_gate,'+
     'body{overflow:auto!important;}'+
     '#app,#main,#content,.app,.main,.content{display:block!important;opacity:1!important;}';
   document.head.appendChild(s);
@@ -111,15 +109,6 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
 
 .gate.gone { opacity:0; pointer-events:none; }
 
-
-
-.gate-wm span { color:var(--yellow); }
-
-
-.gate-input:focus { border-color:var(--yellow); }
-.gate-input::placeholder { color:rgba(138,157,192,.35); }
-
-.gate-btn:active { background:#cc9800; }
 
 
 /* Layout */
@@ -1269,31 +1258,6 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
   </div>
 </div>
 
-<script>
-// Gate
-(function(){
-  const PW='lead.connect.grow';
-  const K='morgan_tasks_auth';
-  if(sessionStorage.getItem(K)==='1'){
-    document.getElementById('gate').style.display='none';
-    document.getElementById('dashboard').style.display='block';
-    return;
-  }
-  function attempt(){
-    if(document.getElementById('gate-pw').value.trim().toLowerCase()===PW){
-      const g=document.getElementById('gate');
-      g.style.opacity='0';g.style.transition='opacity .4s';
-      setTimeout(()=>{g.style.display='none';document.getElementById('dashboard').style.display='block';},400);
-      sessionStorage.setItem(K,'1');
-    } else {
-      document.getElementById('gate-err').textContent='Incorrect password';
-      document.getElementById('gate-pw').value='';
-      setTimeout(()=>document.getElementById('gate-err').textContent='',2000);
-    }
-  }
-  document.getElementById('gate-btn').addEventListener('click',attempt);
-  document.getElementById('gate-pw').addEventListener('keydown',e=>{if(e.key==='Enter')attempt();});
-})();
 
 // Filters
 function filterTasks(filter, btn){
