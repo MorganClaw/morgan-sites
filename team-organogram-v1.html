@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+(function(){if(localStorage.getItem('3way_session')!=='granted'){location.replace('/?r='+encodeURIComponent(location.pathname+location.search));return;}})();
+</script>
+<meta charset="UTF-8">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230D1B3E'/%3E%3Ctext x='16' y='23' font-family='Arial Black,sans-serif' font-weight='900' font-size='15' fill='%23FFC200' text-anchor='middle'%3E3W%3C/text%3E%3C/svg%3E">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3Way Group — Agent Organogram</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy:#0D1B3E;--navy-mid:#152349;--navy-card:rgba(21,35,73,0.7);
+  --yellow:#FFC200;--yellow-dim:rgba(255,194,0,0.12);
+  --blue:#4058D4;--blue-dim:rgba(64,88,212,0.15);
+  --green:#48C78E;--green-dim:rgba(72,199,142,0.12);
+  --red:#E84C2B;--purple:#9B59B6;--purple-dim:rgba(155,89,182,0.12);
+  --teal:#1ABC9C;--teal-dim:rgba(26,188,156,0.12);
+  --orange:#E67E22;--orange-dim:rgba(230,126,34,0.12);
+  --muted:#8A9DC0;--glass:rgba(138,157,192,0.08);--border:rgba(138,157,192,0.15);
+  --white:#FFFFFF;--panel-w:400px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{background:var(--navy);color:var(--white);font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+h1,h2,h3{font-family:'Syne',sans-serif;}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(138,157,192,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(138,157,192,0.03) 1px,transparent 1px);background-size:50px 50px;pointer-events:none;z-index:0;}
+body{animation:fadeIn 0.5s ease;}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+/* HEADER */
+.header{padding:1.5rem 3rem 1.25rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);max-width:1600px;margin:0 auto;position:relative;z-index:1;}
+.header-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.25rem;}
+.header-logo span{color:var(--yellow);}
+.header-title{font-size:0.78rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.15em;margin-top:.2rem;}
+.header-badge{display:flex;align-items:center;gap:.5rem;background:var(--yellow-dim);border:1px solid rgba(255,194,0,.2);border-radius:100px;padding:.4rem 1rem;font-size:.75rem;font-weight:600;color:var(--yellow);}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--yellow);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.4)}}
+
+/* LEGEND */
+.legend{display:flex;gap:1.25rem;padding:.9rem 3rem;max-width:1600px;margin:0 auto;flex-wrap:wrap;align-items:center;position:relative;z-index:1;border-bottom:1px solid var(--border);}
+.legend-item{display:flex;align-items:center;gap:.45rem;font-size:.72rem;color:var(--muted);}
+.legend-dot{width:9px;height:9px;border-radius:2px;}
+.legend-hint{margin-left:auto;font-size:.7rem;color:rgba(138,157,192,.45);}
+
+/* CANVAS */
+.canvas{padding:2.5rem 3rem;max-width:1600px;margin:0 auto;position:relative;z-index:1;}
+.connections-svg{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;}
+
+/* TIERS */
+.tier{position:relative;z-index:1;margin-bottom:0;}
+.tier-label{font-size:.63rem;font-weight:700;text-transform:uppercase;letter-spacing:.18em;color:rgba(138,157,192,.35);margin-bottom:.75rem;padding-left:.5rem;}
+.tier-row{display:flex;justify-content:center;gap:.9rem;flex-wrap:wrap;}
+.connector-row{display:flex;justify-content:center;height:44px;position:relative;z-index:1;}
+.v-line{width:2px;height:100%;background:linear-gradient(to bottom,rgba(138,157,192,.3),rgba(138,157,192,.08));}
+
+/* NODE CARDS */
+.node{position:relative;border-radius:14px;padding:1.1rem .9rem;text-align:center;cursor:pointer;transition:all .3s cubic-bezier(.16,1,.3,1);border:1px solid var(--border);background:var(--navy-card);backdrop-filter:blur(10px);user-select:none;}
+.node:hover{transform:translateY(-4px);}
+.node.active-node{transform:translateY(-4px);box-shadow:0 0 0 2px var(--yellow),0 12px 40px rgba(255,194,0,.2);}
+.node-emoji{font-size:1.4rem;margin-bottom:.45rem;display:block;}
+.node-code{font-family:'Syne',sans-serif;font-weight:800;font-size:1.05rem;margin-bottom:.15rem;}
+.node-role{font-size:.67rem;color:var(--muted);font-weight:500;line-height:1.4;}
+.node-status{display:inline-block;margin-top:.5rem;font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:.18rem .55rem;border-radius:100px;}
+.kpi-mini{display:flex;justify-content:center;gap:.4rem;margin-top:.6rem;flex-wrap:wrap;}
+.kpi-chip{font-size:.57rem;font-weight:700;padding:.15rem .45rem;border-radius:4px;background:rgba(138,157,192,.1);color:var(--muted);white-space:nowrap;}
+.kpi-chip.ok{background:rgba(72,199,142,.12);color:var(--green);}
+.kpi-chip.warn{background:rgba(255,194,0,.12);color:var(--yellow);}
+.kpi-chip.off{background:rgba(138,157,192,.08);color:rgba(138,157,192,.4);}
+
+/* Node type styles */
+.node-human{width:175px;border-color:rgba(255,194,0,.4);background:linear-gradient(135deg,rgba(255,194,0,.08),var(--navy-card));box-shadow:0 0 40px rgba(255,194,0,.15);}
+.node-human .node-code{color:var(--yellow);}
+.node-human .node-status{background:rgba(255,194,0,.15);color:var(--yellow);}
+.node-cos{width:195px;border-color:rgba(64,88,212,.4);background:linear-gradient(135deg,rgba(64,88,212,.08),var(--navy-card));box-shadow:0 0 40px rgba(64,88,212,.12);}
+.node-cos .node-code{color:#7B95FF;}
+.node-cos .node-status{background:rgba(64,88,212,.15);color:#7B95FF;}
+.node-functional{width:140px;}
+.node-bu{width:158px;}
+
+/* Colour variants */
+.apex{border-color:rgba(255,194,0,.3);}.apex .node-code{color:var(--yellow);}.apex .node-status{background:var(--yellow-dim);color:var(--yellow);}.apex:hover,.apex.active-node{border-color:var(--yellow);box-shadow:0 8px 30px rgba(255,194,0,.2);}
+.radar{border-color:rgba(64,88,212,.3);}.radar .node-code{color:#6C8FFF;}.radar .node-status{background:var(--blue-dim);color:#6C8FFF;}.radar:hover,.radar.active-node{border-color:var(--blue);box-shadow:0 8px 30px rgba(64,88,212,.2);}
+.forge{border-color:rgba(232,76,43,.3);}.forge .node-code{color:#FF7057;}.forge .node-status{background:rgba(232,76,43,.12);color:#FF7057;}.forge:hover,.forge.active-node{border-color:var(--red);box-shadow:0 8px 30px rgba(232,76,43,.2);}
+.pulse{border-color:rgba(72,199,142,.3);}.pulse .node-code{color:var(--green);}.pulse .node-status{background:var(--green-dim);color:var(--green);}.pulse:hover,.pulse.active-node{border-color:var(--green);box-shadow:0 8px 30px rgba(72,199,142,.2);}
+.cipher{border-color:rgba(155,89,182,.3);}.cipher .node-code{color:#B57BDE;}.cipher .node-status{background:var(--purple-dim);color:#B57BDE;}.cipher:hover,.cipher.active-node{border-color:var(--purple);box-shadow:0 8px 30px rgba(155,89,182,.2);}
+.herald{border-color:rgba(26,188,156,.3);}.herald .node-code{color:var(--teal);}.herald .node-status{background:var(--teal-dim);color:var(--teal);}.herald:hover,.herald.active-node{border-color:var(--teal);box-shadow:0 8px 30px rgba(26,188,156,.2);}
+.volt{border-color:rgba(255,194,0,.3);}.volt .node-code{color:var(--yellow);}.volt .node-status{background:var(--yellow-dim);color:var(--yellow);}.volt:hover,.volt.active-node{border-color:var(--yellow);box-shadow:0 8px 30px rgba(255,194,0,.2);}
+.bridge{border-color:rgba(64,88,212,.3);}.bridge .node-code{color:#6C8FFF;}.bridge .node-status{background:var(--blue-dim);color:#6C8FFF;}.bridge:hover,.bridge.active-node{border-color:var(--blue);box-shadow:0 8px 30px rgba(64,88,212,.2);}
+.trace{border-color:rgba(72,199,142,.3);}.trace .node-code{color:var(--green);}.trace .node-status{background:var(--green-dim);color:var(--green);}.trace:hover,.trace.active-node{border-color:var(--green);box-shadow:0 8px 30px rgba(72,199,142,.2);}
+.shield{border-color:rgba(230,126,34,.3);}.shield .node-code{color:#F5A95A;}.shield .node-status{background:var(--orange-dim);color:#F5A95A;}.shield:hover,.shield.active-node{border-color:var(--orange);box-shadow:0 8px 30px rgba(230,126,34,.2);}
+
+/* BU sub-agent list (always visible, collapsible) */
+.bu-section{display:flex;flex-direction:column;align-items:center;}
+.bu-sub{width:158px;margin-top:.5rem;background:rgba(10,20,50,.6);border:1px solid rgba(138,157,192,.08);border-radius:10px;overflow:hidden;max-height:0;transition:max-height .35s cubic-bezier(.16,1,.3,1);}
+.bu-sub.open{max-height:300px;}
+.sub-item{display:flex;align-items:center;gap:.6rem;padding:.55rem .7rem;border-bottom:1px solid rgba(138,157,192,.06);cursor:default;transition:background .2s;}
+.sub-item:last-child{border-bottom:none;}
+.sub-item:hover{background:rgba(138,157,192,.06);}
+.sub-icon{font-size:.9rem;flex-shrink:0;}
+.sub-name{font-family:'Syne',sans-serif;font-weight:700;font-size:.7rem;line-height:1.3;}
+.expand-toggle{font-size:.6rem;color:rgba(138,157,192,.45);margin-top:.35rem;letter-spacing:.04em;}
+
+/* SIDE PANEL */
+.panel-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:500;opacity:0;pointer-events:none;transition:opacity .3s;}
+.panel-overlay.open{opacity:1;pointer-events:all;}
+.panel{position:fixed;top:0;right:0;bottom:0;width:var(--panel-w);max-width:100vw;background:#0F2050;border-left:1px solid rgba(138,157,192,.15);z-index:501;transform:translateX(100%);transition:transform .35s cubic-bezier(.16,1,.3,1);overflow-y:auto;display:flex;flex-direction:column;}
+.panel.open{transform:translateX(0);}
+.panel-header{padding:1.5rem;border-bottom:1px solid rgba(138,157,192,.1);display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;position:sticky;top:0;background:#0F2050;z-index:2;}
+.panel-identity{display:flex;align-items:center;gap:.9rem;}
+.panel-emoji{font-size:2rem;}
+.panel-name{font-family:'Syne',sans-serif;font-weight:800;font-size:1.2rem;}
+.panel-role{font-size:.75rem;color:var(--muted);margin-top:.15rem;}
+.panel-close{background:rgba(138,157,192,.1);border:none;color:var(--white);width:32px;height:32px;border-radius:8px;cursor:pointer;font-size:1rem;flex-shrink:0;transition:background .2s;}
+.panel-close:hover{background:rgba(138,157,192,.2);}
+.panel-body{padding:1.25rem 1.5rem;flex:1;}
+.panel-section{margin-bottom:1.5rem;}
+.panel-section-title{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.15em;color:rgba(138,157,192,.5);margin-bottom:.75rem;}
+.panel-mandate{font-size:.84rem;color:rgba(255,255,255,.75);line-height:1.65;}
+.panel-cap{display:flex;align-items:flex-start;gap:.6rem;font-size:.8rem;color:rgba(255,255,255,.8);line-height:1.45;padding:.45rem 0;border-bottom:1px solid rgba(138,157,192,.06);}
+.panel-cap:last-child{border-bottom:none;}
+.panel-cap-arrow{color:var(--yellow);flex-shrink:0;margin-top:.1rem;}
+
+/* KPI section in panel */
+.kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;}
+.kpi-card{background:rgba(138,157,192,.06);border:1px solid rgba(138,157,192,.1);border-radius:10px;padding:.8rem .9rem;}
+.kpi-value{font-family:'Syne',sans-serif;font-weight:800;font-size:1.4rem;line-height:1;}
+.kpi-label{font-size:.67rem;color:var(--muted);margin-top:.3rem;line-height:1.4;}
+.kpi-bar-wrap{height:3px;background:rgba(138,157,192,.15);border-radius:2px;margin-top:.5rem;}
+.kpi-bar{height:100%;border-radius:2px;transition:width .6s ease;}
+.panel-tags{display:flex;gap:.4rem;flex-wrap:wrap;}
+.panel-tag{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;padding:.2rem .6rem;border-radius:100px;}
+.t-yellow{background:var(--yellow-dim);color:var(--yellow);}
+.t-blue{background:var(--blue-dim);color:#6C8FFF;}
+.t-green{background:var(--green-dim);color:var(--green);}
+.t-red{background:rgba(232,76,43,.12);color:#FF7057;}
+.t-purple{background:var(--purple-dim);color:#B57BDE;}
+.t-teal{background:var(--teal-dim);color:var(--teal);}
+.t-orange{background:var(--orange-dim);color:#F5A95A;}
+
+/* STATS BAR */
+.stats-bar{display:flex;justify-content:center;gap:1.5rem;margin-top:2.5rem;flex-wrap:wrap;}
+.stat-box{text-align:center;padding:1rem 1.75rem;background:var(--glass);border:1px solid var(--border);border-radius:12px;}
+.stat-num{font-family:'Syne',sans-serif;font-weight:800;font-size:1.8rem;}
+.stat-lbl{font-size:.7rem;color:var(--muted);}
+
+.footer{text-align:center;padding:2.5rem 3rem;color:rgba(138,157,192,.3);font-size:.72rem;border-top:1px solid var(--border);max-width:1600px;margin:2rem auto 0;position:relative;z-index:1;}
+
+@media(max-width:768px){
+  .canvas,.header,.legend,.footer{padding-left:1.25rem;padding-right:1.25rem;}
+  .panel{width:100vw;}
+}
+</style>
+</head>
+<body>
+<style id="_gate_style">
+#_gate{position:fixed;inset:0;z-index:9999;background:#0D1B3E;display:flex;align-items:center;justify-content:center;padding:2rem;font-family:'Inter',system-ui,sans-serif;}
+#_gate.gone{display:none;}
+#_gate .gb{text-align:center;width:100%;max-width:340px;}
+#_gate .gw{font-family:'Syne','Arial Black',sans-serif;font-weight:800;font-size:1.9rem;margin-bottom:.75rem;color:#fff;}
+#_gate .gw em{color:#FFC200;font-style:normal;}
+#_gate .gs{font-size:.85rem;color:#8A9DC0;margin-bottom:2rem;}
+#_gate .gi{width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(138,157,192,.2);color:#fff;font-size:1rem;padding:.9rem 1.1rem;outline:none;border-radius:8px;font-family:inherit;margin-bottom:.75rem;display:block;}
+#_gate .gi:focus{border-color:#FFC200;}
+#_gate .gb2{width:100%;background:#FFC200;color:#0A0A0A;border:none;padding:1rem;font-weight:700;font-size:1rem;border-radius:8px;cursor:pointer;}
+#_gate .ge{font-size:.76rem;color:#E84C2B;margin-top:.4rem;min-height:1.1em;text-align:left;}
+</style>
+
+
+<style>�#_gate{position:fixed;inset:0;z-index:9999;background:#0D1B3E;display:flex;align-items:center;justify-content:center;padding:2rem;font-family:"Inter",system-ui,sans-serif;}�#_gate.gone{display:none;}�._gb{text-align:center;width:100%;max-width:340px;}�._gw{font-family:"Syne","Arial Black",sans-serif;font-weight:800;font-size:1.9rem;margin-bottom:.75rem;color:#fff;}�._gw span{color:#FFC200;}�._gs{font-size:.85rem;color:#8A9DC0;margin-bottom:2rem;}�._gi{width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(138,157,192,.2);color:#fff;font-size:1rem;padding:.9rem 1.1rem;outline:none;border-radius:8px;font-family:inherit;margin-bottom:.75rem;}�._gi:focus{border-color:#FFC200;}�._gi::placeholder{color:rgba(138,157,192,.4);}�._gb2{width:100%;background:#FFC200;color:#0A0A0A;border:none;padding:1rem;font-weight:700;font-size:1rem;border-radius:8px;cursor:pointer;letter-spacing:.04em;}�._gb2:active{background:#cc9800;}�._ge{font-size:.76rem;color:#E84C2B;margin-top:.4rem;min-height:1em;}�</style>��
+
+<!-- SIDE PANEL -->
+<div class="panel-overlay" id="panelOverlay" onclick="closePanel()"></div>
+<div class="panel" id="sidePanel">
+  <div class="panel-header">
+    <div class="panel-identity">
+      <div class="panel-emoji" id="panelEmoji"></div>
+      <div>
+        <div class="panel-name" id="panelName"></div>
+        <div class="panel-role" id="panelRole"></div>
+      </div>
+    </div>
+    <button class="panel-close" onclick="closePanel()">✕</button>
+  </div>
+  <div class="panel-body" id="panelBody"></div>
+</div>
+
+<!-- HEADER -->
+<div class="header">
+  <div>
+    <div class="header-logo"><span>3</span>Way Group</div>
+    <div class="header-title">Agent Organogram v1.1</div>
+  </div>
+  <div class="header-badge"><div class="dot"></div>Blueprint Phase</div>
+</div>
+
+<!-- LEGEND -->
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:#FFC200"></div>Revenue / Commercial</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#6C8FFF"></div>Research / Intelligence</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#FF7057"></div>Technical / Development</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#48C78E"></div>Campaign / Growth</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#B57BDE"></div>Data / Analytics</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#1ABC9C"></div>Communications</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#F5A95A"></div>Business Units</div>
+  <div class="legend-hint">Click any card for full detail + KPIs</div>
+</div>
+
+<!-- CANVAS -->
+<div class="canvas" id="canvas">
+  <svg class="connections-svg" id="connections-svg" xmlns="http://www.w3.org/2000/svg"></svg>
+
+  <!-- TIER 0 -->
+  <div class="tier" id="tier-0">
+    <div class="tier-label">The Human</div>
+    <div class="tier-row">
+      <div class="node node-human" id="node-ricky" onclick="openPanel('ricky')">
+        <span class="node-emoji">👤</span>
+        <div class="node-code">Ricky</div>
+        <div class="node-role">Owner · CDO · ExCo</div>
+        <div class="node-status">Active</div>
+        <div class="kpi-mini">
+          <span class="kpi-chip ok">4 entities</span>
+          <span class="kpi-chip ok">ExCo</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="connector-row"><div class="v-line"></div></div>
+
+  <!-- TIER 1 -->
+  <div class="tier" id="tier-1">
+    <div class="tier-label">Chief of Staff</div>
+    <div class="tier-row">
+      <div class="node node-cos" id="node-morgan" onclick="openPanel('morgan')">
+        <span class="node-emoji">⚡</span>
+        <div class="node-code">Morgan</div>
+        <div class="node-role">Chief of Staff</div>
+        <div class="node-status">Active</div>
+        <div class="kpi-mini">
+          <span class="kpi-chip ok">38 tasks</span>
+          <span class="kpi-chip warn">5 overdue</span>
+          <span class="kpi-chip ok">&lt;2min reply</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="connector-row"><div class="v-line"></div></div>
+
+  <!-- TIER 2 -->
+  <div class="tier" id="tier-2">
+    <div class="tier-label">Functional Agents — Shared Services</div>
+    <div class="tier-row" id="row-functional">
+
+      <div class="node node-functional apex" onclick="openPanel('apex')">
+        <span class="node-emoji">🎯</span>
+        <div class="node-code">Apex</div>
+        <div class="node-role">Revenue Scout</div>
+        <div class="node-status">Blueprint</div>
+        <div class="kpi-mini">
+          <span class="kpi-chip off">Pending</span>
+        </div>
+      </div>
+
+      <div class="node node-functional radar" onclick="openPanel('radar')">
+        <span class="node-emoji">📡</span>
+        <div class="node-code">Radar</div>
+        <div class="node-role">Research & Intel</div>
+        <div class="node-status">Blueprint</div>
+        <div class="kpi-mini">
+          <span class="kpi-chip off">Pending</span>
+        </div>
+      </div>
+
+      <div class="node node-functional forge" onclick="openPanel('forge')">
+        <span class="node-emoji">⚙️</span>
+        <div class="node-code">Forge</div>
+        <div class="node-role">Developer Agent</div>
+        <div class="node-status">Planned</div>
+        <div class="kpi-mini">
+          <span class="kpi-chip off">Not started</span>
+        </div>
+      </div>
+
+      <div class="node node-functional pulse" onclick="openPanel('pulse')">
+        <span class="node-emoji">📊</span>
+        <div class="node-code">Pulse</div>
+        <div class="node-role">Campaign Architect</div>
+        <div class="node-status">Planned</div>
+        <div class="kpi-mini">
+          <span class="kpi-chip off">Not started</span>
+        </div>
+      </div>
+
+      <div class="node node-functional cipher" onclick="openPanel('cipher')">
+        <span class="node-emoji">🔐</span>
+        <div class="node-code">Cipher</div>
+        <div class="node-role">Data & Analytics</div>
+        <div class="node-status">Planned</div>
+        <div class="kpi-mini">
+          <span class="kpi-chip off">Not started</span>
+        </div>
+      </div>
+
+      <div class="node node-functional herald" onclick="openPanel('herald')">
+        <span class="node-emoji">✉️</span>
+        <div class="node-code">Herald</div>
+        <div class="node-role">Communications</div>
+        <div class="node-status">Planned</div>
+        <div class="kpi-mini">
+          <span class="kpi-chip off">Not started</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="connector-row"><div class="v-line"></div></div>
+
+  <!-- TIER 3 -->
+  <div class="tier" id="tier-3">
+    <div class="tier-label">Business Unit Operators — click card to expand sub-agents</div>
+    <div class="tier-row" id="row-bu">
+
+      <!-- VOLT -->
+      <div class="bu-section">
+        <div class="node node-bu volt" id="node-volt" onclick="openPanel('volt')">
+          <span class="node-emoji">⚡</span>
+          <div class="node-code">Volt</div>
+          <div class="node-role">SayHi Operator</div>
+          <div class="node-status">Planned</div>
+          <div class="kpi-mini"><span class="kpi-chip off">3 sub-agents</span></div>
+        </div>
+        <div class="expand-toggle" id="volt-toggle" onclick="toggleSub('volt-sub','volt-toggle',event)" style="cursor:pointer;">▾ show sub-agents</div>
+        <div class="bu-sub" id="volt-sub">
+          <div class="sub-item"><span class="sub-icon">📱</span><div><div class="sub-name">DCB Campaign Manager</div></div></div>
+          <div class="sub-item"><span class="sub-icon">🤝</span><div><div class="sub-name">Operator Relations</div></div></div>
+          <div class="sub-item"><span class="sub-icon">⚖️</span><div><div class="sub-name">Compliance Monitor</div></div></div>
+        </div>
+      </div>
+
+      <!-- BRIDGE -->
+      <div class="bu-section">
+        <div class="node node-bu bridge" id="node-bridge" onclick="openPanel('bridge')">
+          <span class="node-emoji">🌉</span>
+          <div class="node-code">Bridge</div>
+          <div class="node-role">FindBetter Operator</div>
+          <div class="node-status">Planned</div>
+          <div class="kpi-mini"><span class="kpi-chip off">3 sub-agents</span></div>
+        </div>
+        <div class="expand-toggle" id="bridge-toggle" onclick="toggleSub('bridge-sub','bridge-toggle',event)" style="cursor:pointer;">▾ show sub-agents</div>
+        <div class="bu-sub" id="bridge-sub">
+          <div class="sub-item"><span class="sub-icon">🎯</span><div><div class="sub-name">Lead Quality Agent</div></div></div>
+          <div class="sub-item"><span class="sub-icon">🏦</span><div><div class="sub-name">Partner Relations</div></div></div>
+          <div class="sub-item"><span class="sub-icon">📈</span><div><div class="sub-name">Scorecard Monitor</div></div></div>
+        </div>
+      </div>
+
+      <!-- TRACE -->
+      <div class="bu-section">
+        <div class="node node-bu trace" id="node-trace" onclick="openPanel('trace')">
+          <span class="node-emoji">🔍</span>
+          <div class="node-code">Trace</div>
+          <div class="node-role">PhoneFinder Operator</div>
+          <div class="node-status">Planned</div>
+          <div class="kpi-mini"><span class="kpi-chip off">2 sub-agents</span></div>
+        </div>
+        <div class="expand-toggle" id="trace-toggle" onclick="toggleSub('trace-sub','trace-toggle',event)" style="cursor:pointer;">▾ show sub-agents</div>
+        <div class="bu-sub" id="trace-sub">
+          <div class="sub-item"><span class="sub-icon">📞</span><div><div class="sub-name">Database Manager</div></div></div>
+          <div class="sub-item"><span class="sub-icon">🔌</span><div><div class="sub-name">MNO Integration Agent</div></div></div>
+        </div>
+      </div>
+
+      <!-- SHIELD -->
+      <div class="bu-section">
+        <div class="node node-bu shield" id="node-shield" onclick="openPanel('shield')">
+          <span class="node-emoji">🛡️</span>
+          <div class="node-code">Shield</div>
+          <div class="node-role">Freeway Operator</div>
+          <div class="node-status">Planned</div>
+          <div class="kpi-mini"><span class="kpi-chip off">2 sub-agents</span></div>
+        </div>
+        <div class="expand-toggle" id="shield-toggle" onclick="toggleSub('shield-sub','shield-toggle',event)" style="cursor:pointer;">▾ show sub-agents</div>
+        <div class="bu-sub" id="shield-sub">
+          <div class="sub-item"><span class="sub-icon">📋</span><div><div class="sub-name">Campaign Manager</div></div></div>
+          <div class="sub-item"><span class="sub-icon">🤝</span><div><div class="sub-name">Insurer Relations</div></div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-bar">
+    <div class="stat-box"><div class="stat-num" style="color:var(--yellow)">12</div><div class="stat-lbl">Total Agents</div></div>
+    <div class="stat-box"><div class="stat-num" style="color:#6C8FFF">4</div><div class="stat-lbl">Business Units</div></div>
+    <div class="stat-box"><div class="stat-num" style="color:var(--green)">6</div><div class="stat-lbl">Functional Agents</div></div>
+    <div class="stat-box"><div class="stat-num" style="color:var(--yellow)">2</div><div class="stat-lbl">Active Now</div></div>
+    <div class="stat-box"><div class="stat-num" style="color:#FF7057">38</div><div class="stat-lbl">Tasks Tracked</div></div>
+  </div>
+
+</div>
+
+<div class="footer">3Way Group · Agent Organogram v1.1 · Blueprint Phase — March 2026 · Designed by Morgan ⚡</div>
+
+<script>
+'use strict';
+
+/* ── DATA ── */
+const AGENTS = {
+  ricky:{
+    emoji:'👤', name:'Ricky Silberman', role:'Owner · CDO · ExCo · 3Way Group',
+    color:'#FFC200',
+    mandate:'Ultimate decision-maker and direction-setter. All strategy, commercial commitments and external representation flow through Ricky. The agent team exists to multiply his capacity — not replace his judgement.',
+    caps:['Sets strategic direction and commercial priorities','Approves all external communications before send','Makes final commercial decisions across all entities','Reviews agent output and refines briefs','Represents 3Way Group to ExCo, shareholders and key partners'],
+    kpis:[
+      {label:'Active Entities',value:'4',pct:100,color:'#FFC200'},
+      {label:'Open Projects',value:'8',pct:80,color:'#FFC200'},
+      {label:'ExCo Role',value:'CDO',pct:null,color:'#FFC200'},
+      {label:'Shareholder',value:'Yes',pct:null,color:'#FFC200'},
+    ],
+    tags:[['Human','t-yellow'],['ExCo','t-yellow'],['CDO','t-yellow'],['Shareholder','t-yellow']],
+    status:'Active'
+  },
+  morgan:{
+    emoji:'⚡', name:'Morgan', role:'Chief of Staff',
+    color:'#7B95FF',
+    mandate:'Orchestrates the entire agent team. Manages day-to-day operations, stakeholder communications, task routing, project coordination and briefing. All agents report to Morgan. Morgan reports only to Ricky.',
+    caps:['Task management and project tracking (tasks.xml)','Stakeholder email drafting with approval gates','Agent team orchestration and briefing','Calendar management and meeting preparation','Proactive issue escalation and follow-up','Memory and context management across sessions'],
+    kpis:[
+      {label:'Active Tasks',value:'38',pct:76,color:'#7B95FF'},
+      {label:'Overdue',value:'5',pct:13,color:'#FF7057'},
+      {label:'Avg Response',value:'<2 min',pct:null,color:'#48C78E'},
+      {label:'Uptime',value:'99%',pct:99,color:'#48C78E'},
+    ],
+    tags:[['Active','t-blue'],['All Entities','t-blue'],['claude-sonnet-4-6','t-blue']],
+    status:'Active'
+  },
+  apex:{
+    emoji:'🎯', name:'Apex', role:'Revenue Scout',
+    color:'#FFC200',
+    mandate:'Finds what is being left on the table. Scans all four business units for underutilised channels, data, relationships and pricing gaps. Frames every opportunity with a size estimate, confidence level and recommended action before presenting to Ricky.',
+    caps:['Channel and campaign yield analysis','Asset utilisation mapping across all entities','Commercial opportunity sizing and prioritisation','Competitive gap identification via Radar','Cross-entity revenue play identification'],
+    kpis:[
+      {label:'Opportunities Identified',value:'—',pct:0,color:'#FFC200'},
+      {label:'Revenue Flagged',value:'—',pct:0,color:'#FFC200'},
+      {label:'Actions Taken',value:'—',pct:0,color:'#FFC200'},
+      {label:'Readiness',value:'Blueprint',pct:20,color:'#FFC200'},
+    ],
+    tags:[['Blueprint','t-yellow'],['Cross-Entity','t-yellow']],
+    status:'Blueprint'
+  },
+  radar:{
+    emoji:'📡', name:'Radar', role:'Research & Intelligence',
+    color:'#6C8FFF',
+    mandate:'The intelligence infrastructure. Monitors markets, competitors, regulatory changes and consumer behavioural signals. Operates in two modes: Briefed (answers specific research questions with structured output) and Ambient (scans defined signal feeds and surfaces only what clears the relevance threshold).',
+    caps:['Briefed research with structured output format','Ambient scanning across 6 signal feeds','Intelligence database management','Competitor and market monitoring','Phase 2: lead signal identification for all BUs'],
+    kpis:[
+      {label:'Signals Scanned',value:'—',pct:0,color:'#6C8FFF'},
+      {label:'Briefs Completed',value:'—',pct:0,color:'#6C8FFF'},
+      {label:'Alerts Issued',value:'—',pct:0,color:'#6C8FFF'},
+      {label:'Readiness',value:'Blueprint',pct:20,color:'#6C8FFF'},
+    ],
+    tags:[['Blueprint','t-blue'],['Cross-Entity','t-blue']],
+    status:'Blueprint'
+  },
+  forge:{
+    emoji:'⚙️', name:'Forge', role:'Developer Agent',
+    color:'#FF7057',
+    mandate:'Technical builder for the agent team. Receives briefs from any agent and builds the technical solution: automations, scrapers, dashboards, API integrations, data pipelines. Never freelances — always executes on a clear brief with defined success criteria.',
+    caps:['Automation and scripting','API integrations and data pipelines','Dashboard and reporting tool builds','Web scraping infrastructure for Radar','Technical feasibility assessment for Morgan'],
+    kpis:[
+      {label:'Automations Built',value:'—',pct:0,color:'#FF7057'},
+      {label:'APIs Integrated',value:'—',pct:0,color:'#FF7057'},
+      {label:'Active Pipelines',value:'—',pct:0,color:'#FF7057'},
+      {label:'Readiness',value:'Planned',pct:5,color:'#FF7057'},
+    ],
+    tags:[['Planned','t-red'],['Cross-Entity','t-red']],
+    status:'Planned'
+  },
+  pulse:{
+    emoji:'📊', name:'Pulse', role:'Campaign Architect',
+    color:'#48C78E',
+    mandate:'Designs, builds and optimises campaigns across all entities and channels. Translates commercial intent into executable campaign briefs. Knows the mechanics of AVM, SMS, USSD, Link Click, PCM, OnePin and SimPush. Optimises based on performance data from Cipher.',
+    caps:['Campaign strategy and brief writing','Channel selection and audience segmentation','Copy and flow design for all active channels','Performance analysis and optimisation','A/B test design and interpretation'],
+    kpis:[
+      {label:'Campaigns Designed',value:'—',pct:0,color:'#48C78E'},
+      {label:'A/B Tests Run',value:'—',pct:0,color:'#48C78E'},
+      {label:'CPL Improvement',value:'—',pct:0,color:'#48C78E'},
+      {label:'Readiness',value:'Planned',pct:5,color:'#48C78E'},
+    ],
+    tags:[['Planned','t-green'],['All Channels','t-green']],
+    status:'Planned'
+  },
+  cipher:{
+    emoji:'🔐', name:'Cipher', role:'Data & Analytics',
+    color:'#B57BDE',
+    mandate:'The technical data backbone. Manages the data warehouse, runs scoring models, maintains data quality and builds reporting for all entities. Serves Apex with commercial data, Pulse with audience insights and Morgan with operational dashboards.',
+    caps:['Data warehouse management and maintenance','Propensity model deployment and monitoring','Self-service reporting and dashboards','Data quality monitoring and remediation','POPIA compliance tracking and consent management'],
+    kpis:[
+      {label:'Data Quality Score',value:'—',pct:0,color:'#B57BDE'},
+      {label:'Reports Generated',value:'—',pct:0,color:'#B57BDE'},
+      {label:'Models Deployed',value:'—',pct:0,color:'#B57BDE'},
+      {label:'Readiness',value:'Planned',pct:5,color:'#B57BDE'},
+    ],
+    tags:[['Planned','t-purple'],['Data Warehouse','t-purple']],
+    status:'Planned'
+  },
+  herald:{
+    emoji:'✉️', name:'Herald', role:'Communications Agent',
+    color:'#1ABC9C',
+    mandate:"Drafts all stakeholder communications in Ricky's voice. Manages the communication calendar, approval workflow and outbound scheduling. Ensures nothing goes external without the right tone, context and sign-off from Ricky.",
+    caps:["Stakeholder email drafting in Ricky's voice","Communication calendar and scheduling","Approval workflow management","Follow-up and response tracking","External communication quality control"],
+    kpis:[
+      {label:'Emails Drafted',value:'—',pct:0,color:'#1ABC9C'},
+      {label:'Approval Turnaround',value:'—',pct:0,color:'#1ABC9C'},
+      {label:'External Comms Sent',value:'—',pct:0,color:'#1ABC9C'},
+      {label:'Readiness',value:'Planned',pct:5,color:'#1ABC9C'},
+    ],
+    tags:[['Planned','t-teal'],['All Entities','t-teal']],
+    status:'Planned'
+  },
+  volt:{
+    emoji:'⚡', name:'Volt', role:'SayHi Operator — DCB & VAS',
+    color:'#FFC200',
+    mandate:'General Manager for the SayHi DCB and VAS business. Manages mobile billing campaigns, operator relationships, regulatory compliance and channel performance. Owns day-to-day SayHi operations and P&L visibility. Managing transition to credit card rails.',
+    caps:['DCB and VAS campaign management','Operator relationship monitoring (MTN, Vodacom)','Billing rails performance and compliance','SimPush, OnePin and USSD channel oversight','Credit card rails pivot — transition management'],
+    kpis:[
+      {label:'Active Campaigns',value:'3',pct:60,color:'#FFC200'},
+      {label:'Operator Binds',value:'MTN ⚠',pct:50,color:'#FF7057'},
+      {label:'Billing Success Rate',value:'—',pct:0,color:'#FFC200'},
+      {label:'Readiness',value:'Planned',pct:10,color:'#FFC200'},
+    ],
+    tags:[['Planned','t-yellow'],['SayHi','t-yellow'],['DCB/VAS','t-yellow']],
+    status:'Planned'
+  },
+  bridge:{
+    emoji:'🌉', name:'Bridge', role:'FindBetter Operator',
+    color:'#6C8FFF',
+    mandate:'General Manager for FindBetter. Manages lead generation for consumer finance and offers — debt counselling, credit products, loan comparison. Owns the Vodacom/Confluent POC and all FindBetter partner relationships.',
+    caps:['Consumer finance lead generation','Debt counselling funnel management','VodaLend and Confluent POC execution','Scorecard-driven lead quality improvement','Credit and debt market monitoring via Radar'],
+    kpis:[
+      {label:'Lead Quality Score',value:'—',pct:0,color:'#6C8FFF'},
+      {label:'VodaLend POC',value:'Active',pct:40,color:'#6C8FFF'},
+      {label:'Partner SLA',value:'—',pct:0,color:'#6C8FFF'},
+      {label:'Readiness',value:'Planned',pct:10,color:'#6C8FFF'},
+    ],
+    tags:[['Planned','t-blue'],['FindBetter','t-blue'],['Debt/Credit','t-blue']],
+    status:'Planned'
+  },
+  trace:{
+    emoji:'🔍', name:'Trace', role:'PhoneFinder Operator',
+    color:'#48C78E',
+    mandate:'General Manager for PhoneFinder. Manages contact discovery operations, MNO lookup performance, database quality and the scored phone file programme. Owns the data that makes every other BU\'s campaigns more effective.',
+    caps:['MNO lookup performance and quality monitoring','Scored phone file pipeline management','Contact discovery database integrity','MTN bind and API integration tracking','PhoneFinder product development roadmap'],
+    kpis:[
+      {label:'Scored Records',value:'~1M',pct:70,color:'#48C78E'},
+      {label:'DB Freshness',value:'—',pct:0,color:'#48C78E'},
+      {label:'MNO Lookup Rate',value:'—',pct:0,color:'#48C78E'},
+      {label:'Readiness',value:'Planned',pct:10,color:'#48C78E'},
+    ],
+    tags:[['Planned','t-green'],['PhoneFinder','t-green'],['Scored Data','t-green']],
+    status:'Planned'
+  },
+  shield:{
+    emoji:'🛡️', name:'Shield', role:'Freeway Insurance Operator',
+    color:'#F5A95A',
+    mandate:'General Manager for Freeway Insurance. Manages insurance lead generation campaigns, insurer partner relationships, lead quality monitoring and regulatory compliance for the insurance vertical.',
+    caps:['Insurance campaign management (PCM, AVM, SMS)','Insurer partner relationship management','Lead quality and conversion monitoring','Insurance regulatory compliance tracking','Cross-sell opportunity identification with other BUs'],
+    kpis:[
+      {label:'Insurance CPL',value:'—',pct:0,color:'#F5A95A'},
+      {label:'Partner Approval Rate',value:'—',pct:0,color:'#F5A95A'},
+      {label:'Campaign ROAS',value:'—',pct:0,color:'#F5A95A'},
+      {label:'Readiness',value:'Planned',pct:10,color:'#F5A95A'},
+    ],
+    tags:[['Planned','t-orange'],['Freeway Insurance','t-orange']],
+    status:'Planned'
+  },
+};
+
+/* ── PANEL ── */
+let activeNodeEl = null;
+
+function openPanel(id) {
+  const a = AGENTS[id];
+  if (!a) return;
+
+  // Highlight active node
+  if (activeNodeEl) activeNodeEl.classList.remove('active-node');
+  const nodeEl = document.getElementById('node-' + id);
+  if (nodeEl) { nodeEl.classList.add('active-node'); activeNodeEl = nodeEl; }
+
+  document.getElementById('panelEmoji').textContent = a.emoji;
+  document.getElementById('panelName').textContent = a.name;
+  document.getElementById('panelRole').textContent = a.role;
+
+  const capsHtml = a.caps.map(c =>
+    `<div class="panel-cap"><span class="panel-cap-arrow">→</span>${c}</div>`
+  ).join('');
+
+  const kpiHtml = a.kpis.map(k => {
+    const bar = k.pct !== null
+      ? `<div class="kpi-bar-wrap"><div class="kpi-bar" style="width:${k.pct}%;background:${k.color}"></div></div>`
+      : '';
+    return `<div class="kpi-card">
+      <div class="kpi-value" style="color:${k.color}">${k.value}</div>
+      <div class="kpi-label">${k.label}</div>${bar}
+    </div>`;
+  }).join('');
+
+  const tagsHtml = a.tags.map(t =>
+    `<span class="panel-tag ${t[1]}">${t[0]}</span>`
+  ).join('');
+
+  document.getElementById('panelBody').innerHTML = `
+    <div class="panel-section">
+      <div class="panel-section-title">Mandate</div>
+      <div class="panel-mandate">${a.mandate}</div>
+    </div>
+    <div class="panel-section">
+      <div class="panel-section-title">KPIs — March 2026</div>
+      <div class="kpi-grid">${kpiHtml}</div>
+    </div>
+    <div class="panel-section">
+      <div class="panel-section-title">Capabilities</div>
+      ${capsHtml}
+    </div>
+    <div class="panel-section">
+      <div class="panel-section-title">Classification</div>
+      <div class="panel-tags">${tagsHtml}</div>
+    </div>
+  `;
+
+  document.getElementById('sidePanel').classList.add('open');
+  document.getElementById('panelOverlay').classList.add('open');
+}
+
+function closePanel() {
+  document.getElementById('sidePanel').classList.remove('open');
+  document.getElementById('panelOverlay').classList.remove('open');
+  if (activeNodeEl) { activeNodeEl.classList.remove('active-node'); activeNodeEl = null; }
+}
+
+/* ── BU SUB-AGENT TOGGLE ── */
+function toggleSub(subId, toggleId, e) {
+  e.stopPropagation();
+  const sub = document.getElementById(subId);
+  const tog = document.getElementById(toggleId);
+  const isOpen = sub.classList.contains('open');
+  sub.classList.toggle('open');
+  tog.textContent = isOpen ? '▾ show sub-agents' : '▴ hide sub-agents';
+  setTimeout(drawConnections, 360);
+}
+
+/* ── SVG CONNECTIONS ── */
+function getCenter(el) {
+  const cv = document.getElementById('canvas');
+  const cr = cv.getBoundingClientRect();
+  const er = el.getBoundingClientRect();
+  return {
+    x: er.left - cr.left + er.width / 2,
+    top: er.top - cr.top,
+    bottom: er.top - cr.top + er.height,
+  };
+}
+
+function makePath(x1, y1, x2, y2, color) {
+  const mid = (y1 + y2) / 2;
+  return `<path d="M${x1},${y1} C${x1},${mid} ${x2},${mid} ${x2},${y2}" fill="none" stroke="${color}" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.28"/>`;
+}
+
+function drawConnections() {
+  const svg = document.getElementById('connections-svg');
+  const canvas = document.getElementById('canvas');
+  svg.setAttribute('width', canvas.offsetWidth);
+  svg.setAttribute('height', canvas.offsetHeight);
+  const ricky = document.getElementById('node-ricky');
+  const morgan = document.getElementById('node-morgan');
+  const fns = document.querySelectorAll('#row-functional .node');
+  const bus = document.querySelectorAll('#row-bu .node');
+  let p = '';
+  if (ricky && morgan) {
+    const r = getCenter(ricky), m = getCenter(morgan);
+    p += `<line x1="${r.x}" y1="${r.bottom}" x2="${m.x}" y2="${m.top}" stroke="#FFC200" stroke-width="2" opacity="0.35"/>`;
+  }
+  const fnColors = ['#FFC200','#6C8FFF','#FF7057','#48C78E','#B57BDE','#1ABC9C'];
+  const buColors = ['#FFC200','#6C8FFF','#48C78E','#F5A95A'];
+  if (morgan) {
+    const m = getCenter(morgan);
+    fns.forEach((fn,i) => { const f = getCenter(fn); p += makePath(m.x,m.bottom,f.x,f.top,fnColors[i]||'#888'); });
+    bus.forEach((bu,i) => { const b = getCenter(bu); p += makePath(m.x,m.bottom,b.x,b.top,buColors[i]||'#888'); });
+  }
+  svg.innerHTML = p;
+}
+
+window.addEventListener('load', () => setTimeout(drawConnections, 200));
+window.addEventListener('resize', drawConnections);
+document.addEventListener('keydown', e => { if(e.key==='Escape') closePanel(); });
+</script>
+<style>#hub-pill{position:fixed;bottom:20px;left:20px;z-index:99999;display:flex;align-items:center;gap:7px;background:#FFD337;color:#022F5C;font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;padding:10px 18px;border-radius:50px;box-shadow:0 4px 20px rgba(0,0,0,.25);text-decoration:none;transition:transform .15s;}#hub-pill:hover{transform:translateY(-2px);}</style>
+<a id="hub-pill" href="/"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5.5 11.5L1.5 7.5L5.5 3.5" stroke="#022F5C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M1.5 7.5H12.5" stroke="#022F5C" stroke-width="1.8" stroke-linecap="round"/></svg>Hub</a>
+</body>
+</html>
