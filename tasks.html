@@ -1214,13 +1214,22 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
 function filterTasks(filter, btn){
   document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
+  // Filter task cards in project sections
   document.querySelectorAll('.task-card').forEach(card=>{
-    const show = filter==='all' ||
-      card.querySelector('.status-badge')?.textContent.toLowerCase().replace(/\s/g,'_')===filter ||
-      card.querySelector('.urgency-badge')?.textContent.toLowerCase()===filter ||
-      (filter==='overdue' && card.classList.contains('task-overdue'));
+    const statusEl = card.querySelector('.status-badge');
+    const urgencyEl = card.querySelector('.urgency-badge');
+    const status = statusEl ? statusEl.textContent.toLowerCase().replace(/\s/g,'_') : '';
+    const urgency = urgencyEl ? urgencyEl.textContent.toLowerCase() : '';
+    const overdue = card.classList.contains('task-overdue');
+    const show = filter==='all' || status===filter || urgency===filter || (filter==='overdue' && overdue);
     card.style.display = show ? '' : 'none';
   });
+  // Hide Requires Attention section when filtering (it duplicates cards)
+  const attnSection = document.querySelector('.attn-section, .section-heading');
+  if(attnSection){
+    const wrapper = attnSection.closest('.dashboard > div') || attnSection.parentElement;
+    if(wrapper) wrapper.style.display = filter==='all' ? '' : 'none';
+  }
   // Show/hide empty project sections
   document.querySelectorAll('.project-section').forEach(sec=>{
     const visible = sec.querySelectorAll('.task-card:not([style*="display: none"])').length;
@@ -1306,12 +1315,21 @@ var BOT='8532850681:AAHAPZGfUGIL7PxnZmRKi0dRPennJV5pyK4', CID='395421212';
 var Q=[], timer=null, tInterval=null, tEnd=0, pctTarget=null;
 
 function initActions(){
-  document.querySelectorAll('.task-card').forEach(function(card){
+  // Inject into both task-cards and attn-items
+  var cards = Array.from(document.querySelectorAll('.task-card, .attn-item'));
+  cards.forEach(function(card){
+    if(card.querySelector('.task-actions'))return;
     var idEl=card.querySelector('.task-id');
-    if(!idEl||card.querySelector('.task-actions'))return;
-    var id=idEl.textContent.replace('#','').trim();
-    var titleEl=card.querySelector('.task-title,.task-name,h3,h4');
-    var title=titleEl?titleEl.textContent.trim().substring(0,50):'Task #'+id;
+    // For attn-items, extract ID from title text
+    var id = '';
+    if(idEl){ id = idEl.textContent.replace('#','').trim(); }
+    else {
+      var titleEl2 = card.querySelector('.attn-title');
+      if(titleEl2){ var m = titleEl2.textContent.match(/#(\d+)/); if(m) id = m[1]; }
+    }
+    if(!id)return;
+    var titleEl=card.querySelector('.task-title,.attn-title,.task-name');
+    var title=titleEl?titleEl.textContent.trim().replace(/^#\d+\s*[—-]\s*/,'').substring(0,50):'Task #'+id;
     var div=document.createElement('div');
     div.className='task-actions';
     div.innerHTML=
