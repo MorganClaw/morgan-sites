@@ -415,46 +415,7 @@
 </head>
 <body>
 <style id="_gate_style">
-#_gate{position:fixed;inset:0;z-index:9999;background:#0D1B3E;display:flex;align-items:center;justify-content:center;padding:2rem;font-family:'Inter',system-ui,sans-serif;}
-#_gate.gone{display:none;}
-#_gate .gb{text-align:center;width:100%;max-width:340px;}
-#_gate .gw{font-family:'Syne','Arial Black',sans-serif;font-weight:800;font-size:1.9rem;margin-bottom:.75rem;color:#fff;}
-#_gate .gw em{color:#FFC200;font-style:normal;}
-#_gate .gs{font-size:.85rem;color:#8A9DC0;margin-bottom:2rem;}
-#_gate .gi{width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(138,157,192,.2);color:#fff;font-size:1rem;padding:.9rem 1.1rem;outline:none;border-radius:8px;font-family:inherit;margin-bottom:.75rem;display:block;}
-#_gate .gi:focus{border-color:#FFC200;}
-#_gate .gb2{width:100%;background:#FFC200;color:#0A0A0A;border:none;padding:1rem;font-weight:700;font-size:1rem;border-radius:8px;cursor:pointer;}
-#_gate .ge{font-size:.76rem;color:#E84C2B;margin-top:.4rem;min-height:1.1em;text-align:left;}
 </style>
-<div id="_gate">
-  <div class="gb">
-    <div class="gw"><em>3</em>Way Group</div>
-    <div class="gs">This document is confidential.</div>
-    <input class="gi" id="_gpw" type="password" placeholder="Enter password">
-    <div class="ge" id="_ge"></div>
-    <button class="gb2" id="_gbtn">Access</button>
-  </div>
-</div>
-
-
-<!-- Heading -->
-    <h1 style="font-family:Nunito,sans-serif;font-size:28px;font-weight:900;color:#FFFFFF;letter-spacing:-0.03em;margin-bottom:12px;line-height:1.1;">You've been given access.</h1>
-    <p style="font-family:Nunito,sans-serif;font-size:15px;font-weight:500;color:rgba(255,255,255,0.5);margin-bottom:36px;line-height:1.6;">Enter the passphrase Ricky shared with you to continue.</p>
-    <!-- Input -->
-    <div style="position:relative;margin-bottom:12px;">
-      <input id="pw-input" type="password" placeholder="Passphrase"
-        style="width:100%;padding:16px 20px;background:rgba(255,255,255,0.06);border:1.5px solid rgba(255,255,255,0.15);border-radius:10px;font-family:Nunito,sans-serif;font-size:16px;font-weight:600;color:#FFFFFF;outline:none;letter-spacing:0.05em;transition:border-color .2s;"
-        onfocus="this.style.borderColor='rgba(255,194,0,0.6)'" onblur="this.style.borderColor='rgba(255,255,255,0.15)'">
-    </div>
-    <button id="pw-btn"
-      style="width:100%;padding:16px;background:#FFC200;border:none;border-radius:10px;font-family:Nunito,sans-serif;font-size:16px;font-weight:900;color:#1A2D6B;cursor:pointer;transition:transform .15s,box-shadow .15s;letter-spacing:0.02em;"
-      onmouseover="this.style.transform='translateY(-1px)';this.style.boxShadow='0 6px 20px rgba(255,194,0,0.4)'"
-      onmouseout="this.style.transform='';this.style.boxShadow=''">
-      Enter →
-    </button>
-    <p id="pw-err" style="font-family:Nunito,sans-serif;font-size:13px;font-weight:700;color:#E84C2B;margin-top:14px;opacity:0;transition:opacity .3s;">Incorrect passphrase. Try again.</p>
-  </div>
-</div>
 
 <!-- NAV -->
 <nav>
