@@ -22,19 +22,19 @@ html,body { min-height:100vh; font-family:'Inter',sans-serif; background:var(--n
 body::before { content:''; position:fixed; inset:0; background-image:linear-gradient(rgba(138,157,192,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(138,157,192,.03) 1px,transparent 1px); background-size:50px 50px; pointer-events:none; z-index:0; }
 
 /* Gate */
-.gate { position:fixed; inset:0; z-index:200; display:flex; align-items:center; justify-content:center; background:var(--navy); transition:opacity .5s; padding:1.5rem; }
+
 .gate.gone { opacity:0; pointer-events:none; }
-.gate-box { text-align:center; max-width:380px; width:100%; }
-.gate-lock { font-size:2rem; margin-bottom:1.5rem; opacity:.4; }
-.gate-wm { font-family:'Syne',sans-serif; font-weight:800; font-size:2rem; margin-bottom:.3rem; }
+
+
+
 .gate-wm span { color:var(--yellow); }
-.gate-sub { font-size:.72rem; color:var(--muted); text-transform:uppercase; letter-spacing:.2em; margin-bottom:2.5rem; }
-.gate-input { width:100%; background:rgba(255,255,255,.05); border:1px solid var(--border); color:var(--white); font-family:'Inter',sans-serif; font-size:1rem; padding:.95rem 1.1rem; outline:none; transition:border-color .2s; -webkit-appearance:none; border-radius:0; }
+
+
 .gate-input:focus { border-color:var(--yellow); }
 .gate-input::placeholder { color:rgba(138,157,192,.35); }
-.gate-btn { width:100%; background:var(--yellow); color:#0A0A0A; border:none; padding:1rem; font-family:'Syne',sans-serif; font-weight:700; font-size:.9rem; letter-spacing:.08em; text-transform:uppercase; cursor:pointer; margin-top:.5rem; -webkit-appearance:none; border-radius:0; }
+
 .gate-btn:active { background:#cc9800; }
-.gate-err { font-size:.76rem; color:#E84C2B; margin-top:.45rem; min-height:1.1em; }
+
 
 /* Layout */
 .dashboard { position:relative; z-index:1; max-width:1100px; margin:0 auto; padding:24px 20px 60px; }
@@ -146,10 +146,7 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
 <body>
 
 <!-- Gate -->
-<div class="gate" id="gate">
-  <div class="gate-box">
-    <div class="gate-lock">🔒</div>
-    <div class="gate-wm">3Way <span>Group</span></div>
+<div class="gate-wm">3Way <span>Group</span></div>
     <div class="gate-sub">Task Dashboard</div>
     <input class="gate-input" id="gate-pw" type="password" placeholder="Enter password" autofocus>
     <button class="gate-btn" id="gate-btn">Unlock</button>
@@ -1239,5 +1236,45 @@ function filterTasks(filter, btn){
   });
 }
 </script>
+
+<!-- HUB-PILL -->
+<style>
+#hub-pill {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background: #FFD337;
+  color: #022F5C;
+  font-family: 'Outfit', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  padding: 10px 18px;
+  border-radius: 50px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  user-select: none;
+}
+#hub-pill:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(0,0,0,0.3);
+}
+#hub-pill:active { transform: translateY(0); }
+#hub-pill svg { flex-shrink: 0; }
+</style>
+<a id="hub-pill" href="/">
+  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M5.5 11.5L1.5 7.5L5.5 3.5" stroke="#022F5C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M1.5 7.5H12.5" stroke="#022F5C" stroke-width="1.8" stroke-linecap="round"/>
+  </svg>
+  Hub
+</a>
+<!-- /HUB-PILL -->
 </body>
 </html>

@@ -27,10 +27,7 @@
 html, body { height:100%; font-family:'Nunito',sans-serif; background:var(--offwhite); color:var(--navy); }
 
 /* ── PASSWORD GATE ── */
-#pw-gate {
-  position:fixed; inset:0; background:var(--navy2); z-index:9999;
-  display:none; align-items:center; justify-content:center; flex-direction:column; gap:24px;
-}
+
 .pw-logo { display:flex; align-items:center; gap:10px; margin-bottom:8px; }
 .pw-pills { display:flex; gap:3px; align-items:flex-end; }
 .pw-pill { width:7px; background:var(--yellow); border-radius:4px; }
@@ -322,10 +319,7 @@ textarea.form-control { resize:vertical; min-height:100px; }
 <body>
 
 <!-- PASSWORD GATE -->
-<div id="pw-gate">
-  <div class="pw-logo">
-    <div class="pw-pills">
-      <div class="pw-pill"></div><div class="pw-pill"></div><div class="pw-pill"></div>
+<div class="pw-pill"></div><div class="pw-pill"></div>
     </div>
     <span class="pw-brand">3Way Group</span>
   </div>
@@ -633,15 +627,12 @@ textarea.form-control { resize:vertical; min-height:100px; }
 (function(){
   const PW = 'lead.connect.grow';
   const KEY = 'morgan_auth';
-  const gate = document.getElementById('pw-gate');
   if(sessionStorage.getItem(KEY) === '1') return;
-  gate.style.display = 'flex';
   document.body.style.overflow = 'hidden';
   function attempt(){
     const val = document.getElementById('pw-input').value.trim().toLowerCase();
     if(val === PW){
-      gate.style.opacity='0'; gate.style.transition='opacity 0.4s';
-      setTimeout(()=>{ gate.style.display='none'; document.body.style.overflow=''; },400);
+      setTimeout(()=>{ document.body.style.overflow=''; },400);
       sessionStorage.setItem(KEY,'1');
     } else {
       const err = document.getElementById('pw-err');
@@ -1471,5 +1462,45 @@ function clearData(){
 // ── INIT ──
 renderDashboard();
 </script>
+
+<!-- HUB-PILL -->
+<style>
+#hub-pill {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background: #FFD337;
+  color: #022F5C;
+  font-family: 'Outfit', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  padding: 10px 18px;
+  border-radius: 50px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  user-select: none;
+}
+#hub-pill:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(0,0,0,0.3);
+}
+#hub-pill:active { transform: translateY(0); }
+#hub-pill svg { flex-shrink: 0; }
+</style>
+<a id="hub-pill" href="/">
+  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M5.5 11.5L1.5 7.5L5.5 3.5" stroke="#022F5C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M1.5 7.5H12.5" stroke="#022F5C" stroke-width="1.8" stroke-linecap="round"/>
+  </svg>
+  Hub
+</a>
+<!-- /HUB-PILL -->
 </body>
 </html>
