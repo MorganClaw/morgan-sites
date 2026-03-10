@@ -112,20 +112,6 @@
 * { margin:0; padding:0; box-sizing:border-box; }
 html, body { height:100%; font-family:'Nunito',sans-serif; background:var(--offwhite); color:var(--navy); }
 
-/* ── PASSWORD GATE ── */
-
-.pw-logo { display:flex; align-items:center; gap:10px; margin-bottom:8px; }
-.pw-pills { display:flex; gap:3px; align-items:flex-end; }
-.pw-pill { width:7px; background:var(--yellow); border-radius:4px; }
-.pw-pill:nth-child(1){height:12px} .pw-pill:nth-child(2){height:18px} .pw-pill:nth-child(3){height:24px}
-.pw-brand { font-size:22px; font-weight:900; color:var(--white); }
-.pw-sub { font-size:13px; color:rgba(255,255,255,0.5); text-align:center; }
-.pw-box { display:flex; gap:0; border-radius:10px; overflow:hidden; box-shadow:0 8px 32px rgba(0,0,0,0.4); }
-#pw-input { padding:14px 20px; font-size:15px; font-family:'Nunito',sans-serif; border:none; outline:none; width:260px; background:var(--white); color:var(--navy); }
-#pw-btn { padding:14px 24px; background:var(--yellow); color:var(--navy); font-weight:900; font-size:14px; font-family:'Nunito',sans-serif; border:none; cursor:pointer; transition:opacity .2s; }
-#pw-btn:hover { opacity:.85; }
-#pw-err { color:#ff6b6b; font-size:13px; opacity:0; transition:opacity .3s; }
-
 /* ── LAYOUT ── */
 #app { display:flex; height:100vh; overflow:hidden; }
 
@@ -403,19 +389,6 @@ textarea.form-control { resize:vertical; min-height:100px; }
 </style>
 </head>
 <body>
-
-<!-- PASSWORD GATE -->
-<div class="pw-pill"></div><div class="pw-pill"></div>
-    </div>
-    <span class="pw-brand">3Way Group</span>
-  </div>
-  <div class="pw-sub">Operations Platform — Restricted Access</div>
-  <div class="pw-box">
-    <input id="pw-input" type="password" placeholder="Enter password">
-    <button id="pw-btn">Unlock</button>
-  </div>
-  <div id="pw-err">Incorrect password</div>
-</div>
 
 <!-- APP -->
 <div id="app">

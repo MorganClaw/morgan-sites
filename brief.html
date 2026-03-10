@@ -112,21 +112,6 @@
 html { font-family:'Outfit',sans-serif; background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased; }
 body { min-height:100vh; }
 
-/* ── PASSWORD GATE ── */
-#gate {
-  position:fixed; inset:0; background:var(--navy); z-index:9999;
-  display:flex; align-items:center; justify-content:center; flex-direction:column; gap:20px;
-}
-#gate.hidden { display:none; }
-
-.gate-title span { color:var(--yellow); }
-
-
-#pw-input { padding:14px 20px; font-size:15px; font-family:'Outfit',sans-serif; border:none; outline:none; width:260px; background:var(--white); color:var(--navy); }
-#pw-btn { padding:14px 24px; background:var(--yellow); color:var(--navy); font-weight:800; font-size:14px; font-family:'Outfit',sans-serif; border:none; cursor:pointer; }
-#pw-btn:hover { opacity:0.85; }
-#pw-err { color:#ff6b6b; font-size:13px; min-height:18px; }
-
 /* ── MAIN CONTENT ── */
 #content { display:none; }
 #content.visible { display:block; }
@@ -294,17 +279,6 @@ body { min-height:100vh; }
 </style>
 </head>
 <body>
-
-<!-- PASSWORD GATE -->
-<div id="gate">
-  <div class="gate-title">3Way<span>Group</span></div>
-  <div class="gate-sub">Executive Daily Brief</div>
-  <div class="gate-row">
-    <input type="password" id="pw-input" placeholder="Access code" autocomplete="off" />
-    <button id="pw-btn" onclick="checkPw()">Enter</button>
-  </div>
-  <div id="pw-err"></div>
-</div>
 
 <!-- MAIN CONTENT -->
 <div id="content">
