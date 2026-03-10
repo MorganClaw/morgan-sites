@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script>
+(function(){if(localStorage.getItem('3way_session')!=='granted'){location.replace('/?r='+encodeURIComponent(location.pathname+location.search));return;}})();
+</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Daily Brief — 3Way Group</title>
@@ -27,15 +30,7 @@ html { font-family:'Outfit',sans-serif; background:var(--bg); color:var(--text);
 body { min-height:100vh; }
 
 /* ── PASSWORD GATE ── */
-#gate {
-  position:fixed; inset:0; background:var(--navy); z-index:9999;
-  display:flex; align-items:center; justify-content:center; flex-direction:column; gap:20px;
-}
-#gate.hidden { display:none; }
-.gate-title { font-size:1.6rem; font-weight:800; color:var(--white); }
 .gate-title span { color:var(--yellow); }
-.gate-sub { font-size:0.75rem; color:rgba(255,255,255,0.4); text-transform:uppercase; letter-spacing:0.15em; margin-bottom:8px; }
-.gate-row { display:flex; gap:0; border-radius:10px; overflow:hidden; box-shadow:0 8px 32px rgba(0,0,0,0.4); }
 #pw-input { padding:14px 20px; font-size:15px; font-family:'Outfit',sans-serif; border:none; outline:none; width:260px; background:var(--white); color:var(--navy); }
 #pw-btn { padding:14px 24px; background:var(--yellow); color:var(--navy); font-weight:800; font-size:14px; font-family:'Outfit',sans-serif; border:none; cursor:pointer; }
 #pw-btn:hover { opacity:0.85; }
@@ -210,16 +205,6 @@ body { min-height:100vh; }
 <body>
 
 <!-- PASSWORD GATE -->
-<div id="gate">
-  <div class="gate-title">3Way<span>Group</span></div>
-  <div class="gate-sub">Executive Daily Brief</div>
-  <div class="gate-row">
-    <input type="password" id="pw-input" placeholder="Access code" autocomplete="off" />
-    <button id="pw-btn" onclick="checkPw()">Enter</button>
-  </div>
-  <div id="pw-err"></div>
-</div>
-
 <!-- MAIN CONTENT -->
 <div id="content">
 
@@ -798,26 +783,12 @@ body { min-height:100vh; }
 
 <script>
 const PW = "lead.connect.grow";
-function checkPw() {
-  const v = document.getElementById('pw-input').value;
-  if (v === PW) {
-    document.getElementById('gate').classList.add('hidden');
-    document.getElementById('content').classList.add('visible');
-    try { sessionStorage.setItem('3w_auth','1'); } catch(e) {}
-  } else {
-    document.getElementById('pw-err').textContent = 'Incorrect code';
-  }
-}
-document.getElementById('pw-input').addEventListener('keydown', function(e) {
-  if (e.key === 'Enter') checkPw();
-});
-// Auto-login if already authenticated
-if (sessionStorage.getItem('3w_auth') === '1') {
-  document.getElementById('gate').classList.add('hidden');
-  document.getElementById('content').classList.add('visible');
-}
-document.getElementById('pw-input').focus();
-</script>
 
+
+<style>
+#hub-pill{position:fixed;bottom:20px;left:20px;z-index:99999;display:flex;align-items:center;gap:7px;background:#FFD337;color:#022F5C;font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;padding:10px 18px;border-radius:50px;box-shadow:0 4px 20px rgba(0,0,0,.25);cursor:pointer;text-decoration:none;transition:transform .15s;}
+#hub-pill:hover{transform:translateY(-2px);}
+</style>
+<a id="hub-pill" href="/"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5.5 11.5L1.5 7.5L5.5 3.5" stroke="#022F5C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M1.5 7.5H12.5" stroke="#022F5C" stroke-width="1.8" stroke-linecap="round"/></svg>Hub</a>
 </body>
 </html>
