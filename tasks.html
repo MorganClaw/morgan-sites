@@ -1229,30 +1229,6 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
 </div>
 
 <script>
-// Gate
-(function(){
-  const PW='lead.connect.grow';
-  const K='morgan_tasks_auth';
-  if(sessionStorage.getItem(K)==='1'){
-    document.getElementById('gate').style.display='none';
-    document.getElementById('dashboard').style.display='block';
-    return;
-  }
-  function attempt(){
-    if(document.getElementById('gate-pw').value.trim().toLowerCase()===PW){
-      const g=document.getElementById('gate');
-      g.style.opacity='0';g.style.transition='opacity .4s';
-      setTimeout(()=>{g.style.display='none';document.getElementById('dashboard').style.display='block';},400);
-      sessionStorage.setItem(K,'1');
-    } else {
-      document.getElementById('gate-err').textContent='Incorrect password';
-      document.getElementById('gate-pw').value='';
-      setTimeout(()=>document.getElementById('gate-err').textContent='',2000);
-    }
-  }
-  document.getElementById('gate-btn').addEventListener('click',attempt);
-  document.getElementById('gate-pw').addEventListener('keydown',e=>{if(e.key==='Enter')attempt();});
-})();
 
 // Filters
 function filterTasks(filter, btn){
