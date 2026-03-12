@@ -4,82 +4,96 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dis-Chem Life Funeral Cover — SuperCompare</title>
+<link rel="icon" href="https://www.supercompare.co.za/favicon.ico" type="image/x-icon">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Inter',sans-serif;background:#f5f5f5;color:#1a1a1a;min-height:100vh}
+body{font-family:'Inter',sans-serif;background:#f2f2f2;color:#1a1a1a;min-height:100vh}
 
-/* HEADER */
-.header{background:#fff;border-bottom:1px solid #e8e8e8;padding:0 32px;height:56px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 1px 4px rgba(0,0,0,.08)}
-.header-logo{display:flex;align-items:center;gap:6px}
-.logo-icon{width:28px;height:28px;background:#2B13A0;border-radius:6px;display:flex;align-items:center;justify-content:center}
-.logo-icon svg{width:16px;height:16px;fill:#6FD449}
-.logo-text{font-size:18px;font-weight:800;letter-spacing:-0.5px}
-.logo-text .super{color:#2B13A0}
-.logo-text .compare{color:#1a1a1a}
-.header-cta{background:transparent;border:1.5px solid #2B13A0;color:#2B13A0;padding:7px 18px;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s}
-.header-cta:hover{background:#2B13A0;color:#fff}
+/* ---- HEADER ---- */
+.header{background:#fff;border-bottom:1px solid #e0e0e0;padding:0 32px;height:58px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 1px 6px rgba(0,0,0,.07)}
+.sc-logo{display:flex;align-items:center;gap:7px;text-decoration:none}
+/* Icon: two chevrons */
+.sc-icon{width:32px;height:32px;position:relative;flex-shrink:0}
+.sc-icon svg{width:32px;height:32px}
+.sc-wordmark{font-size:20px;font-weight:800;letter-spacing:-0.5px;line-height:1}
+.sc-wordmark .w-super{color:#3333CC}
+.sc-wordmark .w-compare{color:#55DD11}
+.header-btn{background:#009640;color:#fff;border:none;padding:8px 20px;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;transition:background .2s}
+.header-btn:hover{background:#007A34}
 
-/* HERO */
-.hero{background:#2B13A0;min-height:calc(100vh - 56px - 80px);display:flex;align-items:center;padding:48px 32px;position:relative;overflow:hidden}
-.hero::before{content:'';position:absolute;top:-60px;right:-60px;width:300px;height:300px;background:rgba(111,212,73,0.08);border-radius:50%}
-.hero::after{content:'';position:absolute;bottom:-80px;left:20%;width:200px;height:200px;background:rgba(255,255,255,0.04);border-radius:50%}
-.hero-inner{max-width:1100px;margin:0 auto;width:100%;display:grid;grid-template-columns:1fr 440px;gap:48px;align-items:center;position:relative;z-index:1}
+/* ---- HERO ---- */
+.hero{background:#009640;padding:48px 32px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,0,0,0.08) 0%,transparent 60%);pointer-events:none}
+.hero-inner{max-width:1080px;margin:0 auto;display:grid;grid-template-columns:1fr 420px;gap:48px;align-items:flex-start;position:relative;z-index:1}
 
-/* HERO LEFT */
-.hero-left{}
-.hero-brand{display:flex;align-items:center;gap:10px;margin-bottom:28px}
-.hero-brand-icon{background:rgba(255,255,255,0.15);border-radius:10px;padding:8px 12px;display:flex;align-items:center;gap:8px}
-.hero-brand-icon svg{width:18px;height:18px;fill:#6FD449}
-.hero-brand-name{font-size:14px;font-weight:600;color:rgba(255,255,255,0.9);letter-spacing:0.02em}
-.hero-badge{display:inline-block;background:rgba(111,212,73,0.2);color:#6FD449;border:1px solid rgba(111,212,73,0.4);font-size:11px;font-weight:700;padding:4px 12px;border-radius:20px;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:16px}
-.hero-subtitle{font-size:15px;font-weight:500;color:rgba(255,255,255,0.75);margin-bottom:12px;text-transform:uppercase;letter-spacing:0.06em}
-.hero-headline{font-size:clamp(28px,4vw,44px);font-weight:800;color:#6FD449;line-height:1.15;margin-bottom:16px}
-.hero-desc{font-size:16px;font-weight:400;color:rgba(255,255,255,0.8);line-height:1.6;margin-bottom:32px;max-width:420px}
-.hero-benefits{display:flex;flex-direction:column;gap:10px}
-.hero-benefit{display:flex;align-items:center;gap:10px;font-size:14px;color:rgba(255,255,255,0.85);font-weight:400}
-.hero-benefit-dot{width:20px;height:20px;background:rgba(111,212,73,0.2);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.hero-benefit-dot svg{width:11px;height:11px;fill:#6FD449}
+/* LEFT */
+.hero-left{padding-top:8px}
+.dischem-brand{display:flex;align-items:center;gap:12px;margin-bottom:28px}
+.dischem-cross{width:42px;height:42px;background:#E8003D;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 2px 8px rgba(232,0,61,0.35)}
+.dischem-cross svg{width:24px;height:24px;fill:#fff}
+.dischem-name{font-size:22px;font-weight:800;color:#fff;line-height:1.1}
+.dischem-name span{display:block;font-size:13px;font-weight:400;opacity:.8;margin-top:1px}
+.hero-eyebrow{font-size:14px;font-weight:600;color:rgba(255,255,255,0.8);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:10px}
+.hero-headline{font-size:clamp(26px,3.5vw,42px);font-weight:800;color:#FFD700;line-height:1.15;margin-bottom:8px}
+.hero-subhead{font-size:18px;font-weight:600;color:#fff;margin-bottom:6px}
+.hero-price{font-size:15px;color:rgba(255,255,255,0.85);margin-bottom:32px}
+.hero-price strong{color:#FFD700;font-size:17px}
+.hero-benefits{display:flex;flex-direction:column;gap:11px}
+.hero-benefit{display:flex;align-items:center;gap:11px;font-size:14px;color:rgba(255,255,255,0.9);font-weight:400}
+.hb-check{width:22px;height:22px;background:rgba(255,215,0,0.25);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.hb-check svg{width:12px;height:12px;fill:#FFD700}
 
 /* FORM CARD */
-.form-card{background:#fff;border-radius:16px;padding:32px;box-shadow:0 20px 60px rgba(0,0,0,0.25)}
-.form-title{font-size:20px;font-weight:700;color:#1a1a1a;margin-bottom:4px}
-.form-subtitle{font-size:13px;color:#666;margin-bottom:24px;font-weight:400}
-.form-group{margin-bottom:16px}
-.form-group label{display:block;font-size:12px;font-weight:600;color:#444;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.04em}
-.form-group input{width:100%;padding:13px 16px;border:1.5px solid #e0e0e0;border-radius:8px;font-size:15px;font-family:'Inter',sans-serif;color:#1a1a1a;background:#fafafa;transition:border-color .2s,background .2s;outline:none}
-.form-group input:focus{border-color:#2B13A0;background:#fff}
-.form-group input.error{border-color:#e53935}
-.form-group .error-msg{font-size:11px;color:#e53935;margin-top:4px;display:none}
-.form-group.has-error .error-msg{display:block}
-.form-group.has-error input{border-color:#e53935}
-.btn-submit{width:100%;padding:16px;background:#2B13A0;color:#fff;border:none;border-radius:8px;font-size:16px;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;transition:background .2s,transform .1s;margin-top:8px;display:flex;align-items:center;justify-content:center;gap:10px}
-.btn-submit:hover{background:#1A0C7A}
-.btn-submit:active{transform:scale(0.99)}
-.btn-submit svg{width:18px;height:18px;fill:#6FD449}
-.form-consent{font-size:11px;color:#999;margin-top:14px;line-height:1.5;text-align:center}
-.form-consent a{color:#2B13A0;text-decoration:none}
+.form-card{background:#fff;border-radius:14px;padding:30px;box-shadow:0 16px 48px rgba(0,0,0,.22)}
+.step-bar{display:flex;align-items:center;gap:8px;margin-bottom:20px}
+.step-label{font-size:12px;font-weight:600;color:#666;text-transform:uppercase;letter-spacing:0.06em}
+.step-track{flex:1;height:4px;background:#e8e8e8;border-radius:2px;overflow:hidden}
+.step-fill{height:100%;background:#009640;border-radius:2px;width:100%}
+.form-title{font-size:19px;font-weight:700;color:#1a1a1a;margin-bottom:4px}
+.form-sub{font-size:13px;color:#777;margin-bottom:20px}
+.fgroup{margin-bottom:14px}
+.fgroup label{display:block;font-size:11px;font-weight:700;color:#555;margin-bottom:5px;text-transform:uppercase;letter-spacing:0.05em}
+.fgroup input{width:100%;padding:12px 14px;border:1.5px solid #ddd;border-radius:7px;font-size:15px;font-family:'Inter',sans-serif;color:#1a1a1a;background:#fafafa;outline:none;transition:border .2s,background .2s}
+.fgroup input:focus{border-color:#009640;background:#fff}
+.fgroup.has-error input{border-color:#d32f2f}
+.fgroup .emsg{font-size:11px;color:#d32f2f;margin-top:3px;display:none}
+.fgroup.has-error .emsg{display:block}
+.btn-call{width:100%;padding:15px;background:#009640;color:#fff;border:none;border-radius:8px;font-size:16px;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;margin-top:10px;display:flex;align-items:center;justify-content:center;gap:9px;transition:background .2s}
+.btn-call:hover{background:#007A34}
+.btn-call svg{width:18px;height:18px;fill:#FFD700}
+.form-note{font-size:11px;color:#aaa;text-align:center;margin-top:12px;line-height:1.5}
+.form-note a{color:#009640;text-decoration:none}
 
-/* THANK YOU STATE */
-.thankyou{display:none;text-align:center;padding:16px 0}
-.thankyou-icon{width:64px;height:64px;background:#f0ebff;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
-.thankyou-icon svg{width:32px;height:32px;fill:#2B13A0}
-.thankyou h3{font-size:20px;font-weight:700;color:#1a1a1a;margin-bottom:8px}
-.thankyou p{font-size:14px;color:#666;line-height:1.6}
+/* GUARDRISK */
+.guardrisk-bar{display:flex;align-items:center;gap:8px;margin-top:18px;padding-top:16px;border-top:1px solid #f0f0f0}
+.gr-logo{font-size:11px;font-weight:700;color:#555;letter-spacing:0.08em;text-transform:uppercase}
+.gr-sub{font-size:10px;color:#aaa}
 
-/* TRUST BAR */
-.trust-bar{background:#fff;border-top:1px solid #e8e8e8;padding:20px 32px;display:flex;align-items:center;justify-content:center;gap:48px;flex-wrap:wrap}
-.trust-item{display:flex;align-items:center;gap:10px;font-size:13px;color:#444;font-weight:500}
-.trust-item svg{width:18px;height:18px;fill:#2B13A0;flex-shrink:0}
-.guardrisk{font-size:12px;color:#888;font-weight:600;letter-spacing:0.06em}
+/* THANK YOU */
+.thankyou{display:none;text-align:center;padding:20px 0}
+.ty-icon{width:60px;height:60px;background:#E8F5E9;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 14px}
+.ty-icon svg{width:30px;height:30px;fill:#009640}
+.ty h3{font-size:19px;font-weight:700;color:#1a1a1a;margin-bottom:6px}
+.ty p{font-size:13px;color:#666;line-height:1.6}
 
-/* RESPONSIVE */
-@media(max-width:768px){
-  .hero{padding:32px 20px;min-height:auto}
-  .hero-inner{grid-template-columns:1fr;gap:32px}
-  .hero-headline{font-size:28px}
-  .header{padding:0 20px}
-  .trust-bar{padding:16px 20px;gap:20px}
+/* BOTTOM TRUST BAR */
+.trust-bar{background:#fff;border-top:1px solid #e0e0e0;padding:18px 32px;display:flex;align-items:center;justify-content:center;gap:40px;flex-wrap:wrap}
+.ti{display:flex;align-items:center;gap:9px;font-size:13px;color:#555;font-weight:500}
+.ti svg{width:17px;height:17px;fill:#009640;flex-shrink:0}
+
+/* T&CS */
+.tcs-bar{background:#f9f9f9;border-top:1px solid #eee;padding:18px 32px}
+.tcs-bar p{font-size:11px;color:#aaa;line-height:1.7;max-width:960px;margin:0 auto}
+
+/* MOBILE */
+@media(max-width:780px){
+  .hero{padding:28px 20px}
+  .hero-inner{grid-template-columns:1fr}
+  .hero-left{padding-top:0}
+  .header{padding:0 16px}
+  .trust-bar{padding:14px 16px;gap:18px}
+  .tcs-bar{padding:14px 16px}
 }
 </style>
 </head>
@@ -87,89 +101,90 @@ body{font-family:'Inter',sans-serif;background:#f5f5f5;color:#1a1a1a;min-height:
 
 <!-- HEADER -->
 <div class="header">
-  <div class="header-logo">
-    <div class="logo-icon">
-      <svg viewBox="0 0 24 24"><path d="M7 16l-4-4 4-4M17 8l4 4-4 4M14 4l-4 16"/></svg>
+  <a class="sc-logo" href="https://www.supercompare.co.za" target="_blank">
+    <div class="sc-icon">
+      <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- left chevron dark blue -->
+        <path d="M18 10 L8 20 L18 30" stroke="#3333CC" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <!-- right chevron lime green -->
+        <path d="M24 10 L34 20 L24 30" stroke="#55DD11" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      </svg>
     </div>
-    <div class="logo-text"><span class="super">Super</span><span class="compare">Compare</span></div>
-  </div>
-  <button class="header-cta" onclick="document.getElementById('cell').focus()">Get Covered</button>
+    <div class="sc-wordmark"><span class="w-super">Super</span><span class="w-compare">Compare</span></div>
+  </a>
+  <button class="header-btn" onclick="document.getElementById('cell').focus()">Get a Quote</button>
 </div>
 
 <!-- HERO -->
 <div class="hero">
   <div class="hero-inner">
 
-    <!-- LEFT -->
+    <!-- LEFT: Dis-Chem Life branding -->
     <div class="hero-left">
-      <div class="hero-brand">
-        <div class="hero-brand-icon">
-          <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
-          <span class="hero-brand-name">Dis-Chem Life</span>
+      <div class="dischem-brand">
+        <div class="dischem-cross">
+          <svg viewBox="0 0 24 24"><path d="M19 13H13v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
         </div>
+        <div class="dischem-name">Dis-Chem Life<span>Funeral Cover</span></div>
       </div>
-      <div class="hero-badge">Funeral Cover</div>
-      <div class="hero-subtitle">Get Funeral Cover</div>
+      <div class="hero-eyebrow">Get Funeral Cover</div>
       <div class="hero-headline">Up to R75,000<br>additional cover at<br>no extra cost</div>
-      <div class="hero-desc">That's up to R125,000 funeral cover from just <strong style="color:#fff">R69 per month*</strong></div>
+      <div class="hero-subhead">From just R69/month*</div>
+      <div class="hero-price">That's up to <strong>R125,000</strong> funeral cover from day one</div>
       <div class="hero-benefits">
-        <div class="hero-benefit">
-          <div class="hero-benefit-dot"><svg viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
-          Cover up to 21 family members
-        </div>
-        <div class="hero-benefit">
-          <div class="hero-benefit-dot"><svg viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
-          Valid claims paid within 4–48 hours
-        </div>
-        <div class="hero-benefit">
-          <div class="hero-benefit-dot"><svg viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
-          No medical exam required
-        </div>
-        <div class="hero-benefit">
-          <div class="hero-benefit-dot"><svg viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
-          Immediate accidental death cover
-        </div>
-        <div class="hero-benefit">
-          <div class="hero-benefit-dot"><svg viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
-          Skip your December premium every year
-        </div>
+        <div class="hero-benefit"><div class="hb-check"><svg viewBox="0 0 12 12"><path d="M2 6l3 3 5-5" stroke="#FFD700" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Cover up to 21 family members</div>
+        <div class="hero-benefit"><div class="hb-check"><svg viewBox="0 0 12 12"><path d="M2 6l3 3 5-5" stroke="#FFD700" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Valid claims paid within 4–48 hours</div>
+        <div class="hero-benefit"><div class="hb-check"><svg viewBox="0 0 12 12"><path d="M2 6l3 3 5-5" stroke="#FFD700" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>No medical exam required</div>
+        <div class="hero-benefit"><div class="hb-check"><svg viewBox="0 0 12 12"><path d="M2 6l3 3 5-5" stroke="#FFD700" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Immediate accidental death cover</div>
+        <div class="hero-benefit"><div class="hb-check"><svg viewBox="0 0 12 12"><path d="M2 6l3 3 5-5" stroke="#FFD700" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Skip your December premium every year</div>
+        <div class="hero-benefit"><div class="hb-check"><svg viewBox="0 0 12 12"><path d="M2 6l3 3 5-5" stroke="#FFD700" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Boosted cover up to R125,000 for 3 months*</div>
       </div>
     </div>
 
     <!-- FORM CARD -->
     <div class="form-card">
       <div id="form-state">
+        <div class="step-bar">
+          <div class="step-label">Step 1 of 1</div>
+          <div class="step-track"><div class="step-fill"></div></div>
+        </div>
         <div class="form-title">Request a free quote</div>
-        <div class="form-subtitle">A licensed agent will call you — no commitment required</div>
+        <div class="form-sub">A licensed agent will call you back shortly</div>
         <form id="lead-form" novalidate>
-          <div class="form-group" id="grp-firstname">
+          <div class="fgroup" id="grp-fn">
             <label for="firstname">First Name</label>
             <input type="text" id="firstname" placeholder="Enter your first name" autocomplete="given-name">
-            <div class="error-msg">Please enter your first name</div>
+            <div class="emsg">Please enter your first name</div>
           </div>
-          <div class="form-group" id="grp-surname">
+          <div class="fgroup" id="grp-sn">
             <label for="surname">Surname</label>
             <input type="text" id="surname" placeholder="Enter your surname" autocomplete="family-name">
-            <div class="error-msg">Please enter your surname</div>
+            <div class="emsg">Please enter your surname</div>
           </div>
-          <div class="form-group" id="grp-cell">
+          <div class="fgroup" id="grp-cell">
             <label for="cell">Cell Number</label>
             <input type="tel" id="cell" placeholder="e.g. 0821234567" autocomplete="tel" maxlength="10">
-            <div class="error-msg">Please enter a valid 10-digit SA cell number</div>
+            <div class="emsg">Please enter a valid 10-digit SA cell number</div>
           </div>
-          <button type="submit" class="btn-submit">
+          <button type="submit" class="btn-call">
             <svg viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/></svg>
             Call Me
           </button>
-          <div class="form-consent">By submitting you consent to being contacted by a licensed agent. <a href="#tcs">T&Cs apply.</a></div>
+          <div class="form-note">By submitting you consent to being contacted. <a href="#tcs">T&Cs apply.</a></div>
         </form>
+        <div class="guardrisk-bar">
+          <div>
+            <div class="gr-logo">Guardrisk Life Limited</div>
+            <div class="gr-sub">Authorised FSP No. 76 · Licensed life insurer</div>
+          </div>
+        </div>
       </div>
       <div id="thankyou-state" class="thankyou">
-        <div class="thankyou-icon">
-          <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+        <div class="ty-icon"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></div>
+        <div class="ty">
+          <h3>You're all set!</h3>
+          <p>Thank you! A friendly agent will call you shortly to get you covered.</p>
         </div>
-        <h3>You're all set!</h3>
-        <p>Thank you! A friendly agent will call you shortly to get you covered.</p>
       </div>
     </div>
 
@@ -178,67 +193,35 @@ body{font-family:'Inter',sans-serif;background:#f5f5f5;color:#1a1a1a;min-height:
 
 <!-- TRUST BAR -->
 <div class="trust-bar">
-  <div class="trust-item">
-    <svg viewBox="0 0 24 24"><path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/></svg>
-    Cover up to 21 family members
-  </div>
-  <div class="trust-item">
-    <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
-    Valid claims paid in 48hrs
-  </div>
-  <div class="trust-item">
-    <svg viewBox="0 0 24 24"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg>
-    Affordable premiums
-  </div>
-  <div class="guardrisk">Underwritten by GUARDRISK Life Limited · FSP 76</div>
+  <div class="ti"><svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>FSP Licensed</div>
+  <div class="ti"><svg viewBox="0 0 24 24"><path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/></svg>Claims paid 4–48hrs</div>
+  <div class="ti"><svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>Cover up to 21 members</div>
+  <div class="ti"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/></svg>No medical exam</div>
 </div>
 
 <!-- T&CS -->
-<div id="tcs" style="background:#f9f9f9;padding:20px 32px;border-top:1px solid #eee">
-  <p style="font-size:11px;color:#999;line-height:1.7;max-width:900px;margin:0 auto">SuperCompare is an authorised financial services provider. Dis-Chem Life is an authorised financial services provider – FSP 50594. Products are underwritten by Guardrisk Life Limited, an authorised financial services provider (FSP No 76) and a licensed life insurer. Life insurance premiums are risk profile dependent, subject to change and are not guaranteed. Cover amounts are subject to underwriting and granted on a case-by-case basis. Funeral cover boosts are guaranteed for 3 months. Thereafter, the boost depends on the health check outcome. December skip option applies to policy premium, provided at least one premium has been paid. A 6-month waiting period applies for natural causes. No waiting period for accidental death. By submitting your details you consent to being contacted by a licensed agent. &copy;2026 SuperCompare.</p>
+<div class="tcs-bar" id="tcs">
+  <p>SuperCompare is an authorised financial services provider. Dis-Chem Life is an authorised financial services provider – FSP 50594. Products are underwritten by Guardrisk Life Limited, an authorised financial services provider (FSP No 76) and a licensed life insurer. Life insurance premiums are risk profile dependent, subject to change and are not guaranteed. Cover amounts are subject to underwriting and granted on a case-by-case basis. Funeral cover boosts are guaranteed for 3 months. Thereafter, the boost depends on the health check outcome. December skip option applies to policy premium, provided at least one premium has been paid. A 6-month waiting period applies for natural causes. No waiting period for accidental death. By submitting your details you consent to being contacted by a licensed agent. &copy;2026 SuperCompare.</p>
 </div>
 
 <script>
 const form = document.getElementById('lead-form');
-const formState = document.getElementById('form-state');
-const thankYou = document.getElementById('thankyou-state');
-
-function validate() {
-  let valid = true;
+document.getElementById('cell').addEventListener('input', function(){
+  this.value = this.value.replace(/\D/g,'').slice(0,10);
+});
+form.addEventListener('submit', function(e){
+  e.preventDefault();
+  let ok = true;
   const fn = document.getElementById('firstname');
   const sn = document.getElementById('surname');
   const cell = document.getElementById('cell');
-
-  document.getElementById('grp-firstname').classList.remove('has-error');
-  document.getElementById('grp-surname').classList.remove('has-error');
-  document.getElementById('grp-cell').classList.remove('has-error');
-
-  if (!fn.value.trim()) {
-    document.getElementById('grp-firstname').classList.add('has-error');
-    valid = false;
-  }
-  if (!sn.value.trim()) {
-    document.getElementById('grp-surname').classList.add('has-error');
-    valid = false;
-  }
-  const cellVal = cell.value.trim();
-  if (!cellVal || !/^0[0-9]{9}$/.test(cellVal)) {
-    document.getElementById('grp-cell').classList.add('has-error');
-    valid = false;
-  }
-  return valid;
-}
-
-// Only allow digits in cell field
-document.getElementById('cell').addEventListener('input', function() {
-  this.value = this.value.replace(/\D/g, '').slice(0, 10);
-});
-
-form.addEventListener('submit', function(e) {
-  e.preventDefault();
-  if (validate()) {
-    formState.style.display = 'none';
-    thankYou.style.display = 'block';
+  ['grp-fn','grp-sn','grp-cell'].forEach(id => document.getElementById(id).classList.remove('has-error'));
+  if(!fn.value.trim()){document.getElementById('grp-fn').classList.add('has-error');ok=false;}
+  if(!sn.value.trim()){document.getElementById('grp-sn').classList.add('has-error');ok=false;}
+  if(!/^0[0-9]{9}$/.test(cell.value.trim())){document.getElementById('grp-cell').classList.add('has-error');ok=false;}
+  if(ok){
+    document.getElementById('form-state').style.display='none';
+    document.getElementById('thankyou-state').style.display='block';
   }
 });
 </script>
