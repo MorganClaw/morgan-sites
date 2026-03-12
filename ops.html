@@ -1,93 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<script>
-(function(){
-  if(localStorage.getItem('3way_session')!=='granted'){
-    location.replace('/?r='+encodeURIComponent(location.pathname+location.search));
-    return;
-  }
-  // Set every legacy auth key so old gate JS thinks user is authenticated
-  var keys=['morgan_auth','morgan_tasks_auth','3w_auth','dw_auth','K'];
-  keys.forEach(function(k){ try{sessionStorage.setItem(k,'1');}catch(e){} });
-
-  // Inject CSS to hide gate overlays immediately
-  var s=document.createElement('style');
-  s.id='gate-killer-css';
-  s.textContent=
-    '#pw-gate,#gate,#_gate,.gate,.pw-gate,'+
-    '[id*="gate"],[id*="pw-gate"],'+
-    '.pw-overlay,.auth-overlay,.lock-screen{display:none!important;visibility:hidden!important;}'+
-    'body{overflow:auto!important;}'+
-    '#app{display:flex!important;}'+
-    '#main,#content,.app,.main,.content{display:block!important;opacity:1!important;}';
-  document.head.appendChild(s);
-
-  // After DOM ready — remove gate elements and fix overflow
-  document.addEventListener('DOMContentLoaded',function(){
-    // Kill any element containing a password input that is fixed/absolute positioned
-    document.querySelectorAll('input[type="password"]').forEach(function(inp){
-      var el=inp;
-      for(var i=0;i<10;i++){
-        el=el.parentElement;
-        if(!el)break;
-        try{
-          var cs=getComputedStyle(el);
-          if((cs.position==='fixed'||cs.position==='absolute')&&(parseInt(cs.zIndex)||0)>5){
-            el.remove(); break;
-          }
-        }catch(e){}
-      }
-    });
-    // Remove by known IDs
-    ['pw-gate','gate','_gate','password-gate','auth-gate','login-gate','pw-overlay','auth-overlay'].forEach(function(id){
-      var el=document.getElementById(id);
-      if(el)el.remove();
-    });
-    document.body.style.overflow='';
-    document.body.style.overflowY='';
-  });
-})();
-</script>
-<script>
-// Gate Killer — runs before page paints
-(function(){
-  if(localStorage.getItem('3way_session')!=='granted'){
-    var d=encodeURIComponent(location.pathname+location.search);
-    location.replace('/?r='+d);
-    return;
-  }
-  // Hide gate elements immediately via style injection
-  var s=document.createElement('style');
-  s.textContent=
-    '#pw-gate,#gate,#_gate,.gate,.pw-gate,[id*="gate"],[class*="pw-gate"]{display:none!important;}'+
-    'body{overflow:auto!important;}'+
-    '#app,#main,#content,.app,.main,.content{display:block!important;opacity:1!important;}';
-  document.head.appendChild(s);
-  // Also queue DOM removal after parse
-  document.addEventListener('DOMContentLoaded',function(){
-    var ids=['pw-gate','gate','_gate','password-gate','auth-gate','access-gate','login-gate','auth-overlay','lock-screen','pw-overlay'];
-    ids.forEach(function(id){
-      var el=document.getElementById(id);
-      if(el)el.remove();
-    });
-    // Remove any fixed full-viewport overlay with a password input
-    document.querySelectorAll('input[type="password"]').forEach(function(inp){
-      var parent=inp;
-      for(var i=0;i<8;i++){
-        parent=parent.parentElement;
-        if(!parent)break;
-        var cs=window.getComputedStyle(parent);
-        if(cs.position==='fixed'&&parseInt(cs.zIndex)>10){
-          parent.remove();
-          break;
-        }
-      }
-    });
-    document.body.style.overflow='';
-  });
-})();
-</script><meta charset="UTF-8">
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ops Platform — 3Way Group</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230D1B3E'/%3E%3Ctext x='16' y='23' font-family='Arial Black,sans-serif' font-weight='900' font-size='15' fill='%23FFC200' text-anchor='middle'%3E3W%3C/text%3E%3C/svg%3E">
@@ -111,6 +25,23 @@
 }
 * { margin:0; padding:0; box-sizing:border-box; }
 html, body { height:100%; font-family:'Nunito',sans-serif; background:var(--offwhite); color:var(--navy); }
+
+/* ── PASSWORD GATE ── */
+#pw-gate {
+  position:fixed; inset:0; background:var(--navy2); z-index:9999;
+  display:none; align-items:center; justify-content:center; flex-direction:column; gap:24px;
+}
+.pw-logo { display:flex; align-items:center; gap:10px; margin-bottom:8px; }
+.pw-pills { display:flex; gap:3px; align-items:flex-end; }
+.pw-pill { width:7px; background:var(--yellow); border-radius:4px; }
+.pw-pill:nth-child(1){height:12px} .pw-pill:nth-child(2){height:18px} .pw-pill:nth-child(3){height:24px}
+.pw-brand { font-size:22px; font-weight:900; color:var(--white); }
+.pw-sub { font-size:13px; color:rgba(255,255,255,0.5); text-align:center; }
+.pw-box { display:flex; gap:0; border-radius:10px; overflow:hidden; box-shadow:0 8px 32px rgba(0,0,0,0.4); }
+#pw-input { padding:14px 20px; font-size:15px; font-family:'Nunito',sans-serif; border:none; outline:none; width:260px; background:var(--white); color:var(--navy); }
+#pw-btn { padding:14px 24px; background:var(--yellow); color:var(--navy); font-weight:900; font-size:14px; font-family:'Nunito',sans-serif; border:none; cursor:pointer; transition:opacity .2s; }
+#pw-btn:hover { opacity:.85; }
+#pw-err { color:#ff6b6b; font-size:13px; opacity:0; transition:opacity .3s; }
 
 /* ── LAYOUT ── */
 #app { display:flex; height:100vh; overflow:hidden; }
@@ -390,6 +321,22 @@ textarea.form-control { resize:vertical; min-height:100px; }
 </head>
 <body>
 
+<!-- PASSWORD GATE -->
+<div id="pw-gate">
+  <div class="pw-logo">
+    <div class="pw-pills">
+      <div class="pw-pill"></div><div class="pw-pill"></div><div class="pw-pill"></div>
+    </div>
+    <span class="pw-brand">3Way Group</span>
+  </div>
+  <div class="pw-sub">Operations Platform — Restricted Access</div>
+  <div class="pw-box">
+    <input id="pw-input" type="password" placeholder="Enter password">
+    <button id="pw-btn">Unlock</button>
+  </div>
+  <div id="pw-err">Incorrect password</div>
+</div>
+
 <!-- APP -->
 <div id="app">
   <!-- SIDEBAR -->
@@ -425,10 +372,6 @@ textarea.form-control { resize:vertical; min-height:100px; }
       <div class="nav-item" data-page="proposals">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
         <span class="nav-label">Proposals</span>
-      </div>
-      <div class="nav-item" onclick="window.location.href='/brief'" style="cursor:pointer;">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-        <span class="nav-label">Daily Brief</span>
       </div>
       <div class="nav-item" data-page="settings">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
@@ -690,12 +633,15 @@ textarea.form-control { resize:vertical; min-height:100px; }
 (function(){
   const PW = 'lead.connect.grow';
   const KEY = 'morgan_auth';
+  const gate = document.getElementById('pw-gate');
   if(sessionStorage.getItem(KEY) === '1') return;
+  gate.style.display = 'flex';
   document.body.style.overflow = 'hidden';
   function attempt(){
     const val = document.getElementById('pw-input').value.trim().toLowerCase();
     if(val === PW){
-      setTimeout(()=>{ document.body.style.overflow=''; },400);
+      gate.style.opacity='0'; gate.style.transition='opacity 0.4s';
+      setTimeout(()=>{ gate.style.display='none'; document.body.style.overflow=''; },400);
       sessionStorage.setItem(KEY,'1');
     } else {
       const err = document.getElementById('pw-err');
@@ -1525,47 +1471,5 @@ function clearData(){
 // ── INIT ──
 renderDashboard();
 </script>
-
-
-
-<!-- HUB-PILL -->
-<style>
-#hub-pill {
-  position: fixed;
-  bottom: 20px;
-  left: 20px;
-  z-index: 99999;
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  background: #FFD337;
-  color: #022F5C;
-  font-family: 'Outfit', 'Helvetica Neue', Arial, sans-serif;
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.3px;
-  padding: 10px 18px;
-  border-radius: 50px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.25);
-  cursor: pointer;
-  text-decoration: none;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-  user-select: none;
-}
-#hub-pill:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 24px rgba(0,0,0,0.3);
-}
-#hub-pill:active { transform: translateY(0); }
-#hub-pill svg { flex-shrink: 0; }
-</style>
-<a id="hub-pill" href="/">
-  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M5.5 11.5L1.5 7.5L5.5 3.5" stroke="#022F5C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M1.5 7.5H12.5" stroke="#022F5C" stroke-width="1.8" stroke-linecap="round"/>
-  </svg>
-  Hub
-</a>
-<!-- /HUB-PILL -->
 </body>
 </html>

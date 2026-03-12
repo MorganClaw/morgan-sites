@@ -1,96 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<meta charset="UTF-8">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230D1B3E'/%3E%3Ctext x='16' y='23' font-family='Arial Black,sans-serif' font-weight='900' font-size='15' fill='%23FFC200' text-anchor='middle'%3E3W%3C/text%3E%3C/svg%3E">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script>
 (function(){
-  if(localStorage.getItem('3way_session')!=='granted'){
-    location.replace('/?r='+encodeURIComponent(location.pathname+location.search));
-    return;
-  }
-  // Set every legacy auth key so old gate JS thinks user is authenticated
-  var keys=['morgan_auth','morgan_tasks_auth','3w_auth','dw_auth','K'];
-  keys.forEach(function(k){ try{sessionStorage.setItem(k,'1');}catch(e){} });
-
-  // Inject CSS to hide gate overlays immediately
-  var s=document.createElement('style');
-  s.id='gate-killer-css';
-  s.textContent=
-    '#pw-gate,#gate,#_gate,.gate,.pw-gate,'+
-    '[id*="gate"],[id*="pw-gate"],'+
-    '.pw-overlay,.auth-overlay,.lock-screen{display:none!important;visibility:hidden!important;}'+
-    'body{overflow:auto!important;}'+
-    '#app{display:flex!important;}'+
-    '#main,#content,.app,.main,.content{display:block!important;opacity:1!important;}';
-  document.head.appendChild(s);
-
-  // After DOM ready — remove gate elements and fix overflow
-  document.addEventListener('DOMContentLoaded',function(){
-    // Kill any element containing a password input that is fixed/absolute positioned
-    document.querySelectorAll('input[type="password"]').forEach(function(inp){
-      var el=inp;
-      for(var i=0;i<10;i++){
-        el=el.parentElement;
-        if(!el)break;
-        try{
-          var cs=getComputedStyle(el);
-          if((cs.position==='fixed'||cs.position==='absolute')&&(parseInt(cs.zIndex)||0)>5){
-            el.remove(); break;
-          }
-        }catch(e){}
+  const PW = 'lead.connect.grow';
+  const KEY = 'morgan_auth';
+  if(sessionStorage.getItem(KEY) === '1') return;
+  document.addEventListener('DOMContentLoaded', function(){
+    const gate = document.getElementById('pw-gate');
+    const input = document.getElementById('pw-input');
+    const btn = document.getElementById('pw-btn');
+    const err = document.getElementById('pw-err');
+    gate.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+    function attempt(){
+      if(input.value.trim().toLowerCase() === PW){
+        gate.style.opacity = '0';
+        gate.style.transition = 'opacity 0.5s';
+        setTimeout(()=>{ gate.style.display='none'; document.body.style.overflow=''; }, 500);
+        sessionStorage.setItem(KEY,'1');
+      } else {
+        err.style.opacity = '1';
+        input.value = '';
+        input.focus();
+        setTimeout(()=>{ err.style.opacity='0'; }, 2000);
       }
-    });
-    // Remove by known IDs
-    ['pw-gate','gate','_gate','password-gate','auth-gate','login-gate','pw-overlay','auth-overlay'].forEach(function(id){
-      var el=document.getElementById(id);
-      if(el)el.remove();
-    });
-    document.body.style.overflow='';
-    document.body.style.overflowY='';
+    }
+    btn.addEventListener('click', attempt);
+    input.addEventListener('keydown', function(e){ if(e.key==='Enter') attempt(); });
+    input.focus();
   });
 })();
 </script>
-<script>
-// Gate Killer — runs before page paints
-(function(){
-  if(localStorage.getItem('3way_session')!=='granted'){
-    var d=encodeURIComponent(location.pathname+location.search);
-    location.replace('/?r='+d);
-    return;
-  }
-  // Hide gate elements immediately via style injection
-  var s=document.createElement('style');
-  s.textContent=
-    '#pw-gate,#gate,#_gate,.gate,.pw-gate,[id*="gate"],[class*="pw-gate"]{display:none!important;}'+
-    'body{overflow:auto!important;}'+
-    '#app,#main,#content,.app,.main,.content{display:block!important;opacity:1!important;}';
-  document.head.appendChild(s);
-  // Also queue DOM removal after parse
-  document.addEventListener('DOMContentLoaded',function(){
-    var ids=['pw-gate','gate','_gate','password-gate','auth-gate','access-gate','login-gate','auth-overlay','lock-screen','pw-overlay'];
-    ids.forEach(function(id){
-      var el=document.getElementById(id);
-      if(el)el.remove();
-    });
-    // Remove any fixed full-viewport overlay with a password input
-    document.querySelectorAll('input[type="password"]').forEach(function(inp){
-      var parent=inp;
-      for(var i=0;i<8;i++){
-        parent=parent.parentElement;
-        if(!parent)break;
-        var cs=window.getComputedStyle(parent);
-        if(cs.position==='fixed'&&parseInt(cs.zIndex)>10){
-          parent.remove();
-          break;
-        }
-      }
-    });
-    document.body.style.overflow='';
-  });
-})();
-</script><meta charset="UTF-8">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230D1B3E'/%3E%3Ctext x='16' y='23' font-family='Arial Black,sans-serif' font-weight='900' font-size='15' fill='%23FFC200' text-anchor='middle'%3E3W%3C/text%3E%3C/svg%3E">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Morgan — Chief of Staff | 3Way Group</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -415,7 +359,76 @@
 </head>
 <body>
 <style id="_gate_style">
+#_gate{position:fixed;inset:0;z-index:9999;background:#0D1B3E;display:flex;align-items:center;justify-content:center;padding:2rem;font-family:'Inter',system-ui,sans-serif;}
+#_gate.gone{display:none;}
+#_gate .gb{text-align:center;width:100%;max-width:340px;}
+#_gate .gw{font-family:'Syne','Arial Black',sans-serif;font-weight:800;font-size:1.9rem;margin-bottom:.75rem;color:#fff;}
+#_gate .gw em{color:#FFC200;font-style:normal;}
+#_gate .gs{font-size:.85rem;color:#8A9DC0;margin-bottom:2rem;}
+#_gate .gi{width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(138,157,192,.2);color:#fff;font-size:1rem;padding:.9rem 1.1rem;outline:none;border-radius:8px;font-family:inherit;margin-bottom:.75rem;display:block;}
+#_gate .gi:focus{border-color:#FFC200;}
+#_gate .gb2{width:100%;background:#FFC200;color:#0A0A0A;border:none;padding:1rem;font-weight:700;font-size:1rem;border-radius:8px;cursor:pointer;}
+#_gate .ge{font-size:.76rem;color:#E84C2B;margin-top:.4rem;min-height:1.1em;text-align:left;}
 </style>
+<div id="_gate">
+  <div class="gb">
+    <div class="gw"><em>3</em>Way Group</div>
+    <div class="gs">This document is confidential.</div>
+    <input class="gi" id="_gpw" type="password" placeholder="Enter password">
+    <div class="ge" id="_ge"></div>
+    <button class="gb2" id="_gbtn">Access</button>
+  </div>
+</div>
+<script>
+(function(){
+  var K="3wg_page";
+  function go(){
+    var v=document.getElementById("_gpw").value;
+    if(v==="lead.connect.grow"){
+      sessionStorage.setItem(K,"1");
+      document.getElementById("_gate").classList.add("gone");
+    } else {
+      document.getElementById("_ge").textContent="Incorrect password.";
+      document.getElementById("_gpw").value="";
+      document.getElementById("_gpw").focus();
+    }
+  }
+  document.getElementById("_gbtn").addEventListener("click",go);
+  document.getElementById("_gpw").addEventListener("keydown",function(e){if(e.key==="Enter")go();});
+  if(sessionStorage.getItem(K)){document.getElementById("_gate").classList.add("gone");}
+})();
+</script>
+
+<!-- PASSWORD GATE -->
+<div id="pw-gate" style="display:none;position:fixed;inset:0;z-index:9999;background:#0E1A42;align-items:center;justify-content:center;flex-direction:column;gap:0;">
+  <div style="text-align:center;max-width:420px;width:90%;padding:0 24px;">
+    <!-- Logo -->
+    <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:48px;">
+      <div style="display:flex;gap:3px;align-items:flex-end;">
+        <div style="width:7px;height:12px;background:#FFC200;border-radius:4px;"></div>
+        <div style="width:7px;height:18px;background:#FFC200;border-radius:4px;"></div>
+        <div style="width:7px;height:24px;background:#FFC200;border-radius:4px;"></div>
+      </div>
+      <span style="font-family:Nunito,sans-serif;font-size:22px;font-weight:900;color:#FFFFFF;letter-spacing:-0.02em;">3Way</span>
+    </div>
+    <!-- Heading -->
+    <h1 style="font-family:Nunito,sans-serif;font-size:28px;font-weight:900;color:#FFFFFF;letter-spacing:-0.03em;margin-bottom:12px;line-height:1.1;">You've been given access.</h1>
+    <p style="font-family:Nunito,sans-serif;font-size:15px;font-weight:500;color:rgba(255,255,255,0.5);margin-bottom:36px;line-height:1.6;">Enter the passphrase Ricky shared with you to continue.</p>
+    <!-- Input -->
+    <div style="position:relative;margin-bottom:12px;">
+      <input id="pw-input" type="password" placeholder="Passphrase"
+        style="width:100%;padding:16px 20px;background:rgba(255,255,255,0.06);border:1.5px solid rgba(255,255,255,0.15);border-radius:10px;font-family:Nunito,sans-serif;font-size:16px;font-weight:600;color:#FFFFFF;outline:none;letter-spacing:0.05em;transition:border-color .2s;"
+        onfocus="this.style.borderColor='rgba(255,194,0,0.6)'" onblur="this.style.borderColor='rgba(255,255,255,0.15)'">
+    </div>
+    <button id="pw-btn"
+      style="width:100%;padding:16px;background:#FFC200;border:none;border-radius:10px;font-family:Nunito,sans-serif;font-size:16px;font-weight:900;color:#1A2D6B;cursor:pointer;transition:transform .15s,box-shadow .15s;letter-spacing:0.02em;"
+      onmouseover="this.style.transform='translateY(-1px)';this.style.boxShadow='0 6px 20px rgba(255,194,0,0.4)'"
+      onmouseout="this.style.transform='';this.style.boxShadow=''">
+      Enter →
+    </button>
+    <p id="pw-err" style="font-family:Nunito,sans-serif;font-size:13px;font-weight:700;color:#E84C2B;margin-top:14px;opacity:0;transition:opacity .3s;">Incorrect passphrase. Try again.</p>
+  </div>
+</div>
 
 <!-- NAV -->
 <nav>
@@ -986,47 +999,5 @@ function buildTicker(id, items) {
 buildTicker('ticker1', feed1);
 buildTicker('ticker2', feed2);
 </script>
-
-
-
-<!-- HUB-PILL -->
-<style>
-#hub-pill {
-  position: fixed;
-  bottom: 20px;
-  left: 20px;
-  z-index: 99999;
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  background: #FFD337;
-  color: #022F5C;
-  font-family: 'Outfit', 'Helvetica Neue', Arial, sans-serif;
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.3px;
-  padding: 10px 18px;
-  border-radius: 50px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.25);
-  cursor: pointer;
-  text-decoration: none;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-  user-select: none;
-}
-#hub-pill:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 24px rgba(0,0,0,0.3);
-}
-#hub-pill:active { transform: translateY(0); }
-#hub-pill svg { flex-shrink: 0; }
-</style>
-<a id="hub-pill" href="/">
-  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M5.5 11.5L1.5 7.5L5.5 3.5" stroke="#022F5C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M1.5 7.5H12.5" stroke="#022F5C" stroke-width="1.8" stroke-linecap="round"/>
-  </svg>
-  Hub
-</a>
-<!-- /HUB-PILL -->
 </body>
 </html>

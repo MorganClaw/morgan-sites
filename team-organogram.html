@@ -1,13 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<script>
-(function(){if(localStorage.getItem('3way_session')!=='granted'){location.replace('/?r='+encodeURIComponent(location.pathname+location.search));return;}})();
-</script>
 <meta charset="UTF-8">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230D1B3E'/%3E%3Ctext x='16' y='23' font-family='Arial Black,sans-serif' font-weight='900' font-size='15' fill='%23FFC200' text-anchor='middle'%3E3W%3C/text%3E%3C/svg%3E">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>3Way Group — Agent Organogram v2.0</title>
+<title>3Way Group — Agent Organogram</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -30,19 +27,12 @@ body{animation:fadeIn 0.5s ease;}
 
 /* HEADER */
 .header{padding:1.5rem 3rem 1.25rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);max-width:1600px;margin:0 auto;position:relative;z-index:1;}
-.header-left{display:flex;align-items:center;gap:1.25rem;}
 .header-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.25rem;}
 .header-logo span{color:var(--yellow);}
 .header-title{font-size:0.78rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.15em;margin-top:.2rem;}
 .header-badge{display:flex;align-items:center;gap:.5rem;background:var(--yellow-dim);border:1px solid rgba(255,194,0,.2);border-radius:100px;padding:.4rem 1rem;font-size:.75rem;font-weight:600;color:var(--yellow);}
 .dot{width:6px;height:6px;border-radius:50%;background:var(--yellow);animation:pulse 2s infinite;}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.4)}}
-
-/* VERSION PILLS */
-.version-pills{display:flex;gap:.4rem;align-items:center;}
-.v-pill{font-size:.72rem;font-weight:700;padding:.3rem .75rem;border-radius:100px;border:1px solid rgba(138,157,192,.25);color:var(--muted);text-decoration:none;cursor:pointer;transition:all .2s;}
-.v-pill:hover{border-color:rgba(255,194,0,.4);color:var(--yellow);}
-.v-pill.active{background:var(--yellow);color:#0D1B3E;border-color:var(--yellow);font-weight:800;}
 
 /* LEGEND */
 .legend{display:flex;gap:1.25rem;padding:.9rem 3rem;max-width:1600px;margin:0 auto;flex-wrap:wrap;align-items:center;position:relative;z-index:1;border-bottom:1px solid var(--border);}
@@ -60,12 +50,6 @@ body{animation:fadeIn 0.5s ease;}
 .tier-row{display:flex;justify-content:center;gap:.9rem;flex-wrap:wrap;}
 .connector-row{display:flex;justify-content:center;height:44px;position:relative;z-index:1;}
 .v-line{width:2px;height:100%;background:linear-gradient(to bottom,rgba(138,157,192,.3),rgba(138,157,192,.08));}
-
-/* SUB-ROW LABELS within tier-3 */
-.sub-row-label{font-size:.63rem;font-weight:700;text-transform:uppercase;letter-spacing:.15em;color:rgba(138,157,192,.55);padding:.3rem .85rem;border:1px solid rgba(138,157,192,.18);border-radius:100px;background:rgba(138,157,192,.06);display:inline-block;margin-bottom:.75rem;}
-.sub-tier{display:flex;flex-direction:column;align-items:center;width:100%;margin-bottom:.5rem;}
-.sub-connector{height:28px;display:flex;justify-content:center;}
-.sub-v-line{width:2px;height:100%;background:linear-gradient(to bottom,rgba(138,157,192,.15),rgba(138,157,192,.04));}
 
 /* NODE CARDS */
 .node{position:relative;border-radius:14px;padding:1.1rem .9rem;text-align:center;cursor:pointer;transition:all .3s cubic-bezier(.16,1,.3,1);border:1px solid var(--border);background:var(--navy-card);backdrop-filter:blur(10px);user-select:none;}
@@ -91,14 +75,6 @@ body{animation:fadeIn 0.5s ease;}
 .node-functional{width:140px;}
 .node-bu{width:158px;}
 
-/* NEXUS — Core Revenue Engine card */
-.node-nexus{width:220px;padding:1.5rem 1.25rem;border-color:rgba(255,194,0,.6);background:linear-gradient(135deg,rgba(255,194,0,.1),var(--navy-card));box-shadow:0 0 60px rgba(255,194,0,.22),0 0 0 1px rgba(255,194,0,.18);}
-.node-nexus .node-emoji{font-size:1.9rem;margin-bottom:.55rem;}
-.node-nexus .node-code{color:var(--yellow);font-size:1.3rem;}
-.node-nexus .node-status{background:var(--yellow-dim);color:var(--yellow);}
-.node-nexus:hover{box-shadow:0 0 80px rgba(255,194,0,.35),0 0 0 2px rgba(255,194,0,.45);transform:translateY(-4px);}
-.engine-badge{display:block;font-size:.55rem;font-weight:800;text-transform:uppercase;letter-spacing:.2em;color:rgba(255,194,0,.5);margin-bottom:.5rem;}
-
 /* Colour variants */
 .apex{border-color:rgba(255,194,0,.3);}.apex .node-code{color:var(--yellow);}.apex .node-status{background:var(--yellow-dim);color:var(--yellow);}.apex:hover,.apex.active-node{border-color:var(--yellow);box-shadow:0 8px 30px rgba(255,194,0,.2);}
 .radar{border-color:rgba(64,88,212,.3);}.radar .node-code{color:#6C8FFF;}.radar .node-status{background:var(--blue-dim);color:#6C8FFF;}.radar:hover,.radar.active-node{border-color:var(--blue);box-shadow:0 8px 30px rgba(64,88,212,.2);}
@@ -106,7 +82,21 @@ body{animation:fadeIn 0.5s ease;}
 .pulse{border-color:rgba(72,199,142,.3);}.pulse .node-code{color:var(--green);}.pulse .node-status{background:var(--green-dim);color:var(--green);}.pulse:hover,.pulse.active-node{border-color:var(--green);box-shadow:0 8px 30px rgba(72,199,142,.2);}
 .cipher{border-color:rgba(155,89,182,.3);}.cipher .node-code{color:#B57BDE;}.cipher .node-status{background:var(--purple-dim);color:#B57BDE;}.cipher:hover,.cipher.active-node{border-color:var(--purple);box-shadow:0 8px 30px rgba(155,89,182,.2);}
 .herald{border-color:rgba(26,188,156,.3);}.herald .node-code{color:var(--teal);}.herald .node-status{background:var(--teal-dim);color:var(--teal);}.herald:hover,.herald.active-node{border-color:var(--teal);box-shadow:0 8px 30px rgba(26,188,156,.2);}
+.volt{border-color:rgba(255,194,0,.3);}.volt .node-code{color:var(--yellow);}.volt .node-status{background:var(--yellow-dim);color:var(--yellow);}.volt:hover,.volt.active-node{border-color:var(--yellow);box-shadow:0 8px 30px rgba(255,194,0,.2);}
+.bridge{border-color:rgba(64,88,212,.3);}.bridge .node-code{color:#6C8FFF;}.bridge .node-status{background:var(--blue-dim);color:#6C8FFF;}.bridge:hover,.bridge.active-node{border-color:var(--blue);box-shadow:0 8px 30px rgba(64,88,212,.2);}
+.trace{border-color:rgba(72,199,142,.3);}.trace .node-code{color:var(--green);}.trace .node-status{background:var(--green-dim);color:var(--green);}.trace:hover,.trace.active-node{border-color:var(--green);box-shadow:0 8px 30px rgba(72,199,142,.2);}
 .shield{border-color:rgba(230,126,34,.3);}.shield .node-code{color:#F5A95A;}.shield .node-status{background:var(--orange-dim);color:#F5A95A;}.shield:hover,.shield.active-node{border-color:var(--orange);box-shadow:0 8px 30px rgba(230,126,34,.2);}
+
+/* BU sub-agent list (always visible, collapsible) */
+.bu-section{display:flex;flex-direction:column;align-items:center;}
+.bu-sub{width:158px;margin-top:.5rem;background:rgba(10,20,50,.6);border:1px solid rgba(138,157,192,.08);border-radius:10px;overflow:hidden;max-height:0;transition:max-height .35s cubic-bezier(.16,1,.3,1);}
+.bu-sub.open{max-height:300px;}
+.sub-item{display:flex;align-items:center;gap:.6rem;padding:.55rem .7rem;border-bottom:1px solid rgba(138,157,192,.06);cursor:default;transition:background .2s;}
+.sub-item:last-child{border-bottom:none;}
+.sub-item:hover{background:rgba(138,157,192,.06);}
+.sub-icon{font-size:.9rem;flex-shrink:0;}
+.sub-name{font-family:'Syne',sans-serif;font-weight:700;font-size:.7rem;line-height:1.3;}
+.expand-toggle{font-size:.6rem;color:rgba(138,157,192,.45);margin-top:.35rem;letter-spacing:.04em;}
 
 /* SIDE PANEL */
 .panel-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:500;opacity:0;pointer-events:none;transition:opacity .3s;}
@@ -160,6 +150,48 @@ body{animation:fadeIn 0.5s ease;}
 </style>
 </head>
 <body>
+<style id="_gate_style">
+#_gate{position:fixed;inset:0;z-index:9999;background:#0D1B3E;display:flex;align-items:center;justify-content:center;padding:2rem;font-family:'Inter',system-ui,sans-serif;}
+#_gate.gone{display:none;}
+#_gate .gb{text-align:center;width:100%;max-width:340px;}
+#_gate .gw{font-family:'Syne','Arial Black',sans-serif;font-weight:800;font-size:1.9rem;margin-bottom:.75rem;color:#fff;}
+#_gate .gw em{color:#FFC200;font-style:normal;}
+#_gate .gs{font-size:.85rem;color:#8A9DC0;margin-bottom:2rem;}
+#_gate .gi{width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(138,157,192,.2);color:#fff;font-size:1rem;padding:.9rem 1.1rem;outline:none;border-radius:8px;font-family:inherit;margin-bottom:.75rem;display:block;}
+#_gate .gi:focus{border-color:#FFC200;}
+#_gate .gb2{width:100%;background:#FFC200;color:#0A0A0A;border:none;padding:1rem;font-weight:700;font-size:1rem;border-radius:8px;cursor:pointer;}
+#_gate .ge{font-size:.76rem;color:#E84C2B;margin-top:.4rem;min-height:1.1em;text-align:left;}
+</style>
+<div id="_gate">
+  <div class="gb">
+    <div class="gw"><em>3</em>Way Group</div>
+    <div class="gs">This document is confidential.</div>
+    <input class="gi" id="_gpw" type="password" placeholder="Enter password">
+    <div class="ge" id="_ge"></div>
+    <button class="gb2" id="_gbtn">Access</button>
+  </div>
+</div>
+<script>
+(function(){
+  var K="3wg_page";
+  function go(){
+    var v=document.getElementById("_gpw").value;
+    if(v==="lead.connect.grow"){
+      sessionStorage.setItem(K,"1");
+      document.getElementById("_gate").classList.add("gone");
+    } else {
+      document.getElementById("_ge").textContent="Incorrect password.";
+      document.getElementById("_gpw").value="";
+      document.getElementById("_gpw").focus();
+    }
+  }
+  document.getElementById("_gbtn").addEventListener("click",go);
+  document.getElementById("_gpw").addEventListener("keydown",function(e){if(e.key==="Enter")go();});
+  if(sessionStorage.getItem(K)){document.getElementById("_gate").classList.add("gone");}
+})();
+</script>
+
+<style>�#_gate{position:fixed;inset:0;z-index:9999;background:#0D1B3E;display:flex;align-items:center;justify-content:center;padding:2rem;font-family:"Inter",system-ui,sans-serif;}�#_gate.gone{display:none;}�._gb{text-align:center;width:100%;max-width:340px;}�._gw{font-family:"Syne","Arial Black",sans-serif;font-weight:800;font-size:1.9rem;margin-bottom:.75rem;color:#fff;}�._gw span{color:#FFC200;}�._gs{font-size:.85rem;color:#8A9DC0;margin-bottom:2rem;}�._gi{width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(138,157,192,.2);color:#fff;font-size:1rem;padding:.9rem 1.1rem;outline:none;border-radius:8px;font-family:inherit;margin-bottom:.75rem;}�._gi:focus{border-color:#FFC200;}�._gi::placeholder{color:rgba(138,157,192,.4);}�._gb2{width:100%;background:#FFC200;color:#0A0A0A;border:none;padding:1rem;font-weight:700;font-size:1rem;border-radius:8px;cursor:pointer;letter-spacing:.04em;}�._gb2:active{background:#cc9800;}�._ge{font-size:.76rem;color:#E84C2B;margin-top:.4rem;min-height:1em;}�</style>��
 
 <!-- SIDE PANEL -->
 <div class="panel-overlay" id="panelOverlay" onclick="closePanel()"></div>
@@ -179,28 +211,22 @@ body{animation:fadeIn 0.5s ease;}
 
 <!-- HEADER -->
 <div class="header">
-  <div class="header-left">
-    <div>
-      <div class="header-logo"><span>3</span>Way Group</div>
-      <div class="header-title">Agent Organogram v2.0</div>
-    </div>
-    <div class="version-pills">
-      <a href="/team-organogram-v1.html" class="v-pill">v1.1</a>
-      <span class="v-pill active">v2.0</span>
-    </div>
+  <div>
+    <div class="header-logo"><span>3</span>Way Group</div>
+    <div class="header-title">Agent Organogram v1.1</div>
   </div>
   <div class="header-badge"><div class="dot"></div>Blueprint Phase</div>
 </div>
 
 <!-- LEGEND -->
 <div class="legend">
-  <div class="legend-item"><div class="legend-dot" style="background:#FFC200"></div>Core Revenue Engine</div>
-  <div class="legend-item"><div class="legend-dot" style="background:#4058D4"></div>Signal Intelligence</div>
-  <div class="legend-item"><div class="legend-dot" style="background:#E84C2B"></div>Data Capture</div>
-  <div class="legend-item"><div class="legend-dot" style="background:#9B59B6"></div>Enrichment</div>
-  <div class="legend-item"><div class="legend-dot" style="background:#E67E22"></div>Compliance</div>
-  <div class="legend-item"><div class="legend-dot" style="background:#48C78E"></div>Ad Activation</div>
-  <div class="legend-item"><div class="legend-dot" style="background:#1ABC9C"></div>Channel Execution</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#FFC200"></div>Revenue / Commercial</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#6C8FFF"></div>Research / Intelligence</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#FF7057"></div>Technical / Development</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#48C78E"></div>Campaign / Growth</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#B57BDE"></div>Data / Analytics</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#1ABC9C"></div>Communications</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#F5A95A"></div>Business Units</div>
   <div class="legend-hint">Click any card for full detail + KPIs</div>
 </div>
 
@@ -208,7 +234,7 @@ body{animation:fadeIn 0.5s ease;}
 <div class="canvas" id="canvas">
   <svg class="connections-svg" id="connections-svg" xmlns="http://www.w3.org/2000/svg"></svg>
 
-  <!-- TIER 0: The Human -->
+  <!-- TIER 0 -->
   <div class="tier" id="tier-0">
     <div class="tier-label">The Human</div>
     <div class="tier-row">
@@ -227,7 +253,7 @@ body{animation:fadeIn 0.5s ease;}
 
   <div class="connector-row"><div class="v-line"></div></div>
 
-  <!-- TIER 1: Chief of Staff -->
+  <!-- TIER 1 -->
   <div class="tier" id="tier-1">
     <div class="tier-label">Chief of Staff</div>
     <div class="tier-row">
@@ -247,126 +273,162 @@ body{animation:fadeIn 0.5s ease;}
 
   <div class="connector-row"><div class="v-line"></div></div>
 
-  <!-- TIER 2: Core Revenue Engine -->
+  <!-- TIER 2 -->
   <div class="tier" id="tier-2">
-    <div class="tier-label">Core Revenue Engine</div>
-    <div class="tier-row">
-      <div class="node node-nexus" id="node-nexus" onclick="openPanel('nexus')">
-        <span class="engine-badge">⬤ Core Revenue Engine</span>
-        <span class="node-emoji">🔄</span>
-        <div class="node-code">NEXUS</div>
-        <div class="node-role">Lead Gen Agent</div>
+    <div class="tier-label">Functional Agents — Shared Services</div>
+    <div class="tier-row" id="row-functional">
+
+      <div class="node node-functional apex" onclick="openPanel('apex')">
+        <span class="node-emoji">🎯</span>
+        <div class="node-code">Apex</div>
+        <div class="node-role">Revenue Scout</div>
         <div class="node-status">Blueprint</div>
         <div class="kpi-mini">
-          <span class="kpi-chip warn">Blueprint 20%</span>
+          <span class="kpi-chip off">Pending</span>
         </div>
       </div>
-    </div>
-  </div>
 
-  <div class="connector-row"><div class="v-line" style="opacity:.45;"></div></div>
-
-  <!-- TIER 3: Upstream + Downstream -->
-  <div class="tier" id="tier-3">
-    <div class="sub-tier">
-      <div class="sub-row-label">↑ Upstream — Signal &amp; Enrichment</div>
-      <div class="tier-row" id="row-upstream">
-        <div class="node node-bu radar" id="node-scout" onclick="openPanel('scout')">
-          <span class="node-emoji">👁️</span>
-          <div class="node-code">SCOUT</div>
-          <div class="node-role">Social Listening Agent</div>
-          <div class="node-status">Blueprint</div>
-          <div class="kpi-mini"><span class="kpi-chip off">Blueprint 20%</span></div>
-        </div>
-        <div class="node node-bu forge" id="node-crawler" onclick="openPanel('crawler')">
-          <span class="node-emoji">🕷️</span>
-          <div class="node-code">CRAWLER</div>
-          <div class="node-role">Web Scraping Agent</div>
-          <div class="node-status">Blueprint</div>
-          <div class="kpi-mini"><span class="kpi-chip off">Blueprint 20%</span></div>
-        </div>
-        <div class="node node-bu cipher" id="node-cipher" onclick="openPanel('cipher')">
-          <span class="node-emoji">🔐</span>
-          <div class="node-code">CIPHER</div>
-          <div class="node-role">Data Enrichment Agent</div>
-          <div class="node-status">Blueprint</div>
-          <div class="kpi-mini"><span class="kpi-chip off">Blueprint 20%</span></div>
-        </div>
-        <div class="node node-bu shield" id="node-guardian" onclick="openPanel('guardian')">
-          <span class="node-emoji">⚖️</span>
-          <div class="node-code">GUARDIAN</div>
-          <div class="node-role">POPIA Compliance Agent</div>
-          <div class="node-status">Blueprint</div>
-          <div class="kpi-mini"><span class="kpi-chip off">Blueprint 20%</span></div>
+      <div class="node node-functional radar" onclick="openPanel('radar')">
+        <span class="node-emoji">📡</span>
+        <div class="node-code">Radar</div>
+        <div class="node-role">Research & Intel</div>
+        <div class="node-status">Blueprint</div>
+        <div class="kpi-mini">
+          <span class="kpi-chip off">Pending</span>
         </div>
       </div>
-    </div>
 
-    <div class="sub-connector"><div class="sub-v-line"></div></div>
-
-    <div class="sub-tier" style="margin-top:.5rem;">
-      <div class="sub-row-label">↓ Downstream — Activation</div>
-      <div class="tier-row" id="row-downstream">
-        <div class="node node-bu pulse" id="node-pulse" onclick="openPanel('pulse')">
-          <span class="node-emoji">📣</span>
-          <div class="node-code">PULSE</div>
-          <div class="node-role">Ad Automation Agent</div>
-          <div class="node-status">Blueprint</div>
-          <div class="kpi-mini"><span class="kpi-chip off">Blueprint 20%</span></div>
-        </div>
-        <div class="node node-bu herald" id="node-bolt" onclick="openPanel('bolt')">
-          <span class="node-emoji">⚡</span>
-          <div class="node-code">BOLT</div>
-          <div class="node-role">Channel Execution Agent</div>
-          <div class="node-status">Blueprint</div>
-          <div class="kpi-mini"><span class="kpi-chip off">Blueprint 20%</span></div>
+      <div class="node node-functional forge" onclick="openPanel('forge')">
+        <span class="node-emoji">⚙️</span>
+        <div class="node-code">Forge</div>
+        <div class="node-role">Developer Agent</div>
+        <div class="node-status">Planned</div>
+        <div class="kpi-mini">
+          <span class="kpi-chip off">Not started</span>
         </div>
       </div>
+
+      <div class="node node-functional pulse" onclick="openPanel('pulse')">
+        <span class="node-emoji">📊</span>
+        <div class="node-code">Pulse</div>
+        <div class="node-role">Campaign Architect</div>
+        <div class="node-status">Planned</div>
+        <div class="kpi-mini">
+          <span class="kpi-chip off">Not started</span>
+        </div>
+      </div>
+
+      <div class="node node-functional cipher" onclick="openPanel('cipher')">
+        <span class="node-emoji">🔐</span>
+        <div class="node-code">Cipher</div>
+        <div class="node-role">Data & Analytics</div>
+        <div class="node-status">Planned</div>
+        <div class="kpi-mini">
+          <span class="kpi-chip off">Not started</span>
+        </div>
+      </div>
+
+      <div class="node node-functional herald" onclick="openPanel('herald')">
+        <span class="node-emoji">✉️</span>
+        <div class="node-code">Herald</div>
+        <div class="node-role">Communications</div>
+        <div class="node-status">Planned</div>
+        <div class="kpi-mini">
+          <span class="kpi-chip off">Not started</span>
+        </div>
+      </div>
+
     </div>
   </div>
 
   <div class="connector-row"><div class="v-line"></div></div>
 
-  <!-- TIER 4: Operations Layer -->
-  <div class="tier" id="tier-4">
-    <div class="tier-label">Operations Layer</div>
-    <div class="tier-row" id="row-ops">
-      <div class="node node-functional radar" id="node-trace" onclick="openPanel('trace')">
-        <span class="node-emoji">📊</span>
-        <div class="node-code">TRACE</div>
-        <div class="node-role">Analytics Agent</div>
-        <div class="node-status">Blueprint</div>
-        <div class="kpi-mini"><span class="kpi-chip off">Blueprint 20%</span></div>
+  <!-- TIER 3 -->
+  <div class="tier" id="tier-3">
+    <div class="tier-label">Business Unit Operators — click card to expand sub-agents</div>
+    <div class="tier-row" id="row-bu">
+
+      <!-- VOLT -->
+      <div class="bu-section">
+        <div class="node node-bu volt" id="node-volt" onclick="openPanel('volt')">
+          <span class="node-emoji">⚡</span>
+          <div class="node-code">Volt</div>
+          <div class="node-role">SayHi Operator</div>
+          <div class="node-status">Planned</div>
+          <div class="kpi-mini"><span class="kpi-chip off">3 sub-agents</span></div>
+        </div>
+        <div class="expand-toggle" id="volt-toggle" onclick="toggleSub('volt-sub','volt-toggle',event)" style="cursor:pointer;">▾ show sub-agents</div>
+        <div class="bu-sub" id="volt-sub">
+          <div class="sub-item"><span class="sub-icon">📱</span><div><div class="sub-name">DCB Campaign Manager</div></div></div>
+          <div class="sub-item"><span class="sub-icon">🤝</span><div><div class="sub-name">Operator Relations</div></div></div>
+          <div class="sub-item"><span class="sub-icon">⚖️</span><div><div class="sub-name">Compliance Monitor</div></div></div>
+        </div>
       </div>
-      <div class="node node-functional herald" id="node-herald" onclick="openPanel('herald')">
-        <span class="node-emoji">✉️</span>
-        <div class="node-code">HERALD</div>
-        <div class="node-role">Communications Agent</div>
-        <div class="node-status">Planned</div>
-        <div class="kpi-mini"><span class="kpi-chip off">Planned 10%</span></div>
+
+      <!-- BRIDGE -->
+      <div class="bu-section">
+        <div class="node node-bu bridge" id="node-bridge" onclick="openPanel('bridge')">
+          <span class="node-emoji">🌉</span>
+          <div class="node-code">Bridge</div>
+          <div class="node-role">FindBetter Operator</div>
+          <div class="node-status">Planned</div>
+          <div class="kpi-mini"><span class="kpi-chip off">3 sub-agents</span></div>
+        </div>
+        <div class="expand-toggle" id="bridge-toggle" onclick="toggleSub('bridge-sub','bridge-toggle',event)" style="cursor:pointer;">▾ show sub-agents</div>
+        <div class="bu-sub" id="bridge-sub">
+          <div class="sub-item"><span class="sub-icon">🎯</span><div><div class="sub-name">Lead Quality Agent</div></div></div>
+          <div class="sub-item"><span class="sub-icon">🏦</span><div><div class="sub-name">Partner Relations</div></div></div>
+          <div class="sub-item"><span class="sub-icon">📈</span><div><div class="sub-name">Scorecard Monitor</div></div></div>
+        </div>
       </div>
-      <div class="node node-functional forge" id="node-forge" onclick="openPanel('forge')">
-        <span class="node-emoji">⚙️</span>
-        <div class="node-code">FORGE</div>
-        <div class="node-role">Developer Agent</div>
-        <div class="node-status">Planned</div>
-        <div class="kpi-mini"><span class="kpi-chip off">Planned 5%</span></div>
+
+      <!-- TRACE -->
+      <div class="bu-section">
+        <div class="node node-bu trace" id="node-trace" onclick="openPanel('trace')">
+          <span class="node-emoji">🔍</span>
+          <div class="node-code">Trace</div>
+          <div class="node-role">PhoneFinder Operator</div>
+          <div class="node-status">Planned</div>
+          <div class="kpi-mini"><span class="kpi-chip off">2 sub-agents</span></div>
+        </div>
+        <div class="expand-toggle" id="trace-toggle" onclick="toggleSub('trace-sub','trace-toggle',event)" style="cursor:pointer;">▾ show sub-agents</div>
+        <div class="bu-sub" id="trace-sub">
+          <div class="sub-item"><span class="sub-icon">📞</span><div><div class="sub-name">Database Manager</div></div></div>
+          <div class="sub-item"><span class="sub-icon">🔌</span><div><div class="sub-name">MNO Integration Agent</div></div></div>
+        </div>
       </div>
+
+      <!-- SHIELD -->
+      <div class="bu-section">
+        <div class="node node-bu shield" id="node-shield" onclick="openPanel('shield')">
+          <span class="node-emoji">🛡️</span>
+          <div class="node-code">Shield</div>
+          <div class="node-role">Freeway Operator</div>
+          <div class="node-status">Planned</div>
+          <div class="kpi-mini"><span class="kpi-chip off">2 sub-agents</span></div>
+        </div>
+        <div class="expand-toggle" id="shield-toggle" onclick="toggleSub('shield-sub','shield-toggle',event)" style="cursor:pointer;">▾ show sub-agents</div>
+        <div class="bu-sub" id="shield-sub">
+          <div class="sub-item"><span class="sub-icon">📋</span><div><div class="sub-name">Campaign Manager</div></div></div>
+          <div class="sub-item"><span class="sub-icon">🤝</span><div><div class="sub-name">Insurer Relations</div></div></div>
+        </div>
+      </div>
+
     </div>
   </div>
 
-  <!-- STATS BAR -->
+  <!-- STATS -->
   <div class="stats-bar">
-    <div class="stat-box"><div class="stat-num" style="color:var(--yellow)">10</div><div class="stat-lbl">Total Agents</div></div>
-    <div class="stat-box"><div class="stat-num" style="color:var(--yellow)">1</div><div class="stat-lbl">Core Engine</div></div>
-    <div class="stat-box"><div class="stat-num" style="color:#6C8FFF">4</div><div class="stat-lbl">Upstream</div></div>
-    <div class="stat-box"><div class="stat-num" style="color:var(--green)">2</div><div class="stat-lbl">Activation</div></div>
-    <div class="stat-box"><div class="stat-num" style="color:var(--teal)">3</div><div class="stat-lbl">Operations</div></div>
+    <div class="stat-box"><div class="stat-num" style="color:var(--yellow)">12</div><div class="stat-lbl">Total Agents</div></div>
+    <div class="stat-box"><div class="stat-num" style="color:#6C8FFF">4</div><div class="stat-lbl">Business Units</div></div>
+    <div class="stat-box"><div class="stat-num" style="color:var(--green)">6</div><div class="stat-lbl">Functional Agents</div></div>
+    <div class="stat-box"><div class="stat-num" style="color:var(--yellow)">2</div><div class="stat-lbl">Active Now</div></div>
+    <div class="stat-box"><div class="stat-num" style="color:#FF7057">38</div><div class="stat-lbl">Tasks Tracked</div></div>
   </div>
 
 </div>
 
-<div class="footer">3Way Group · Agent Organogram v2.0 · Revenue Flywheel — March 2026 · Designed by Morgan ⚡</div>
+<div class="footer">3Way Group · Agent Organogram v1.1 · Blueprint Phase — March 2026 · Designed by Morgan ⚡</div>
 
 <script>
 'use strict';
@@ -401,144 +463,144 @@ const AGENTS = {
     tags:[['Active','t-blue'],['All Entities','t-blue'],['claude-sonnet-4-6','t-blue']],
     status:'Active'
   },
-  nexus:{
-    emoji:'🔄', name:'NEXUS', role:'Lead Gen Agent — Core Revenue Engine',
+  apex:{
+    emoji:'🎯', name:'Apex', role:'Revenue Scout',
     color:'#FFC200',
-    mandate:'The revenue engine at the centre of the 3Way flywheel. Orchestrates the full cycle: signal → enrich → score → validate → activate → report. Receives signals from Scout and Crawler, enriches via Cipher, validates with Guardian, scores and segments, then dispatches to Pulse and Bolt. Feeds results to Trace.',
-    caps:['Full lead gen cycle orchestration','Signal aggregation from all upstream sources','Scoring and segmentation','Audience dispatch to Meta, Google and SMS channels','Campaign performance loop','POPIA-compliant data routing'],
+    mandate:'Finds what is being left on the table. Scans all four business units for underutilised channels, data, relationships and pricing gaps. Frames every opportunity with a size estimate, confidence level and recommended action before presenting to Ricky.',
+    caps:['Channel and campaign yield analysis','Asset utilisation mapping across all entities','Commercial opportunity sizing and prioritisation','Competitive gap identification via Radar','Cross-entity revenue play identification'],
     kpis:[
-      {label:'Leads Generated',value:'—',pct:0,color:'#FFC200'},
-      {label:'Cost Per Lead',value:'—',pct:0,color:'#FFC200'},
-      {label:'Score Pass Rate',value:'—',pct:0,color:'#FFC200'},
-      {label:'Readiness',value:'Blueprint 20%',pct:20,color:'#FFC200'},
+      {label:'Opportunities Identified',value:'—',pct:0,color:'#FFC200'},
+      {label:'Revenue Flagged',value:'—',pct:0,color:'#FFC200'},
+      {label:'Actions Taken',value:'—',pct:0,color:'#FFC200'},
+      {label:'Readiness',value:'Blueprint',pct:20,color:'#FFC200'},
     ],
-    tags:[['Blueprint','t-yellow'],['Core Engine','t-yellow'],['Revenue Flywheel','t-yellow']],
+    tags:[['Blueprint','t-yellow'],['Cross-Entity','t-yellow']],
     status:'Blueprint'
   },
-  scout:{
-    emoji:'👁️', name:'SCOUT', role:'Social Listening Agent',
+  radar:{
+    emoji:'📡', name:'Radar', role:'Research & Intelligence',
     color:'#6C8FFF',
-    mandate:'Monitors brand mentions, competitor activity and consumer intent signals across South African social platforms. Primary tool is amaSocial (SA-native, R2,944/month). Surfaces only signals that clear the relevance threshold before passing to Nexus.',
-    caps:['amaSocial platform management','Brand and competitor monitoring','Intent signal extraction','Sentiment analysis','Trend identification','Ambient scanning and Briefed mode'],
+    mandate:'The intelligence infrastructure. Monitors markets, competitors, regulatory changes and consumer behavioural signals. Operates in two modes: Briefed (answers specific research questions with structured output) and Ambient (scans defined signal feeds and surfaces only what clears the relevance threshold).',
+    caps:['Briefed research with structured output format','Ambient scanning across 6 signal feeds','Intelligence database management','Competitor and market monitoring','Phase 2: lead signal identification for all BUs'],
     kpis:[
       {label:'Signals Scanned',value:'—',pct:0,color:'#6C8FFF'},
-      {label:'Intent Leads Surfaced',value:'—',pct:0,color:'#6C8FFF'},
+      {label:'Briefs Completed',value:'—',pct:0,color:'#6C8FFF'},
       {label:'Alerts Issued',value:'—',pct:0,color:'#6C8FFF'},
-      {label:'Readiness',value:'Blueprint 20%',pct:20,color:'#6C8FFF'},
+      {label:'Readiness',value:'Blueprint',pct:20,color:'#6C8FFF'},
     ],
-    tags:[['Blueprint','t-blue'],['Upstream','t-blue'],['amaSocial','t-blue']],
+    tags:[['Blueprint','t-blue'],['Cross-Entity','t-blue']],
     status:'Blueprint'
-  },
-  crawler:{
-    emoji:'🕷️', name:'CRAWLER', role:'Web Scraping Agent',
-    color:'#FF7057',
-    mandate:'Extracts raw lead signals from public web sources using Apify pre-built actors. Targets: Property24 (movers), Gumtree (vehicle/product intent), HelloPeter (competitor complaints). All scraped data routes to Custom Audiences only — never cold outreach (POPIA).',
-    caps:['Apify actor management','Raw signal extraction','Data pipeline to Cipher','POPIA-compliant routing','Scrape scheduling and quality monitoring'],
-    kpis:[
-      {label:'Records Scraped',value:'—',pct:0,color:'#FF7057'},
-      {label:'Enrichment Pass Rate',value:'—',pct:0,color:'#FF7057'},
-      {label:'Audiences Built',value:'—',pct:0,color:'#FF7057'},
-      {label:'Readiness',value:'Blueprint 20%',pct:20,color:'#FF7057'},
-    ],
-    tags:[['Blueprint','t-red'],['Upstream','t-red'],['Apify','t-red']],
-    status:'Blueprint'
-  },
-  cipher:{
-    emoji:'🔐', name:'CIPHER', role:'Data Enrichment Agent',
-    color:'#B57BDE',
-    mandate:'Takes raw signals, enriches with bureau data (XDS, TransUnion, Experian, MyData, VCCB), appends demographics and propensity scores, then passes enriched records to Nexus.',
-    caps:['Bureau API integrations (XDS, TransUnion, Experian, MyData, VCCB)','Demographic appending','Propensity scoring','Data quality validation','Deduplication'],
-    kpis:[
-      {label:'Records Enriched',value:'—',pct:0,color:'#B57BDE'},
-      {label:'Bureau Match Rate',value:'—',pct:0,color:'#B57BDE'},
-      {label:'Avg Score',value:'—',pct:0,color:'#B57BDE'},
-      {label:'Readiness',value:'Blueprint 20%',pct:20,color:'#B57BDE'},
-    ],
-    tags:[['Blueprint','t-purple'],['Upstream','t-purple'],['Bureau Data','t-purple']],
-    status:'Blueprint'
-  },
-  guardian:{
-    emoji:'⚖️', name:'GUARDIAN', role:'POPIA Compliance Agent',
-    color:'#F5A95A',
-    mandate:'Ensures every record is POPIA-compliant before activation. Manages consent classification (Green/Grey/Black), enforces opt-out lists, ensures scraped signals route only to Custom Audiences.',
-    caps:['Consent classification (Green/Grey/Black)','Opt-out enforcement','Suppression list management','Custom Audience routing validation','POPIA audit trail','Regulatory monitoring'],
-    kpis:[
-      {label:'Compliance Rate',value:'—',pct:0,color:'#F5A95A'},
-      {label:'Suppressions Applied',value:'—',pct:0,color:'#F5A95A'},
-      {label:'Audit Trail',value:'Active',pct:null,color:'#F5A95A'},
-      {label:'Readiness',value:'Blueprint 20%',pct:20,color:'#F5A95A'},
-    ],
-    tags:[['Blueprint','t-orange'],['Upstream','t-orange'],['POPIA','t-orange']],
-    status:'Blueprint'
-  },
-  pulse:{
-    emoji:'📣', name:'PULSE', role:'Ad Automation Agent',
-    color:'#48C78E',
-    mandate:'Deploys scored, compliant audiences to Meta (Facebook/Instagram) and Google Ads. Manages budgets, monitors performance, generates lookalikes, feeds results back for optimisation.',
-    caps:['Meta Custom Audience deployment','Google Ads Custom Match','Budget management','A/B testing','Lookalike audience generation','ROAS reporting'],
-    kpis:[
-      {label:'Audiences Deployed',value:'—',pct:0,color:'#48C78E'},
-      {label:'Meta CPL',value:'—',pct:0,color:'#48C78E'},
-      {label:'Google CPL',value:'—',pct:0,color:'#48C78E'},
-      {label:'Readiness',value:'Blueprint 20%',pct:20,color:'#48C78E'},
-    ],
-    tags:[['Blueprint','t-green'],['Downstream','t-green'],['Meta','t-green'],['Google','t-green']],
-    status:'Blueprint'
-  },
-  bolt:{
-    emoji:'⚡', name:'BOLT', role:'Channel Execution Agent',
-    color:'#1ABC9C',
-    mandate:'Executes direct channel campaigns — SimPush, PCM, 1Pin, OnePin — using scored audiences from Nexus. Manages USSD routing, message copy and delivery monitoring.',
-    caps:['SimPush campaign management','PCM channel execution','1Pin and OnePin setup','USSD shortcode management','Delivery monitoring','Channel performance reporting'],
-    kpis:[
-      {label:'Campaigns Live',value:'—',pct:0,color:'#1ABC9C'},
-      {label:'SimPush Delivery Rate',value:'—',pct:0,color:'#1ABC9C'},
-      {label:'CPL per Channel',value:'—',pct:0,color:'#1ABC9C'},
-      {label:'Readiness',value:'Blueprint 20%',pct:20,color:'#1ABC9C'},
-    ],
-    tags:[['Blueprint','t-teal'],['Downstream','t-teal'],['SimPush','t-teal'],['PCM','t-teal']],
-    status:'Blueprint'
-  },
-  trace:{
-    emoji:'📊', name:'TRACE', role:'Analytics Agent',
-    color:'#6C8FFF',
-    mandate:'Performance brain. Monitors CPL, ROAS, data quality and campaign effectiveness across all channels. Builds dashboards for Ricky and Morgan. Surfaces anomalies before they become problems.',
-    caps:['CPL and ROAS reporting','Data quality monitoring','Campaign dashboards','Anomaly detection','Weekly summaries for Morgan','Entity P&L contribution'],
-    kpis:[
-      {label:'Dashboards Live',value:'—',pct:0,color:'#6C8FFF'},
-      {label:'Anomalies Flagged',value:'—',pct:0,color:'#6C8FFF'},
-      {label:'Report Frequency',value:'Weekly',pct:null,color:'#6C8FFF'},
-      {label:'Readiness',value:'Blueprint 20%',pct:20,color:'#6C8FFF'},
-    ],
-    tags:[['Blueprint','t-blue'],['Operations','t-blue'],['Analytics','t-blue']],
-    status:'Blueprint'
-  },
-  herald:{
-    emoji:'✉️', name:'HERALD', role:'Communications Agent',
-    color:'#1ABC9C',
-    mandate:"Drafts all stakeholder communications in Ricky's voice. Nothing goes external without Ricky's sign-off. Manages approval workflow and outbound scheduling.",
-    caps:['Stakeholder email drafting','Communication calendar','Approval workflow','Follow-up tracking','External comms quality control'],
-    kpis:[
-      {label:'Emails Drafted',value:'—',pct:0,color:'#1ABC9C'},
-      {label:'Approval Turnaround',value:'—',pct:0,color:'#1ABC9C'},
-      {label:'Comms Sent',value:'—',pct:0,color:'#1ABC9C'},
-      {label:'Readiness',value:'Planned 10%',pct:10,color:'#1ABC9C'},
-    ],
-    tags:[['Planned','t-teal'],['Operations','t-teal']],
-    status:'Planned'
   },
   forge:{
-    emoji:'⚙️', name:'FORGE', role:'Developer Agent',
+    emoji:'⚙️', name:'Forge', role:'Developer Agent',
     color:'#FF7057',
-    mandate:'Technical builder. Builds automations, scrapers, dashboards and API integrations on brief. Always executes against defined requirements with clear success criteria.',
-    caps:['Automation and scripting','API integrations','Dashboard builds','Scraping infrastructure','Technical feasibility assessment'],
+    mandate:'Technical builder for the agent team. Receives briefs from any agent and builds the technical solution: automations, scrapers, dashboards, API integrations, data pipelines. Never freelances — always executes on a clear brief with defined success criteria.',
+    caps:['Automation and scripting','API integrations and data pipelines','Dashboard and reporting tool builds','Web scraping infrastructure for Radar','Technical feasibility assessment for Morgan'],
     kpis:[
       {label:'Automations Built',value:'—',pct:0,color:'#FF7057'},
       {label:'APIs Integrated',value:'—',pct:0,color:'#FF7057'},
       {label:'Active Pipelines',value:'—',pct:0,color:'#FF7057'},
-      {label:'Readiness',value:'Planned 5%',pct:5,color:'#FF7057'},
+      {label:'Readiness',value:'Planned',pct:5,color:'#FF7057'},
     ],
-    tags:[['Planned','t-red'],['Operations','t-red']],
+    tags:[['Planned','t-red'],['Cross-Entity','t-red']],
+    status:'Planned'
+  },
+  pulse:{
+    emoji:'📊', name:'Pulse', role:'Campaign Architect',
+    color:'#48C78E',
+    mandate:'Designs, builds and optimises campaigns across all entities and channels. Translates commercial intent into executable campaign briefs. Knows the mechanics of AVM, SMS, USSD, Link Click, PCM, OnePin and SimPush. Optimises based on performance data from Cipher.',
+    caps:['Campaign strategy and brief writing','Channel selection and audience segmentation','Copy and flow design for all active channels','Performance analysis and optimisation','A/B test design and interpretation'],
+    kpis:[
+      {label:'Campaigns Designed',value:'—',pct:0,color:'#48C78E'},
+      {label:'A/B Tests Run',value:'—',pct:0,color:'#48C78E'},
+      {label:'CPL Improvement',value:'—',pct:0,color:'#48C78E'},
+      {label:'Readiness',value:'Planned',pct:5,color:'#48C78E'},
+    ],
+    tags:[['Planned','t-green'],['All Channels','t-green']],
+    status:'Planned'
+  },
+  cipher:{
+    emoji:'🔐', name:'Cipher', role:'Data & Analytics',
+    color:'#B57BDE',
+    mandate:'The technical data backbone. Manages the data warehouse, runs scoring models, maintains data quality and builds reporting for all entities. Serves Apex with commercial data, Pulse with audience insights and Morgan with operational dashboards.',
+    caps:['Data warehouse management and maintenance','Propensity model deployment and monitoring','Self-service reporting and dashboards','Data quality monitoring and remediation','POPIA compliance tracking and consent management'],
+    kpis:[
+      {label:'Data Quality Score',value:'—',pct:0,color:'#B57BDE'},
+      {label:'Reports Generated',value:'—',pct:0,color:'#B57BDE'},
+      {label:'Models Deployed',value:'—',pct:0,color:'#B57BDE'},
+      {label:'Readiness',value:'Planned',pct:5,color:'#B57BDE'},
+    ],
+    tags:[['Planned','t-purple'],['Data Warehouse','t-purple']],
+    status:'Planned'
+  },
+  herald:{
+    emoji:'✉️', name:'Herald', role:'Communications Agent',
+    color:'#1ABC9C',
+    mandate:"Drafts all stakeholder communications in Ricky's voice. Manages the communication calendar, approval workflow and outbound scheduling. Ensures nothing goes external without the right tone, context and sign-off from Ricky.",
+    caps:["Stakeholder email drafting in Ricky's voice","Communication calendar and scheduling","Approval workflow management","Follow-up and response tracking","External communication quality control"],
+    kpis:[
+      {label:'Emails Drafted',value:'—',pct:0,color:'#1ABC9C'},
+      {label:'Approval Turnaround',value:'—',pct:0,color:'#1ABC9C'},
+      {label:'External Comms Sent',value:'—',pct:0,color:'#1ABC9C'},
+      {label:'Readiness',value:'Planned',pct:5,color:'#1ABC9C'},
+    ],
+    tags:[['Planned','t-teal'],['All Entities','t-teal']],
+    status:'Planned'
+  },
+  volt:{
+    emoji:'⚡', name:'Volt', role:'SayHi Operator — DCB & VAS',
+    color:'#FFC200',
+    mandate:'General Manager for the SayHi DCB and VAS business. Manages mobile billing campaigns, operator relationships, regulatory compliance and channel performance. Owns day-to-day SayHi operations and P&L visibility. Managing transition to credit card rails.',
+    caps:['DCB and VAS campaign management','Operator relationship monitoring (MTN, Vodacom)','Billing rails performance and compliance','SimPush, OnePin and USSD channel oversight','Credit card rails pivot — transition management'],
+    kpis:[
+      {label:'Active Campaigns',value:'3',pct:60,color:'#FFC200'},
+      {label:'Operator Binds',value:'MTN ⚠',pct:50,color:'#FF7057'},
+      {label:'Billing Success Rate',value:'—',pct:0,color:'#FFC200'},
+      {label:'Readiness',value:'Planned',pct:10,color:'#FFC200'},
+    ],
+    tags:[['Planned','t-yellow'],['SayHi','t-yellow'],['DCB/VAS','t-yellow']],
+    status:'Planned'
+  },
+  bridge:{
+    emoji:'🌉', name:'Bridge', role:'FindBetter Operator',
+    color:'#6C8FFF',
+    mandate:'General Manager for FindBetter. Manages lead generation for consumer finance and offers — debt counselling, credit products, loan comparison. Owns the Vodacom/Confluent POC and all FindBetter partner relationships.',
+    caps:['Consumer finance lead generation','Debt counselling funnel management','VodaLend and Confluent POC execution','Scorecard-driven lead quality improvement','Credit and debt market monitoring via Radar'],
+    kpis:[
+      {label:'Lead Quality Score',value:'—',pct:0,color:'#6C8FFF'},
+      {label:'VodaLend POC',value:'Active',pct:40,color:'#6C8FFF'},
+      {label:'Partner SLA',value:'—',pct:0,color:'#6C8FFF'},
+      {label:'Readiness',value:'Planned',pct:10,color:'#6C8FFF'},
+    ],
+    tags:[['Planned','t-blue'],['FindBetter','t-blue'],['Debt/Credit','t-blue']],
+    status:'Planned'
+  },
+  trace:{
+    emoji:'🔍', name:'Trace', role:'PhoneFinder Operator',
+    color:'#48C78E',
+    mandate:'General Manager for PhoneFinder. Manages contact discovery operations, MNO lookup performance, database quality and the scored phone file programme. Owns the data that makes every other BU\'s campaigns more effective.',
+    caps:['MNO lookup performance and quality monitoring','Scored phone file pipeline management','Contact discovery database integrity','MTN bind and API integration tracking','PhoneFinder product development roadmap'],
+    kpis:[
+      {label:'Scored Records',value:'~1M',pct:70,color:'#48C78E'},
+      {label:'DB Freshness',value:'—',pct:0,color:'#48C78E'},
+      {label:'MNO Lookup Rate',value:'—',pct:0,color:'#48C78E'},
+      {label:'Readiness',value:'Planned',pct:10,color:'#48C78E'},
+    ],
+    tags:[['Planned','t-green'],['PhoneFinder','t-green'],['Scored Data','t-green']],
+    status:'Planned'
+  },
+  shield:{
+    emoji:'🛡️', name:'Shield', role:'Freeway Insurance Operator',
+    color:'#F5A95A',
+    mandate:'General Manager for Freeway Insurance. Manages insurance lead generation campaigns, insurer partner relationships, lead quality monitoring and regulatory compliance for the insurance vertical.',
+    caps:['Insurance campaign management (PCM, AVM, SMS)','Insurer partner relationship management','Lead quality and conversion monitoring','Insurance regulatory compliance tracking','Cross-sell opportunity identification with other BUs'],
+    kpis:[
+      {label:'Insurance CPL',value:'—',pct:0,color:'#F5A95A'},
+      {label:'Partner Approval Rate',value:'—',pct:0,color:'#F5A95A'},
+      {label:'Campaign ROAS',value:'—',pct:0,color:'#F5A95A'},
+      {label:'Readiness',value:'Planned',pct:10,color:'#F5A95A'},
+    ],
+    tags:[['Planned','t-orange'],['Freeway Insurance','t-orange']],
     status:'Planned'
   },
 };
@@ -550,6 +612,7 @@ function openPanel(id) {
   const a = AGENTS[id];
   if (!a) return;
 
+  // Highlight active node
   if (activeNodeEl) activeNodeEl.classList.remove('active-node');
   const nodeEl = document.getElementById('node-' + id);
   if (nodeEl) { nodeEl.classList.add('active-node'); activeNodeEl = nodeEl; }
@@ -605,6 +668,17 @@ function closePanel() {
   if (activeNodeEl) { activeNodeEl.classList.remove('active-node'); activeNodeEl = null; }
 }
 
+/* ── BU SUB-AGENT TOGGLE ── */
+function toggleSub(subId, toggleId, e) {
+  e.stopPropagation();
+  const sub = document.getElementById(subId);
+  const tog = document.getElementById(toggleId);
+  const isOpen = sub.classList.contains('open');
+  sub.classList.toggle('open');
+  tog.textContent = isOpen ? '▾ show sub-agents' : '▴ hide sub-agents';
+  setTimeout(drawConnections, 360);
+}
+
 /* ── SVG CONNECTIONS ── */
 function getCenter(el) {
   const cv = document.getElementById('canvas');
@@ -617,14 +691,9 @@ function getCenter(el) {
   };
 }
 
-function makeDashed(x1, y1, x2, y2, color) {
+function makePath(x1, y1, x2, y2, color) {
   const mid = (y1 + y2) / 2;
-  return `<path d="M${x1},${y1} C${x1},${mid} ${x2},${mid} ${x2},${y2}" fill="none" stroke="${color}" stroke-width="1.5" stroke-dasharray="5 4" opacity="0.45"/>`;
-}
-
-function makeDotted(x1, y1, x2, y2, color) {
-  const mid = (y1 + y2) / 2;
-  return `<path d="M${x1},${y1} C${x1},${mid} ${x2},${mid} ${x2},${y2}" fill="none" stroke="${color}" stroke-width="1.5" stroke-dasharray="2 5" opacity="0.22"/>`;
+  return `<path d="M${x1},${y1} C${x1},${mid} ${x2},${mid} ${x2},${y2}" fill="none" stroke="${color}" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.28"/>`;
 }
 
 function drawConnections() {
@@ -632,55 +701,22 @@ function drawConnections() {
   const canvas = document.getElementById('canvas');
   svg.setAttribute('width', canvas.offsetWidth);
   svg.setAttribute('height', canvas.offsetHeight);
-
-  const ricky   = document.getElementById('node-ricky');
-  const morgan  = document.getElementById('node-morgan');
-  const nexus   = document.getElementById('node-nexus');
-
-  const upstreamIds    = ['node-scout','node-crawler','node-cipher','node-guardian'];
-  const downstreamIds  = ['node-pulse','node-bolt'];
-  const opsIds         = ['node-trace','node-herald','node-forge'];
-  const upstreamColors   = ['#4058D4','#E84C2B','#9B59B6','#E67E22'];
-  const downstreamColors = ['#48C78E','#1ABC9C'];
-
+  const ricky = document.getElementById('node-ricky');
+  const morgan = document.getElementById('node-morgan');
+  const fns = document.querySelectorAll('#row-functional .node');
+  const bus = document.querySelectorAll('#row-bu .node');
   let p = '';
-
-  /* Ricky → Morgan — solid yellow */
   if (ricky && morgan) {
     const r = getCenter(ricky), m = getCenter(morgan);
-    p += `<line x1="${r.x}" y1="${r.bottom}" x2="${m.x}" y2="${m.top}" stroke="#FFC200" stroke-width="2" opacity="0.5"/>`;
+    p += `<line x1="${r.x}" y1="${r.bottom}" x2="${m.x}" y2="${m.top}" stroke="#FFC200" stroke-width="2" opacity="0.35"/>`;
   }
-
-  /* Morgan → Nexus — solid blue */
-  if (morgan && nexus) {
-    const m = getCenter(morgan), n = getCenter(nexus);
-    p += `<line x1="${m.x}" y1="${m.bottom}" x2="${n.x}" y2="${n.top}" stroke="#4058D4" stroke-width="2" opacity="0.5"/>`;
-  }
-
-  /* Nexus → upstream — dashed, node colour */
-  if (nexus) {
-    const n = getCenter(nexus);
-    upstreamIds.forEach((id, i) => {
-      const el = document.getElementById(id);
-      if (el) { const c = getCenter(el); p += makeDashed(n.x, n.bottom, c.x, c.top, upstreamColors[i]); }
-    });
-
-    /* Nexus → downstream — dashed, node colour */
-    downstreamIds.forEach((id, i) => {
-      const el = document.getElementById(id);
-      if (el) { const c = getCenter(el); p += makeDashed(n.x, n.bottom, c.x, c.top, downstreamColors[i]); }
-    });
-  }
-
-  /* Morgan → ops — dotted, muted */
+  const fnColors = ['#FFC200','#6C8FFF','#FF7057','#48C78E','#B57BDE','#1ABC9C'];
+  const buColors = ['#FFC200','#6C8FFF','#48C78E','#F5A95A'];
   if (morgan) {
     const m = getCenter(morgan);
-    opsIds.forEach(id => {
-      const el = document.getElementById(id);
-      if (el) { const c = getCenter(el); p += makeDotted(m.x, m.bottom, c.x, c.top, '#8A9DC0'); }
-    });
+    fns.forEach((fn,i) => { const f = getCenter(fn); p += makePath(m.x,m.bottom,f.x,f.top,fnColors[i]||'#888'); });
+    bus.forEach((bu,i) => { const b = getCenter(bu); p += makePath(m.x,m.bottom,b.x,b.top,buColors[i]||'#888'); });
   }
-
   svg.innerHTML = p;
 }
 
@@ -688,8 +724,5 @@ window.addEventListener('load', () => setTimeout(drawConnections, 200));
 window.addEventListener('resize', drawConnections);
 document.addEventListener('keydown', e => { if(e.key==='Escape') closePanel(); });
 </script>
-
-<style>#hub-pill{position:fixed;bottom:20px;left:20px;z-index:99999;display:flex;align-items:center;gap:7px;background:#FFD337;color:#022F5C;font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;padding:10px 18px;border-radius:50px;box-shadow:0 4px 20px rgba(0,0,0,.25);text-decoration:none;transition:transform .15s;}#hub-pill:hover{transform:translateY(-2px);}</style>
-<a id="hub-pill" href="/"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5.5 11.5L1.5 7.5L5.5 3.5" stroke="#022F5C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M1.5 7.5H12.5" stroke="#022F5C" stroke-width="1.8" stroke-linecap="round"/></svg>Hub</a>
 </body>
 </html>

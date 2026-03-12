@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MNM Channel Flows | 3Way Group</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+    background: #f0f3fa;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 48px 24px 56px;
+  }
+  .page-wrap { width: 100%; max-width: 900px; }
+
+  /* ── HEADER ── */
+  .header { text-align: center; margin-bottom: 48px; }
+  .logo-bar { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 22px; }
+  .logo-mark { width: 40px; height: 40px; background: #1A2D6B; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+  .logo-mark span { color: #FFC200; font-size: 16px; font-weight: 800; }
+  .logo-name { font-size: 13px; font-weight: 700; color: #1A2D6B; letter-spacing: 1.2px; text-transform: uppercase; }
+  .header h1 { font-size: 28px; font-weight: 800; color: #1A2D6B; letter-spacing: -0.3px; margin-bottom: 8px; }
+  .header .sub { font-size: 14px; color: #8a93b0; line-height: 1.6; max-width: 600px; margin: 0 auto; }
+
+  /* ── CHANNEL GRID ── */
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 40px; }
+
+  .card {
+    background: #fff;
+    border-radius: 20px;
+    border: 2px solid #e4e9f7;
+    box-shadow: 0 8px 32px rgba(26,45,107,0.08);
+    padding: 28px 24px;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .card:hover {
+    border-color: #1A2D6B;
+    box-shadow: 0 12px 40px rgba(26,45,107,0.16);
+    transform: translateY(-2px);
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+  }
+  .card-pcm::before { background: linear-gradient(90deg, #FFC200 0%, #FFA726 100%); }
+  .card-pcmi::before { background: linear-gradient(90deg, #22c55e 0%, #4058D4 100%); }
+  .card-simpush::before { background: linear-gradient(90deg, #1A2D6B 0%, #4058D4 100%); }
+  .card-linkclick::before { background: linear-gradient(90deg, #4058D4 0%, #FFC200 100%); }
+
+  .card-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    margin-bottom: 16px;
+  }
+
+  .card-pcm .card-icon { background: linear-gradient(135deg, #FFC200 0%, #FFA726 100%); }
+  .card-pcmi .card-icon { background: linear-gradient(135deg, #22c55e 0%, #4058D4 100%); }
+  .card-simpush .card-icon { background: linear-gradient(135deg, #1A2D6B 0%, #4058D4 100%); }
+  .card-linkclick .card-icon { background: linear-gradient(135deg, #4058D4 0%, #FFC200 100%); }
+
+  .card h2 { font-size: 17px; font-weight: 800; color: #1A2D6B; margin-bottom: 4px; }
+  .card .channel-tag {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: #9aa0ba;
+    margin-bottom: 10px;
+  }
+  .card p { font-size: 12px; color: #5a6380; line-height: 1.65; flex: 1; }
+
+  .card-footer {
+    margin-top: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .card-networks {
+    display: flex;
+    gap: 6px;
+  }
+  .network-badge {
+    font-size: 9px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+  }
+  .nb-voda { background: #E84C2B; color: #fff; }
+  .nb-mtn { background: #FFC200; color: #1A2D6B; }
+
+  .card-arrow {
+    font-size: 12px;
+    font-weight: 800;
+    color: #1A2D6B;
+    opacity: 0;
+    transition: all 0.2s;
+  }
+  .card:hover .card-arrow { opacity: 1; transform: translateX(4px); }
+
+  /* Key difference highlight */
+  .key-diff {
+    background: #f8f4ff;
+    border-radius: 10px;
+    padding: 10px 14px;
+    margin-top: 12px;
+    font-size: 11px;
+    color: #5a6380;
+    line-height: 1.5;
+  }
+  .key-diff strong { color: #1A2D6B; }
+
+  /* ── COMPARISON TABLE ── */
+  .comparison {
+    background: #fff;
+    border-radius: 20px;
+    border: 2px solid #e4e9f7;
+    box-shadow: 0 8px 32px rgba(26,45,107,0.08);
+    overflow: hidden;
+    margin-bottom: 32px;
+  }
+  .comp-header {
+    background: #1A2D6B;
+    padding: 18px 24px;
+    text-align: center;
+  }
+  .comp-header h2 { font-size: 16px; font-weight: 800; color: #FFC200; }
+  .comp-header p { font-size: 11px; color: #8a9bc8; margin-top: 4px; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+  }
+  th {
+    background: #f5f7fc;
+    padding: 12px 16px;
+    text-align: left;
+    font-weight: 700;
+    color: #1A2D6B;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid #e4e9f7;
+  }
+  td {
+    padding: 12px 16px;
+    color: #5a6380;
+    border-bottom: 1px solid #f0f2fa;
+    line-height: 1.5;
+  }
+  tr:last-child td { border-bottom: none; }
+  td:first-child { font-weight: 600; color: #1A2D6B; }
+  .check { color: #22c55e; font-weight: 700; }
+  .cross { color: #cdd2e6; }
+
+  .footer-note { text-align: center; font-size: 10px; color: #9aa0b5; }
+
+  @media (max-width: 700px) {
+    .grid { grid-template-columns: 1fr; }
+    table { font-size: 11px; }
+    th, td { padding: 10px 12px; }
+  }
+</style>
+</head>
+<body>
+<div class="page-wrap">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="logo-bar">
+      <div class="logo-mark"><span>3W</span></div>
+      <div class="logo-name">3Way Group</div>
+    </div>
+    <h1>MNM Channel Flows</h1>
+    <p class="sub">Visual customer journey diagrams for every MNM distribution channel. Click any card to view the full flow.</p>
+  </div>
+
+  <!-- CHANNEL CARDS -->
+  <div class="grid">
+
+    <!-- PCM -->
+    <a class="card card-pcm" href="pcm-flow.html">
+      <div class="card-icon">📱</div>
+      <div class="channel-tag">Please Call Me</div>
+      <h2>PCM (Standard)</h2>
+      <p>Customer sends a PCM, sees a USSD ad screen, then dials a separate USSD code to request a callback. Additional step but massive reach.</p>
+      <div class="key-diff"><strong>Key:</strong> Requires separate USSD dial for callback</div>
+      <div class="card-footer">
+        <div class="card-networks">
+          <span class="network-badge nb-voda">Vodacom</span>
+          <span class="network-badge nb-mtn">MTN</span>
+        </div>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+
+    <!-- PCMi -->
+    <a class="card card-pcmi" href="pcm-flow.html">
+      <div class="card-icon">⚡</div>
+      <div class="channel-tag">Please Call Me (Integrated)</div>
+      <h2>PCMi</h2>
+      <p>Same PCM trigger but the customer can request a callback directly from the USSD ad screen. No extra dial needed — lower friction, higher conversion.</p>
+      <div class="key-diff"><strong>Key:</strong> Direct "Call Me" button on the USSD screen</div>
+      <div class="card-footer">
+        <div class="card-networks">
+          <span class="network-badge nb-voda">Vodacom</span>
+          <span class="network-badge nb-mtn">MTN</span>
+        </div>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+
+    <!-- SimPush / OnePin -->
+    <a class="card card-simpush" href="simpush-flow.html">
+      <div class="card-icon">📲</div>
+      <div class="channel-tag">SIM Push / OnePin</div>
+      <h2>SimPush &amp; OnePin</h2>
+      <p>Offer pushed directly to the customer's SIM. Two-button response: "Call Me" or "Not Interested". Call Me generates a live lead instantly.</p>
+      <div class="key-diff"><strong>Key:</strong> Push-to-SIM with instant "Call Me" response</div>
+      <div class="card-footer">
+        <div class="card-networks">
+          <span class="network-badge nb-voda">Vodacom</span>
+          <span class="network-badge nb-mtn">MTN</span>
+        </div>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+
+    <!-- LinkClick -->
+    <a class="card card-linkclick" href="linkclick-flow.html">
+      <div class="card-icon">🔗</div>
+      <div class="channel-tag">Link Click Campaign</div>
+      <h2>LinkClick</h2>
+      <p>SMS with data-free link to a mobile landing page. Multi-touch follow-up: 1hr nudge, 2hr final chance. Non-converters feed into Clientele affinity campaign.</p>
+      <div class="key-diff"><strong>Key:</strong> Multi-touch nurture + affinity handoff</div>
+      <div class="card-footer">
+        <div class="card-networks">
+          <span class="network-badge nb-voda">Vodacom</span>
+          <span class="network-badge nb-mtn">MTN</span>
+        </div>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+  </div>
+
+  <!-- COMPARISON TABLE -->
+  <div class="comparison">
+    <div class="comp-header">
+      <h2>Channel Comparison</h2>
+      <p>At a glance: how the channels differ</p>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>PCM</th>
+          <th>PCMi</th>
+          <th>SimPush/OnePin</th>
+          <th>LinkClick</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Trigger</td>
+          <td>Customer sends PCM</td>
+          <td>Customer sends PCM</td>
+          <td>Push to SIM</td>
+          <td>Outbound SMS</td>
+        </tr>
+        <tr>
+          <td>Customer intent</td>
+          <td>Low (interruptive ad)</td>
+          <td>Low (interruptive ad)</td>
+          <td>Medium (opt-in response)</td>
+          <td>High (clicks link)</td>
+        </tr>
+        <tr>
+          <td>Steps to convert</td>
+          <td>3 (see ad → dial USSD → confirm)</td>
+          <td>2 (see ad → tap Call Me)</td>
+          <td>1 (tap Call Me)</td>
+          <td>2 (click link → fill form)</td>
+        </tr>
+        <tr>
+          <td>Landing page</td>
+          <td class="cross">✗</td>
+          <td class="cross">✗</td>
+          <td class="cross">✗</td>
+          <td class="check">✓ Data-free</td>
+        </tr>
+        <tr>
+          <td>Follow-up nurture</td>
+          <td class="cross">✗</td>
+          <td class="cross">✗</td>
+          <td class="cross">✗</td>
+          <td class="check">✓ Multi-touch</td>
+        </tr>
+        <tr>
+          <td>Affinity handoff</td>
+          <td class="cross">✗</td>
+          <td class="cross">✗</td>
+          <td class="cross">✗</td>
+          <td class="check">✓ Clientele D+1</td>
+        </tr>
+        <tr>
+          <td>Audience reach</td>
+          <td>Very high (all PCM users)</td>
+          <td>Very high (all PCM users)</td>
+          <td>Targeted (scored list)</td>
+          <td>Targeted (scored list)</td>
+        </tr>
+        <tr>
+          <td>Expected CPL</td>
+          <td>Low</td>
+          <td>Low-Medium</td>
+          <td>Medium</td>
+          <td>Medium-High</td>
+        </tr>
+        <tr>
+          <td>Lead quality</td>
+          <td>Lower (broad audience)</td>
+          <td>Medium</td>
+          <td>Higher (intent signal)</td>
+          <td>Highest (form completed)</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="footer-note">Prepared by 3Way Group · MNM Channel Relaunch · March 2026 · Confidential</p>
+</div>
+</body>
+</html>

@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LinkClick — Customer Journey Flow | 3Way Group</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+    background: #f0f3fa;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 24px 56px;
+  }
+  .page-wrap { width: 100%; max-width: 1020px; display: flex; flex-direction: column; align-items: center; }
+
+  /* ── HEADER ── */
+  .header { text-align: center; margin-bottom: 36px; width: 100%; }
+  .logo-bar { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 18px; }
+  .logo-mark { width: 34px; height: 34px; background: #1A2D6B; border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+  .logo-mark span { color: #FFC200; font-size: 14px; font-weight: 800; }
+  .logo-name { font-size: 12px; font-weight: 700; color: #1A2D6B; letter-spacing: 1px; text-transform: uppercase; }
+  .header h1 { font-size: 24px; font-weight: 800; color: #1A2D6B; letter-spacing: -0.3px; margin-bottom: 4px; }
+  .header h1 .hl { color: #FFC200; background: #1A2D6B; padding: 2px 10px; border-radius: 5px; }
+  .header .sub { font-size: 12.5px; color: #8a93b0; margin-bottom: 14px; }
+  .pills { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+  .pill { font-size: 10px; font-weight: 700; padding: 5px 13px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.6px; }
+  .pill-navy { background: #1A2D6B; color: #FFC200; }
+  .pill-gold { background: #FFC200; color: #1A2D6B; }
+  .pill-blue { background: #4058D4; color: #fff; }
+
+  /* ── TIMELINE FLOW ── */
+  .timeline { position: relative; width: 100%; max-width: 920px; padding: 20px 0; }
+
+  /* Central line */
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: linear-gradient(180deg, #1A2D6B 0%, #4058D4 30%, #22c55e 60%, #FFC200 100%);
+    border-radius: 2px;
+    transform: translateX(-50%);
+  }
+
+  .tl-item {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 0;
+    min-height: 140px;
+  }
+
+  .tl-item:last-child { min-height: auto; }
+
+  .tl-left, .tl-right {
+    width: 50%;
+    padding: 0 32px;
+  }
+
+  .tl-left { text-align: right; }
+  .tl-right { text-align: left; }
+
+  /* Timeline dot */
+  .tl-dot {
+    position: absolute;
+    left: 50%;
+    top: 12px;
+    transform: translateX(-50%);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 800;
+    z-index: 5;
+    box-shadow: 0 4px 16px rgba(26,45,107,0.25);
+  }
+
+  .tl-dot-navy { background: #1A2D6B; color: #FFC200; }
+  .tl-dot-blue { background: #4058D4; color: #fff; }
+  .tl-dot-green { background: #22c55e; color: #fff; }
+  .tl-dot-amber { background: #FFA726; color: #fff; }
+  .tl-dot-gold { background: #FFC200; color: #1A2D6B; }
+
+  /* Time badge */
+  .time-badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 800;
+    padding: 4px 12px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    margin-bottom: 8px;
+  }
+  .tb-navy { background: #1A2D6B; color: #FFC200; }
+  .tb-amber { background: #FFA726; color: #fff; }
+  .tb-red { background: #E84C2B; color: #fff; }
+  .tb-gold { background: #FFC200; color: #1A2D6B; }
+
+  /* Content card */
+  .tl-card {
+    background: #fff;
+    border-radius: 16px;
+    border: 2px solid #e4e9f7;
+    box-shadow: 0 6px 24px rgba(26,45,107,0.08);
+    padding: 18px 20px;
+    display: inline-block;
+    text-align: left;
+    max-width: 360px;
+  }
+
+  .tl-card-dark {
+    background: #0e1628;
+    border-color: #1e2f5c;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.2);
+  }
+
+  .tl-card h3 { font-size: 14px; font-weight: 700; color: #1A2D6B; margin-bottom: 6px; line-height: 1.3; }
+  .tl-card-dark h3 { color: #FFC200; }
+  .tl-card p { font-size: 11px; color: #5a6380; line-height: 1.6; }
+  .tl-card-dark p { color: #8a95b5; }
+  .tl-card .icon { font-size: 22px; margin-bottom: 8px; }
+
+  /* Phone mockup inline */
+  .phone-inline {
+    background: #0e1628;
+    border: 2px solid #1e2f5c;
+    border-radius: 18px;
+    padding: 16px 14px;
+    display: inline-block;
+    max-width: 200px;
+    text-align: center;
+  }
+  .phone-inline .msg-bubble {
+    background: #1a2850;
+    border-radius: 12px;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+    text-align: left;
+  }
+  .phone-inline .msg-from {
+    font-size: 8px;
+    font-weight: 700;
+    color: #4058D4;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+  }
+  .phone-inline .msg-text {
+    font-size: 10px;
+    color: #8a95b5;
+    line-height: 1.5;
+  }
+  .phone-inline .msg-text strong { color: #FFC200; }
+  .phone-inline .msg-text a { color: #4058D4; text-decoration: underline; }
+
+  /* Outcome cards */
+  .outcomes {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 24px;
+  }
+  .outcome-card {
+    background: #fff;
+    border-radius: 16px;
+    border: 2px solid #e4e9f7;
+    box-shadow: 0 6px 24px rgba(26,45,107,0.08);
+    padding: 20px;
+    width: 200px;
+    text-align: center;
+  }
+  .outcome-card .oc-icon { font-size: 28px; margin-bottom: 10px; }
+  .outcome-card h4 { font-size: 13px; font-weight: 700; color: #1A2D6B; margin-bottom: 6px; }
+  .outcome-card p { font-size: 10px; color: #7a8299; line-height: 1.5; }
+  .outcome-card .oc-badge {
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 8px;
+    font-weight: 800;
+    padding: 4px 10px;
+    border-radius: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .badge-green { background: #22c55e; color: #fff; }
+  .badge-gold { background: #FFC200; color: #1A2D6B; }
+  .badge-navy { background: #1A2D6B; color: #FFC200; }
+
+  /* Landing page mockup */
+  .lp-mockup {
+    background: #fff;
+    border: 2px solid #e4e9f7;
+    border-radius: 14px;
+    overflow: hidden;
+    display: inline-block;
+    max-width: 220px;
+    box-shadow: 0 6px 24px rgba(26,45,107,0.10);
+  }
+  .lp-bar {
+    background: #1A2D6B;
+    padding: 6px 12px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .lp-dot { width: 6px; height: 6px; border-radius: 50%; }
+  .lp-url { font-size: 8px; color: #8a9bc8; margin-left: 8px; }
+  .lp-body { padding: 14px; text-align: center; }
+  .lp-body h4 { font-size: 12px; font-weight: 700; color: #1A2D6B; margin-bottom: 6px; }
+  .lp-body p { font-size: 9px; color: #7a8299; line-height: 1.5; margin-bottom: 10px; }
+  .lp-form-field {
+    width: 100%;
+    padding: 6px 8px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 9px;
+    color: #999;
+    margin-bottom: 6px;
+    text-align: left;
+    background: #f8f8f8;
+  }
+  .lp-cta {
+    width: 100%;
+    padding: 8px;
+    background: #22c55e;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 10px;
+    font-weight: 700;
+    cursor: default;
+    font-family: inherit;
+  }
+
+  /* Branching section */
+  .branch-section {
+    margin-top: 16px;
+    padding: 24px 0;
+    width: 100%;
+    max-width: 920px;
+  }
+
+  .branch-header {
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  .branch-header h2 {
+    font-size: 16px;
+    font-weight: 800;
+    color: #1A2D6B;
+    margin-bottom: 4px;
+  }
+  .branch-header p { font-size: 11px; color: #8a93b0; }
+
+  .branch-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    max-width: 680px;
+    margin: 0 auto;
+  }
+
+  .branch-card {
+    background: #fff;
+    border-radius: 16px;
+    border: 2px solid #e4e9f7;
+    box-shadow: 0 6px 24px rgba(26,45,107,0.08);
+    padding: 22px 18px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .branch-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+  }
+  .branch-card.bc-green::before { background: #22c55e; }
+  .branch-card.bc-amber::before { background: #FFA726; }
+  .branch-card.bc-red::before { background: #E84C2B; }
+  .branch-card.bc-gold::before { background: #FFC200; }
+
+  .branch-card .bc-step {
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: #9aa0ba;
+    margin-bottom: 8px;
+  }
+  .branch-card .bc-icon { font-size: 28px; margin-bottom: 10px; }
+  .branch-card h3 { font-size: 14px; font-weight: 700; color: #1A2D6B; margin-bottom: 6px; }
+  .branch-card p { font-size: 11px; color: #5a6380; line-height: 1.6; }
+
+  .branch-card .sms-preview {
+    background: #0e1628;
+    border-radius: 10px;
+    padding: 10px 12px;
+    margin-top: 12px;
+    text-align: left;
+  }
+  .branch-card .sms-preview .sp-label {
+    font-size: 8px;
+    font-weight: 700;
+    color: #4058D4;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+  }
+  .branch-card .sms-preview .sp-text {
+    font-size: 9.5px;
+    color: #8a95b5;
+    line-height: 1.5;
+    font-style: italic;
+  }
+
+  /* ── LEGEND ── */
+  .legend { margin-top: 32px; display: flex; gap: 24px; flex-wrap: wrap; justify-content: center; }
+  .legend-item { display: flex; align-items: center; gap: 7px; font-size: 11px; color: #7a8299; font-weight: 500; }
+  .legend-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+  .legend-div { width: 1px; height: 14px; background: #cdd2e6; }
+  .footer-note { margin-top: 14px; font-size: 10px; color: #9aa0b5; text-align: center; }
+
+  /* Arrow connector between branch items */
+  .arrow-down {
+    text-align: center;
+    margin: -4px 0;
+    font-size: 18px;
+    color: #cdd2e6;
+  }
+
+  @media (max-width: 768px) {
+    .tl-left, .tl-right { width: 100%; text-align: left !important; padding: 0 16px; }
+    .timeline::before { left: 24px; }
+    .tl-dot { left: 24px; }
+    .tl-item { flex-direction: column; padding-left: 48px; }
+    .branch-grid { grid-template-columns: 1fr; }
+    .lp-mockup, .phone-inline { max-width: 100%; }
+  }
+</style>
+</head>
+<body>
+<div class="page-wrap">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="logo-bar">
+      <div class="logo-mark"><span>3W</span></div>
+      <div class="logo-name">3Way Group</div>
+    </div>
+    <h1>LinkClick — <span class="hl">Customer Journey</span></h1>
+    <p class="sub">SMS link campaign with multi-touch follow-up · MNM Channel Relaunch</p>
+    <div class="pills">
+      <span class="pill pill-navy">Data-Free Landing Page</span>
+      <span class="pill pill-gold">Multi-Touch Nurture</span>
+      <span class="pill pill-blue">Clientele Affinity</span>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- MAIN TIMELINE -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <div class="timeline">
+
+    <!-- STEP 1: Initial SMS -->
+    <div class="tl-item">
+      <div class="tl-left">
+        <span class="time-badge tb-navy">T = 0</span>
+        <div class="tl-card tl-card-dark" style="margin-left: auto;">
+          <div class="icon">📨</div>
+          <h3>Initial SMS Sent</h3>
+          <p>Targeted SMS with data-free link sent to scored subscriber audience. Message includes product offer and CTA to visit the landing page.</p>
+          <div class="msg-bubble" style="background:#1a2850; border-radius:10px; padding:10px 12px; margin-top:12px;">
+            <div style="font-size:8px; font-weight:700; color:#4058D4; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px;">SMS</div>
+            <div style="font-size:10px; color:#8a95b5; line-height:1.5;">
+              Get Dis-Chem Funeral Cover from <strong style="color:#FFC200;">R50/pm</strong>. Up to R100k cover. No medical exam. Tap to apply:
+              <span style="color:#4058D4;">bit.ly/dc-cover</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="tl-dot tl-dot-navy">1</div>
+      <div class="tl-right"></div>
+    </div>
+
+    <!-- STEP 2: Landing Page -->
+    <div class="tl-item">
+      <div class="tl-left"></div>
+      <div class="tl-dot tl-dot-blue">2</div>
+      <div class="tl-right">
+        <span class="time-badge tb-navy">Customer Clicks Link</span>
+        <div class="lp-mockup">
+          <div class="lp-bar">
+            <div class="lp-dot" style="background:#E84C2B"></div>
+            <div class="lp-dot" style="background:#FFC200"></div>
+            <div class="lp-dot" style="background:#22c55e"></div>
+            <span class="lp-url">supercompare.co.za/dischem</span>
+          </div>
+          <div class="lp-body">
+            <h4>Dis-Chem Funeral Cover</h4>
+            <p>From R50/pm. Cover up to 21 family members. Payout within 24 hours.</p>
+            <div class="lp-form-field">First Name</div>
+            <div class="lp-form-field">Surname</div>
+            <div class="lp-form-field">Cell Number</div>
+            <button class="lp-cta">Call Me ›</button>
+          </div>
+        </div>
+        <div class="tl-card" style="margin-top: 12px; max-width: 280px;">
+          <p><strong style="color:#1A2D6B;">Data-free landing page.</strong> Mobile-optimised form with minimal fields. Customer completes = live lead.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 3: Interacted but didn't complete -->
+    <div class="tl-item">
+      <div class="tl-left">
+        <span class="time-badge tb-amber">T + 1 Hour</span>
+        <div class="tl-card" style="margin-left: auto;">
+          <div class="icon">🔔</div>
+          <h3>Nudge SMS</h3>
+          <p>Customer clicked the link but did not complete the form. Send a follow-up SMS nudging them to request a callback.</p>
+          <div class="sms-preview" style="background:#0e1628; border-radius:10px; padding:10px 12px; margin-top:12px;">
+            <div style="font-size:8px; font-weight:700; color:#FFA726; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px;">Follow-up SMS</div>
+            <div style="font-size:10px; color:#8a95b5; line-height:1.5; font-style:italic;">
+              "We noticed you were checking out Dis-Chem Funeral Cover. Want a quick call to get you sorted? Reply <strong style="color:#FFC200;">YES</strong> for a free callback."
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="tl-dot tl-dot-amber">3</div>
+      <div class="tl-right"></div>
+    </div>
+
+    <!-- STEP 4: Final chance -->
+    <div class="tl-item">
+      <div class="tl-left"></div>
+      <div class="tl-dot tl-dot-amber">4</div>
+      <div class="tl-right">
+        <span class="time-badge tb-red">T + 2 Hours</span>
+        <div class="tl-card">
+          <div class="icon">⏰</div>
+          <h3>Final Chance SMS</h3>
+          <p>Last touch point. If the customer still hasn't converted, one final nudge before moving to affinity campaign.</p>
+          <div class="sms-preview" style="background:#0e1628; border-radius:10px; padding:10px 12px; margin-top:12px;">
+            <div style="font-size:8px; font-weight:700; color:#E84C2B; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px;">Final SMS</div>
+            <div style="font-size:10px; color:#8a95b5; line-height:1.5; font-style:italic;">
+              "Last chance — Dis-Chem Funeral Cover from R50/pm. Cover up to 21 family members. Reply <strong style="color:#FFC200;">YES</strong> and we'll call you."
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 5: Next Day -->
+    <div class="tl-item" style="min-height: auto;">
+      <div class="tl-left">
+        <span class="time-badge tb-gold">T + 1 Day</span>
+        <div class="tl-card" style="margin-left: auto; border-color: #FFC200;">
+          <div class="icon">🔄</div>
+          <h3>Clientele Affinity Campaign</h3>
+          <p>Non-converters from this campaign are fed into the Clientele affinity funnel. Different product, different angle — maximises the value of every impression.</p>
+        </div>
+      </div>
+      <div class="tl-dot tl-dot-gold">5</div>
+      <div class="tl-right"></div>
+    </div>
+
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- OUTCOME BRANCHES -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <div class="branch-section">
+    <div class="branch-header">
+      <h2>Conversion Outcomes</h2>
+      <p>Every path generates value — either a live lead or an affinity handoff</p>
+    </div>
+
+    <div class="branch-grid">
+      <!-- Outcome A: Form completed -->
+      <div class="branch-card bc-green">
+        <div class="bc-step">At any stage</div>
+        <div class="bc-icon">✅</div>
+        <h3>Form Completed</h3>
+        <p>Customer fills in the landing page form. Live lead generated and routed to the call centre in real time.</p>
+        <div style="display:inline-block; margin-top:12px; background:#22c55e; color:#fff; font-size:9px; font-weight:800; padding:5px 12px; border-radius:20px; text-transform:uppercase; letter-spacing:0.5px;">Live Lead → Call Centre</div>
+      </div>
+
+      <!-- Outcome B: Replies YES -->
+      <div class="branch-card bc-green">
+        <div class="bc-step">After nudge SMS</div>
+        <div class="bc-icon">💬</div>
+        <h3>Replies "YES"</h3>
+        <p>Customer replies YES to the follow-up SMS. Lead captured and routed to call centre for outbound call.</p>
+        <div style="display:inline-block; margin-top:12px; background:#22c55e; color:#fff; font-size:9px; font-weight:800; padding:5px 12px; border-radius:20px; text-transform:uppercase; letter-spacing:0.5px;">Live Lead → Call Centre</div>
+      </div>
+
+      <!-- Outcome C: No action -->
+      <div class="branch-card bc-gold">
+        <div class="bc-step">After final SMS</div>
+        <div class="bc-icon">🔄</div>
+        <h3>No Conversion</h3>
+        <p>Customer didn't convert on Dis-Chem. Fed into Clientele affinity campaign next day — different product, fresh angle.</p>
+        <div style="display:inline-block; margin-top:12px; background:#FFC200; color:#1A2D6B; font-size:9px; font-weight:800; padding:5px 12px; border-radius:20px; text-transform:uppercase; letter-spacing:0.5px;">Affinity Handoff</div>
+      </div>
+
+      <!-- Outcome D: No click -->
+      <div class="branch-card bc-amber">
+        <div class="bc-step">No link click</div>
+        <div class="bc-icon">📊</div>
+        <h3>No Engagement</h3>
+        <p>Customer didn't click the link at all. Data captured for audience scoring and future campaign targeting.</p>
+        <div style="display:inline-block; margin-top:12px; background:#1A2D6B; color:#FFC200; font-size:9px; font-weight:800; padding:5px 12px; border-radius:20px; text-transform:uppercase; letter-spacing:0.5px;">Audience Data</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:#1A2D6B"></div>Initial outreach</div>
+    <div class="legend-div"></div>
+    <div class="legend-item"><div class="legend-dot" style="background:#4058D4"></div>Landing page interaction</div>
+    <div class="legend-div"></div>
+    <div class="legend-item"><div class="legend-dot" style="background:#FFA726"></div>Follow-up nudge</div>
+    <div class="legend-div"></div>
+    <div class="legend-item"><div class="legend-dot" style="background:#22c55e"></div>Conversion (live lead)</div>
+    <div class="legend-div"></div>
+    <div class="legend-item"><div class="legend-dot" style="background:#FFC200"></div>Affinity handoff</div>
+  </div>
+
+  <p class="footer-note">Prepared by 3Way Group · MNM Channel Relaunch · March 2026 · Confidential</p>
+</div>
+</body>
+</html>
