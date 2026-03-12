@@ -155,8 +155,8 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
       </div>
     </div>
     <div class="dash-meta">
-      <div class="dash-date">Wednesday 11 March 2026</div>
-      <div class="dash-gen">Generated Wednesday 11 March 2026, 14:27 SAST</div>
+      <div class="dash-date">Thursday 12 March 2026</div>
+      <div class="dash-gen">Generated Thursday 12 March 2026, 08:27 SAST</div>
     </div>
   </div>
 
@@ -164,7 +164,7 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
   <div class="stats">
     <div class="stat">
       <div class="stat-label">Active Tasks</div>
-      <div class="stat-value">7</div>
+      <div class="stat-value">10</div>
     </div>
     <div class="stat">
       <div class="stat-label">In Progress</div>
@@ -172,7 +172,7 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
     </div>
     <div class="stat">
       <div class="stat-label">Waiting</div>
-      <div class="stat-value" style="color:#F59E0B">0</div>
+      <div class="stat-value" style="color:#F59E0B">2</div>
     </div>
     <div class="stat">
       <div class="stat-label">Overdue</div>
@@ -180,12 +180,12 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
     </div>
     <div class="stat">
       <div class="stat-label">Blocked</div>
-      <div class="stat-value stat-alert">5</div>
+      <div class="stat-value stat-alert">7</div>
     </div>
     <div class="stat">
       <div class="stat-label">Avg Progress</div>
-      <div class="stat-value">21%</div>
-      <div class="stat-sub">7 tasks</div>
+      <div class="stat-value">34%</div>
+      <div class="stat-sub">10 tasks</div>
     </div>
   </div>
 
@@ -203,13 +203,13 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
   <!-- Attention -->
   
         <div class="attention-section">
-            <h2 class="section-heading">⚠️ Requires Attention <span class="attn-count">5</span></h2>
+            <h2 class="section-heading">⚠️ Requires Attention <span class="attn-count">7</span></h2>
             
             <div class="attn-item">
                 <div class="attn-flags"><span class="attn-flag attn-blocked">Blocked</span></div>
                 <div class="attn-title">#006 — Relaunch SimPush and 1Pin campaigns with necessary approvals in place.</div>
                 <div class="attn-meta">👤 Ricky · MNM Channel Relaunch</div>
-                <div class="attn-blocker">Awaiting Zunaid response (5 days, see Task 048). Awaiting Mohammed confirmation (see Task 029 — OVERDUE).</div>
+                <div class="attn-blocker">Awaiting Zunaid response (Task 048). Awaiting Mohammed final confirmation (Task 029).</div>
                 <div class="task-actions" data-tid="#006">
                   <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
                   <button class="ta-btn ta-pct" onclick="openPct(this)">% Progress</button>
@@ -235,8 +235,21 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
                 <div class="attn-flags"><span class="attn-flag attn-blocked">Blocked</span></div>
                 <div class="attn-title">#009 — Get Mark Menzies to complete the MTN SMS bind API integration.</div>
                 <div class="attn-meta">👤 Ricky · Other</div>
-                <div class="attn-blocker">Mark working on resolution — no defined timeline. Now ~17 days since first email. May need escalation.</div>
+                <div class="attn-blocker">Mark working on resolution — no defined timeline. Now ~18 days since first email. May need escalation.</div>
                 <div class="task-actions" data-tid="#009">
+                  <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
+                  <button class="ta-btn ta-pct" onclick="openPct(this)">% Progress</button>
+                  <button class="ta-btn ta-note" onclick="qNote(this)">+ Note</button>
+                  <button class="ta-btn ta-del" onclick="qAdd2(this)">&#10005; Delete</button>
+                </div>
+            </div>
+            
+            <div class="attn-item">
+                <div class="attn-flags"><span class="attn-flag attn-blocked">Blocked</span></div>
+                <div class="attn-title">#010 — Share scored records with Donovan and launch scorecard exercise.</div>
+                <div class="attn-meta">👤 Ricky · Data Warehouse</div>
+                <div class="attn-blocker">Awaiting Ricky to share screenshot and hit send.</div>
+                <div class="task-actions" data-tid="#010">
                   <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
                   <button class="ta-btn ta-pct" onclick="openPct(this)">% Progress</button>
                   <button class="ta-btn ta-note" onclick="qNote(this)">+ Note</button>
@@ -248,7 +261,7 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
                 <div class="attn-flags"><span class="attn-flag attn-blocked">Blocked</span></div>
                 <div class="attn-title">#013 — Prepare and share a fresh dataset with Mark for the persal exercise.</div>
                 <div class="attn-meta">👤 Ricky · Other</div>
-                <div class="attn-blocker">⚠️ URGENT — Deadline 13 March. Action required this week.</div>
+                <div class="attn-blocker">⚠️ URGENT — Deadline tomorrow (13 March). Action required today.</div>
                 <div class="task-actions" data-tid="#013">
                   <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
                   <button class="ta-btn ta-pct" onclick="openPct(this)">% Progress</button>
@@ -263,6 +276,19 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
                 <div class="attn-meta">👤 Ricky · MNM Channel Relaunch</div>
                 <div class="attn-blocker">Awaiting Mohammed next steps / timeline confirmation.</div>
                 <div class="task-actions" data-tid="#029">
+                  <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
+                  <button class="ta-btn ta-pct" onclick="openPct(this)">% Progress</button>
+                  <button class="ta-btn ta-note" onclick="qNote(this)">+ Note</button>
+                  <button class="ta-btn ta-del" onclick="qAdd2(this)">&#10005; Delete</button>
+                </div>
+            </div>
+            
+            <div class="attn-item">
+                <div class="attn-flags"><span class="attn-flag attn-blocked">Blocked</span></div>
+                <div class="attn-title">#053 — Send Clientele Perks Data to Gabby.</div>
+                <div class="attn-meta">👤 Ricky · Other</div>
+                <div class="attn-blocker">Awaiting Gabby&#x27;s email address or Ricky&#x27;s confirmation to send.</div>
+                <div class="task-actions" data-tid="#053">
                   <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
                   <button class="ta-btn ta-pct" onclick="openPct(this)">% Progress</button>
                   <button class="ta-btn ta-note" onclick="qNote(this)">+ Note</button>
@@ -285,8 +311,8 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
                     <span class="project-overdue-badge">1 overdue</span>
                 </div>
                 <div class="project-progress-mini">
-                    <div class="progress-bar-mini"><div class="progress-fill-mini" style="width:43%"></div></div>
-                    <span class="progress-pct-mini">43%</span>
+                    <div class="progress-bar-mini"><div class="progress-fill-mini" style="width:52%"></div></div>
+                    <span class="progress-pct-mini">52%</span>
                 </div>
             </div>
             <div class="project-tasks">
@@ -307,11 +333,11 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
                 </div>
                 <div class="progress-wrap">
                     <div class="progress-bar">
-                        <div class="progress-fill" style="width:50%;background:#4058D4"></div>
+                        <div class="progress-fill" style="width:60%;background:#4058D4"></div>
                     </div>
-                    <span class="progress-pct">50%</span>
+                    <span class="progress-pct">60%</span>
                 </div>
-                <div class="task-activity">Mohammed responded 11 March — reviewing and will advise next steps.</div>
+                <div class="task-activity">Mohammed engaging. Replied 11 March confirming he will advise next steps &quot;soonest&quot;.</div>
                 <div class="task-blocker">⚠️ Awaiting Mohammed next steps / timeline confirmation.</div>
                 
                 <div class="task-actions" data-tid="#029">
@@ -338,12 +364,12 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
                 </div>
                 <div class="progress-wrap">
                     <div class="progress-bar">
-                        <div class="progress-fill" style="width:60%;background:#4058D4"></div>
+                        <div class="progress-fill" style="width:65%;background:#4058D4"></div>
                     </div>
-                    <span class="progress-pct">60%</span>
+                    <span class="progress-pct">65%</span>
                 </div>
-                <div class="task-activity">On course. Approvals progressing.</div>
-                <div class="task-blocker">⚠️ Awaiting Zunaid response (5 days, see Task 048). Awaiting Mohammed confirmation (see Task 029 — OVERDUE).</div>
+                <div class="task-activity">Zunaid follow-up drafted (Task 048). SMS tracker populated with SmartLoan copy. Awaiting approval/confirmation.</div>
+                <div class="task-blocker">⚠️ Awaiting Zunaid response (Task 048). Awaiting Mohammed final confirmation (Task 029).</div>
                 <div class="deliverables"><div class="deliv-item" class="done">✅ Storm meeting attended — DONE (5 March). MTN route confirmed via Mohammed Rassool.</div><div class="deliv-item" class="done">✅ Michaela meeting attended — DONE (4 March). BrandX deck received.</div><div class="deliv-item" class="done">✅ Zunaid pitch sent — DONE (5 March). Awaiting response.</div><div class="deliv-item" class="done">✅ Mohammed briefs sent — DONE (5 March). Dischem + SmartLoan.</div><div class="deliv-item" class="done">✅ Danny forecast and update sent — DONE (5 March).</div></div>
                 <div class="task-actions" data-tid="#006">
                   <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
@@ -369,11 +395,11 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
                 </div>
                 <div class="progress-wrap">
                     <div class="progress-bar">
-                        <div class="progress-fill" style="width:20%;background:#4058D4"></div>
+                        <div class="progress-fill" style="width:30%;background:#4058D4"></div>
                     </div>
-                    <span class="progress-pct">20%</span>
+                    <span class="progress-pct">30%</span>
                 </div>
-                <div class="task-activity">Ricky checking in with Gaby/Jax/Jess on copy sign-off. Donovan on USSD shortcode. SMS copy tracker spreadsheet to be built.</div>
+                <div class="task-activity">SMS tracker sheet built. FNB Funeral/JustMoney copy alignment between Dylan/Donovan in progress.</div>
                 <div class="task-blocker">⚠️ USSD shortcode pending Donovan. Copy sign-off pending Gaby/Jax/Jess. Dischem and Clientele pricing placeholders need confirming.</div>
                 <div class="deliverables"><div class="deliv-item">○ Message copy finalised and approved by Gaby/Jax/Jess</div><div class="deliv-item">○ USSD shortcode confirmed by Donovan</div><div class="deliv-item">○ Pricing placeholders (Dischem, Clientele) confirmed</div><div class="deliv-item">○ Booking made through Chapelle De Hahn</div><div class="deliv-item">○ Campaigns live on Vodacom and MTN</div></div>
                 <div class="task-actions" data-tid="#007">
@@ -392,16 +418,47 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
                 <div class="project-header-left">
                     <span class="project-chevron">▾</span>
                     <h2 class="project-name">Other</h2>
-                    <span class="project-count">2 tasks</span>
+                    <span class="project-count">3 tasks</span>
                     
                 </div>
                 <div class="project-progress-mini">
-                    <div class="progress-bar-mini"><div class="progress-fill-mini" style="width:10%"></div></div>
-                    <span class="progress-pct-mini">10%</span>
+                    <div class="progress-bar-mini"><div class="progress-fill-mini" style="width:37%"></div></div>
+                    <span class="progress-pct-mini">37%</span>
                 </div>
             </div>
             <div class="project-tasks">
                 
+            <div class="task-card">
+                <div class="task-header">
+                    <div class="task-id">#053</div>
+                    <div class="task-badges">
+                        <span class="urgency-badge" style="background:#EA580C15;color:#EA580C">high</span>
+                        <span class="status-badge" style="background:#F59E0B15;color:#F59E0B">Waiting on Human</span>
+                        <span class="dl-badge dl-soon">Fri 13 Mar</span>
+                    </div>
+                </div>
+                <div class="task-title">Send Clientele Perks Data to Gabby.</div>
+                <div class="task-meta">
+                    <span class="task-owner">👤 Ricky</span>
+                    <span class="task-category">communication</span>
+                </div>
+                <div class="progress-wrap">
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width:90%;background:#F59E0B"></div>
+                    </div>
+                    <span class="progress-pct">90%</span>
+                </div>
+                <div class="task-activity">Data prepared. Draft &quot;Clientele Perks Data — Coming Through Now&quot; ready in email-composer if needed.</div>
+                <div class="task-blocker">⚠️ Awaiting Gabby&#x27;s email address or Ricky&#x27;s confirmation to send.</div>
+                
+                <div class="task-actions" data-tid="#053">
+                  <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
+                  <button class="ta-btn ta-pct" onclick="openPct(this)">% Progress</button>
+                  <button class="ta-btn ta-note" onclick="qNote(this)">+ Note</button>
+                  <button class="ta-btn ta-del" onclick="qAdd2(this)">&#10005; Delete</button>
+                </div>
+            </div>
+            
             <div class="task-card">
                 <div class="task-header">
                     <div class="task-id">#009</div>
@@ -423,7 +480,7 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
                     <span class="progress-pct">20%</span>
                 </div>
                 <div class="task-activity">Mark Menzies working on MTN SMS bind API. No defined timeline.</div>
-                <div class="task-blocker">⚠️ Mark working on resolution — no defined timeline. Now ~17 days since first email. May need escalation.</div>
+                <div class="task-blocker">⚠️ Mark working on resolution — no defined timeline. Now ~18 days since first email. May need escalation.</div>
                 
                 <div class="task-actions" data-tid="#009">
                   <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
@@ -453,10 +510,59 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
                     </div>
                     <span class="progress-pct">0%</span>
                 </div>
-                <div class="task-activity">Ricky to prepare and share Persal dataset with Mark on 12 March. Deadline remains 13 March.</div>
-                <div class="task-blocker">⚠️ ⚠️ URGENT — Deadline 13 March. Action required this week.</div>
+                <div class="task-activity">Ricky to prepare and share Persal dataset with Mark TODAY.</div>
+                <div class="task-blocker">⚠️ ⚠️ URGENT — Deadline tomorrow (13 March). Action required today.</div>
                 
                 <div class="task-actions" data-tid="#013">
+                  <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
+                  <button class="ta-btn ta-pct" onclick="openPct(this)">% Progress</button>
+                  <button class="ta-btn ta-note" onclick="qNote(this)">+ Note</button>
+                  <button class="ta-btn ta-del" onclick="qAdd2(this)">&#10005; Delete</button>
+                </div>
+            </div>
+            
+            </div>
+        </div>
+        
+        <div class="project-section">
+            <div class="project-header" onclick="this.parentElement.classList.toggle('collapsed')">
+                <div class="project-header-left">
+                    <span class="project-chevron">▾</span>
+                    <h2 class="project-name">Data Warehouse</h2>
+                    <span class="project-count">1 task</span>
+                    
+                </div>
+                <div class="project-progress-mini">
+                    <div class="progress-bar-mini"><div class="progress-fill-mini" style="width:80%"></div></div>
+                    <span class="progress-pct-mini">80%</span>
+                </div>
+            </div>
+            <div class="project-tasks">
+                
+            <div class="task-card">
+                <div class="task-header">
+                    <div class="task-id">#010</div>
+                    <div class="task-badges">
+                        <span class="urgency-badge" style="background:#EA580C15;color:#EA580C">high</span>
+                        <span class="status-badge" style="background:#F59E0B15;color:#F59E0B">Waiting on Human</span>
+                        <span class="dl-badge dl-soon">Fri 13 Mar</span>
+                    </div>
+                </div>
+                <div class="task-title">Share scored records with Donovan and launch scorecard exercise.</div>
+                <div class="task-meta">
+                    <span class="task-owner">👤 Ricky</span>
+                    <span class="task-category">analysis</span>
+                </div>
+                <div class="progress-wrap">
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width:80%;background:#F59E0B"></div>
+                    </div>
+                    <span class="progress-pct">80%</span>
+                </div>
+                <div class="task-activity">Scored file received. Ricky to share screenshot and send final email to Donovan/Yoav/Dylan.</div>
+                <div class="task-blocker">⚠️ Awaiting Ricky to share screenshot and hit send.</div>
+                <div class="deliverables"><div class="deliv-item" class="done">✅ Records received from Matogen — DONE (11 March)</div><div class="deliv-item" class="done">✅ Email draft prepared for Donovan/Yoav/Dylan — DONE (11 March)</div><div class="deliv-item">○ Share screenshot of file location and send email — PENDING (Ricky)</div></div>
+                <div class="task-actions" data-tid="#010">
                   <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
                   <button class="ta-btn ta-pct" onclick="openPct(this)">% Progress</button>
                   <button class="ta-btn ta-note" onclick="qNote(this)">+ Note</button>
@@ -502,7 +608,7 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
                     </div>
                     <span class="progress-pct">0%</span>
                 </div>
-                <div class="task-activity">Ricky to action CIPC annual return next week. Due 27 March — 17 days remaining.</div>
+                <div class="task-activity">Ricky to action CIPC annual return next week. Due 27 March — 15 days remaining.</div>
                 
                 
                 <div class="task-actions" data-tid="#026">
@@ -521,7 +627,7 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
                 <div class="project-header-left">
                     <span class="project-chevron">▾</span>
                     <h2 class="project-name">Internal</h2>
-                    <span class="project-count">1 task</span>
+                    <span class="project-count">2 tasks</span>
                     
                 </div>
                 <div class="project-progress-mini">
@@ -551,10 +657,41 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
                     </div>
                     <span class="progress-pct">0%</span>
                 </div>
-                <div class="task-activity">Reminder emailed to Ricky 11 March. Session not yet scheduled.</div>
+                <div class="task-activity">Session for JackpotCity/account managers. Not yet scheduled.</div>
                 
                 
                 <div class="task-actions" data-tid="#051">
+                  <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
+                  <button class="ta-btn ta-pct" onclick="openPct(this)">% Progress</button>
+                  <button class="ta-btn ta-note" onclick="qNote(this)">+ Note</button>
+                  <button class="ta-btn ta-del" onclick="qAdd2(this)">&#10005; Delete</button>
+                </div>
+            </div>
+            
+            <div class="task-card">
+                <div class="task-header">
+                    <div class="task-id">#052</div>
+                    <div class="task-badges">
+                        <span class="urgency-badge" style="background:#2563EB15;color:#2563EB">medium</span>
+                        <span class="status-badge" style="background:#6B728015;color:#6B7280">Pending</span>
+                        <span class="dl-badge dl-soon">Thu 12 Mar</span>
+                    </div>
+                </div>
+                <div class="task-title">Restore Dropbox OAuth and configure twice-weekly automated workspace backup to Dropbox via rclone cron.</div>
+                <div class="task-meta">
+                    <span class="task-owner">👤 Morgan</span>
+                    <span class="task-category">logistics</span>
+                </div>
+                <div class="progress-wrap">
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width:0%;background:#6B7280"></div>
+                    </div>
+                    <span class="progress-pct">0%</span>
+                </div>
+                <div class="task-activity">Scheduled for TODAY (12 March). OAuth was previously working — needs diagnosis.</div>
+                
+                
+                <div class="task-actions" data-tid="#052">
                   <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
                   <button class="ta-btn ta-pct" onclick="openPct(this)">% Progress</button>
                   <button class="ta-btn ta-note" onclick="qNote(this)">+ Note</button>
@@ -568,7 +705,7 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
   </div>
 
   <div class="dash-footer">
-    3Way Group Intelligence Platform · Generated by Morgan · Wednesday 11 March 2026, 14:27 SAST
+    3Way Group Intelligence Platform · Generated by Morgan · Thursday 12 March 2026, 08:27 SAST
   </div>
 </div>
 
