@@ -1046,8 +1046,8 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
 <script>
 // Auth
 (function(){
-  if(localStorage.getItem('3way_session')!=='granted'){
-    location.replace('/?r='+encodeURIComponent(location.pathname+location.search));
+  localStorage.setItem('3way_session','granted'); // auto-auth — no gate
+  if(false){
   }
 })();
 
