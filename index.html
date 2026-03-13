@@ -16,6 +16,23 @@
 html,body{height:100%;font-family:'Inter',sans-serif;background:var(--navy);color:var(--white);-webkit-font-smoothing:antialiased;overflow-x:hidden;}
 body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(138,157,192,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(138,157,192,.03) 1px,transparent 1px);background-size:50px 50px;pointer-events:none;z-index:0;}
 
+/* ── GATE ── */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* ── PORTAL ── */
 .portal{min-height:100vh;display:flex;flex-direction:column;opacity:1;position:relative;z-index:1;}
@@ -87,9 +104,12 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
   .signout-btn{font-size:.65rem;padding:.35rem .7rem;}
 }
 </style>
-<script>localStorage.setItem("3way_session","granted");localStorage.setItem("3wg_auth","granted");</script>
+<script>localStorage.setItem("3way_session","granted");</script>
 </head>
 <body>
+
+<!-- GATE -->
+
 
 <!-- PORTAL -->
 <div class="portal" id="portal">
@@ -285,13 +305,29 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 
 <script>
 const PW='lead.connect.grow',KEY='3wg_auth';
+function unlock(){
+  const v=document.getElementById('pwInput').value;
+  if(v===PW){
+    sessionStorage.setItem(KEY,'1');
+    document.getElementById('gate').classList.add('gone');
+    document.getElementById('portal').classList.add('visible');
+    document.getElementById('gateError').textContent='';
+  }else{
+    document.getElementById('gateError').textContent='Incorrect access code.';
+    document.getElementById('pwInput').value='';
+    document.getElementById('pwInput').focus();
+  }
 }
 function signout(){
   sessionStorage.removeItem(KEY);
-    document.getElementById('portal').classList.remove('visible');
-  }
+  document.getElementById('gate').classList.remove('gone');
+  document.getElementById('portal').classList.remove('visible');
+  document.getElementById('pwInput').value='';
+}
+function togglePw(){const i=document.getElementById('pwInput');i.type=i.type==='password'?'text':'password';}
 if(sessionStorage.getItem(KEY)){
-    document.getElementById('portal').classList.add('visible');
+  document.getElementById('gate').classList.add('gone');
+  document.getElementById('portal').classList.add('visible');
 }
 function tick(){
   const n=new Date();
