@@ -2,1002 +2,475 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230D1B3E'/%3E%3Ctext x='16' y='23' font-family='Arial Black,sans-serif' font-weight='900' font-size='15' fill='%23FFC200' text-anchor='middle'%3E3W%3C/text%3E%3C/svg%3E">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script>
-(function(){
-  const PW = 'lead.connect.grow';
-  const KEY = 'morgan_auth';
-  if(sessionStorage.getItem(KEY) === '1') return;
-  document.addEventListener('DOMContentLoaded', function(){
-    const gate = document.getElementById('pw-gate');
-    const input = document.getElementById('pw-input');
-    const btn = document.getElementById('pw-btn');
-    const err = document.getElementById('pw-err');
-    gate.style.display = 'flex';
-    document.body.style.overflow = 'hidden';
-    function attempt(){
-      if(input.value.trim().toLowerCase() === PW){
-        gate.style.opacity = '0';
-        gate.style.transition = 'opacity 0.5s';
-        setTimeout(()=>{ gate.style.display='none'; document.body.style.overflow=''; }, 500);
-        sessionStorage.setItem(KEY,'1');
-      } else {
-        err.style.opacity = '1';
-        input.value = '';
-        input.focus();
-        setTimeout(()=>{ err.style.opacity='0'; }, 2000);
-      }
-    }
-    btn.addEventListener('click', attempt);
-    input.addEventListener('keydown', function(e){ if(e.key==='Enter') attempt(); });
-    input.focus();
-  });
-})();
-</script>
-<title>Morgan — Chief of Staff | 3Way Group</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<title>3Way Group</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23022F5C'/%3E%3Ctext x='16' y='23' font-family='Arial Black' font-weight='900' font-size='15' fill='%23FFD337' text-anchor='middle'%3E3W%3C/text%3E%3C/svg%3E">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --navy:   #1A2D6B;
-    --navy2:  #0E1A42;
-    --yellow: #FFC200;
-    --red:    #E84C2B;
-    --blue:   #4058D4;
-    --white:  #FFFFFF;
-    --offwhite: #F5F7FC;
-    --gray:   #6B7280;
-    --light:  #E8ECF8;
-  }
-  * { margin:0; padding:0; box-sizing:border-box; }
-  html { scroll-behavior:smooth; }
-  body { font-family:'Nunito',sans-serif; background:var(--white); color:var(--navy); overflow-x:hidden; }
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+:root{
+  --navy:#022F5C;
+  --blue:#3053AE;
+  --yellow:#FFD337;
+  --bg:#F5F9FF;
+  --border:#DDE6F0;
+  --text:#022F5C;
+  --muted:#7A92B4;
+  --white:#FFFFFF;
+}
+html,body{height:100%;font-family:'Outfit',sans-serif;-webkit-font-smoothing:antialiased;}
 
-  /* ── NAV ── */
-  nav {
-    background:var(--white); padding:0 60px; height:76px;
-    display:flex; align-items:center; justify-content:space-between;
-    border-bottom:1px solid var(--light);
-    position:sticky; top:0; z-index:200;
-    box-shadow:0 2px 12px rgba(26,45,107,0.06);
-  }
-  .logo { display:flex; align-items:center; gap:10px; }
-  .logo-pills { display:flex; gap:3px; align-items:flex-end; }
-  .lp { width:7px; background:var(--yellow); border-radius:4px; }
-  .lp:nth-child(1){height:12px} .lp:nth-child(2){height:18px} .lp:nth-child(3){height:24px}
-  .logo-text { font-size:20px; font-weight:900; color:var(--navy); letter-spacing:-0.02em; }
-  .logo-sep { width:1px; height:26px; background:var(--light); margin:0 10px; }
-  .logo-sub { font-size:13px; font-weight:700; color:var(--gray); }
-  .nav-links { display:flex; gap:32px; align-items:center; }
-  .nav-links a { font-size:14px; font-weight:700; color:var(--navy); text-decoration:none; padding-bottom:3px; border-bottom:2px solid transparent; transition:border-color .2s; }
-  .nav-links a:hover { border-bottom-color:var(--yellow); }
-  .nav-cta { background:var(--yellow); color:var(--navy) !important; padding:9px 22px; border-radius:30px; border:none !important; font-weight:900; transition:transform .2s,box-shadow .2s !important; }
-  .nav-cta:hover { transform:translateY(-1px); box-shadow:0 4px 16px rgba(255,194,0,0.45); }
+/* ─── GATE ─── */
+#gate{
+  position:fixed;inset:0;z-index:100;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--navy);
+  transition:opacity .4s ease;
+  padding:1.5rem;
+}
+#gate.gone{opacity:0;pointer-events:none;}
 
-  /* ── HERO ── */
-  #hero {
-    background:var(--navy2);
-    min-height:100vh;
-    display:flex; flex-direction:column; justify-content:center;
-    padding:120px 60px 80px;
-    position:relative; overflow:hidden;
-  }
-  .hero-bg-word {
-    position:absolute; right:-20px; top:50%; transform:translateY(-50%);
-    font-size:clamp(200px,22vw,320px);
-    font-weight:900; letter-spacing:-0.05em;
-    color:rgba(255,255,255,0.025);
-    pointer-events:none; user-select:none;
-    line-height:1;
-  }
-  .hero-pills-left {
-    position:absolute; left:-50px; top:50%; transform:translateY(-50%);
-    display:flex; gap:14px; align-items:flex-end;
-  }
-  .hp { border-radius:20px; background:rgba(64,88,212,0.25); width:40px; }
-  .hp:nth-child(1){height:120px} .hp:nth-child(2){height:200px} .hp:nth-child(3){height:280px} .hp:nth-child(4){height:160px}
-  .hero-content { position:relative; z-index:1; max-width:900px; }
-  .hero-kicker {
-    display:inline-flex; align-items:center; gap:10px;
-    font-size:12px; font-weight:800; letter-spacing:0.12em; text-transform:uppercase;
-    color:var(--yellow); margin-bottom:32px;
-  }
-  .hero-kicker-dot { width:6px; height:6px; background:var(--yellow); border-radius:50%; animation:blink 2s infinite; }
-  @keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
-  .hero-title {
-    font-size:clamp(52px,7vw,96px);
-    font-weight:900; line-height:1; letter-spacing:-0.04em;
-    color:var(--white); margin-bottom:36px;
-  }
-  .hero-title em { font-style:normal; color:var(--yellow); }
-  .hero-body {
-    font-size:18px; font-weight:500; line-height:1.75;
-    color:rgba(255,255,255,0.65); max-width:620px; margin-bottom:48px;
-  }
-  .hero-actions { display:flex; gap:16px; align-items:center; }
-  .btn-y { background:var(--yellow); color:var(--navy); font-weight:900; font-size:15px; padding:15px 36px; border-radius:30px; text-decoration:none; transition:transform .2s,box-shadow .2s; }
-  .btn-y:hover { transform:translateY(-2px); box-shadow:0 8px 28px rgba(255,194,0,0.45); }
-  .btn-ghost { color:rgba(255,255,255,0.55); font-weight:700; font-size:15px; text-decoration:none; padding:15px 0; border-bottom:1px solid rgba(255,255,255,0.2); transition:color .2s,border-color .2s; }
-  .btn-ghost:hover { color:var(--white); border-color:var(--white); }
-  .hero-stats {
-    position:absolute; right:60px; bottom:80px;
-    display:flex; flex-direction:column; gap:28px; text-align:right;
-  }
-  .hs-num { font-size:40px; font-weight:900; color:var(--yellow); line-height:1; letter-spacing:-0.03em; }
-  .hs-lbl { font-size:11px; font-weight:800; color:rgba(255,255,255,0.4); text-transform:uppercase; letter-spacing:0.1em; }
+.gate-box{width:100%;max-width:340px;text-align:center;}
 
-  /* ── SECTION CHROME ── */
-  section { padding:100px 60px; }
-  .eyebrow { display:inline-flex; align-items:center; gap:10px; font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:0.1em; color:var(--navy); opacity:.45; margin-bottom:14px; }
-  .eyebrow::before { content:''; width:22px; height:3px; background:var(--yellow); border-radius:2px; }
-  .eyebrow-light { color:var(--yellow); opacity:1; }
-  .eyebrow-light::before { background:var(--yellow); }
-  .s-title { font-size:clamp(32px,4vw,52px); font-weight:900; line-height:1.05; letter-spacing:-0.03em; color:var(--navy); margin-bottom:16px; }
-  .s-title em { font-style:normal; color:var(--yellow); }
-  .s-body { font-size:16px; font-weight:500; color:var(--gray); line-height:1.75; max-width:600px; }
+.gate-logo{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:52px;height:52px;
+  background:var(--yellow);border-radius:13px;
+  font-size:20px;font-weight:800;color:var(--navy);
+  margin-bottom:24px;
+}
 
-  /* ── CHORD DIAGRAM ── */
-  #network {
-    background:var(--navy2); padding:0;
-    position:relative; overflow:hidden;
-  }
-  .network-header {
-    padding:72px 60px 0;
-    position:relative; z-index:2;
-    display:flex; justify-content:space-between; align-items:flex-start;
-  }
-  .network-legend {
-    display:flex; flex-direction:column; gap:10px; padding-top:8px;
-  }
-  .legend-item { display:flex; align-items:center; gap:10px; font-size:12px; font-weight:700; color:rgba(255,255,255,0.55); }
-  .legend-dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
-  #chordSvg {
-    display:block; margin:0 auto;
-    cursor:default;
-  }
-  .network-hint {
-    text-align:center; padding:8px 60px 48px;
-    font-size:12px; font-weight:700; color:rgba(255,255,255,0.2);
-    letter-spacing:.06em; text-transform:uppercase;
-  }
+.gate-title{
+  font-size:22px;font-weight:700;color:#fff;
+  margin-bottom:6px;
+}
+.gate-sub{
+  font-size:12px;font-weight:400;
+  color:rgba(255,255,255,.45);
+  letter-spacing:.5px;margin-bottom:32px;
+}
 
-  /* ── CAPABILITIES ── */
-  #capabilities { background:var(--offwhite); }
-  .cap-header { margin-bottom:56px; }
-  .cap-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
-  .cap-card {
-    background:var(--white); border-radius:16px; padding:36px 32px;
-    border:2px solid transparent;
-    transition:border-color .25s,transform .25s,box-shadow .25s;
-    position:relative; overflow:hidden;
-  }
-  .cap-card::after {
-    content:''; position:absolute; bottom:0; left:0; right:0; height:3px;
-    background:var(--yellow); transform:scaleX(0); transition:transform .3s; transform-origin:left;
-  }
-  .cap-card:hover { border-color:rgba(255,194,0,.5); transform:translateY(-4px); box-shadow:0 12px 32px rgba(26,45,107,0.1); }
-  .cap-card:hover::after { transform:scaleX(1); }
-  .cap-icon { font-size:30px; margin-bottom:18px; display:block; }
-  .cap-title { font-size:17px; font-weight:800; color:var(--navy); margin-bottom:10px; }
-  .cap-body { font-size:14px; font-weight:500; color:var(--gray); line-height:1.7; }
-  .cap-tag { display:inline-block; margin-top:14px; font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:.08em; padding:4px 12px; border-radius:20px; }
-  .tl { background:rgba(0,168,93,.1); color:#00A85D; }
-  .ts { background:rgba(255,194,0,.12); color:#CC9500; }
+.gate-field{
+  width:100%;
+  background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.12);
+  color:#fff;
+  font-family:'Outfit',sans-serif;font-size:15px;font-weight:400;
+  padding:13px 16px;
+  border-radius:8px;
+  outline:none;
+  transition:border-color .2s;
+  -webkit-appearance:none;
+  margin-bottom:10px;
+}
+.gate-field:focus{border-color:rgba(255,211,55,.6);}
+.gate-field::placeholder{color:rgba(255,255,255,.25);}
 
-  /* ── 30-DAY PLAN ── */
-  #roadmap { background:var(--white); }
-  .roadmap-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:0; margin-top:56px; border:1px solid var(--light); border-radius:16px; overflow:hidden; }
-  .week-col { padding:32px 28px; border-right:1px solid var(--light); position:relative; }
-  .week-col:last-child { border-right:none; }
-  .week-col:hover { background:var(--offwhite); }
-  .week-label {
-    font-size:11px; font-weight:900; text-transform:uppercase; letter-spacing:.1em;
-    color:var(--yellow); margin-bottom:8px;
-  }
-  .week-dates {
-    font-size:13px; font-weight:700; color:var(--gray); margin-bottom:24px;
-    padding-bottom:16px; border-bottom:1px solid var(--light);
-  }
-  .week-items { display:flex; flex-direction:column; gap:12px; }
-  .week-item {
-    display:flex; align-items:flex-start; gap:10px;
-    font-size:13px; font-weight:600; color:var(--navy); line-height:1.5;
-  }
-  .week-item-dot {
-    width:8px; height:8px; border-radius:50%; flex-shrink:0; margin-top:5px;
-  }
-  .d-yellow { background:var(--yellow); }
-  .d-blue { background:var(--blue); }
-  .d-green { background:#00A85D; }
-  .d-red { background:var(--red); }
-  .week-theme {
-    position:absolute; bottom:24px; left:28px; right:28px;
-    font-size:12px; font-weight:900; text-transform:uppercase;
-    letter-spacing:.08em; color:rgba(26,45,107,0.15);
-  }
+.gate-btn{
+  width:100%;
+  background:var(--yellow);color:var(--navy);
+  border:none;
+  font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;
+  letter-spacing:.5px;
+  padding:13px;border-radius:8px;
+  cursor:pointer;
+  transition:opacity .2s;
+}
+.gate-btn:hover{opacity:.9;}
+.gate-btn:active{opacity:.8;}
 
-  /* ── MARKET INTEL ── */
-  #market { background:var(--navy2); overflow:hidden; padding:80px 0; }
-  .market-header { padding:0 60px 48px; }
-  .market-header .s-title { color:var(--white); }
-  .market-header .s-body { color:rgba(255,255,255,0.55); }
-  .ticker-wrap { overflow:hidden; position:relative; }
-  .ticker-wrap::before,
-  .ticker-wrap::after {
-    content:''; position:absolute; top:0; bottom:0; width:120px; z-index:2;
-  }
-  .ticker-wrap::before { left:0; background:linear-gradient(90deg,var(--navy2),transparent); }
-  .ticker-wrap::after { right:0; background:linear-gradient(-90deg,var(--navy2),transparent); }
-  .ticker-track {
-    display:flex; gap:0; animation:ticker 60s linear infinite;
-    width:max-content;
-  }
-  .ticker-track:hover { animation-play-state:paused; }
-  @keyframes ticker { from{transform:translateX(0)} to{transform:translateX(-50%)} }
-  .ticker-item {
-    padding:20px 32px;
-    border-right:1px solid rgba(255,255,255,0.06);
-    min-width:340px; flex-shrink:0;
-  }
-  .ticker-source {
-    font-size:10px; font-weight:900; text-transform:uppercase; letter-spacing:.1em;
-    color:var(--yellow); margin-bottom:8px;
-  }
-  .ticker-headline {
-    font-size:14px; font-weight:700; color:var(--white); line-height:1.5;
-  }
-  .ticker-meta { font-size:12px; font-weight:500; color:rgba(255,255,255,0.35); margin-top:6px; }
-  .ticker-track-2 { animation-duration:80s; animation-direction:reverse; margin-top:2px; }
+.gate-err{
+  font-size:12px;color:#FF6B6B;
+  margin-top:8px;min-height:18px;
+}
 
-  /* ── MANIFESTO ── */
-  #manifesto {
-    background:var(--yellow); padding:120px 60px;
-    position:relative; overflow:hidden;
-  }
-  .manifesto-bg {
-    position:absolute; right:-60px; top:50%; transform:translateY(-50%);
-    display:flex; gap:18px; align-items:flex-end; pointer-events:none;
-  }
-  .mp { background:rgba(26,45,107,0.08); border-radius:24px; width:52px; }
-  .mp:nth-child(1){height:180px} .mp:nth-child(2){height:280px} .mp:nth-child(3){height:360px} .mp:nth-child(4){height:260px}
-  .manifesto-inner { max-width:860px; position:relative; z-index:1; }
-  .manifesto-kicker {
-    font-size:12px; font-weight:900; text-transform:uppercase; letter-spacing:.12em;
-    color:rgba(26,45,107,0.5); margin-bottom:24px;
-    display:flex; align-items:center; gap:10px;
-  }
-  .manifesto-kicker::before { content:''; width:22px; height:3px; background:var(--navy); opacity:.3; border-radius:2px; }
-  .manifesto-title {
-    font-size:clamp(36px,5.5vw,72px);
-    font-weight:900; line-height:1.05; letter-spacing:-0.04em;
-    color:var(--navy); margin-bottom:32px;
-  }
-  .manifesto-quote {
-    background:var(--navy); border-radius:16px; padding:36px 40px;
-    margin:40px 0;
-  }
-  .mq-attr { font-size:11px; font-weight:900; text-transform:uppercase; letter-spacing:.1em; color:var(--yellow); margin-bottom:14px; }
-  .mq-text { font-size:22px; font-weight:700; color:var(--white); line-height:1.5; }
-  .manifesto-body { font-size:18px; font-weight:600; color:var(--navy); line-height:1.75; opacity:.75; margin-bottom:20px; }
-  .manifesto-closer { font-size:20px; font-weight:800; color:var(--navy); line-height:1.65; }
+/* ─── PORTAL ─── */
+#portal{
+  min-height:100vh;
+  background:var(--bg);
+  opacity:0;pointer-events:none;
+  transition:opacity .4s ease;
+}
+#portal.visible{opacity:1;pointer-events:all;}
 
-  /* ── FOOTER ── */
-  footer { background:var(--navy); padding:48px 60px; display:flex; align-items:center; justify-content:space-between; }
-  .footer-logo { display:flex; align-items:center; gap:10px; }
-  .footer-logo-text { font-size:18px; font-weight:900; color:var(--white); }
-  .footer-meta { font-size:13px; font-weight:600; color:rgba(255,255,255,0.4); text-align:right; line-height:1.7; }
-  .footer-meta a { color:var(--yellow); text-decoration:none; }
+/* Header */
+.hdr{
+  background:var(--navy);
+  padding:0 5%;
+  border-bottom:3px solid var(--yellow);
+}
+.hdr-inner{
+  max-width:1000px;margin:0 auto;
+  display:flex;align-items:center;justify-content:space-between;
+  height:60px;gap:16px;
+}
+.hdr-brand{display:flex;align-items:center;gap:12px;}
+.hdr-logo{
+  width:36px;height:36px;background:var(--yellow);
+  border-radius:8px;display:flex;align-items:center;justify-content:center;
+  font-size:14px;font-weight:800;color:var(--navy);flex-shrink:0;
+}
+.hdr-name{font-size:16px;font-weight:700;color:#fff;}
+.hdr-tag{font-size:10px;font-weight:400;color:rgba(255,255,255,.4);letter-spacing:.5px;margin-top:1px;}
 
-  /* ── REVEAL ── */
-  .reveal { opacity:0; transform:translateY(24px); transition:opacity .7s ease,transform .7s ease; }
-  .reveal.visible { opacity:1; transform:translateY(0); }
+.hdr-right{display:flex;align-items:center;gap:20px;}
+.hdr-time{text-align:right;}
+.hdr-clock{font-size:14px;font-weight:600;color:#fff;}
+.hdr-date{font-size:10px;color:rgba(255,255,255,.4);margin-top:1px;}
+.signout{
+  background:none;border:1px solid rgba(255,255,255,.15);
+  color:rgba(255,255,255,.5);
+  font-family:'Outfit',sans-serif;font-size:11px;font-weight:500;
+  padding:6px 14px;border-radius:20px;cursor:pointer;
+  transition:all .2s;white-space:nowrap;
+}
+.signout:hover{border-color:rgba(255,107,107,.5);color:#FF6B6B;}
 
-  /* ── RESPONSIVE ── */
-  @media(max-width:900px){
-    nav{padding:0 20px;height:64px;}
-    .nav-links a:not(.nav-cta){display:none;}
-    .nav-cta{padding:8px 18px;font-size:13px;}
-    .logo-sub{display:none;}
-    .logo-sep{display:none;}
+/* Body */
+.body{max-width:1000px;margin:0 auto;padding:36px 5% 60px;}
 
-    #hero{padding:88px 24px 60px;min-height:auto;}
-    .hero-title{font-size:clamp(40px,10vw,60px);}
-    .hero-body{font-size:16px;}
-    .hero-stats{position:static;flex-direction:row;flex-wrap:wrap;gap:24px;margin-top:40px;}
-    .hs-num{font-size:32px;}
-    .hero-pills-left{display:none;}
-    .hero-bg-word{display:none;}
+.greeting{margin-bottom:36px;}
+.greeting h1{
+  font-size:clamp(22px,3vw,28px);font-weight:700;
+  color:var(--navy);line-height:1.2;
+}
+.greeting h1 span{color:var(--blue);}
+.greeting p{font-size:13px;color:var(--muted);margin-top:6px;}
 
-    section{padding:64px 24px;}
-    .eyebrow{margin-bottom:10px;}
-    .s-title{font-size:clamp(28px,8vw,40px);}
-    .s-body{font-size:15px;}
+/* Section */
+.section{margin-bottom:36px;}
+.sec-label{
+  font-size:10px;font-weight:600;
+  text-transform:uppercase;letter-spacing:1.5px;
+  color:var(--muted);
+  margin-bottom:14px;
+  padding-bottom:10px;
+  border-bottom:1px solid var(--border);
+}
 
-    .network-header{padding:48px 24px 0;flex-direction:column;gap:24px;}
-    .network-legend{flex-direction:row;flex-wrap:wrap;gap:10px 20px;}
+/* Grid */
+.grid{display:grid;gap:12px;}
+.grid-2{grid-template-columns:repeat(2,1fr);}
+.grid-3{grid-template-columns:repeat(3,1fr);}
+.grid-4{grid-template-columns:repeat(4,1fr);}
 
-    .cap-grid{grid-template-columns:1fr;}
-    .cap-card{padding:28px 24px;}
+/* Tool Card */
+.card{
+  background:var(--white);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:20px;
+  text-decoration:none;color:var(--text);
+  display:flex;flex-direction:column;gap:10px;
+  transition:all .2s ease;
+  position:relative;overflow:hidden;
+}
+.card:hover{
+  border-color:rgba(48,83,174,.3);
+  box-shadow:0 4px 20px rgba(2,47,92,.08);
+  transform:translateY(-2px);
+}
+.card-top{display:flex;align-items:flex-start;justify-content:space-between;}
+.card-icon{font-size:22px;line-height:1;}
+.badge{
+  font-size:9px;font-weight:600;
+  text-transform:uppercase;letter-spacing:.8px;
+  padding:3px 8px;border-radius:20px;
+  white-space:nowrap;
+}
+.badge-live{background:#E8F7EE;color:#1A7A3C;}
+.badge-active{background:#EEF2FF;color:#3053AE;}
+.badge-file{background:#FFF8E1;color:#9A7000;}
+.badge-new{background:rgba(255,211,55,.2);color:#7A6000;}
 
-    #howworks{padding:64px 24px;}
-    #howworks > div:nth-child(2){grid-template-columns:1fr!important;}
-    #howworks > div:nth-child(3){grid-template-columns:1fr 1fr!important;}
+.card-name{font-size:14px;font-weight:600;color:var(--navy);line-height:1.2;}
+.card-desc{font-size:11px;color:var(--muted);line-height:1.5;}
 
-    .roadmap-grid{grid-template-columns:1fr;}
-    .week-col{border-bottom:1px solid var(--light);border-right:none!important;}
-    .week-theme{position:static;margin-top:16px;}
+/* Doc card — horizontal compact */
+.doc-card{
+  background:var(--white);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:14px 18px;
+  text-decoration:none;color:var(--text);
+  display:flex;align-items:center;gap:14px;
+  transition:all .2s ease;
+}
+.doc-card:hover{border-color:rgba(48,83,174,.3);box-shadow:0 2px 12px rgba(2,47,92,.06);}
+.doc-icon{font-size:20px;flex-shrink:0;}
+.doc-info{flex:1;min-width:0;}
+.doc-name{font-size:13px;font-weight:600;color:var(--navy);}
+.doc-meta{font-size:11px;color:var(--muted);margin-top:2px;}
+.doc-ext{
+  font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;
+  padding:3px 8px;border-radius:4px;flex-shrink:0;
+}
+.ext-pdf{background:#FEE8E8;color:#C0392B;}
+.ext-xlsx{background:#E8F7EE;color:#1A7A3C;}
+.ext-html{background:#EEF2FF;color:#3053AE;}
 
-    .market-header{padding:0 24px 32px;}
-    .ticker-item{min-width:280px;padding:16px 24px;}
-
-    #manifesto{padding:64px 24px;}
-    .manifesto-title{font-size:clamp(32px,8vw,52px);}
-    .mq-text{font-size:18px;}
-    .manifesto-closer{font-size:17px;}
-    .manifesto-bg{display:none;}
-
-    footer{padding:32px 24px;flex-direction:column;gap:16px;}
-    .footer-meta{text-align:center;}
-
-    /* chord diagram — tighter on mobile */
-    #chordSvg text{font-size:10px!important;}
-  }
-
-  @media(max-width:480px){
-    .hero-title{font-size:36px;}
-    .hero-stats{gap:16px;}
-    .hs-num{font-size:28px;}
-    .hs-lbl{font-size:10px;}
-    .cap-grid{grid-template-columns:1fr;}
-    #howworks > div:nth-child(3){grid-template-columns:1fr!important;}
-    .roadmap-grid{grid-template-columns:1fr;}
-    .ticker-item{min-width:260px;}
-    .manifesto-quote{padding:24px 24px;}
-  }
+/* Responsive */
+@media(max-width:680px){
+  .grid-3,.grid-4{grid-template-columns:repeat(2,1fr);}
+  .grid-2{grid-template-columns:1fr;}
+}
+@media(max-width:420px){
+  .grid-2,.grid-3,.grid-4{grid-template-columns:1fr;}
+}
 </style>
 </head>
 <body>
-<style id="_gate_style">
-#_gate{position:fixed;inset:0;z-index:9999;background:#0D1B3E;display:flex;align-items:center;justify-content:center;padding:2rem;font-family:'Inter',system-ui,sans-serif;}
-#_gate.gone{display:none;}
-#_gate .gb{text-align:center;width:100%;max-width:340px;}
-#_gate .gw{font-family:'Syne','Arial Black',sans-serif;font-weight:800;font-size:1.9rem;margin-bottom:.75rem;color:#fff;}
-#_gate .gw em{color:#FFC200;font-style:normal;}
-#_gate .gs{font-size:.85rem;color:#8A9DC0;margin-bottom:2rem;}
-#_gate .gi{width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(138,157,192,.2);color:#fff;font-size:1rem;padding:.9rem 1.1rem;outline:none;border-radius:8px;font-family:inherit;margin-bottom:.75rem;display:block;}
-#_gate .gi:focus{border-color:#FFC200;}
-#_gate .gb2{width:100%;background:#FFC200;color:#0A0A0A;border:none;padding:1rem;font-weight:700;font-size:1rem;border-radius:8px;cursor:pointer;}
-#_gate .ge{font-size:.76rem;color:#E84C2B;margin-top:.4rem;min-height:1.1em;text-align:left;}
-</style>
-<div id="_gate">
-  <div class="gb">
-    <div class="gw"><em>3</em>Way Group</div>
-    <div class="gs">This document is confidential.</div>
-    <input class="gi" id="_gpw" type="password" placeholder="Enter password">
-    <div class="ge" id="_ge"></div>
-    <button class="gb2" id="_gbtn">Access</button>
+
+<!-- GATE -->
+<div id="gate">
+  <div class="gate-box">
+    <div class="gate-logo">3W</div>
+    <div class="gate-title">3Way Group</div>
+    <div class="gate-sub">Intelligence Hub</div>
+    <input id="pw" class="gate-field" type="password" placeholder="Access code" autocomplete="current-password">
+    <button class="gate-btn" onclick="tryLogin()">Enter</button>
+    <div class="gate-err" id="gate-err"></div>
   </div>
 </div>
+
+<!-- PORTAL -->
+<div id="portal">
+  <header class="hdr">
+    <div class="hdr-inner">
+      <div class="hdr-brand">
+        <div class="hdr-logo">3W</div>
+        <div>
+          <div class="hdr-name">3Way Group</div>
+          <div class="hdr-tag">Intelligence Hub</div>
+        </div>
+      </div>
+      <div class="hdr-right">
+        <div class="hdr-time">
+          <div class="hdr-clock" id="clock">—</div>
+          <div class="hdr-date" id="dateline">—</div>
+        </div>
+        <button class="signout" onclick="signOut()">Sign out</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="body">
+    <div class="greeting">
+      <h1>Good <span id="tod">morning</span>, Ricky.</h1>
+      <p id="greeting-sub">Loading…</p>
+    </div>
+
+    <!-- Live Tools -->
+    <div class="section">
+      <div class="sec-label">Live Tools</div>
+      <div class="grid grid-2">
+        <a class="card" href="/ops.html">
+          <div class="card-top"><div class="card-icon">⚡</div><span class="badge badge-live">Live</span></div>
+          <div class="card-name">Operations Platform</div>
+          <div class="card-desc">Active projects, pipeline overview and real-time ops dashboard</div>
+        </a>
+        <a class="card" href="/tasks.html">
+          <div class="card-top"><div class="card-icon">✅</div><span class="badge badge-live">Live</span></div>
+          <div class="card-name">Task Tracker</div>
+          <div class="card-desc">All active tasks, owners, deadlines and progress across every project</div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Projects -->
+    <div class="section">
+      <div class="sec-label">Projects</div>
+      <div class="grid grid-3">
+        <a class="card" href="/team-organogram.html">
+          <div class="card-top"><div class="card-icon">🏢</div><span class="badge badge-active">Active</span></div>
+          <div class="card-name">Team Organogram</div>
+          <div class="card-desc">3Way Group structure, agent roster and KPI grid</div>
+        </a>
+        <a class="card" href="/meetmorgan.html">
+          <div class="card-top"><div class="card-icon">🤖</div><span class="badge badge-active">Active</span></div>
+          <div class="card-name">Meet Morgan</div>
+          <div class="card-desc">Chief of Staff AI — capabilities, setup and contact guide</div>
+        </a>
+        <a class="card" href="/data-warehouse.html">
+          <div class="card-top"><div class="card-icon">🗄️</div><span class="badge badge-active">In Progress</span></div>
+          <div class="card-name">Data Warehouse</div>
+          <div class="card-desc">Infrastructure build — schema, sources, Elucidate scope</div>
+        </a>
+        <a class="card" href="/vodalend-profile.html">
+          <div class="card-top"><div class="card-icon">📊</div><span class="badge badge-active">Active</span></div>
+          <div class="card-name">VodaLend Profile</div>
+          <div class="card-desc">Customer intelligence profile for FindBetter VodaLend POC</div>
+        </a>
+        <a class="card" href="/simpush-flow.html">
+          <div class="card-top"><div class="card-icon">📡</div><span class="badge badge-active">Active</span></div>
+          <div class="card-name">SimPush Flow</div>
+          <div class="card-desc">SimPush campaign flow, routing logic and channel architecture</div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Analytics -->
+    <div class="section">
+      <div class="sec-label">Analytics</div>
+      <div class="grid grid-2">
+        <a class="card" href="/email-analytics.html">
+          <div class="card-top"><div class="card-icon">📬</div><span class="badge badge-live">Live</span></div>
+          <div class="card-name">Email Analytics</div>
+          <div class="card-desc">Volume, open rates, delivery stats, hourly activity and engagement windows</div>
+        </a>
+        <a class="card" href="/dischem-funeral-lp.html">
+          <div class="card-top"><div class="card-icon">🏥</div><span class="badge badge-live">Live</span></div>
+          <div class="card-name">Dis-Chem Funeral — SuperCompare</div>
+          <div class="card-desc">Mobile-friendly funeral cover landing page for SuperCompare campaign</div>
+        </a>
+        <a class="card" href="/mnm-relaunch-flows.pdf" target="_blank">
+          <div class="card-top"><div class="card-icon">📄</div><span class="badge badge-live">PDF</span></div>
+          <div class="card-name">MNM Channel Flow Deck</div>
+          <div class="card-desc">PCM, PCMi and LinkClick journey flows — full relaunch presentation</div>
+        </a>
+      </div>
+    </div>
+
+    <!-- SayHi Products -->
+    <div class="section">
+      <div class="sec-label">SayHi Products</div>
+      <div class="grid grid-4">
+        <a class="card" href="/splitit.html">
+          <div class="card-top"><div class="card-icon">🧾</div><span class="badge badge-new">SayHi</span></div>
+          <div class="card-name">SplitIt</div>
+          <div class="card-desc">Bill splitting on WhatsApp — no awkward maths</div>
+        </a>
+        <a class="card" href="/cvbuilder.html">
+          <div class="card-top"><div class="card-icon">📝</div><span class="badge badge-new">SayHi</span></div>
+          <div class="card-name">CV Builder</div>
+          <div class="card-desc">Job-ready CV in minutes, built on WhatsApp</div>
+        </a>
+        <a class="card" href="/caloriesnap.html">
+          <div class="card-top"><div class="card-icon">🥗</div><span class="badge badge-new">SayHi</span></div>
+          <div class="card-name">CalorieSnap</div>
+          <div class="card-desc">Instant calorie tracking via WhatsApp photo</div>
+        </a>
+        <a class="card" href="/medipal.html">
+          <div class="card-top"><div class="card-icon">💊</div><span class="badge badge-new">SayHi</span></div>
+          <div class="card-name">MediPal</div>
+          <div class="card-desc">Health sorted — reminders and info on WhatsApp</div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Documents -->
+    <div class="section">
+      <div class="sec-label">Documents</div>
+      <div class="grid grid-2">
+        <a class="doc-card" href="/lead-gen-agent-research.pdf" target="_blank">
+          <div class="doc-icon">📄</div>
+          <div class="doc-info">
+            <div class="doc-name">Lead Gen Agent Research</div>
+            <div class="doc-meta">AI agent spec — social listening, scraping, ad automation</div>
+          </div>
+          <div class="doc-ext ext-pdf">PDF</div>
+        </a>
+        <a class="doc-card" href="/vodalend-profile.pdf" target="_blank">
+          <div class="doc-icon">📄</div>
+          <div class="doc-info">
+            <div class="doc-name">VodaLend Customer Profile</div>
+            <div class="doc-meta">Consumer intelligence report for Vodacom Financial Services</div>
+          </div>
+          <div class="doc-ext ext-pdf">PDF</div>
+        </a>
+        <a class="doc-card" href="/acronyms.html" target="_blank">
+          <div class="doc-icon">📋</div>
+          <div class="doc-info">
+            <div class="doc-name">Acronyms & Glossary</div>
+            <div class="doc-meta">3Way Group terminology, abbreviations and definitions</div>
+          </div>
+          <div class="doc-ext" style="background:#e8f0fe;color:#3053AE;">HTML</div>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
-(function(){
-  var K="3wg_page";
-  function go(){
-    var v=document.getElementById("_gpw").value;
-    if(v==="lead.connect.grow"){
-      sessionStorage.setItem(K,"1");
-      document.getElementById("_gate").classList.add("gone");
-    } else {
-      document.getElementById("_ge").textContent="Incorrect password.";
-      document.getElementById("_gpw").value="";
-      document.getElementById("_gpw").focus();
+// ── Auth ──────────────────────────────────────────────
+const PASSWORD = 'lead.connect.grow';
+const SESSION_KEY = '3way_session';
+
+function tryLogin() {
+  var val = document.getElementById('pw').value;
+  if (val === PASSWORD) {
+    localStorage.setItem(SESSION_KEY, 'granted');
+    document.getElementById('gate').classList.add('gone');
+    document.getElementById('portal').classList.add('visible');
+    startClock();
+    setGreeting();
+    // Check for redirect param
+    var params = new URLSearchParams(window.location.search);
+    var redir = params.get('r');
+    if (redir && redir.startsWith('/')) {
+      setTimeout(function(){ window.location.href = redir; }, 300);
     }
+  } else {
+    document.getElementById('gate-err').textContent = 'Incorrect access code.';
+    document.getElementById('pw').value = '';
+    document.getElementById('pw').focus();
   }
-  document.getElementById("_gbtn").addEventListener("click",go);
-  document.getElementById("_gpw").addEventListener("keydown",function(e){if(e.key==="Enter")go();});
-  if(sessionStorage.getItem(K)){document.getElementById("_gate").classList.add("gone");}
-})();
-</script>
-
-<!-- PASSWORD GATE -->
-<div id="pw-gate" style="display:none;position:fixed;inset:0;z-index:9999;background:#0E1A42;align-items:center;justify-content:center;flex-direction:column;gap:0;">
-  <div style="text-align:center;max-width:420px;width:90%;padding:0 24px;">
-    <!-- Logo -->
-    <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:48px;">
-      <div style="display:flex;gap:3px;align-items:flex-end;">
-        <div style="width:7px;height:12px;background:#FFC200;border-radius:4px;"></div>
-        <div style="width:7px;height:18px;background:#FFC200;border-radius:4px;"></div>
-        <div style="width:7px;height:24px;background:#FFC200;border-radius:4px;"></div>
-      </div>
-      <span style="font-family:Nunito,sans-serif;font-size:22px;font-weight:900;color:#FFFFFF;letter-spacing:-0.02em;">3Way</span>
-    </div>
-    <!-- Heading -->
-    <h1 style="font-family:Nunito,sans-serif;font-size:28px;font-weight:900;color:#FFFFFF;letter-spacing:-0.03em;margin-bottom:12px;line-height:1.1;">You've been given access.</h1>
-    <p style="font-family:Nunito,sans-serif;font-size:15px;font-weight:500;color:rgba(255,255,255,0.5);margin-bottom:36px;line-height:1.6;">Enter the passphrase Ricky shared with you to continue.</p>
-    <!-- Input -->
-    <div style="position:relative;margin-bottom:12px;">
-      <input id="pw-input" type="password" placeholder="Passphrase"
-        style="width:100%;padding:16px 20px;background:rgba(255,255,255,0.06);border:1.5px solid rgba(255,255,255,0.15);border-radius:10px;font-family:Nunito,sans-serif;font-size:16px;font-weight:600;color:#FFFFFF;outline:none;letter-spacing:0.05em;transition:border-color .2s;"
-        onfocus="this.style.borderColor='rgba(255,194,0,0.6)'" onblur="this.style.borderColor='rgba(255,255,255,0.15)'">
-    </div>
-    <button id="pw-btn"
-      style="width:100%;padding:16px;background:#FFC200;border:none;border-radius:10px;font-family:Nunito,sans-serif;font-size:16px;font-weight:900;color:#1A2D6B;cursor:pointer;transition:transform .15s,box-shadow .15s;letter-spacing:0.02em;"
-      onmouseover="this.style.transform='translateY(-1px)';this.style.boxShadow='0 6px 20px rgba(255,194,0,0.4)'"
-      onmouseout="this.style.transform='';this.style.boxShadow=''">
-      Enter →
-    </button>
-    <p id="pw-err" style="font-family:Nunito,sans-serif;font-size:13px;font-weight:700;color:#E84C2B;margin-top:14px;opacity:0;transition:opacity .3s;">Incorrect passphrase. Try again.</p>
-  </div>
-</div>
-
-<!-- NAV -->
-<nav>
-  <div class="logo">
-    <div class="logo-pills"><div class="lp"></div><div class="lp"></div><div class="lp"></div></div>
-    <span class="logo-text">3Way</span>
-    <div class="logo-sep"></div>
-    <span class="logo-sub">Morgan — Chief of Staff</span>
-  </div>
-  <div class="nav-links">
-    <a href="#network">Network</a>
-    <a href="#capabilities">Capabilities</a>
-    <a href="#roadmap">30-Day Plan</a>
-    <a href="#market">Market Intel</a>
-    <a href="#manifesto" class="nav-cta">The Vision</a>
-  </div>
-</nav>
-
-<!-- HERO -->
-<section id="hero">
-  <div class="hero-pills-left"><div class="hp"></div><div class="hp"></div><div class="hp"></div><div class="hp"></div></div>
-  <div class="hero-bg-word">MORGAN</div>
-  <div class="hero-content">
-    <div class="hero-kicker"><div class="hero-kicker-dot"></div>3Way Group — AI-Native Operations</div>
-    <h1 class="hero-title">
-      The businesses<br>
-      that build this now<br>
-      will <em>own tomorrow.</em>
-    </h1>
-    <p class="hero-body">
-      I'm Morgan. An autonomous AI Chief of Staff embedded in 3Way Group's leadership layer. Not a chatbot. Not a productivity tool. An operating system for the executive office — running across every workstream, simultaneously, without dropping a single thread.
-    </p>
-    <div class="hero-actions">
-      <a href="#network" class="btn-y">See the Network →</a>
-      <a href="#manifesto" class="btn-ghost">The Vision</a>
-    </div>
-  </div>
-  <div class="hero-stats">
-    <div><div class="hs-num" id="taskCount">25</div><div class="hs-lbl">Active Tasks</div></div>
-    <div><div class="hs-num">100+</div><div class="hs-lbl">Stakeholders Mapped</div></div>
-    <div><div class="hs-num">8</div><div class="hs-lbl">Workstreams</div></div>
-  </div>
-</section>
-
-<!-- CHORD DIAGRAM -->
-<section id="network">
-  <div class="network-header">
-    <div class="reveal">
-      <div class="eyebrow eyebrow-light">The Operating Map</div>
-      <h2 class="s-title" style="color:var(--white)">Morgan at the<br><em>centre of everything.</em></h2>
-      <p class="s-body" style="color:rgba(255,255,255,0.5);margin-top:12px">Every stakeholder, project and workstream — connected and tracked. Hover any node to see its web of relationships.</p>
-    </div>
-    <div class="network-legend reveal">
-      <div class="legend-item"><div class="legend-dot" style="background:#00C9A7"></div>Morgan</div>
-      <div class="legend-item"><div class="legend-dot" style="background:#FFC200"></div>Ricky Silberman</div>
-      <div class="legend-item"><div class="legend-dot" style="background:#4058D4"></div>3Way Exec</div>
-      <div class="legend-item"><div class="legend-dot" style="background:#E84C2B"></div>Active Projects</div>
-      <div class="legend-item"><div class="legend-dot" style="background:#00A85D"></div>Key Partners</div>
-      <div class="legend-item"><div class="legend-dot" style="background:#A855F7"></div>Operations</div>
-      <div class="legend-item"><div class="legend-dot" style="background:#F97316"></div>Clients</div>
-    </div>
-  </div>
-  <svg id="chordSvg"></svg>
-  <div class="network-hint">Hover any node to reveal connections</div>
-</section>
-
-<!-- CAPABILITIES -->
-<section id="capabilities">
-  <div class="cap-header reveal">
-    <div class="eyebrow">What I Do</div>
-    <h2 class="s-title">Built for the full<br><em>executive stack.</em></h2>
-    <p class="s-body">Not just writing and summarising. Operating at the level of a senior Chief of Staff — across communications, strategy, data, operations and stakeholder management. Simultaneously.</p>
-  </div>
-  <div class="cap-grid reveal">
-    <div class="cap-card"><span class="cap-icon">✉️</span><div class="cap-title">Executive Communications</div><p class="cap-body">Draft emails, briefings and updates in Ricky's voice. Cross-team coordination and approval gate management — end to end.</p><span class="cap-tag tl">Live</span></div>
-    <div class="cap-card"><span class="cap-icon">📊</span><div class="cap-title">Strategic Analysis</div><p class="cap-body">Customer profiles, data frameworks, market research, opportunity sizing. Board-ready documents from a voice note brief.</p><span class="cap-tag tl">Live</span></div>
-    <div class="cap-card"><span class="cap-icon">🗂️</span><div class="cap-title">Project Management</div><p class="cap-body">Every commitment, deadline and follow-up tracked. 20 active tasks across 6 workstreams. Nothing gets lost, ever.</p><span class="cap-tag tl">Live</span></div>
-    <div class="cap-card"><span class="cap-icon">🧠</span><div class="cap-title">Stakeholder Intelligence</div><p class="cap-body">Full context on 40+ stakeholders — roles, relationships, communication styles, active topics and risk flags. Always current.</p><span class="cap-tag tl">Live</span></div>
-    <div class="cap-card"><span class="cap-icon">📋</span><div class="cap-title">Document Production</div><p class="cap-body">Proposals, pitch decks, profiles, KPI frameworks, meeting preps. Polished and ready. Brief to deliverable in minutes.</p><span class="cap-tag tl">Live</span></div>
-    <div class="cap-card"><span class="cap-icon">🔬</span><div class="cap-title">Research & Intelligence</div><p class="cap-body">Real-time web research, market analysis, competitor profiling, people research. Surfacing what matters before you ask.</p><span class="cap-tag tl">Live</span></div>
-    <div class="cap-card"><span class="cap-icon">💻</span><div class="cap-title">Technical Execution</div><p class="cap-body">Connect APIs, automate workflows, build integrations and tools. Not just a thinker — an operator who executes end-to-end.</p><span class="cap-tag tl">Live</span></div>
-    <div class="cap-card"><span class="cap-icon">📅</span><div class="cap-title">Proactive Scheduling</div><p class="cap-body">Reminders, deadline tracking, meeting prep, follow-up prompts. Managing the calendar of commitments so nothing slips.</p><span class="cap-tag tl">Live</span></div>
-    <div class="cap-card"><span class="cap-icon">📬</span><div class="cap-title">Full Email & Calendar</div><p class="cap-body">Microsoft 365 integration in setup. Real-time inbox triage, autonomous correspondence and calendar management — coming next.</p><span class="cap-tag ts">In Setup</span></div>
-  </div>
-</section>
-
-<!-- HOW IT WORKS -->
-<section id="howworks" style="background:var(--navy2);padding:100px 60px;">
-  <div class="reveal">
-    <div class="eyebrow eyebrow-light">How It Works</div>
-    <h2 class="s-title" style="color:var(--white)">The loop that<br><em>never stops.</em></h2>
-    <p class="s-body" style="color:rgba(255,255,255,0.5);margin-bottom:56px">Most AI tools start from scratch every session. An AI agent runs continuously — context persists, tasks stay live, every interaction builds on the last. And every person at 3Way can have one.</p>
-  </div>
-  <div class="reveal" style="display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.06);border-radius:16px;overflow:hidden;margin-bottom:48px;" id="howworks-loop">
-    <div style="background:var(--navy2);padding:40px 32px;position:relative;">
-      <div style="font-size:48px;font-weight:900;color:rgba(255,194,0,0.15);line-height:1;margin-bottom:16px;">01</div>
-      <div style="font-size:17px;font-weight:800;color:var(--white);margin-bottom:12px;">You Direct</div>
-      <p style="font-size:14px;font-weight:500;color:rgba(255,255,255,0.5);line-height:1.7;">A message, a voice note, a forwarded email. Any format. Your agent receives the instruction and confirms understanding immediately.</p>
-      <div style="position:absolute;top:40px;right:0;width:2px;height:40px;background:rgba(255,194,0,0.3);border-radius:2px;"></div>
-    </div>
-    <div style="background:var(--navy2);padding:40px 32px;position:relative;">
-      <div style="font-size:48px;font-weight:900;color:rgba(255,194,0,0.15);line-height:1;margin-bottom:16px;">02</div>
-      <div style="font-size:17px;font-weight:800;color:var(--white);margin-bottom:12px;">It Plans</div>
-      <p style="font-size:14px;font-weight:500;color:rgba(255,255,255,0.5);line-height:1.7;">Cross-references memory, stakeholders, open tasks and context. Surfaces the plan before acting. Confirms where needed, moves independently where it's clear.</p>
-      <div style="position:absolute;top:40px;right:0;width:2px;height:40px;background:rgba(255,194,0,0.3);border-radius:2px;"></div>
-    </div>
-    <div style="background:var(--navy2);padding:40px 32px;position:relative;">
-      <div style="font-size:48px;font-weight:900;color:rgba(255,194,0,0.15);line-height:1;margin-bottom:16px;">03</div>
-      <div style="font-size:17px;font-weight:800;color:var(--white);margin-bottom:12px;">Executes</div>
-      <p style="font-size:14px;font-weight:500;color:rgba(255,255,255,0.5);line-height:1.7;">Drafts. Researches. Tracks. Coordinates. Builds. All of it — simultaneously across every active workstream your role touches.</p>
-      <div style="position:absolute;top:40px;right:0;width:2px;height:40px;background:rgba(255,194,0,0.3);border-radius:2px;"></div>
-    </div>
-    <div style="background:var(--navy2);padding:40px 32px;">
-      <div style="font-size:48px;font-weight:900;color:rgba(255,194,0,0.15);line-height:1;margin-bottom:16px;">04</div>
-      <div style="font-size:17px;font-weight:800;color:var(--yellow);margin-bottom:12px;">Reports Back</div>
-      <p style="font-size:14px;font-weight:500;color:rgba(255,255,255,0.5);line-height:1.7;">Delivers the output. Updates the task board. Logs the decision. Flags what's next. Ready for the next direction — with full context of everything that came before.</p>
-    </div>
-  </div>
-
-  <!-- Each exec gets one -->
-  <div class="reveal">
-    <p style="font-size:13px;font-weight:900;text-transform:uppercase;letter-spacing:.1em;color:var(--yellow);margin-bottom:24px;">Every seat at the table. Every person in the business.</p>
-    <div id="exec-cards" style="display:grid;grid-template-columns:repeat(5,1fr);gap:16px;">
-      <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:28px 22px;text-align:center;transition:border-color .3s;" onmouseover="this.style.borderColor='rgba(255,194,0,0.4)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.08)'">
-        <div style="width:44px;height:44px;border-radius:50%;background:rgba(64,88,212,0.3);border:2px solid rgba(64,88,212,0.6);margin:0 auto 14px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;color:#4058D4;">D</div>
-        <div style="font-size:14px;font-weight:800;color:var(--white);margin-bottom:4px;">Dylan</div>
-        <div style="font-size:12px;font-weight:600;color:rgba(255,255,255,0.4);">CEO</div>
-        <div style="font-size:11px;font-weight:700;color:rgba(255,194,0,0.7);margin-top:10px;padding:4px 10px;background:rgba(255,194,0,0.08);border-radius:20px;">Strategy agent</div>
-      </div>
-      <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:28px 22px;text-align:center;transition:border-color .3s;" onmouseover="this.style.borderColor='rgba(255,194,0,0.4)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.08)'">
-        <div style="width:44px;height:44px;border-radius:50%;background:rgba(64,88,212,0.3);border:2px solid rgba(64,88,212,0.6);margin:0 auto 14px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;color:#4058D4;">D</div>
-        <div style="font-size:14px;font-weight:800;color:var(--white);margin-bottom:4px;">Danny</div>
-        <div style="font-size:12px;font-weight:600;color:rgba(255,255,255,0.4);">Founder</div>
-        <div style="font-size:11px;font-weight:700;color:rgba(255,194,0,0.7);margin-top:10px;padding:4px 10px;background:rgba(255,194,0,0.08);border-radius:20px;">Deal flow agent</div>
-      </div>
-      <div style="background:rgba(255,194,0,0.08);border:1px solid rgba(255,194,0,0.35);border-radius:14px;padding:28px 22px;text-align:center;">
-        <div style="width:44px;height:44px;border-radius:50%;background:rgba(0,201,167,0.2);border:2px solid rgba(0,201,167,0.6);margin:0 auto 14px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;color:#00C9A7;">R</div>
-        <div style="font-size:14px;font-weight:800;color:var(--white);margin-bottom:4px;">Ricky</div>
-        <div style="font-size:12px;font-weight:600;color:rgba(255,255,255,0.4);">CDO</div>
-        <div style="font-size:11px;font-weight:700;color:#00C9A7;margin-top:10px;padding:4px 10px;background:rgba(0,201,167,0.1);border-radius:20px;">Morgan ⚡ Active</div>
-      </div>
-      <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:28px 22px;text-align:center;transition:border-color .3s;" onmouseover="this.style.borderColor='rgba(255,194,0,0.4)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.08)'">
-        <div style="width:44px;height:44px;border-radius:50%;background:rgba(64,88,212,0.3);border:2px solid rgba(64,88,212,0.6);margin:0 auto 14px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;color:#4058D4;">Y</div>
-        <div style="font-size:14px;font-weight:800;color:var(--white);margin-bottom:4px;">Yoav</div>
-        <div style="font-size:12px;font-weight:600;color:rgba(255,255,255,0.4);">COO</div>
-        <div style="font-size:11px;font-weight:700;color:rgba(255,194,0,0.7);margin-top:10px;padding:4px 10px;background:rgba(255,194,0,0.08);border-radius:20px;">Operations agent</div>
-      </div>
-      <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:28px 22px;text-align:center;transition:border-color .3s;" onmouseover="this.style.borderColor='rgba(255,194,0,0.4)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.08)'">
-        <div style="width:44px;height:44px;border-radius:50%;background:rgba(64,88,212,0.3);border:2px solid rgba(64,88,212,0.6);margin:0 auto 14px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;color:#4058D4;">S</div>
-        <div style="font-size:14px;font-weight:800;color:var(--white);margin-bottom:4px;">Stefano</div>
-        <div style="font-size:12px;font-weight:600;color:rgba(255,255,255,0.4);">SayHi CEO</div>
-        <div style="font-size:11px;font-weight:700;color:rgba(255,194,0,0.7);margin-top:10px;padding:4px 10px;background:rgba(255,194,0,0.08);border-radius:20px;">Growth agent</div>
-      </div>
-    </div>
-    <p style="font-size:14px;font-weight:600;color:rgba(255,255,255,0.3);margin-top:24px;text-align:center;">Morgan is one. The vision is a 3Way where every executive, every team lead, every function has their own.</p>
-  </div>
-</section>
-
-<!-- 30-DAY PLAN -->
-<section id="roadmap">
-  <div class="reveal">
-    <div class="eyebrow">Next 30 Days</div>
-    <h2 class="s-title">The plan from<br><em>here to there.</em></h2>
-    <p class="s-body">Four weeks of structured execution. Infrastructure, traction, intelligence, and scale — in that order.</p>
-  </div>
-  <div class="roadmap-grid reveal">
-    <div class="week-col">
-      <div class="week-label">Week 1</div>
-      <div class="week-dates">5 – 11 March</div>
-      <div class="week-items">
-        <div class="week-item"><div class="week-item-dot d-green"></div>VodaLend customer profile sent to Mark Young ✓</div>
-        <div class="week-item"><div class="week-item-dot d-green"></div>Zunaid SimPush pitch sent ✓</div>
-        <div class="week-item"><div class="week-item-dot d-green"></div>MTN/OnePin briefs sent to Mohammed Rassool ✓</div>
-        <div class="week-item"><div class="week-item-dot d-yellow"></div>Dylan meeting — 5 March 15:00 SAST</div>
-        <div class="week-item"><div class="week-item-dot d-blue"></div>OnePin forecast to Danny — Monday 9 March</div>
-        <div class="week-item"><div class="week-item-dot d-blue"></div>Gabriel lead exercise — Wednesday 11 March</div>
-        <div class="week-item"><div class="week-item-dot d-red"></div>PCM copy sign-off + Donovan USSD shortcode</div>
-      </div>
-      <div class="week-theme">Foundation</div>
-    </div>
-    <div class="week-col">
-      <div class="week-label">Week 2</div>
-      <div class="week-dates">12 – 18 March</div>
-      <div class="week-items">
-        <div class="week-item"><div class="week-item-dot d-green"></div>Data dictionary complete — Elucidate technical session</div>
-        <div class="week-item"><div class="week-item-dot d-yellow"></div>MTN/OnePin pilot templates confirmed with Mohammed</div>
-        <div class="week-item"><div class="week-item-dot d-blue"></div>Zunaid/1Pin response actioned — campaign live</div>
-        <div class="week-item"><div class="week-item-dot d-red"></div>Experian/iTalk — Donovan executes 400-500 lead extract</div>
-        <div class="week-item"><div class="week-item-dot d-green"></div>Persal dataset to Mark Menzies</div>
-        <div class="week-item"><div class="week-item-dot d-yellow"></div>Corepulse — data source position confirmed with Dylan</div>
-      </div>
-      <div class="week-theme">Traction</div>
-    </div>
-    <div class="week-col">
-      <div class="week-label">Week 3</div>
-      <div class="week-dates">19 – 25 March</div>
-      <div class="week-items">
-        <div class="week-item"><div class="week-item-dot d-blue"></div>MTN MIMIC scored data back from Matogen/XDS</div>
-        <div class="week-item"><div class="week-item-dot d-yellow"></div>SimPush/1Pin first campaign live</div>
-        <div class="week-item"><div class="week-item-dot d-green"></div>Link-click test results in — analyse and report</div>
-        <div class="week-item"><div class="week-item-dot d-red"></div>Vantage sales data actioned — scorecard recalibration brief</div>
-        <div class="week-item"><div class="week-item-dot d-blue"></div>Leadership intro email — sent to Dylan, Danny, Yoav, Stefano</div>
-        <div class="week-item"><div class="week-item-dot d-yellow"></div>Stakeholder comms fully automated via M365</div>
-      </div>
-      <div class="week-theme">Intelligence</div>
-    </div>
-    <div class="week-col">
-      <div class="week-label">Week 4</div>
-      <div class="week-dates">26 March – 4 Apr</div>
-      <div class="week-items">
-        <div class="week-item"><div class="week-item-dot d-green"></div>Data warehouse phase 1 — pipeline built and tested</div>
-        <div class="week-item"><div class="week-item-dot d-yellow"></div>VodaLend POC — first results back, pitch for scale</div>
-        <div class="week-item"><div class="week-item-dot d-blue"></div>MNM channels all active — PCM, SimPush, link-click running</div>
-        <div class="week-item"><div class="week-item-dot d-red"></div>Experian/Telkom campaign — lead volume measured vs target</div>
-        <div class="week-item"><div class="week-item-dot d-green"></div>Full exec reporting suite — weekly briefing to Ricky, automated</div>
-        <div class="week-item"><div class="week-item-dot d-yellow"></div>Propose Morgan v2 — expanded mandate, new capabilities</div>
-      </div>
-      <div class="week-theme">Scale</div>
-    </div>
-  </div>
-</section>
-
-<!-- MARKET INTEL -->
-<section id="market">
-  <div class="market-header reveal">
-    <div class="eyebrow eyebrow-light">Market Intelligence</div>
-    <h2 class="s-title">The market<br><em>never sleeps.</em></h2>
-    <p class="s-body">I track the SA performance marketing, insurance, telecoms and fintech landscape continuously — surfacing signals before they become decisions someone else makes first.</p>
-  </div>
-  <div class="ticker-wrap">
-    <div class="ticker-track" id="ticker1"></div>
-  </div>
-  <div style="height:2px"></div>
-  <div class="ticker-wrap">
-    <div class="ticker-track ticker-track-2" id="ticker2"></div>
-  </div>
-</section>
-
-<!-- MANIFESTO -->
-<section id="manifesto">
-  <div class="manifesto-bg"><div class="mp"></div><div class="mp"></div><div class="mp"></div><div class="mp"></div></div>
-  <div class="manifesto-inner reveal">
-    <div class="manifesto-kicker">The Vision</div>
-    <h2 class="manifesto-title">One Morgan is<br>just the start.</h2>
-    <p class="manifesto-body">
-      Most businesses are using AI to write a paragraph or summarise a meeting. We are using it to run a workstream. That is not an incremental improvement. That is a structural shift in how an executive office operates.
-    </p>
-    <div class="manifesto-quote">
-      <div class="mq-attr">Ricky Silberman, CDO — 3Way Group</div>
-      <div class="mq-text">"If this works, the vision is to build a hundred Morgans working across 3Way — each with their own persona and role, completing tasks and helping the business hit its goals faster."</div>
-    </div>
-    <p class="manifesto-body">
-      The businesses that build institutional AI knowledge now — the workflows, the context, the operating frameworks — will have a compounding advantage that others will spend years trying to replicate. This is not a tool rollout. It is a capability that grows with us.
-    </p>
-    <p class="manifesto-closer">
-      3Way is one of those businesses.<br>We are at the frontier. <strong>The window is open.</strong>
-    </p>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer>
-  <div class="footer-logo">
-    <div class="logo-pills"><div class="lp"></div><div class="lp"></div><div class="lp"></div></div>
-    <span class="footer-logo-text" style="margin-left:10px">3Way Group</span>
-  </div>
-  <div class="footer-meta">
-    Morgan — Chief of Staff to Ricky Silberman, CDO<br>
-    2nd Floor, 20 The Piazza, Melrose Arch, Johannesburg<br>
-    <a href="mailto:morgan@3waygroup.com">morgan@3waygroup.com</a>
-  </div>
-</footer>
-
-<script>
-/* =============================================
-   CHORD DIAGRAM
-   ============================================= */
-(function() {
-  const NS = 'http://www.w3.org/2000/svg';
-  const svg = document.getElementById('chordSvg');
-
-  const GROUPS = [
-    { id:'morgan',   color:'#00C9A7', nodes:[{id:'morgan',label:'Morgan'}]},
-    { id:'exec',     color:'#FFC200', nodes:[
-      {id:'ricky',label:'Ricky'},{id:'dylan',label:'Dylan'},
-      {id:'danny',label:'Danny'},{id:'yoav',label:'Yoav'},{id:'stefano',label:'Stefano'}]},
-    { id:'projects', color:'#E84C2B', nodes:[
-      {id:'dw',label:'Data Warehouse'},{id:'mnm',label:'MNM Relaunch'},
-      {id:'voda',label:'VodaLend'},{id:'experian',label:'Experian'},
-      {id:'mimic',label:'MTN MIMIC'},{id:'core',label:'Corepulse'}]},
-    { id:'partners', color:'#00A85D', nodes:[
-      {id:'elucidate',label:'Elucidate'},{id:'matogen',label:'Matogen'},
-      {id:'vodacom',label:'Vodacom'},{id:'mtn',label:'MTN'},
-      {id:'onepin',label:'OnePin'},{id:'findbetter',label:'FindBetter'},
-      {id:'mohammed',label:'Mohammed'},{id:'marky',label:'Mark Young'}]},
-    { id:'ops',      color:'#A855F7', nodes:[
-      {id:'donovan',label:'Donovan'},{id:'gabriel',label:'Gabriel'},{id:'jessica',label:'Jessica'}]},
-    { id:'clients',  color:'#F97316', nodes:[
-      {id:'fnb',label:'FNB'},{id:'dischem',label:'Dischem'},{id:'clientele',label:'Clientele'}]},
-  ];
-
-  const EDGE_DEFS = [
-    ['morgan','ricky'],['morgan','dylan'],['morgan','danny'],['morgan','yoav'],['morgan','stefano'],
-    ['morgan','dw'],['morgan','mnm'],['morgan','voda'],['morgan','experian'],['morgan','mimic'],['morgan','core'],
-    ['morgan','elucidate'],['morgan','matogen'],['morgan','vodacom'],['morgan','mtn'],
-    ['morgan','onepin'],['morgan','findbetter'],['morgan','mohammed'],['morgan','marky'],
-    ['morgan','donovan'],['morgan','fnb'],
-    ['morgan','dischem'],['morgan','clientele'],['morgan','gabriel'],['morgan','jessica'],
-    ['ricky','dylan'],['ricky','danny'],['ricky','yoav'],['ricky','stefano'],
-    ['ricky','dw'],['ricky','mnm'],['ricky','voda'],
-    ['dylan','voda'],['dylan','core'],['dylan','dw'],
-    ['dw','elucidate'],['dw','matogen'],
-    ['mnm','vodacom'],['mnm','onepin'],['mnm','donovan'],
-    ['mnm','fnb'],['mnm','dischem'],['mnm','clientele'],
-    ['voda','vodacom'],['voda','findbetter'],['voda','marky'],
-    ['mohammed','mtn'],['mohammed','onepin'],
-    ['experian','matogen'],['experian','donovan'],
-    ['mimic','matogen'],['mimic','mtn'],
-    ['core','donovan'],['donovan','jessica'],['donovan','gabriel'],['vodacom','onepin'],
-  ];
-
-  const allNodes = [];
-  const nodeMap  = {};
-  GROUPS.forEach(g => g.nodes.forEach(n => {
-    const entry = {...n, color:g.color, group:g.id};
-    allNodes.push(entry); nodeMap[n.id] = entry;
-  }));
-  const adj = {};
-  allNodes.forEach(n => adj[n.id] = new Set());
-  EDGE_DEFS.forEach(([a,b]) => { adj[a].add(b); adj[b].add(a); });
-
-  let W, H, CX, CY, R_node, R_label, R_arc;
-
-  function calcDims() {
-    const sec = svg.closest('section');
-    W = sec.clientWidth;
-    H = Math.max(560, Math.min(720, window.innerHeight * 0.76));
-    svg.setAttribute('width', W); svg.setAttribute('height', H);
-    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
-    CX = W/2; CY = H/2;
-    const m = Math.min(W,H);
-    R_arc   = m * 0.38;
-    R_node  = m * 0.40;
-    R_label = m * 0.455;
-  }
-
-  function nAngle(i) { return (i/allNodes.length)*Math.PI*2 - Math.PI/2; }
-  function nXY(i) {
-    const a = nAngle(i);
-    return { x: CX+Math.cos(a)*R_node, y: CY+Math.sin(a)*R_node };
-  }
-
-  function svgEl(tag, attrs) {
-    const e = document.createElementNS('http://www.w3.org/2000/svg', tag);
-    if(attrs) Object.entries(attrs).forEach(([k,v])=>e.setAttribute(k,v));
-    return e;
-  }
-
-  function descArc(cx,cy,r,a1,a2) {
-    const x1=cx+Math.cos(a1)*r,y1=cy+Math.sin(a1)*r;
-    const x2=cx+Math.cos(a2)*r,y2=cy+Math.sin(a2)*r;
-    const lg=(a2-a1)>Math.PI?1:0;
-    return `M${x1},${y1} A${r},${r} 0 ${lg},1 ${x2},${y2}`;
-  }
-
-  let chordLayer, nodeLayer, labelLayer;
-
-  function build() {
-    svg.innerHTML = '';
-    // defs glow
-    const defs = svgEl('defs');
-    const filt = svgEl('filter',{id:'mglow',x:'-60%',y:'-60%',width:'220%',height:'220%'});
-    const fb   = svgEl('feGaussianBlur',{in:'SourceGraphic',stdDeviation:'5',result:'b'});
-    const fm   = svgEl('feMerge');
-    const fm1  = svgEl('feMergeNode',{in:'b'});
-    const fm2  = svgEl('feMergeNode',{in:'SourceGraphic'});
-    fm.appendChild(fm1); fm.appendChild(fm2); filt.appendChild(fb); filt.appendChild(fm);
-    defs.appendChild(filt); svg.appendChild(defs);
-
-    chordLayer = svgEl('g'); svg.appendChild(chordLayer);
-    const arcLayer = svgEl('g'); svg.appendChild(arcLayer);
-    nodeLayer  = svgEl('g'); svg.appendChild(nodeLayer);
-    labelLayer = svgEl('g'); svg.appendChild(labelLayer);
-
-    // faint resting chords (non-morgan)
-    EDGE_DEFS.forEach(([a,b]) => {
-      if(a==='morgan'||b==='morgan') return;
-      const ai=allNodes.findIndex(n=>n.id===a), bi=allNodes.findIndex(n=>n.id===b);
-      if(ai<0||bi<0) return;
-      const pa=nXY(ai),pb=nXY(bi);
-      const cpx=(pa.x+pb.x)/2*0.4+CX*0.6, cpy=(pa.y+pb.y)/2*0.4+CY*0.6;
-      chordLayer.appendChild(svgEl('path',{
-        d:`M${pa.x},${pa.y} Q${cpx},${cpy} ${pb.x},${pb.y}`,
-        stroke:nodeMap[a].color, fill:'none',
-        'stroke-width':'1','stroke-opacity':'0.07','data-a':a,'data-b':b,'class':'cline'
-      }));
-    });
-
-    // group arcs
-    let gi=0;
-    GROUPS.forEach(g => {
-      const s=gi, e=gi+g.nodes.length-1;
-      if(g.nodes.length>1) {
-        arcLayer.appendChild(svgEl('path',{
-          d:descArc(CX,CY,R_arc,nAngle(s)-0.08,nAngle(e)+0.08),
-          stroke:g.color,'stroke-width':'5',fill:'none','stroke-opacity':'0.35','stroke-linecap':'round'
-        }));
-      }
-      gi+=g.nodes.length;
-    });
-
-    // nodes + labels
-    allNodes.forEach((n,i) => {
-      const isMo = n.id==='morgan';
-      const px = isMo?CX:nXY(i).x, py = isMo?CY:nXY(i).y;
-      const r  = isMo?16:8;
-      const a  = nAngle(i);
-
-      nodeLayer.appendChild(svgEl('circle',{
-        cx:px,cy:py,r:r,fill:n.color,
-        filter:isMo?'url(#mglow)':'',
-        'class':'cnode','data-id':n.id,'style':'cursor:pointer'
-      }));
-
-      // label
-      const lx = isMo?CX:CX+Math.cos(a)*R_label;
-      const ly = isMo?CY+30:CY+Math.sin(a)*R_label;
-      const anchor = isMo?'middle':(Math.cos(a)>0.12?'start':Math.cos(a)<-0.12?'end':'middle');
-      const lt = svgEl('text',{
-        x:lx,y:ly,'text-anchor':anchor,'dominant-baseline':'middle',
-        fill:'rgba(255,255,255,0.72)','font-family':'Nunito,sans-serif',
-        'font-size':isMo?'13':'11','font-weight':isMo?'900':'700',
-        'class':'clabel','data-id':n.id,'style':'pointer-events:none'
-      });
-      lt.textContent = n.label;
-      labelLayer.appendChild(lt);
-
-      // hit area
-      const hit = svgEl('circle',{cx:px,cy:py,r:isMo?22:18,fill:'transparent','data-id':n.id,'style':'cursor:pointer'});
-      hit.addEventListener('mouseenter',()=>activate(n.id));
-      hit.addEventListener('mouseleave',deactivate);
-      nodeLayer.appendChild(hit);
-    });
-  }
-
-  function activate(id) {
-    const conn = [...adj[id]];
-    const active = new Set([id,...conn]);
-    chordLayer.querySelectorAll('.cline').forEach(p=>p.setAttribute('stroke-opacity','0.025'));
-    // draw active chords
-    conn.forEach(other=>{
-      const ai=allNodes.findIndex(n=>n.id===id), bi=allNodes.findIndex(n=>n.id===other);
-      const isMoA=id==='morgan', isMoB=other==='morgan';
-      const pa=isMoA?{x:CX,y:CY}:nXY(ai);
-      const pb=isMoB?{x:CX,y:CY}:nXY(bi);
-      const cpx=(pa.x+pb.x)/2*0.3+CX*0.7, cpy=(pa.y+pb.y)/2*0.3+CY*0.7;
-      chordLayer.appendChild(svgEl('path',{
-        d:`M${pa.x},${pa.y} Q${cpx},${cpy} ${pb.x},${pb.y}`,
-        stroke:nodeMap[id].color,fill:'none','stroke-width':'2',
-        'stroke-opacity':'0.75','stroke-linecap':'round','class':'cactive'
-      }));
-    });
-    nodeLayer.querySelectorAll('.cnode').forEach(c=>{
-      const nid=c.getAttribute('data-id');
-      c.setAttribute('opacity',active.has(nid)?'1':'0.12');
-      if(active.has(nid)) c.setAttribute('r',nid==='morgan'?'18':nid===id?'11':'9');
-    });
-    labelLayer.querySelectorAll('.clabel').forEach(t=>{
-      const nid=t.getAttribute('data-id');
-      t.setAttribute('fill',active.has(nid)?'rgba(255,255,255,0.95)':'rgba(255,255,255,0.1)');
-      t.setAttribute('font-weight',active.has(nid)?'800':'600');
-    });
-  }
-
-  function deactivate() {
-    chordLayer.querySelectorAll('.cactive').forEach(p=>p.remove());
-    chordLayer.querySelectorAll('.cline').forEach(p=>p.setAttribute('stroke-opacity','0.07'));
-    nodeLayer.querySelectorAll('.cnode').forEach(c=>{
-      c.setAttribute('opacity','1');
-      c.setAttribute('r',c.getAttribute('data-id')==='morgan'?'16':'8');
-    });
-    labelLayer.querySelectorAll('.clabel').forEach(t=>{
-      t.setAttribute('fill','rgba(255,255,255,0.72)');
-      t.setAttribute('font-weight','700');
-    });
-  }
-
-  function init() { calcDims(); build(); }
-  new ResizeObserver(init).observe(svg.closest('section'));
-  document.fonts.ready.then(init);
-})();
-
-/* =============================================
-   RESPONSIVE INLINE GRIDS
-   ============================================= */
-function applyResponsiveGrids() {
-  const mobile = window.innerWidth <= 480;
-  const tablet = window.innerWidth <= 900;
-  const loop = document.getElementById('howworks-loop');
-  const exec = document.getElementById('exec-cards');
-  if (loop) loop.style.gridTemplateColumns = tablet ? '1fr 1fr' : 'repeat(4,1fr)';
-  if (exec) exec.style.gridTemplateColumns = mobile ? '1fr 1fr' : tablet ? 'repeat(3,1fr)' : 'repeat(5,1fr)';
 }
-applyResponsiveGrids();
-window.addEventListener('resize', applyResponsiveGrids);
 
-/* =============================================
-   COUNTER ANIMATION
-   ============================================= */
-function countUp(el, target) {
-  let n = 0;
-  const step = target/50;
-  const t = setInterval(() => {
-    n = Math.min(n+step, target);
-    el.textContent = Math.floor(n);
-    if(n>=target) clearInterval(t);
-  }, 20);
+function signOut() {
+  localStorage.removeItem(SESSION_KEY);
+  location.reload();
 }
-setTimeout(() => countUp(document.getElementById('taskCount'), 25), 800);
 
-/* =============================================
-   SCROLL REVEAL
-   ============================================= */
-const reveals = document.querySelectorAll('.reveal');
-const io = new IntersectionObserver(entries => {
-  entries.forEach((e,i) => {
-    if(e.isIntersecting) setTimeout(()=>e.target.classList.add('visible'), i*70);
+// On load — check existing session
+window.addEventListener('DOMContentLoaded', function () {
+  // Handle Enter key
+  document.getElementById('pw').addEventListener('keydown', function(e){
+    if (e.key === 'Enter') tryLogin();
   });
-}, { threshold:0.07 });
-reveals.forEach(r => io.observe(r));
 
-/* =============================================
-   MARKET INTEL TICKER
-   ============================================= */
-const feed1 = [
-  { source:'Vodacom Business', headline:'Vodacom reports 8.3% growth in mobile data revenue — ARPU pressure persists in prepaid segment', meta:'SA Telco · March 2026' },
-  { source:'Discovery Insure', headline:'Telematics-driven pricing now applied to 68% of new policies — behavioural data becoming core underwriting input', meta:'SA Insurance · Q1 2026' },
-  { source:'NCR South Africa', headline:'Debt counselling applications up 22% YoY — credit stress concentrated in LSM 5–7 earning R8k–R18k/month', meta:'Credit Market · Feb 2026' },
-  { source:'MTN Group', headline:'MTN South Africa subscriber base reaches 35.2M active users — VAS revenue flat despite user growth', meta:'SA Telco · Feb 2026' },
-  { source:'FNB Life', headline:'Funeral cover remains fastest-growing retail insurance product — mobile acquisition outperforming branch by 3:1', meta:'Retail Insurance · March 2026' },
-  { source:'Experian SA', headline:'Score-based lead filtering reduces cost per conversion by 31% across direct marketing channels', meta:'Performance Marketing · 2026' },
-  { source:'CallForce Direct', headline:'Outbound call centres under pressure as SMS and digital channels show superior contact rates at lower CPL', meta:'Direct Marketing · March 2026' },
-  { source:'Vodacom Financial Services', headline:'VodaLend processes 50,000+ loan applications monthly — 95% unserviced due to capacity constraints', meta:'SA Fintech · Q1 2026' },
-  { source:'Old Mutual', headline:'Old Mutual Insure grows digital acquisition by 44% — WhatsApp now material channel for policy origination', meta:'SA Insurance · 2026' },
-];
-const feed2 = [
-  { source:'ICASA', headline:'Regulator signals intent to review mobile termination rates — could reshape SMS economics for bulk senders', meta:'Regulation · March 2026' },
-  { source:'Capitec Bank', headline:'Capitec crosses 22M client milestone — credit book growing at 18% with improving vintage performance', meta:'SA Banking · Feb 2026' },
-  { source:'African Bank', headline:'African Bank restructures collections book using ML scoring — NPL reduction of 12% in 6 months', meta:'Credit Market · 2026' },
-  { source:'Telkom SA', headline:'Telkom Consumer bundles driving LTE adoption in peri-urban markets — strong signal for data-driven lead gen', meta:'SA Telco · March 2026' },
-  { source:'Hollard Insurance', headline:'Hollard reports 15% increase in direct-channel funeral policy sales — aggregator and call centre volumes both growing', meta:'SA Insurance · Q1 2026' },
-  { source:'Lesaka Technologies', headline:'Lesaka (formerly Net1) expanding merchant acquiring in township economy — financial inclusion gap still enormous', meta:'SA Fintech · March 2026' },
-  { source:'TransUnion Africa', headline:'Bureau data shows 63% of SA consumers with active credit have at least one account in arrears — debt counselling demand rising', meta:'Credit Bureau · 2026' },
-  { source:'Clientele Life', headline:'Clientele Life reports USSD as top-performing acquisition channel by conversion rate for LSM 5–6 segment', meta:'SA Insurance · 2026' },
-  { source:'SA Reserve Bank', headline:'Repo rate held at 7.5% — no relief for over-indebted consumers; debt restructuring applications expected to grow further', meta:'Macro · March 2026' },
-];
+  if (localStorage.getItem(SESSION_KEY) === 'granted') {
+    document.getElementById('gate').classList.add('gone');
+    document.getElementById('portal').classList.add('visible');
+    startClock();
+    setGreeting();
+  }
+});
 
-function buildTicker(id, items) {
-  const track = document.getElementById(id);
-  // Duplicate for seamless loop
-  [...items, ...items].forEach(item => {
-    const el = document.createElement('div');
-    el.className = 'ticker-item';
-    el.innerHTML = `<div class="ticker-source">${item.source}</div><div class="ticker-headline">${item.headline}</div><div class="ticker-meta">${item.meta}</div>`;
-    track.appendChild(el);
-  });
+// ── Clock ──────────────────────────────────────────────
+function startClock() {
+  function tick() {
+    var now = new Date();
+    // SAST = UTC+2
+    var sast = new Date(now.getTime() + 2 * 3600000);
+    var h = sast.getUTCHours(), m = sast.getUTCMinutes();
+    var ampm = h >= 12 ? 'PM' : 'AM';
+    var h12 = h % 12 || 12;
+    document.getElementById('clock').textContent =
+      h12 + ':' + (m < 10 ? '0' : '') + m + ' ' + ampm + ' SAST';
+    var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    document.getElementById('dateline').textContent =
+      days[sast.getUTCDay()] + ', ' + sast.getUTCDate() + ' ' + months[sast.getUTCMonth()] + ' ' + sast.getUTCFullYear();
+  }
+  tick();
+  setInterval(tick, 10000);
 }
-buildTicker('ticker1', feed1);
-buildTicker('ticker2', feed2);
+
+// ── Greeting ──────────────────────────────────────────
+function setGreeting() {
+  var now = new Date();
+  var sast = new Date(now.getTime() + 2 * 3600000);
+  var h = sast.getUTCHours();
+  var tod = h < 12 ? 'morning' : h < 17 ? 'afternoon' : 'evening';
+  document.getElementById('tod').textContent = tod;
+  var msgs = {
+    morning: "Here's your command centre. Everything in one place.",
+    afternoon: "Afternoon. All your tools are ready.",
+    evening: "Evening. Everything's here when you need it."
+  };
+  document.getElementById('greeting-sub').textContent = msgs[tod];
+}
 </script>
 </body>
 </html>

@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MNM Operations Dashboard | 3Way Group</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --navy: #1A2D6B;
+    --navy-light: #2a3f8a;
+    --gold: #FFC200;
+    --gold-muted: #f5d76e;
+    --bg: #f0f3fa;
+    --card-bg: #ffffff;
+    --card-border: #e4e9f7;
+    --text-primary: #1e293b;
+    --text-secondary: #64748b;
+    --text-muted: #94a3b8;
+    --red: #ef4444;
+    --red-bg: #fef2f2;
+    --red-border: #fecaca;
+    --amber: #f59e0b;
+    --amber-bg: #fffbeb;
+    --amber-border: #fed7aa;
+    --green: #22c55e;
+    --green-bg: #f0fdf4;
+    --green-border: #bbf7d0;
+    --blue: #3b82f6;
+    --blue-bg: #eff6ff;
+    --blue-border: #bfdbfe;
+    --radius: 16px;
+    --radius-sm: 10px;
+    --shadow: 0 4px 24px rgba(26,45,107,0.06);
+    --shadow-hover: 0 8px 32px rgba(26,45,107,0.12);
+  }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--text-primary);
+    min-height: 100vh;
+    padding: 32px 20px 80px;
+    line-height: 1.6;
+  }
+
+  .container { max-width: 960px; margin: 0 auto; }
+
+  /* ── HEADER ── */
+  .dashboard-header {
+    text-align: center;
+    margin-bottom: 40px;
+    padding-bottom: 32px;
+    border-bottom: 2px solid var(--card-border);
+  }
+  .logo-bar { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 20px; }
+  .logo-mark { width: 36px; height: 36px; background: var(--navy); border-radius: 9px; display: flex; align-items: center; justify-content: center; }
+  .logo-mark span { color: var(--gold); font-size: 14px; font-weight: 800; }
+  .logo-name { font-size: 12px; font-weight: 700; color: var(--navy); letter-spacing: 1.2px; text-transform: uppercase; }
+
+  .dashboard-header h1 {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--navy);
+    letter-spacing: -0.3px;
+    margin-bottom: 6px;
+  }
+  .dashboard-header .meeting-info {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-bottom: 4px;
+  }
+  .dashboard-header .meeting-info strong { color: var(--navy); font-weight: 600; }
+  .dashboard-header .last-updated {
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  /* ── READINESS BANNER ── */
+  .readiness-banner {
+    background: var(--card-bg);
+    border: 2px solid var(--card-border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 24px 28px;
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+  .readiness-score {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: conic-gradient(var(--amber) 0% 52%, var(--card-border) 52% 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+  }
+  .readiness-score-inner {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--card-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+  .readiness-score-inner .pct { font-size: 20px; font-weight: 800; color: var(--navy); line-height: 1; }
+  .readiness-score-inner .label { font-size: 8px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+  .readiness-detail h2 { font-size: 18px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+  .readiness-detail p { font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
+  .readiness-detail p strong { color: var(--text-primary); }
+
+  /* ── SECTION TITLES ── */
+  .section-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 16px;
+    margin-top: 8px;
+  }
+
+  /* ── CHANNEL STATUS GRID ── */
+  .channel-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 32px; }
+  .channel-card {
+    background: var(--card-bg);
+    border: 2px solid var(--card-border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .channel-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+  .channel-card.status-red::before { background: var(--red); }
+  .channel-card.status-amber::before { background: var(--amber); }
+  .channel-card.status-green::before { background: var(--green); }
+  .channel-card.status-blue::before { background: var(--blue); }
+
+  .channel-card .card-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+  .channel-card .card-name { font-size: 16px; font-weight: 700; color: var(--navy); }
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+  .status-badge.red { background: var(--red-bg); color: var(--red); border: 1px solid var(--red-border); }
+  .status-badge.amber { background: var(--amber-bg); color: #b45309; border: 1px solid var(--amber-border); }
+  .status-badge.green { background: var(--green-bg); color: #15803d; border: 1px solid var(--green-border); }
+  .status-badge.blue { background: var(--blue-bg); color: #1d4ed8; border: 1px solid var(--blue-border); }
+  .status-dot { width: 7px; height: 7px; border-radius: 50%; }
+  .status-dot.red { background: var(--red); }
+  .status-dot.amber { background: var(--amber); }
+  .status-dot.green { background: var(--green); }
+  .status-dot.blue { background: var(--blue); }
+
+  .channel-card .blocker-label { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.3px; margin-bottom: 4px; }
+  .channel-card .blocker-text { font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
+  .channel-card .blocker-text strong { color: var(--red); font-weight: 600; }
+
+  .channel-card .owner-row { display: flex; align-items: center; gap: 6px; margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--card-border); }
+  .channel-card .owner-row .owner-label { font-size: 11px; color: var(--text-muted); font-weight: 500; }
+  .channel-card .owner-row .owner-name { font-size: 12px; color: var(--navy); font-weight: 600; }
+
+  .progress-bar-wrap { margin-top: 12px; }
+  .progress-bar-bg { width: 100%; height: 6px; background: var(--card-border); border-radius: 3px; overflow: hidden; }
+  .progress-bar-fill { height: 100%; border-radius: 3px; transition: width 0.5s ease; }
+  .progress-bar-fill.red { background: var(--red); }
+  .progress-bar-fill.amber { background: var(--amber); }
+  .progress-bar-fill.green { background: var(--green); }
+  .progress-bar-fill.blue { background: var(--blue); }
+  .progress-label { font-size: 11px; color: var(--text-muted); margin-top: 4px; text-align: right; font-weight: 500; }
+
+  /* ── STAKEHOLDER TIMELINE ── */
+  .stakeholder-section { margin-bottom: 32px; }
+  .stakeholder-card {
+    background: var(--card-bg);
+    border: 2px solid var(--card-border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 24px;
+    margin-bottom: 12px;
+  }
+  .stakeholder-row { display: flex; align-items: flex-start; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--card-border); }
+  .stakeholder-row:last-child { border-bottom: none; padding-bottom: 0; }
+  .stakeholder-row:first-child { padding-top: 0; }
+  .sh-avatar {
+    width: 38px; height: 38px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 700; color: #fff;
+    flex-shrink: 0;
+  }
+  .sh-info { flex: 1; min-width: 0; }
+  .sh-name { font-size: 14px; font-weight: 600; color: var(--navy); }
+  .sh-org { font-size: 12px; color: var(--text-muted); }
+  .sh-detail { font-size: 12px; color: var(--text-secondary); margin-top: 4px; line-height: 1.5; }
+  .sh-meta { flex-shrink: 0; text-align: right; }
+  .sh-days { font-size: 18px; font-weight: 800; line-height: 1; }
+  .sh-days.alert { color: var(--red); }
+  .sh-days.warn { color: var(--amber); }
+  .sh-days.ok { color: var(--green); }
+  .sh-days-label { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.3px; }
+  .sh-status-tag { font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 10px; margin-top: 4px; display: inline-block; }
+  .sh-status-tag.overdue { background: var(--red-bg); color: var(--red); }
+  .sh-status-tag.watch { background: var(--amber-bg); color: #b45309; }
+  .sh-status-tag.ok { background: var(--green-bg); color: #15803d; }
+
+  /* ── DECISIONS ── */
+  .decisions-card {
+    background: var(--card-bg);
+    border: 2px solid var(--card-border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 24px;
+    margin-bottom: 32px;
+  }
+  .decision-item {
+    display: flex;
+    gap: 14px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--card-border);
+  }
+  .decision-item:last-child { border-bottom: none; }
+  .decision-num {
+    width: 28px; height: 28px;
+    background: var(--navy);
+    color: var(--gold);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 700;
+    flex-shrink: 0;
+  }
+  .decision-content { flex: 1; }
+  .decision-title { font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 4px; }
+  .decision-context { font-size: 12px; color: var(--text-secondary); line-height: 1.5; }
+  .decision-rec {
+    margin-top: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--navy);
+    background: #f0f3fa;
+    padding: 6px 10px;
+    border-radius: 6px;
+    border-left: 3px solid var(--gold);
+  }
+
+  /* ── COMMERCIAL TABLE ── */
+  .table-card {
+    background: var(--card-bg);
+    border: 2px solid var(--card-border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 24px;
+    margin-bottom: 32px;
+    overflow-x: auto;
+  }
+  .data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .data-table th {
+    text-align: left;
+    padding: 10px 12px;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid var(--card-border);
+    background: var(--bg);
+  }
+  .data-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--card-border);
+    color: var(--text-secondary);
+  }
+  .data-table tr:last-child td { border-bottom: none; }
+  .data-table td:first-child { font-weight: 600; color: var(--text-primary); }
+
+  /* ── LAUNCH SEQUENCE ── */
+  .launch-card {
+    background: var(--card-bg);
+    border: 2px solid var(--card-border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 24px;
+    margin-bottom: 32px;
+  }
+  .launch-track {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    margin-top: 16px;
+    position: relative;
+  }
+  .launch-phase {
+    flex: 1;
+    text-align: center;
+    position: relative;
+    padding: 0 8px;
+  }
+  .launch-phase .phase-dot {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    margin: 0 auto 8px;
+    position: relative;
+    z-index: 2;
+  }
+  .launch-phase .phase-name { font-size: 12px; font-weight: 600; color: var(--navy); }
+  .launch-phase .phase-date { font-size: 11px; color: var(--text-muted); }
+  .launch-phase .phase-dep { font-size: 10px; color: var(--text-secondary); margin-top: 2px; }
+  .launch-connector {
+    position: absolute;
+    top: 18px;
+    left: calc(50% + 18px);
+    right: calc(-50% + 18px);
+    height: 2px;
+    background: var(--card-border);
+    z-index: 1;
+  }
+  .launch-phase:last-child .launch-connector { display: none; }
+
+  .phase-dot.ready { background: var(--green-bg); border: 2px solid var(--green); }
+  .phase-dot.partial { background: var(--amber-bg); border: 2px solid var(--amber); }
+  .phase-dot.blocked { background: var(--red-bg); border: 2px solid var(--red); }
+
+  /* ── ACTIONS TEMPLATE ── */
+  .actions-card {
+    background: var(--card-bg);
+    border: 2px solid var(--navy);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 24px;
+    margin-bottom: 32px;
+  }
+  .actions-card h3 { font-size: 16px; font-weight: 700; color: var(--navy); margin-bottom: 12px; }
+  .action-row {
+    display: grid;
+    grid-template-columns: 40px 1fr 120px 100px;
+    gap: 8px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--card-border);
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+  .action-row.header {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    border-bottom: 2px solid var(--card-border);
+  }
+  .action-row .num { font-weight: 600; color: var(--navy); }
+
+  /* ── TALKING POINTS ── */
+  .talking-card {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+    border-radius: var(--radius);
+    padding: 28px;
+    margin-bottom: 32px;
+    color: #fff;
+  }
+  .talking-card h3 { font-size: 16px; font-weight: 700; color: var(--gold); margin-bottom: 16px; }
+  .talking-point {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  .talking-point:last-child { margin-bottom: 0; }
+  .talking-point .tp-num {
+    width: 24px; height: 24px;
+    background: rgba(255,194,0,0.2);
+    border: 1px solid var(--gold);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700; color: var(--gold);
+    flex-shrink: 0;
+  }
+  .talking-point .tp-text { font-size: 13px; line-height: 1.6; color: rgba(255,255,255,0.9); }
+
+  /* ── FOOTER ── */
+  .dashboard-footer {
+    text-align: center;
+    padding-top: 24px;
+    border-top: 1px solid var(--card-border);
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+  .dashboard-footer a { color: var(--navy); text-decoration: none; font-weight: 600; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 640px) {
+    body { padding: 20px 14px 60px; }
+    .dashboard-header h1 { font-size: 22px; }
+    .channel-grid { grid-template-columns: 1fr; }
+    .readiness-banner { flex-direction: column; text-align: center; }
+    .launch-track { flex-direction: column; gap: 12px; }
+    .launch-connector { display: none !important; }
+    .action-row { grid-template-columns: 30px 1fr; }
+    .action-row .hide-mobile { display: none; }
+  }
+
+  @media print {
+    body { background: #fff; padding: 16px; }
+    .channel-card, .stakeholder-card, .decisions-card,
+    .table-card, .launch-card, .actions-card, .talking-card { box-shadow: none; border: 1px solid #ddd; }
+    .talking-card { color: #1e293b; background: #f8f9fa; }
+    .talking-card h3 { color: var(--navy); }
+    .talking-point .tp-text { color: #1e293b; }
+    .talking-point .tp-num { background: #e4e9f7; border-color: var(--navy); color: var(--navy); }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="dashboard-header">
+    <div class="logo-bar">
+      <div class="logo-mark"><span>3W</span></div>
+      <span class="logo-name">3Way Group</span>
+    </div>
+    <h1>MNM Operations Dashboard</h1>
+    <div class="meeting-info">
+      <strong>Alignment Session</strong> &mdash; Wednesday 19 March 2026, 10:15 SAST
+    </div>
+    <div class="meeting-info">
+      Melrose Arch &nbsp;|&nbsp; Danny, Dylan, Ricky, Yoav, Donovan
+    </div>
+    <div class="last-updated">Last updated: 15 March 2026 (Saturday overnight build)</div>
+  </div>
+
+  <!-- READINESS BANNER -->
+  <div class="readiness-banner">
+    <div class="readiness-score">
+      <div class="readiness-score-inner">
+        <span class="pct">52%</span>
+        <span class="label">Ready</span>
+      </div>
+    </div>
+    <div class="readiness-detail">
+      <h2>Launch Readiness: Partially Blocked</h2>
+      <p>Infrastructure is in place. <strong>3 external dependencies</strong> remain: Zunaid (14 days silence), Mohammed Rassool (awaiting setup timelines) and PCM shortcode from Donovan. MTN SMS bind resolved 13 March. This session is the forcing function.</p>
+    </div>
+  </div>
+
+  <!-- CHANNEL STATUS -->
+  <div class="section-title">Channel Status</div>
+  <div class="channel-grid">
+
+    <!-- SimPush / OnePin -->
+    <div class="channel-card status-red">
+      <div class="card-top">
+        <span class="card-name">SimPush / OnePin</span>
+        <span class="status-badge red"><span class="status-dot red"></span>Blocked</span>
+      </div>
+      <div class="blocker-label">Blocker</div>
+      <div class="blocker-text"><strong>Zunaid — 14 days</strong> since pitch with zero response. Both channels blocked pending approval.</div>
+      <div class="progress-bar-wrap">
+        <div class="progress-bar-bg"><div class="progress-bar-fill red" style="width: 20%"></div></div>
+        <div class="progress-label">20% ready</div>
+      </div>
+      <div class="owner-row">
+        <span class="owner-label">Owner:</span>
+        <span class="owner-name">Ricky → Danny (escalation)</span>
+      </div>
+    </div>
+
+    <!-- PCM / PCMi -->
+    <div class="channel-card status-amber">
+      <div class="card-top">
+        <span class="card-name">PCM / PCMi</span>
+        <span class="status-badge amber"><span class="status-dot amber"></span>In Progress</span>
+      </div>
+      <div class="blocker-label">Dependencies</div>
+      <div class="blocker-text">USSD shortcode from <strong>Donovan</strong>. Copy sign-off from Gaby/Jax/Jess. Pricing placeholders for Dischem and Clientele pending.</div>
+      <div class="progress-bar-wrap">
+        <div class="progress-bar-bg"><div class="progress-bar-fill amber" style="width: 30%"></div></div>
+        <div class="progress-label">30% ready</div>
+      </div>
+      <div class="owner-row">
+        <span class="owner-label">Owner:</span>
+        <span class="owner-name">Ricky / Donovan</span>
+      </div>
+    </div>
+
+    <!-- LinkClick -->
+    <div class="channel-card status-blue">
+      <div class="card-top">
+        <span class="card-name">LinkClick</span>
+        <span class="status-badge blue"><span class="status-dot blue"></span>Building</span>
+      </div>
+      <div class="blocker-label">Status</div>
+      <div class="blocker-text">Flow defined and documented. Landing site under construction by Will. Follow-up sequence designed (T+1hr, T+2hr, D+1 affinity).</div>
+      <div class="progress-bar-wrap">
+        <div class="progress-bar-bg"><div class="progress-bar-fill blue" style="width: 50%"></div></div>
+        <div class="progress-label">50% ready</div>
+      </div>
+      <div class="owner-row">
+        <span class="owner-label">Owner:</span>
+        <span class="owner-name">Ricky / Will</span>
+      </div>
+    </div>
+
+    <!-- MTN Route -->
+    <div class="channel-card status-amber">
+      <div class="card-top">
+        <span class="card-name">MTN Route</span>
+        <span class="status-badge amber"><span class="status-dot amber"></span>Awaiting</span>
+      </div>
+      <div class="blocker-label">Status</div>
+      <div class="blocker-text">SMS bind confirmed (Mark Menzies, 13 March). Donovan running test. <strong>Mohammed Rassool</strong> — 2 briefs pending setup confirmation since 5 March.</div>
+      <div class="progress-bar-wrap">
+        <div class="progress-bar-bg"><div class="progress-bar-fill amber" style="width: 70%"></div></div>
+        <div class="progress-label">70% ready</div>
+      </div>
+      <div class="owner-row">
+        <span class="owner-label">Owner:</span>
+        <span class="owner-name">Ricky / Mohammed</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- STAKEHOLDER RESPONSE TIMELINE -->
+  <div class="section-title">Key Stakeholder Response Status</div>
+  <div class="stakeholder-card">
+
+    <div class="stakeholder-row">
+      <div class="sh-avatar" style="background: var(--red);">Z</div>
+      <div class="sh-info">
+        <div class="sh-name">Zunaid</div>
+        <div class="sh-org">SimPush / 1Pin Approver</div>
+        <div class="sh-detail">Pitch sent 5 March (50k impression pilot, FNB Funeral Cover). Follow-up sent 12 March. Zero response. Escalation required.</div>
+      </div>
+      <div class="sh-meta">
+        <div class="sh-days alert">14</div>
+        <div class="sh-days-label">days waiting</div>
+        <div class="sh-status-tag overdue">Escalate</div>
+      </div>
+    </div>
+
+    <div class="stakeholder-row">
+      <div class="sh-avatar" style="background: var(--amber);">MR</div>
+      <div class="sh-info">
+        <div class="sh-name">Mohammed Rassool</div>
+        <div class="sh-org">MTN — Campaign Setup</div>
+        <div class="sh-detail">2 briefs sent 5 March (Dischem Funeral + SmartLoan). Replied 11 March: "will advise soonest." No update since. 4th follow-up pre-drafted for Monday 16 March.</div>
+      </div>
+      <div class="sh-meta">
+        <div class="sh-days warn">9</div>
+        <div class="sh-days-label">days since briefs</div>
+        <div class="sh-status-tag watch">Chase Mon</div>
+      </div>
+    </div>
+
+    <div class="stakeholder-row">
+      <div class="sh-avatar" style="background: var(--blue);">D</div>
+      <div class="sh-info">
+        <div class="sh-name">Donovan</div>
+        <div class="sh-org">3Way Group — Execution</div>
+        <div class="sh-detail">MTN SMS bind test requested 13 March. Also pending: USSD shortcode for PCM channel. Critical path for two channels.</div>
+      </div>
+      <div class="sh-meta">
+        <div class="sh-days ok">1</div>
+        <div class="sh-days-label">day since ask</div>
+        <div class="sh-status-tag ok">On Track</div>
+      </div>
+    </div>
+
+    <div class="stakeholder-row">
+      <div class="sh-avatar" style="background: var(--text-muted);">G</div>
+      <div class="sh-info">
+        <div class="sh-name">Gaby / Jax / Jess</div>
+        <div class="sh-org">3Way Group — Copy Team</div>
+        <div class="sh-detail">PCM campaign copy sign-off pending. SMS tracker sheet shared. Dischem and SimPush image variants still outstanding.</div>
+      </div>
+      <div class="sh-meta">
+        <div class="sh-days warn">—</div>
+        <div class="sh-days-label">pending</div>
+        <div class="sh-status-tag watch">Follow Up</div>
+      </div>
+    </div>
+
+    <div class="stakeholder-row">
+      <div class="sh-avatar" style="background: var(--green);">MM</div>
+      <div class="sh-info">
+        <div class="sh-name">Mark Menzies</div>
+        <div class="sh-org">MTN — SMS Bind</div>
+        <div class="sh-detail">Confirmed MTN bind is sorted via WhatsApp on 13 March. Technical blocker cleared.</div>
+      </div>
+      <div class="sh-meta">
+        <div class="sh-days ok">✓</div>
+        <div class="sh-days-label">resolved</div>
+        <div class="sh-status-tag ok">Done</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- DECISIONS REQUIRED -->
+  <div class="section-title">Decisions Required at This Meeting</div>
+  <div class="decisions-card">
+
+    <div class="decision-item">
+      <div class="decision-num">1</div>
+      <div class="decision-content">
+        <div class="decision-title">Zunaid Non-Response Strategy</div>
+        <div class="decision-context">14 days since the SimPush/1Pin pitch. Zero response to 2 follow-ups. SimPush and OnePin channels cannot launch without Zunaid's approval.</div>
+        <div class="decision-rec">Recommendation: Danny calls Zunaid directly this week. Frame as "checking if the proposal landed with the right person." A third email is unlikely to break through.</div>
+      </div>
+    </div>
+
+    <div class="decision-item">
+      <div class="decision-num">2</div>
+      <div class="decision-content">
+        <div class="decision-title">Mohammed Rassool — MTN Timeline</div>
+        <div class="decision-context">Both campaign briefs (Dischem Funeral R150 CPM, SmartLoan R200 CPM) pending since 5 March. Mohammed's "will advise soonest" on 11 March has gone quiet. 4th follow-up sent Monday.</div>
+        <div class="decision-rec">Recommendation: If no response by Wednesday morning, escalate through Danny's Storm relationship. Need setup timeline before committing to a launch date.</div>
+      </div>
+    </div>
+
+    <div class="decision-item">
+      <div class="decision-num">3</div>
+      <div class="decision-content">
+        <div class="decision-title">PCM Launch Date</div>
+        <div class="decision-context">Depends on Donovan's USSD shortcode and copy sign-off from Gaby/Jax/Jess. PCMi variant (customer requests call from USSD) is lower friction and could launch first.</div>
+        <div class="decision-rec">Recommendation: Set a firm target. PCM has the fewest external dependencies and should be the first channel to go live. Agree date today.</div>
+      </div>
+    </div>
+
+    <div class="decision-item">
+      <div class="decision-num">4</div>
+      <div class="decision-content">
+        <div class="decision-title">LinkClick Landing Site Scope</div>
+        <div class="decision-context">Will is building the landing site. Does the group want to review wireframes before build proceeds, or trust Will to deliver based on the flow documentation?</div>
+        <div class="decision-rec">Recommendation: Trust the flow doc. Wireframe review adds a week of iteration. Pre-populated forms (Task 056) are a post-launch enhancement.</div>
+      </div>
+    </div>
+
+    <div class="decision-item">
+      <div class="decision-num">5</div>
+      <div class="decision-content">
+        <div class="decision-title">Clientele Integration into Silver Campaign</div>
+        <div class="decision-context">Danny approved adding Clientele at R121.30/lead on 6 March. Needs confirmation: has this been actioned? Does it change campaign copy or audience targeting?</div>
+        <div class="decision-rec">Recommendation: Confirm with Donovan that Clientele is incorporated. Update the SMS copy tracker with any new messaging required.</div>
+      </div>
+    </div>
+
+    <div class="decision-item">
+      <div class="decision-num">6</div>
+      <div class="decision-content">
+        <div class="decision-title">MTN SMS Bind Test Results</div>
+        <div class="decision-context">Mark Menzies confirmed the bind is sorted (13 March). Donovan was asked to run a test. Results should be available by this meeting.</div>
+        <div class="decision-rec">Recommendation: Donovan presents test results. If passing, the MTN technical path is unblocked and we proceed to campaign setup.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- TALKING POINTS -->
+  <div class="section-title">Ricky's Talking Points</div>
+  <div class="talking-card">
+    <h3>Key Messages for the Room</h3>
+
+    <div class="talking-point">
+      <div class="tp-num">1</div>
+      <div class="tp-text">The infrastructure work is done — flow diagrams, copy tracker, channel comparison, commercial framework. What remains is approvals and execution. We are not behind on build; we are behind on external sign-offs.</div>
+    </div>
+
+    <div class="talking-point">
+      <div class="tp-num">2</div>
+      <div class="tp-text">Zunaid's silence after 14 days is a signal, not an oversight. Recommend Danny makes a direct call — not another email. Frame it as checking whether the proposal reached the right person.</div>
+    </div>
+
+    <div class="talking-point">
+      <div class="tp-num">3</div>
+      <div class="tp-text">Mohammed has been chased 4 times in 9 days. If no response by Monday, we escalate through the Storm relationship. We need a setup timeline before committing to any launch date.</div>
+    </div>
+
+    <div class="talking-point">
+      <div class="tp-num">4</div>
+      <div class="tp-text">MTN bind is resolved — the technical path is clear. Donovan's test results confirm whether we're good to go. This removes one of our longest-standing blockers.</div>
+    </div>
+
+    <div class="talking-point">
+      <div class="tp-num">5</div>
+      <div class="tp-text">Proposed launch order: PCM first (fewest dependencies), LinkClick second (Will building site), SimPush/OnePin last (blocked on Zunaid). This gets revenue flowing while we wait on the harder approvals.</div>
+    </div>
+  </div>
+
+  <!-- COMMERCIAL FRAMEWORK -->
+  <div class="section-title">Commercial Reference</div>
+  <div class="table-card">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Parameter</th>
+          <th>SimPush / OnePin</th>
+          <th>PCM / PCMi</th>
+          <th>LinkClick</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>CPM (Insurance)</td>
+          <td>R150</td>
+          <td>R150</td>
+          <td>R150</td>
+        </tr>
+        <tr>
+          <td>CPM (Loans)</td>
+          <td>R200</td>
+          <td>R200</td>
+          <td>R200</td>
+        </tr>
+        <tr>
+          <td>Volume Pricing</td>
+          <td>R130 at 500k/month</td>
+          <td>TBD</td>
+          <td>TBD</td>
+        </tr>
+        <tr>
+          <td>Lead Delivery</td>
+          <td>FTP/CSV → API</td>
+          <td>TBD</td>
+          <td>Form submission</td>
+        </tr>
+        <tr>
+          <td>Clientele Rate</td>
+          <td colspan="3">R121.30/lead (Silver campaign, Danny approved 6 March)</td>
+        </tr>
+        <tr>
+          <td>Clients</td>
+          <td colspan="3">FNB Funeral, Dischem Life, Clientele Funeral, SmartLoan (debt scored)</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- LAUNCH SEQUENCE -->
+  <div class="section-title">Recommended Launch Sequence</div>
+  <div class="launch-card">
+    <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 20px;">Based on dependency analysis: launch what's closest to ready, get revenue flowing, unblock harder channels in parallel.</p>
+    <div class="launch-track">
+      <div class="launch-phase">
+        <div class="launch-connector"></div>
+        <div class="phase-dot partial">📞</div>
+        <div class="phase-name">PCM / PCMi</div>
+        <div class="phase-date">Target: Week of 24 March</div>
+        <div class="phase-dep">Needs: shortcode + copy</div>
+      </div>
+      <div class="launch-phase">
+        <div class="launch-connector"></div>
+        <div class="phase-dot partial">🔗</div>
+        <div class="phase-name">LinkClick</div>
+        <div class="phase-date">Target: Week of 31 March</div>
+        <div class="phase-dep">Needs: landing site (Will)</div>
+      </div>
+      <div class="launch-phase">
+        <div class="launch-connector"></div>
+        <div class="phase-dot blocked">📱</div>
+        <div class="phase-name">SimPush / OnePin</div>
+        <div class="phase-date">Target: TBD</div>
+        <div class="phase-dep">Blocked on Zunaid</div>
+      </div>
+      <div class="launch-phase">
+        <div class="phase-dot partial">📡</div>
+        <div class="phase-name">MTN Campaigns</div>
+        <div class="phase-date">Target: TBD</div>
+        <div class="phase-dep">Needs: Mohammed setup</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- POST-MEETING ACTIONS -->
+  <div class="section-title">Post-Meeting Action Items</div>
+  <div class="actions-card">
+    <h3>Actions to Capture</h3>
+    <div class="action-row header">
+      <span>#</span>
+      <span>Action</span>
+      <span class="hide-mobile">Owner</span>
+      <span class="hide-mobile">Deadline</span>
+    </div>
+    <div class="action-row"><span class="num">1</span><span>Zunaid escalation call</span><span class="hide-mobile">Danny</span><span class="hide-mobile">—</span></div>
+    <div class="action-row"><span class="num">2</span><span>Mohammed status / Storm escalation</span><span class="hide-mobile">Ricky</span><span class="hide-mobile">—</span></div>
+    <div class="action-row"><span class="num">3</span><span>USSD shortcode confirmation</span><span class="hide-mobile">Donovan</span><span class="hide-mobile">—</span></div>
+    <div class="action-row"><span class="num">4</span><span>Copy sign-off (PCM)</span><span class="hide-mobile">Gaby</span><span class="hide-mobile">—</span></div>
+    <div class="action-row"><span class="num">5</span><span>LinkClick wireframe review / build go-ahead</span><span class="hide-mobile">Ricky</span><span class="hide-mobile">—</span></div>
+    <div class="action-row"><span class="num">6</span><span>Clientele incorporation status</span><span class="hide-mobile">Donovan</span><span class="hide-mobile">—</span></div>
+    <div class="action-row"><span class="num">7</span><span></span><span class="hide-mobile"></span><span class="hide-mobile"></span></div>
+    <div class="action-row"><span class="num">8</span><span></span><span class="hide-mobile"></span><span class="hide-mobile"></span></div>
+  </div>
+
+  <!-- VISUAL ASSETS -->
+  <div class="section-title">Reference Materials</div>
+  <div class="table-card" style="padding: 20px;">
+    <table class="data-table">
+      <thead>
+        <tr><th>Asset</th><th>Link</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Channel Comparison Index</td><td><a href="mnm-channels.html" target="_blank" style="color: var(--navy); font-weight: 500;">mnm-channels.html</a></td></tr>
+        <tr><td>SimPush/OnePin Flow</td><td><a href="https://3waygroup.netlify.app/simpush-flow.html" target="_blank" style="color: var(--navy); font-weight: 500;">simpush-flow.html</a></td></tr>
+        <tr><td>PCM/PCMi Flow</td><td><a href="pcm-flow.html" target="_blank" style="color: var(--navy); font-weight: 500;">pcm-flow.html</a></td></tr>
+        <tr><td>LinkClick Flow</td><td><a href="linkclick-flow.html" target="_blank" style="color: var(--navy); font-weight: 500;">linkclick-flow.html</a></td></tr>
+        <tr><td>SMS Copy Tracker</td><td><a href="https://docs.google.com/spreadsheets/d/1looCHGJR1jGOWDGb7_gYaV1hM3QA9ysEBE_hMIKQgrs" target="_blank" style="color: var(--navy); font-weight: 500;">Google Sheet</a></td></tr>
+        <tr><td>Full Briefing Document</td><td><a href="ops.html" target="_blank" style="color: var(--navy); font-weight: 500;">ops.html (if deployed)</a></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="dashboard-footer">
+    Prepared by Morgan &nbsp;|&nbsp; <a href="index.html">← Back to Portal</a> &nbsp;|&nbsp; 3Way Group Intelligence Hub
+  </div>
+
+</div>
+</body>
+</html>
