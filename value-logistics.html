@@ -1,733 +1,786 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Value Logistics — Your Supply Chain Partner in Southern Africa</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --navy: #0a1628;
-            --navy-mid: #121f36;
-            --navy-light: #1a2d4a;
-            --gold: #c8972e;
-            --gold-light: #e0b355;
-            --gold-pale: #f5e6c8;
-            --white: #ffffff;
-            --grey-light: #e8ecf1;
-            --grey-text: #94a3b8;
-            --text-body: #cbd5e1;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background-color: var(--navy);
-            color: var(--text-body);
-            line-height: 1.7;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        /* ── HERO ── */
-        .hero {
-            position: relative;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 80px 24px;
-            background: linear-gradient(165deg, var(--navy) 0%, var(--navy-mid) 50%, var(--navy-light) 100%);
-            overflow: hidden;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: -40%;
-            right: -20%;
-            width: 700px;
-            height: 700px;
-            background: radial-gradient(circle, rgba(200, 151, 46, 0.08) 0%, transparent 70%);
-            border-radius: 50%;
-        }
-
-        .hero::after {
-            content: '';
-            position: absolute;
-            bottom: -30%;
-            left: -15%;
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(200, 151, 46, 0.05) 0%, transparent 70%);
-            border-radius: 50%;
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 1;
-            max-width: 800px;
-        }
-
-        .hero-badge {
-            display: inline-block;
-            padding: 8px 20px;
-            border: 1px solid var(--gold);
-            border-radius: 50px;
-            font-size: 0.8rem;
-            font-weight: 500;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: var(--gold);
-            margin-bottom: 32px;
-        }
-
-        .hero h1 {
-            font-size: clamp(2.2rem, 5vw, 3.8rem);
-            font-weight: 700;
-            color: var(--white);
-            line-height: 1.15;
-            margin-bottom: 24px;
-        }
-
-        .hero h1 span {
-            color: var(--gold);
-        }
-
-        .hero p {
-            font-size: 1.15rem;
-            color: var(--grey-text);
-            max-width: 620px;
-            margin: 0 auto 40px;
-            line-height: 1.8;
-        }
-
-        .hero-cta {
-            display: inline-block;
-            padding: 16px 40px;
-            background: var(--gold);
-            color: var(--navy);
-            font-weight: 600;
-            font-size: 0.95rem;
-            text-decoration: none;
-            border-radius: 6px;
-            transition: all 0.3s ease;
-            letter-spacing: 0.5px;
-        }
-
-        .hero-cta:hover {
-            background: var(--gold-light);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(200, 151, 46, 0.3);
-        }
-
-        .scroll-indicator {
-            position: absolute;
-            bottom: 40px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-            color: var(--grey-text);
-            font-size: 0.75rem;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        .scroll-indicator::after {
-            content: '';
-            width: 1px;
-            height: 40px;
-            background: linear-gradient(to bottom, var(--gold), transparent);
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 0.5; }
-            50% { opacity: 1; }
-        }
-
-        /* ── GLOBAL NETWORK BANNER ── */
-        .network-banner {
-            background: linear-gradient(135deg, var(--gold) 0%, #a67c1e 100%);
-            padding: 60px 24px;
-            text-align: center;
-        }
-
-        .network-banner h2 {
-            font-size: clamp(1.6rem, 3.5vw, 2.4rem);
-            font-weight: 700;
-            color: var(--navy);
-            margin-bottom: 12px;
-        }
-
-        .network-banner p {
-            font-size: 1.1rem;
-            color: var(--navy-mid);
-            max-width: 700px;
-            margin: 0 auto;
-            line-height: 1.7;
-        }
-
-        .network-stats {
-            display: flex;
-            justify-content: center;
-            gap: 60px;
-            margin-top: 36px;
-            flex-wrap: wrap;
-        }
-
-        .network-stat {
-            text-align: center;
-        }
-
-        .network-stat .number {
-            font-size: 2.8rem;
-            font-weight: 700;
-            color: var(--navy);
-            line-height: 1;
-        }
-
-        .network-stat .label {
-            font-size: 0.85rem;
-            color: var(--navy-mid);
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            margin-top: 6px;
-        }
-
-        /* ── SECTIONS ── */
-        section {
-            padding: 100px 24px;
-        }
-
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-        }
-
-        .section-label {
-            font-size: 0.8rem;
-            font-weight: 600;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            color: var(--gold);
-            margin-bottom: 16px;
-        }
-
-        .section-title {
-            font-size: clamp(1.8rem, 3vw, 2.5rem);
-            font-weight: 700;
-            color: var(--white);
-            margin-bottom: 20px;
-            line-height: 1.2;
-        }
-
-        .section-subtitle {
-            font-size: 1.05rem;
-            color: var(--grey-text);
-            max-width: 650px;
-            margin-bottom: 56px;
-            line-height: 1.8;
-        }
-
-        /* ── DIFFERENTIATORS ── */
-        .differentiators {
-            background: var(--navy-mid);
-        }
-
-        .diff-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 32px;
-        }
-
-        .diff-card {
-            background: var(--navy);
-            border: 1px solid rgba(200, 151, 46, 0.12);
-            border-radius: 12px;
-            padding: 40px 32px;
-            transition: all 0.3s ease;
-        }
-
-        .diff-card:hover {
-            border-color: rgba(200, 151, 46, 0.35);
-            transform: translateY(-4px);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
-        }
-
-        .diff-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 10px;
-            background: rgba(200, 151, 46, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.4rem;
-            margin-bottom: 24px;
-        }
-
-        .diff-card h3 {
-            font-size: 1.15rem;
-            font-weight: 600;
-            color: var(--white);
-            margin-bottom: 12px;
-        }
-
-        .diff-card p {
-            font-size: 0.95rem;
-            color: var(--grey-text);
-            line-height: 1.7;
-        }
-
-        /* ── SERVICES ── */
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 24px;
-        }
-
-        .service-item {
-            padding: 32px 28px;
-            background: var(--navy-mid);
-            border-radius: 10px;
-            border-left: 3px solid var(--gold);
-            transition: all 0.3s ease;
-        }
-
-        .service-item:hover {
-            background: var(--navy-light);
-        }
-
-        .service-item h3 {
-            font-size: 1.05rem;
-            font-weight: 600;
-            color: var(--white);
-            margin-bottom: 8px;
-        }
-
-        .service-item p {
-            font-size: 0.9rem;
-            color: var(--grey-text);
-            line-height: 1.6;
-        }
-
-        /* ── SCALE / STATS ── */
-        .scale-section {
-            background: var(--navy-mid);
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 40px;
-        }
-
-        .stat-block {
-            text-align: center;
-            padding: 40px 20px;
-        }
-
-        .stat-number {
-            font-size: clamp(2.4rem, 4vw, 3.2rem);
-            font-weight: 700;
-            color: var(--gold);
-            line-height: 1;
-            margin-bottom: 8px;
-        }
-
-        .stat-unit {
-            font-size: 1rem;
-            color: var(--gold-light);
-            margin-bottom: 12px;
-        }
-
-        .stat-desc {
-            font-size: 0.9rem;
-            color: var(--grey-text);
-            line-height: 1.6;
-        }
-
-        /* ── WHY PARTNER ── */
-        .partner-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 48px;
-            align-items: start;
-        }
-
-        .partner-text h3 {
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: var(--white);
-            margin-bottom: 16px;
-        }
-
-        .partner-text p {
-            font-size: 1rem;
-            color: var(--grey-text);
-            line-height: 1.8;
-            margin-bottom: 20px;
-        }
-
-        .partner-list {
-            list-style: none;
-            padding: 0;
-            counter-reset: partner;
-        }
-
-        .partner-list li {
-            counter-increment: partner;
-            padding: 20px 0;
-            border-bottom: 1px solid rgba(200, 151, 46, 0.1);
-            font-size: 0.95rem;
-            color: var(--text-body);
-            line-height: 1.7;
-            display: flex;
-            gap: 16px;
-        }
-
-        .partner-list li::before {
-            content: counter(partner);
-            flex-shrink: 0;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background: rgba(200, 151, 46, 0.12);
-            color: var(--gold);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            font-size: 0.85rem;
-            margin-top: 2px;
-        }
-
-        /* ── CTA ── */
-        .cta-section {
-            background: linear-gradient(165deg, var(--navy-light) 0%, var(--navy) 100%);
-            text-align: center;
-            padding: 120px 24px;
-        }
-
-        .cta-section h2 {
-            font-size: clamp(1.8rem, 3vw, 2.5rem);
-            font-weight: 700;
-            color: var(--white);
-            margin-bottom: 16px;
-        }
-
-        .cta-section p {
-            font-size: 1.05rem;
-            color: var(--grey-text);
-            max-width: 550px;
-            margin: 0 auto 40px;
-            line-height: 1.8;
-        }
-
-        .cta-buttons {
-            display: flex;
-            gap: 16px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .cta-primary {
-            display: inline-block;
-            padding: 16px 40px;
-            background: var(--gold);
-            color: var(--navy);
-            font-weight: 600;
-            font-size: 0.95rem;
-            text-decoration: none;
-            border-radius: 6px;
-            transition: all 0.3s ease;
-        }
-
-        .cta-primary:hover {
-            background: var(--gold-light);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(200, 151, 46, 0.3);
-        }
-
-        .cta-secondary {
-            display: inline-block;
-            padding: 16px 40px;
-            border: 1px solid var(--gold);
-            color: var(--gold);
-            font-weight: 600;
-            font-size: 0.95rem;
-            text-decoration: none;
-            border-radius: 6px;
-            transition: all 0.3s ease;
-        }
-
-        .cta-secondary:hover {
-            background: rgba(200, 151, 46, 0.1);
-            transform: translateY(-2px);
-        }
-
-        .cta-contact {
-            margin-top: 48px;
-            font-size: 0.9rem;
-            color: var(--grey-text);
-        }
-
-        .cta-contact a {
-            color: var(--gold);
-            text-decoration: none;
-        }
-
-        /* ── FOOTER ── */
-        footer {
-            background: var(--navy);
-            border-top: 1px solid rgba(200, 151, 46, 0.1);
-            text-align: center;
-            padding: 40px 24px;
-        }
-
-        footer p {
-            font-size: 0.8rem;
-            color: var(--grey-text);
-        }
-
-        footer a {
-            color: var(--gold);
-            text-decoration: none;
-        }
-
-        /* ── RESPONSIVE ── */
-        @media (max-width: 768px) {
-            section {
-                padding: 72px 20px;
-            }
-
-            .partner-grid {
-                grid-template-columns: 1fr;
-                gap: 32px;
-            }
-
-            .network-stats {
-                gap: 32px;
-            }
-
-            .diff-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .hero {
-                min-height: auto;
-                padding: 120px 20px 80px;
-            }
-
-            .scroll-indicator {
-                display: none;
-            }
-
-            .cta-section {
-                padding: 80px 20px;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Value Logistics — Your Supply Chain Partner in Africa</title>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;1,700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+    font-weight: 400;
+    color: #000000;
+    background: #ffffff;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── TOP BAR ── */
+  .top-bar {
+    background: #001f60;
+    color: #ffffff;
+    font-size: 0.85rem;
+    padding: 8px 0;
+  }
+  .top-bar .container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 20px;
+  }
+  .top-bar a {
+    color: #ffffff;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .top-bar a:hover { color: #ffcb08; }
+  .top-bar .phone-icon {
+    width: 14px; height: 14px;
+    fill: #ffcb08;
+  }
+
+  /* ── HEADER / LOGO ── */
+  .site-header {
+    background: #ffffff;
+    padding: 18px 0;
+    border-bottom: 1px solid #e8e8e8;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .site-header .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .logo {
+    display: flex;
+    flex-direction: column;
+    line-height: 1;
+    text-decoration: none;
+  }
+  .logo-value {
+    font-family: 'Open Sans', Arial, sans-serif;
+    font-weight: 700;
+    font-style: italic;
+    font-size: 2.6rem;
+    color: #ffcb08;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    line-height: 1;
+  }
+  .logo-logistics {
+    display: inline-block;
+    background: #782b90;
+    color: #ffffff;
+    font-family: 'Open Sans', Arial, sans-serif;
+    font-weight: 700;
+    font-size: 0.78rem;
+    letter-spacing: 4.5px;
+    text-transform: uppercase;
+    padding: 5px 8px 4px;
+    line-height: 1;
+    margin-top: 2px;
+    text-align: center;
+  }
+  .header-contact {
+    font-size: 0.85rem;
+    color: #414b4f;
+  }
+  .header-contact a {
+    color: #782b90;
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .header-contact a:hover { text-decoration: underline; }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    min-height: 520px;
+    display: flex;
+    align-items: center;
+    /* Simulated warehouse photo: layered gradient over textured grey */
+    background:
+      linear-gradient(135deg, rgba(0,31,96,0.82) 0%, rgba(65,75,79,0.75) 50%, rgba(0,31,96,0.65) 100%),
+      linear-gradient(180deg, #6b7b8d 0%, #8a9aa8 30%, #9eadb8 50%, #7a8c99 80%, #5a6a76 100%);
+    background-size: cover;
+    color: #ffffff;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    /* Subtle industrial texture lines */
+    background:
+      repeating-linear-gradient(90deg, transparent, transparent 80px, rgba(255,255,255,0.02) 80px, rgba(255,255,255,0.02) 81px),
+      repeating-linear-gradient(0deg, transparent, transparent 60px, rgba(255,255,255,0.015) 60px, rgba(255,255,255,0.015) 61px);
+    pointer-events: none;
+  }
+  .hero .container {
+    position: relative;
+    z-index: 2;
+    padding-top: 60px;
+    padding-bottom: 60px;
+  }
+  .hero-subtitle {
+    font-size: 1.1rem;
+    font-weight: 300;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    opacity: 0.9;
+  }
+  .hero h1 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    line-height: 1.15;
+    max-width: 680px;
+    margin-bottom: 20px;
+  }
+  .hero p {
+    font-size: 1.1rem;
+    font-weight: 300;
+    max-width: 560px;
+    line-height: 1.7;
+    opacity: 0.92;
+    margin-bottom: 30px;
+  }
+  .hero-accent {
+    width: 60px;
+    height: 4px;
+    background: #ffcb08;
+    margin-bottom: 24px;
+    border-radius: 2px;
+  }
+  .btn-primary {
+    display: inline-block;
+    background: #782b90;
+    color: #ffffff;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 14px 36px;
+    border: none;
+    border-radius: 4px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.2s;
+    letter-spacing: 0.3px;
+  }
+  .btn-primary:hover { background: #5e1f72; }
+
+  /* ── GLOBAL NETWORK BANNER ── */
+  .global-banner {
+    background: #ffcb08;
+    padding: 28px 0;
+  }
+  .global-banner .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 60px;
+    flex-wrap: wrap;
+  }
+  .global-stat {
+    text-align: center;
+    color: #001f60;
+  }
+  .global-stat .number {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+  .global-stat .label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .global-divider {
+    width: 1px;
+    height: 44px;
+    background: rgba(0,31,96,0.25);
+  }
+
+  /* ── SECTIONS ── */
+  .container {
+    max-width: 1140px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+  section { padding: 70px 0; }
+  .section-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #001f60;
+    margin-bottom: 12px;
+    line-height: 1.25;
+  }
+  .section-subtitle {
+    font-size: 1.02rem;
+    color: #414b4f;
+    margin-bottom: 48px;
+    max-width: 620px;
+  }
+  .section-center { text-align: center; }
+  .section-center .section-subtitle { margin-left: auto; margin-right: auto; }
+
+  /* ── WHAT MAKES VALUE DIFFERENT ── */
+  .diff-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 28px;
+  }
+  .diff-card {
+    background: #ffffff;
+    border: 1px solid #e8e8e8;
+    border-radius: 6px;
+    padding: 32px 24px;
+    text-align: center;
+    transition: box-shadow 0.25s, border-color 0.25s;
+  }
+  .diff-card:hover {
+    box-shadow: 0 8px 28px rgba(0,0,0,0.08);
+    border-color: #ffcb08;
+  }
+  .diff-icon {
+    width: 56px;
+    height: 56px;
+    background: #ffcb08;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 18px;
+  }
+  .diff-icon svg {
+    width: 26px;
+    height: 26px;
+    fill: #001f60;
+  }
+  .diff-card h3 {
+    font-size: 1.02rem;
+    font-weight: 700;
+    color: #001f60;
+    margin-bottom: 10px;
+  }
+  .diff-card p {
+    font-size: 0.9rem;
+    color: #414b4f;
+    line-height: 1.6;
+  }
+
+  /* ── SERVICES ── */
+  .services-section { background: #f7f8f9; }
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 22px;
+  }
+  .service-card {
+    background: #ffffff;
+    border-radius: 6px;
+    padding: 28px 22px;
+    border-left: 4px solid #ffcb08;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .service-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 22px rgba(0,0,0,0.07);
+  }
+  .service-card h3 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #001f60;
+    margin-bottom: 8px;
+  }
+  .service-card p {
+    font-size: 0.85rem;
+    color: #414b4f;
+    line-height: 1.55;
+  }
+
+  /* ── SCALE STATS ── */
+  .scale-section {
+    background: #ffffff;
+    padding: 60px 0;
+  }
+  .scale-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+    text-align: center;
+  }
+  .scale-item {
+    padding: 30px 16px;
+  }
+  .scale-number {
+    font-size: 2.6rem;
+    font-weight: 700;
+    color: #ffcb08;
+    line-height: 1.1;
+    margin-bottom: 6px;
+  }
+  .scale-label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #001f60;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+  }
+  .scale-desc {
+    font-size: 0.82rem;
+    color: #414b4f;
+  }
+  .scale-divider {
+    width: 40px;
+    height: 3px;
+    background: #ffcb08;
+    margin: 12px auto 0;
+    border-radius: 2px;
+  }
+
+  /* ── WHY PARTNER ── */
+  .partner-section { background: #f7f8f9; }
+  .partner-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+    align-items: start;
+  }
+  .partner-list {
+    list-style: none;
+    counter-reset: partner-counter;
+  }
+  .partner-list li {
+    counter-increment: partner-counter;
+    padding: 16px 0;
+    border-bottom: 1px solid #e0e2e4;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    font-size: 0.95rem;
+    color: #000000;
+    line-height: 1.6;
+  }
+  .partner-list li:last-child { border-bottom: none; }
+  .partner-num {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 32px;
+    height: 32px;
+    background: #ffcb08;
+    color: #001f60;
+    font-weight: 700;
+    font-size: 0.85rem;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .partner-text strong { color: #001f60; }
+  .partner-intro {
+    font-size: 1rem;
+    color: #414b4f;
+    line-height: 1.7;
+    margin-bottom: 30px;
+  }
+
+  /* ── CTA ── */
+  .cta-section {
+    background: linear-gradient(135deg, #001f60 0%, #0a2d6e 100%);
+    color: #ffffff;
+    text-align: center;
+    padding: 70px 0;
+  }
+  .cta-section .section-title { color: #ffffff; }
+  .cta-section p {
+    font-size: 1.02rem;
+    opacity: 0.9;
+    margin-bottom: 32px;
+    max-width: 520px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.7;
+  }
+  .cta-links {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 12px;
+  }
+  .btn-outline {
+    display: inline-block;
+    border: 2px solid #ffcb08;
+    color: #ffcb08;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 12px 32px;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+    letter-spacing: 0.3px;
+  }
+  .btn-outline:hover {
+    background: #ffcb08;
+    color: #001f60;
+  }
+  .btn-white {
+    display: inline-block;
+    background: #ffffff;
+    color: #001f60;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 12px 32px;
+    border-radius: 4px;
+    text-decoration: none;
+    border: 2px solid #ffffff;
+    transition: background 0.2s, color 0.2s;
+  }
+  .btn-white:hover {
+    background: transparent;
+    color: #ffffff;
+  }
+
+  /* ── FOOTER ── */
+  .site-footer {
+    background: #001f60;
+    color: rgba(255,255,255,0.7);
+    padding: 40px 0 28px;
+    font-size: 0.85rem;
+  }
+  .footer-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 30px;
+  }
+  .footer-brand .logo-value { font-size: 1.8rem; }
+  .footer-brand .logo-logistics { font-size: 0.6rem; letter-spacing: 3.5px; padding: 4px 6px 3px; }
+  .footer-brand p {
+    margin-top: 14px;
+    max-width: 300px;
+    line-height: 1.6;
+    color: rgba(255,255,255,0.6);
+  }
+  .footer-links h4 {
+    color: #ffcb08;
+    font-size: 0.82rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 14px;
+  }
+  .footer-links a {
+    display: block;
+    color: rgba(255,255,255,0.7);
+    text-decoration: none;
+    padding: 3px 0;
+    font-size: 0.85rem;
+    transition: color 0.2s;
+  }
+  .footer-links a:hover { color: #ffcb08; }
+  .footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.1);
+    margin-top: 30px;
+    padding-top: 20px;
+    text-align: center;
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.45);
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 992px) {
+    .diff-grid { grid-template-columns: repeat(2, 1fr); }
+    .services-grid { grid-template-columns: repeat(2, 1fr); }
+    .scale-grid { grid-template-columns: repeat(2, 1fr); }
+    .partner-grid { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 2.2rem; }
+  }
+  @media (max-width: 600px) {
+    .diff-grid { grid-template-columns: 1fr; }
+    .services-grid { grid-template-columns: 1fr; }
+    .scale-grid { grid-template-columns: repeat(2, 1fr); }
+    .hero h1 { font-size: 1.7rem; }
+    .hero-subtitle { font-size: 0.95rem; }
+    .global-banner .container { gap: 30px; }
+    .global-stat .number { font-size: 1.5rem; }
+    .global-divider { display: none; }
+    .logo-value { font-size: 2rem; }
+    .section-title { font-size: 1.5rem; }
+    .scale-number { font-size: 2rem; }
+    .footer-inner { flex-direction: column; }
+    .site-header .container { flex-direction: column; gap: 10px; }
+  }
+</style>
 </head>
 <body>
 
-    <!-- HERO -->
-    <section class="hero">
-        <div class="hero-content">
-            <div class="hero-badge">Est. 1981 — 40+ Years in Supply Chain</div>
-            <h1>Your Gateway to <span>Southern Africa</span></h1>
-            <p>Value Logistics is South Africa's leading integrated supply chain partner. We connect international suppliers to one of the world's fastest-growing markets through a single, accountable logistics operation.</p>
-            <a href="#contact" class="hero-cta">Partner With Us</a>
-        </div>
-        <div class="scroll-indicator">Scroll</div>
-    </section>
+<!-- TOP BAR -->
+<div class="top-bar">
+  <div class="container">
+    <a href="tel:0860100046">
+      <svg class="phone-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2a1.003 1.003 0 011.01-.24c1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1C10.07 21 3 13.93 3 4c0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.1.31.03.66-.25 1.02l-2.2 2.2z"/>
+      </svg>
+      0860 1000 46
+    </a>
+    <a href="mailto:info@value.co.za">info@value.co.za</a>
+  </div>
+</div>
 
-    <!-- GLOBAL NETWORK BANNER -->
-    <div class="network-banner">
-        <h2>Global Clearing and Forwarding Network</h2>
-        <p>Door-to-door import and export services connecting your supply chain from origin to final delivery anywhere in Southern Africa.</p>
-        <div class="network-stats">
-            <div class="network-stat">
-                <div class="number">600+</div>
-                <div class="label">Offices Worldwide</div>
-            </div>
-            <div class="network-stat">
-                <div class="number">190</div>
-                <div class="label">Countries</div>
-            </div>
-            <div class="network-stat">
-                <div class="number">40+</div>
-                <div class="label">Years Operating</div>
-            </div>
-        </div>
+<!-- HEADER -->
+<header class="site-header">
+  <div class="container">
+    <a href="https://www.value.co.za" class="logo" target="_blank" rel="noopener">
+      <span class="logo-value">VALUE</span>
+      <span class="logo-logistics">LOGISTICS</span>
+    </a>
+    <div class="header-contact">
+      <a href="https://www.value.co.za" target="_blank" rel="noopener">value.co.za</a>
     </div>
+  </div>
+</header>
 
-    <!-- DIFFERENTIATORS -->
-    <section class="differentiators">
-        <div class="container">
-            <div class="section-label">Why Value Logistics</div>
-            <h2 class="section-title">Built for International Suppliers</h2>
-            <p class="section-subtitle">We remove the complexity of entering and operating in the Southern African market. One partner, one relationship, complete accountability.</p>
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <p class="hero-subtitle">Welcome to Value Logistics</p>
+    <div class="hero-accent"></div>
+    <h1>Integrated Supply Chain Solutions Provider</h1>
+    <p>Over 40 years of end-to-end logistics expertise across Africa. National infrastructure, integrated capability and a single point of accountability for your entire supply chain.</p>
+    <a href="#contact" class="btn-primary">Partner With Us</a>
+  </div>
+</section>
 
-            <div class="diff-grid">
-                <div class="diff-card">
-                    <div class="diff-icon">🔗</div>
-                    <h3>End-to-End Integration</h3>
-                    <p>Warehousing, distribution, transportation, clearing and forwarding managed under one operation. No handoffs between providers, no gaps in accountability.</p>
-                </div>
-                <div class="diff-card">
-                    <div class="diff-icon">🌍</div>
-                    <h3>Global Reach, Local Expertise</h3>
-                    <p>Our forwarding network spans 190 countries while our on-the-ground teams understand South African customs, compliance and market dynamics intimately.</p>
-                </div>
-                <div class="diff-card">
-                    <div class="diff-icon">📋</div>
-                    <h3>Compliance and Risk Management</h3>
-                    <p>Navigating South African import regulations, SARS compliance and cross-border requirements is complex. We handle it so you do not have to.</p>
-                </div>
-                <div class="diff-card">
-                    <div class="diff-icon">📞</div>
-                    <h3>Single Point of Accountability</h3>
-                    <p>One contact, one team, one invoice. From port of origin to final delivery point, you deal with Value Logistics and no one else.</p>
-                </div>
-            </div>
+<!-- GLOBAL NETWORK BANNER -->
+<div class="global-banner">
+  <div class="container">
+    <div class="global-stat">
+      <div class="number">600+</div>
+      <div class="label">Offices Worldwide</div>
+    </div>
+    <div class="global-divider"></div>
+    <div class="global-stat">
+      <div class="number">190</div>
+      <div class="label">Countries Served</div>
+    </div>
+    <div class="global-divider"></div>
+    <div class="global-stat">
+      <div class="number">Door-to-Door</div>
+      <div class="label">Global Delivery</div>
+    </div>
+  </div>
+</div>
+
+<!-- WHAT MAKES VALUE DIFFERENT -->
+<section>
+  <div class="container section-center">
+    <h2 class="section-title">What Makes Value Different</h2>
+    <p class="section-subtitle">Four decades of logistics leadership, built on infrastructure that covers every corner of South Africa and connects to the world.</p>
+    <div class="diff-grid">
+      <div class="diff-card">
+        <div class="diff-icon">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 010-5 2.5 2.5 0 010 5z"/></svg>
         </div>
-    </section>
-
-    <!-- SERVICES -->
-    <section>
-        <div class="container">
-            <div class="section-label">Our Capabilities</div>
-            <h2 class="section-title">Integrated Supply Chain Services</h2>
-            <p class="section-subtitle">A complete logistics infrastructure designed to move, store and deliver goods across Southern Africa efficiently and reliably.</p>
-
-            <div class="services-grid">
-                <div class="service-item">
-                    <h3>Warehousing</h3>
-                    <p>433,000 m² across four national superhubs with inventory management, pick-and-pack and value-added services.</p>
-                </div>
-                <div class="service-item">
-                    <h3>Distribution</h3>
-                    <p>National and regional distribution networks covering urban centres and remote locations across South Africa.</p>
-                </div>
-                <div class="service-item">
-                    <h3>Transportation</h3>
-                    <p>Fleet of 4,600+ vehicles managed through advanced route optimisation and real-time tracking systems.</p>
-                </div>
-                <div class="service-item">
-                    <h3>Clearing and Forwarding</h3>
-                    <p>Door-to-door import and export management through 600+ offices in 190 countries. Customs, documentation and compliance handled end to end.</p>
-                </div>
-                <div class="service-item">
-                    <h3>Cross-Border Logistics</h3>
-                    <p>Seamless movement of goods across Southern African borders with full regulatory compliance and customs management.</p>
-                </div>
-                <div class="service-item">
-                    <h3>Chemical Logistics</h3>
-                    <p>Specialised handling, storage and transport of hazardous and chemical products to SHEQ standards.</p>
-                </div>
-                <div class="service-item">
-                    <h3>Fleet Rental</h3>
-                    <p>Flexible vehicle rental solutions for businesses requiring additional capacity without long-term capital commitment.</p>
-                </div>
-                <div class="service-item">
-                    <h3>Supply Chain Design</h3>
-                    <p>Consultative approach to optimising your Southern African supply chain from market entry through to mature operation.</p>
-                </div>
-            </div>
+        <h3>National Scale</h3>
+        <p>433,000 m² of warehousing and 4,600+ vehicles positioned across every major South African hub and corridor.</p>
+      </div>
+      <div class="diff-card">
+        <div class="diff-icon">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.5 18.49l6-6.01 4 4L22 6.92l-1.41-1.41-7.09 7.97-4-4L2 16.99z"/></svg>
         </div>
-    </section>
-
-    <!-- SCALE -->
-    <section class="scale-section">
-        <div class="container">
-            <div class="section-label">Our Scale</div>
-            <h2 class="section-title">Infrastructure That Delivers</h2>
-            <p class="section-subtitle">Decades of investment in people, facilities and fleet give us the capacity to handle supply chains of any complexity.</p>
-
-            <div class="stats-grid">
-                <div class="stat-block">
-                    <div class="stat-number">433,000</div>
-                    <div class="stat-unit">m² Warehousing</div>
-                    <div class="stat-desc">Across 4 national superhubs strategically positioned for optimal coverage</div>
-                </div>
-                <div class="stat-block">
-                    <div class="stat-number">4,600+</div>
-                    <div class="stat-unit">Vehicles and Forklifts</div>
-                    <div class="stat-desc">A managed fleet covering every delivery requirement from long-haul to last mile</div>
-                </div>
-                <div class="stat-block">
-                    <div class="stat-number">5,550+</div>
-                    <div class="stat-unit">Employees</div>
-                    <div class="stat-desc">Experienced logistics professionals across operations, compliance and management</div>
-                </div>
-                <div class="stat-block">
-                    <div class="stat-number">600+</div>
-                    <div class="stat-unit">Global Offices</div>
-                    <div class="stat-desc">Clearing and forwarding presence across 190 countries for seamless international trade</div>
-                </div>
-            </div>
+        <h3>Integrated Capability</h3>
+        <p>Warehousing, distribution, transport, clearing and forwarding, chemical logistics and fleet management under one roof.</p>
+      </div>
+      <div class="diff-card">
+        <div class="diff-icon">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
         </div>
-    </section>
-
-    <!-- WHY PARTNER -->
-    <section>
-        <div class="container">
-            <div class="section-label">For International Suppliers</div>
-            <h2 class="section-title">Why Partner With Value Logistics</h2>
-            <p class="section-subtitle">Entering the South African market requires a local partner who understands the landscape. Here is what that partnership looks like.</p>
-
-            <div class="partner-grid">
-                <div class="partner-text">
-                    <h3>Market Access Without the Complexity</h3>
-                    <p>South Africa is the gateway to a continent of 1.4 billion consumers, but the regulatory environment, infrastructure challenges and geographic spread make it difficult to operate without local expertise.</p>
-                    <p>Value Logistics has spent four decades building the infrastructure, relationships and operational knowledge that international suppliers need. We become your local team on the ground while you retain full visibility and control.</p>
-                </div>
-                <div>
-                    <ol class="partner-list">
-                        <li>Established customs and import clearance capability reduces time to market and eliminates compliance risk</li>
-                        <li>National warehousing footprint provides immediate storage capacity without capital investment</li>
-                        <li>Integrated distribution network reaches every major commercial centre in South Africa</li>
-                        <li>Cross-border capability extends your reach into Namibia, Botswana, Mozambique, Zimbabwe and beyond</li>
-                        <li>Single contractual relationship simplifies governance, reporting and accountability</li>
-                        <li>Dedicated account management ensures your supply chain receives focused operational attention</li>
-                    </ol>
-                </div>
-            </div>
+        <h3>Built for Local + Global</h3>
+        <p>Deep South African market expertise combined with international reach through 600+ offices across 190 countries.</p>
+      </div>
+      <div class="diff-card">
+        <div class="diff-icon">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
         </div>
-    </section>
+        <h3>One Partner, One Outcome</h3>
+        <p>A single point of accountability for your entire supply chain. No fragmented vendors, no coordination gaps.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <!-- CTA -->
-    <section class="cta-section" id="contact">
-        <div class="container">
-            <h2>Ready to Explore Southern Africa?</h2>
-            <p>Whether you are entering the market for the first time or looking to optimise an existing supply chain, we would welcome the conversation.</p>
+<!-- SERVICES -->
+<section class="services-section">
+  <div class="container section-center">
+    <h2 class="section-title">Our Services</h2>
+    <p class="section-subtitle">End-to-end supply chain solutions designed for the complexities of African markets.</p>
+    <div class="services-grid">
+      <div class="service-card">
+        <h3>Warehousing</h3>
+        <p>433,000 m² of managed warehousing across strategic locations. Bonded, ambient and temperature-controlled facilities.</p>
+      </div>
+      <div class="service-card">
+        <h3>Distribution</h3>
+        <p>Last-mile and regional distribution networks covering formal retail, informal trade and direct-to-consumer channels.</p>
+      </div>
+      <div class="service-card">
+        <h3>Clearing &amp; Forwarding</h3>
+        <p>Licensed customs brokerage, import/export documentation and regulatory compliance across all South African ports of entry.</p>
+      </div>
+      <div class="service-card">
+        <h3>Transportation</h3>
+        <p>Fleet of 4,600+ vehicles for primary and secondary transport. Full-load, part-load and dedicated contract options.</p>
+      </div>
+      <div class="service-card">
+        <h3>Chemical Logistics</h3>
+        <p>SQAS-accredited handling, storage and transport of hazardous and non-hazardous chemical products.</p>
+      </div>
+      <div class="service-card">
+        <h3>Cross-Border</h3>
+        <p>Road freight and customs management into sub-Saharan Africa. Established corridors to all major regional markets.</p>
+      </div>
+      <div class="service-card">
+        <h3>Fleet Rental</h3>
+        <p>Short and long-term commercial vehicle rental with maintenance, licensing and fleet management included.</p>
+      </div>
+      <div class="service-card">
+        <h3>Convenience Distribution</h3>
+        <p>Specialist distribution to forecourts, convenience stores and quick-service restaurant networks nationwide.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-            <div class="cta-buttons">
-                <a href="mailto:info@value.co.za" class="cta-primary">Get in Touch</a>
-                <a href="https://www.value.co.za" target="_blank" class="cta-secondary">Visit value.co.za</a>
-            </div>
+<!-- SCALE STATS -->
+<section class="scale-section">
+  <div class="container section-center">
+    <h2 class="section-title">The Scale to Deliver</h2>
+    <p class="section-subtitle">Infrastructure and capacity that matches the demands of Africa's largest supply chains.</p>
+    <div class="scale-grid">
+      <div class="scale-item">
+        <div class="scale-number">433,000 m²</div>
+        <div class="scale-label">Warehousing</div>
+        <div class="scale-desc">Managed warehouse space across strategic national locations</div>
+        <div class="scale-divider"></div>
+      </div>
+      <div class="scale-item">
+        <div class="scale-number">4,600+</div>
+        <div class="scale-label">Vehicles</div>
+        <div class="scale-desc">Fleet deployed across primary and secondary distribution networks</div>
+        <div class="scale-divider"></div>
+      </div>
+      <div class="scale-item">
+        <div class="scale-number">5,550+</div>
+        <div class="scale-label">Employees</div>
+        <div class="scale-desc">Trained logistics professionals operating nationally</div>
+        <div class="scale-divider"></div>
+      </div>
+      <div class="scale-item">
+        <div class="scale-number">40+</div>
+        <div class="scale-label">Years</div>
+        <div class="scale-desc">Proven track record in South African supply chain management</div>
+        <div class="scale-divider"></div>
+      </div>
+    </div>
+  </div>
+</section>
 
-            <div class="cta-contact">
-                <p>Value Logistics Head Office — Johannesburg, South Africa</p>
-                <p style="margin-top: 8px;"><a href="https://www.value.co.za">www.value.co.za</a></p>
-            </div>
+<!-- WHY PARTNER WITH US -->
+<section class="partner-section">
+  <div class="container">
+    <div class="partner-grid">
+      <div>
+        <h2 class="section-title">Why International Suppliers Partner With Value</h2>
+        <p class="partner-intro">Entering the South African market requires a logistics partner who understands the terrain. Value provides the infrastructure, compliance capability and market reach to get your products to shelf, on time, across every channel.</p>
+      </div>
+      <div>
+        <ol class="partner-list">
+          <li>
+            <span class="partner-num">1</span>
+            <span class="partner-text"><strong>Eliminate multi-vendor complexity.</strong> One contract covers warehousing, transport, clearing, distribution and cross-border — managed end-to-end.</span>
+          </li>
+          <li>
+            <span class="partner-num">2</span>
+            <span class="partner-text"><strong>Reach every channel.</strong> Direct access to formal retail, informal trade, forecourts, convenience and QSR networks nationwide.</span>
+          </li>
+          <li>
+            <span class="partner-num">3</span>
+            <span class="partner-text"><strong>Navigate compliance confidently.</strong> Licensed customs brokerage, SQAS-accredited chemical handling and full regulatory coverage at every port of entry.</span>
+          </li>
+          <li>
+            <span class="partner-num">4</span>
+            <span class="partner-text"><strong>Scale without capital outlay.</strong> Leverage 433,000 m² of warehousing and 4,600+ vehicles without building your own infrastructure.</span>
+          </li>
+          <li>
+            <span class="partner-num">5</span>
+            <span class="partner-text"><strong>Expand into the continent.</strong> Established cross-border corridors and global network connectivity through 600+ offices in 190 countries.</span>
+          </li>
+          <li>
+            <span class="partner-num">6</span>
+            <span class="partner-text"><strong>40 years of proof.</strong> A stable, privately held logistics business with deep market knowledge and the track record to back it up.</span>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="contact">
+  <div class="container">
+    <h2 class="section-title">Ready to Enter the South African Market?</h2>
+    <p>Speak to Value Logistics about end-to-end supply chain solutions tailored to your product, your channels and your growth plans in Africa.</p>
+    <div class="cta-links">
+      <a href="https://www.value.co.za" target="_blank" rel="noopener" class="btn-white">Visit value.co.za</a>
+      <a href="mailto:info@value.co.za" class="btn-outline">Email info@value.co.za</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="logo">
+          <span class="logo-value">VALUE</span>
+          <span class="logo-logistics">LOGISTICS</span>
         </div>
-    </section>
-
-    <!-- FOOTER -->
-    <footer>
-        <p>&copy; 2026 Value Logistics. All rights reserved. | <a href="https://www.value.co.za">value.co.za</a></p>
-    </footer>
+        <p>Integrated supply chain solutions provider. Over 40 years of logistics expertise across South Africa and the African continent.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Services</h4>
+        <a href="https://www.value.co.za" target="_blank" rel="noopener">Warehousing</a>
+        <a href="https://www.value.co.za" target="_blank" rel="noopener">Distribution</a>
+        <a href="https://www.value.co.za" target="_blank" rel="noopener">Clearing &amp; Forwarding</a>
+        <a href="https://www.value.co.za" target="_blank" rel="noopener">Transportation</a>
+        <a href="https://www.value.co.za" target="_blank" rel="noopener">Chemical Logistics</a>
+      </div>
+      <div class="footer-links">
+        <h4>Contact</h4>
+        <a href="tel:0860100046">0860 1000 46</a>
+        <a href="mailto:info@value.co.za">info@value.co.za</a>
+        <a href="https://www.value.co.za" target="_blank" rel="noopener">www.value.co.za</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; 2026 Value Logistics. All rights reserved. A division of Value Group.
+    </div>
+  </div>
+</footer>
 
 </body>
 </html>
