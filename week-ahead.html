@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Week Ahead — 16–22 March 2026</title>
+<title>Week Ahead — 16 – 22 March 2026</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23022F5C'/%3E%3Ctext x='16' y='23' font-family='Arial Black,sans-serif' font-weight='900' font-size='15' fill='%23FFD337' text-anchor='middle'%3E3W%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -27,7 +27,6 @@
 html { font-family:'Outfit',sans-serif; background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased; }
 body { min-height:100vh; }
 
-/* ── PASSWORD GATE ── */
 #gate {
   position:fixed; inset:0; background:var(--navy); z-index:9999;
   display:flex; align-items:center; justify-content:center; flex-direction:column; gap:20px;
@@ -42,11 +41,9 @@ body { min-height:100vh; }
 #pw-btn:hover { opacity:0.85; }
 #pw-err { color:#ff6b6b; font-size:13px; min-height:18px; }
 
-/* ── MAIN CONTENT ── */
 #content { display:none; }
 #content.visible { display:block; }
 
-/* ── HEADER ── */
 .header {
   background: linear-gradient(135deg, var(--navy) 0%, #0A3D7A 100%);
   color:var(--white); padding:32px 5% 28px;
@@ -67,7 +64,6 @@ body { min-height:100vh; }
 .header-meta a { color:var(--yellow); text-decoration:none; }
 .header-meta a:hover { text-decoration:underline; }
 
-/* Week stats strip */
 .week-stats {
   display:grid; grid-template-columns:repeat(auto-fit, minmax(140px, 1fr)); gap:12px;
 }
@@ -82,7 +78,6 @@ body { min-height:100vh; }
 .ws-num { font-size:1.5rem; font-weight:800; }
 .ws-label { font-size:0.72rem; text-transform:uppercase; letter-spacing:0.1em; color:rgba(255,255,255,0.5); margin-top:2px; }
 
-/* ── BODY ── */
 .body { max-width:960px; margin:0 auto; padding:28px 5% 60px; }
 .section { margin-bottom:36px; }
 .section-title {
@@ -96,7 +91,6 @@ body { min-height:100vh; }
   padding:2px 8px; border-radius:10px; font-weight:700;
 }
 
-/* ── CENTERPIECE: Wednesday callout ── */
 .centerpiece {
   background: linear-gradient(135deg, var(--navy), #0A3D7A);
   border-radius:14px; padding:28px 28px 24px; color:var(--white);
@@ -125,7 +119,6 @@ body { min-height:100vh; }
 .cp-link.primary { background:var(--yellow); color:var(--navy); }
 .cp-link.secondary { background:rgba(255,255,255,0.1); color:var(--white); border:1px solid rgba(255,255,255,0.2); }
 
-/* ── DAY-BY-DAY TIMELINE ── */
 .day-grid { display:flex; flex-direction:column; gap:0; }
 .day-row {
   display:grid; grid-template-columns:120px 1fr; gap:0;
@@ -139,17 +132,13 @@ body { min-height:100vh; }
 }
 .day-name { font-size:0.82rem; font-weight:800; color:var(--navy); text-transform:uppercase; letter-spacing:0.06em; }
 .day-date { font-size:0.72rem; color:var(--muted); margin-top:2px; }
-.day-dot {
-  width:8px; height:8px; border-radius:50%; margin-top:6px;
-}
+.day-dot { width:8px; height:8px; border-radius:50%; margin-top:6px; }
 .day-dot.red { background:var(--red); }
 .day-dot.orange { background:var(--orange); }
 .day-dot.yellow { background:var(--yellow); }
 .day-dot.green { background:var(--green); }
 .day-dot.blue { background:var(--mid-blue); }
-.day-content {
-  padding:16px 20px; background:var(--white);
-}
+.day-content { padding:16px 20px; background:var(--white); }
 .day-items { list-style:none; }
 .day-item {
   padding:6px 0; font-size:0.85rem; line-height:1.5;
@@ -171,11 +160,9 @@ body { min-height:100vh; }
 .tag.deadline { background:rgba(217,119,6,0.1); color:var(--amber); }
 .tag.monitor { background:rgba(22,163,74,0.1); color:var(--green); }
 
-/* ── DAY ROW HIGHLIGHT ── */
 .day-row.today .day-label-col { background:rgba(255,211,55,0.06); border-left:3px solid var(--yellow); }
 .day-row.highlight .day-label-col { background:rgba(124,58,237,0.04); border-left:3px solid var(--purple); }
 
-/* ── DECISION MATRIX ── */
 .decision-grid { display:flex; flex-direction:column; gap:10px; }
 .decision-card {
   background:var(--white); border:1px solid var(--border); border-radius:10px;
@@ -204,7 +191,6 @@ body { min-height:100vh; }
 }
 .dc-rec strong { color:var(--mid-blue); }
 
-/* ── STAKEHOLDER STRIP ── */
 .sh-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(220px, 1fr)); gap:10px; }
 .sh-card {
   background:var(--white); border:1px solid var(--border); border-radius:10px;
@@ -226,39 +212,6 @@ body { min-height:100vh; }
 .sh-days.warn { background:rgba(234,88,12,0.1); color:var(--orange); }
 .sh-days.ok { background:rgba(22,163,74,0.1); color:var(--green); }
 
-/* ── MATOGEN COUNTDOWN ── */
-.matogen-bar {
-  background:var(--white); border:1px solid var(--border); border-radius:12px;
-  padding:20px 24px; margin-bottom:14px;
-}
-.mat-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; flex-wrap:wrap; gap:8px; }
-.mat-title { font-size:0.95rem; font-weight:700; }
-.mat-pct { font-size:1.2rem; font-weight:800; color:var(--red); }
-.mat-bar-track { height:12px; background:var(--border); border-radius:6px; overflow:hidden; position:relative; }
-.mat-bar-fill {
-  height:100%; border-radius:6px; transition:width 0.5s;
-  background:linear-gradient(90deg, var(--green) 0%, var(--orange) 60%, var(--red) 85%);
-}
-.mat-details { display:flex; justify-content:space-between; margin-top:10px; font-size:0.78rem; color:var(--muted); flex-wrap:wrap; gap:6px; }
-.mat-alert {
-  margin-top:12px; padding:10px 14px; border-radius:8px;
-  background:rgba(220,38,38,0.06); border-left:3px solid var(--red);
-  font-size:0.82rem; color:var(--text);
-}
-
-/* ── QUICK LINKS ── */
-.links-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(200px, 1fr)); gap:10px; }
-.link-card {
-  background:var(--white); border:1px solid var(--border); border-radius:10px;
-  padding:14px 18px; text-decoration:none; color:var(--text);
-  transition:all 0.2s; display:flex; align-items:center; gap:12px;
-}
-.link-card:hover { border-color:var(--mid-blue); box-shadow:0 4px 12px rgba(0,0,0,0.06); transform:translateY(-1px); }
-.link-icon { font-size:1.3rem; flex-shrink:0; }
-.link-label { font-size:0.82rem; font-weight:600; }
-.link-sub { font-size:0.68rem; color:var(--muted); margin-top:1px; }
-
-/* ── RISK REGISTER ── */
 .risk-item {
   background:var(--white); border:1px solid var(--border); border-radius:8px;
   padding:12px 16px; margin-bottom:8px; display:flex; align-items:flex-start; gap:10px;
@@ -271,7 +224,17 @@ body { min-height:100vh; }
 .risk-text strong { color:var(--navy); }
 .risk-mitigation { font-size:0.75rem; color:var(--muted); margin-top:3px; }
 
-/* ── FOOTER ── */
+.links-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(200px, 1fr)); gap:10px; }
+.link-card {
+  background:var(--white); border:1px solid var(--border); border-radius:10px;
+  padding:14px 18px; text-decoration:none; color:var(--text);
+  transition:all 0.2s; display:flex; align-items:center; gap:12px;
+}
+.link-card:hover { border-color:var(--mid-blue); box-shadow:0 4px 12px rgba(0,0,0,0.06); transform:translateY(-1px); }
+.link-icon { font-size:1.3rem; flex-shrink:0; }
+.link-label { font-size:0.82rem; font-weight:600; }
+.link-sub { font-size:0.68rem; color:var(--muted); margin-top:1px; }
+
 .footer {
   text-align:center; padding:24px; font-size:0.72rem; color:var(--muted);
   border-top:1px solid var(--border); margin-top:20px;
@@ -279,7 +242,6 @@ body { min-height:100vh; }
 .footer a { color:var(--mid-blue); text-decoration:none; }
 .footer a:hover { text-decoration:underline; }
 
-/* ── RESPONSIVE ── */
 @media (max-width:640px) {
   .header-title { font-size:1.4rem; }
   .week-stats { grid-template-columns:repeat(2, 1fr); }
@@ -315,17 +277,16 @@ body { min-height:100vh; }
 <!-- MAIN CONTENT -->
 <div id="content">
 
-<!-- ═══════════════════ HEADER ═══════════════════ -->
 <div class="header">
   <div class="header-inner">
     <div class="header-top">
       <div>
         <div class="header-brand">Week-Ahead Command Centre</div>
         <div class="header-title">16 – 22 March 2026</div>
-        <div class="header-subtitle">5 decisions required · 1 critical meeting · 3 escalations pending</div>
+        <div class="header-subtitle">4 decisions required · 1 critical meeting · 3 escalations pending</div>
       </div>
       <div class="header-meta">
-        Prepared Sunday 15 March, 23:00 SAST<br>
+        Prepared Monday 16 March, 21:00 SAST<br>
         <a href="index.html">Portal</a> · <a href="brief.html">Daily Brief</a> · <a href="tasks.html">Tasks</a>
       </div>
     </div>
@@ -335,20 +296,20 @@ body { min-height:100vh; }
         <div class="ws-label">Overdue Items</div>
       </div>
       <div class="week-stat warning">
-        <div class="ws-num">5</div>
+        <div class="ws-num">4</div>
         <div class="ws-label">Decisions This Week</div>
       </div>
       <div class="week-stat highlight">
-        <div class="ws-num">Wed</div>
-        <div class="ws-label">MNM Alignment</div>
+        <div class="ws-num">Thu</div>
+        <div class="ws-label">MNM alignment session</div>
       </div>
       <div class="week-stat">
-        <div class="ws-num">11</div>
+        <div class="ws-num">8</div>
         <div class="ws-label">Active Tasks</div>
       </div>
       <div class="week-stat ok">
-        <div class="ws-num">12d</div>
-        <div class="ws-label">CIPC Deadline</div>
+        <div class="ws-num">10d</div>
+        <div class="ws-label">File Golden Goose Gr</div>
       </div>
     </div>
   </div>
@@ -356,31 +317,26 @@ body { min-height:100vh; }
 
 <div class="body">
 
-<!-- ═══════════════════ CENTERPIECE: WEDNESDAY ═══════════════════ -->
 <div class="centerpiece">
   <div class="cp-badge">⭐ Centrepiece Event</div>
-  <div class="cp-title">MNM Alignment Session — Wednesday 19 March</div>
+  <div class="cp-title">MNM alignment session — Thursday 19 March</div>
   <div class="cp-detail">
-    <strong>10:15 SAST</strong> at Melrose Arch with Danny, Dylan, Yoav and Donovan.<br>
-    Purpose: align on what is ready, what is blocked, and walk out with clear owners and dates.<br><br>
-    Relaunch is at <strong>70%</strong> — infrastructure done, blocked on 3 external dependencies.<br>
-    6 decisions on the table. Talking points and visual assets prepared.
+    <strong>10:15 SAST</strong> at Melrose Arch with Danny, Dylan, Ricky, Yoav, Donovan<br>
+    Project is at <strong>70%</strong>.
+     Key blockers: Awaiting Zunaid response. Awaiting Mohammed final confirmation. MTN bind test pending Donovan
   </div>
   <div class="cp-links">
     <a href="mnm-ops-dashboard.html" class="cp-link primary">Ops Dashboard</a>
     <a href="mnm-channels.html" class="cp-link secondary">Channel Flows</a>
-    <a href="simpush-flow.html" class="cp-link secondary">SimPush Flow</a>
-    <a href="pcm-flow.html" class="cp-link secondary">PCM Flow</a>
-    <a href="linkclick-flow.html" class="cp-link secondary">LinkClick Flow</a>
+    <a href="brief.html" class="cp-link secondary">Daily Brief</a>
+    <a href="tasks.html" class="cp-link secondary">Tasks</a>
   </div>
 </div>
 
-<!-- ═══════════════════ DAY-BY-DAY TIMELINE ═══════════════════ -->
 <div class="section">
-  <div class="section-title">Day by Day <span class="badge">6 days</span></div>
+  <div class="section-title">Day by Day <span class="badge">5 days</span></div>
   <div class="day-grid" style="border:1px solid var(--border); border-radius:12px; overflow:hidden;">
 
-    <!-- MONDAY 16 -->
     <div class="day-row today">
       <div class="day-label-col">
         <div class="day-name">Monday</div>
@@ -389,356 +345,251 @@ body { min-height:100vh; }
       </div>
       <div class="day-content">
         <ul class="day-items">
+
+          <li class="day-item">
+            <span class="day-icon">⭐</span>
+            <span class="day-text"><strong>Relaunch SimPush and 1Pin campaigns with necessary approvals in place.</strong><br>10:15 SAST <span class="tag meeting">MEETING</span></span>
+          </li>
+
+          <li class="day-item">
+            <span class="day-icon">⭐</span>
+            <span class="day-text"><strong>Get confirmation from Mohammed Rassool on MTN campaign setup timelines for both Dischem Funeral and SmartLoan briefs.</strong> — Follow-up sent 13 March. Chase email in monday_comms pack due TOMORROW (16 March). Pre-drafted email ready in briefs/monday_comms_16march.md. MNM alig <span class="tag meeting">MEETING</span></span>
+          </li>
+
+          <li class="day-item">
+            <span class="day-icon">⭐</span>
+            <span class="day-text"><strong>Follow up with Zunaid on SimPush/1Pin pitch sent 5 March. 10 days without a reply — escalation decision required before </strong> — ⚠️ CRITICAL — 10 days since pitch. Escalation options documented in briefs/monday_comms_16march.md. Morgan recommends Danny calls Zunaid Monday/Tuesda <span class="tag meeting">MEETING</span></span>
+          </li>
+
+          <li class="day-item">
+            <span class="day-icon">⭐</span>
+            <span class="day-text"><strong>Ricky reviews and approves Monday comms pack, then sends: Mohammed 4th follow-up, Zunaid escalation (or directs Danny to</strong> — Comms pack fully drafted by Morgan. Located at briefs/monday_comms_16march.md. Awaiting Ricky review Monday morning 16 March. <span class="tag meeting">MEETING</span></span>
+          </li>
+
           <li class="day-item">
             <span class="day-icon">📨</span>
-            <span class="day-text"><strong>Send Mohammed Rassool follow-up</strong> — 4th chase on Dischem + SmartLoan briefs. Draft ready. <span class="tag send">SEND</span></span>
-          </li>
-          <li class="day-item">
-            <span class="day-icon">⚡</span>
-            <span class="day-text"><strong>Zunaid escalation decision</strong> — 11 days of silence. Does Danny call directly? Morgan recommends Option A. <span class="tag decide">DECIDE</span></span>
-          </li>
-          <li class="day-item">
-            <span class="day-icon">📱</span>
-            <span class="day-text"><strong>Check Donovan for MTN bind test results</strong> — instructed 13 March. Follow up if nothing received. <span class="tag send">FOLLOW UP</span></span>
-          </li>
-          <li class="day-item">
-            <span class="day-icon">📊</span>
-            <span class="day-text"><strong>Matogen bundle alert</strong> — projected to exhaust tomorrow/Tuesday. Decision: top up, throttle or accept overage. <span class="tag alert">ALERT</span></span>
-          </li>
-          <li class="day-item">
-            <span class="day-icon">📋</span>
-            <span class="day-text">Review Monday comms pack (briefs/monday_comms_16march.md) — contains all drafts and escalation strategy.</span>
+            <span class="day-text"><strong>Donovan to run the MTN SMS bind test and share results with Ricky to confirm it is working end to end.</strong> — Ricky spoke to Donovan 16 March. Results expected shortly. <span class="tag send">SEND</span></span>
           </li>
         </ul>
       </div>
     </div>
-
-    <!-- TUESDAY 17 -->
-    <div class="day-row">
+    <div class="day-row ">
       <div class="day-label-col">
         <div class="day-name">Tuesday</div>
         <div class="day-date">17 March</div>
-        <div class="day-dot orange"></div>
+        <div class="day-dot red"></div>
       </div>
       <div class="day-content">
         <ul class="day-items">
-          <li class="day-item">
-            <span class="day-icon">🔴</span>
-            <span class="day-text"><strong>Matogen bundle exhaustion forecast</strong> — at ~5,500 requests/day, the 100k bundle likely runs out today. <span class="tag alert">ALERT</span></span>
-          </li>
-          <li class="day-item">
-            <span class="day-icon">📞</span>
-            <span class="day-text">If Danny agreed to call Zunaid, confirm it happened. Follow up for outcome.</span>
-          </li>
-          <li class="day-item">
-            <span class="day-icon">📧</span>
-            <span class="day-text">Check for Mohammed response to Monday follow-up. If nothing — escalation path via Danny/Storm relationship.</span>
-          </li>
-          <li class="day-item">
-            <span class="day-icon">📊</span>
-            <span class="day-text"><strong>Telkom/Experian test</strong> — Yoav executing. Results expected around 18 March. <span class="tag monitor">MONITOR</span></span>
-          </li>
-        </ul>
-      </div>
-    </div>
 
-    <!-- WEDNESDAY 19 -->
-    <div class="day-row highlight">
-      <div class="day-label-col">
-        <div class="day-name">Wednesday</div>
-        <div class="day-date">19 March</div>
-        <div class="day-dot yellow"></div>
-      </div>
-      <div class="day-content">
-        <ul class="day-items">
           <li class="day-item">
             <span class="day-icon">⭐</span>
-            <span class="day-text"><strong>MNM Alignment Session — 10:15 SAST, Melrose Arch</strong><br>Attendees: Danny, Dylan, Ricky, Yoav, Donovan. 6 decisions on the table. <span class="tag meeting">MEETING</span></span>
-          </li>
-          <li class="day-item">
-            <span class="day-icon">📋</span>
-            <span class="day-text">Pre-meeting: review ops dashboard, ensure Mohammed/Zunaid status is current. Pull up channel flows on screen.</span>
-          </li>
-          <li class="day-item">
-            <span class="day-icon">✅</span>
-            <span class="day-text">Post-meeting: capture decisions and action items. Morgan will update tasks.xml and stakeholder tracker.</span>
+            <span class="day-text"><strong>Follow up with Zunaid on SimPush/1Pin pitch sent 5 March. 10 days without a reply — escalation decision required before </strong> — ⚠️ CRITICAL — 10 days since pitch. Escalation options documented in briefs/monday_comms_16march.md. Morgan recommends Danny calls Zunaid Monday/Tuesda <span class="tag meeting">MEETING</span></span>
           </li>
         </ul>
       </div>
     </div>
+    <div class="day-row ">
+      <div class="day-label-col">
+        <div class="day-name">Wednesday</div>
+        <div class="day-date">18 March</div>
+        <div class="day-dot red"></div>
+      </div>
+      <div class="day-content">
+        <ul class="day-items">
 
-    <!-- THURSDAY 20 -->
-    <div class="day-row">
+          <li class="day-item">
+            <span class="day-icon">⭐</span>
+            <span class="day-text"><strong>Get confirmation from Mohammed Rassool on MTN campaign setup timelines for both Dischem Funeral and SmartLoan briefs.</strong> — Follow-up sent 13 March. Chase email in monday_comms pack due TOMORROW (16 March). Pre-drafted email ready in briefs/monday_comms_16march.md. MNM alig <span class="tag meeting">MEETING</span></span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="day-row highlight">
       <div class="day-label-col">
         <div class="day-name">Thursday</div>
-        <div class="day-date">20 March</div>
-        <div class="day-dot blue"></div>
+        <div class="day-date">19 March</div>
+        <div class="day-dot red"></div>
       </div>
       <div class="day-content">
         <ul class="day-items">
+
+          <li class="day-item">
+            <span class="day-icon">⭐</span>
+            <span class="day-text"><strong>Relaunch SimPush and 1Pin campaigns with necessary approvals in place.</strong><br>10:15 SAST <span class="tag meeting">MEETING</span></span>
+          </li>
+
+          <li class="day-item">
+            <span class="day-icon">⭐</span>
+            <span class="day-text"><strong>Get confirmation from Mohammed Rassool on MTN campaign setup timelines for both Dischem Funeral and SmartLoan briefs.</strong> — Follow-up sent 13 March. Chase email in monday_comms pack due TOMORROW (16 March). Pre-drafted email ready in briefs/monday_comms_16march.md. MNM alig <span class="tag meeting">MEETING</span></span>
+          </li>
+
+          <li class="day-item">
+            <span class="day-icon">⭐</span>
+            <span class="day-text"><strong>Follow up with Zunaid on SimPush/1Pin pitch sent 5 March. 10 days without a reply — escalation decision required before </strong> — ⚠️ CRITICAL — 10 days since pitch. Escalation options documented in briefs/monday_comms_16march.md. Morgan recommends Danny calls Zunaid Monday/Tuesda <span class="tag meeting">MEETING</span></span>
+          </li>
+
+          <li class="day-item">
+            <span class="day-icon">⭐</span>
+            <span class="day-text"><strong>Ricky reviews and approves Monday comms pack, then sends: Mohammed 4th follow-up, Zunaid escalation (or directs Danny to</strong> — Comms pack fully drafted by Morgan. Located at briefs/monday_comms_16march.md. Awaiting Ricky review Monday morning 16 March. <span class="tag meeting">MEETING</span></span>
+          </li>
+
           <li class="day-item">
             <span class="day-icon">📧</span>
-            <span class="day-text"><strong>Upward management email</strong> — auto-cron fires 07:00 SAST. Review and personalise with Wednesday outcomes.</span>
-          </li>
-          <li class="day-item">
-            <span class="day-icon">📋</span>
-            <span class="day-text">Follow up on all action items from Wednesday's alignment session.</span>
-          </li>
-          <li class="day-item">
-            <span class="day-icon">📊</span>
-            <span class="day-text"><strong>Telkom/Experian results</strong> — if not received Tuesday/Wednesday, chase Yoav. <span class="tag monitor">MONITOR</span></span>
-          </li>
-          <li class="day-item">
-            <span class="day-icon">☕</span>
-            <span class="day-text">Michael Barnett: if no follow-up response yet, send mid-week check-in (draft email sent to inbox 13 March).</span>
+            <span class="day-text"><strong>Upward management email</strong> — auto-cron fires 07:00 SAST. Review and personalise. <span class="tag monitor">MONITOR</span></span>
           </li>
         </ul>
       </div>
-    </div>
-
-    <!-- FRIDAY 21 -->
-    <div class="day-row">
-      <div class="day-label-col">
-        <div class="day-name">Friday</div>
-        <div class="day-date">21 March</div>
-        <div class="day-dot green"></div>
-      </div>
-      <div class="day-content">
-        <ul class="day-items">
-          <li class="day-item">
-            <span class="day-icon">🎯</span>
-            <span class="day-text"><strong>JackpotCity AM session deadline</strong> — session should be held by today. Framework ready at briefs/jackpotcity_am_session_framework.md. <span class="tag deadline">DEADLINE</span></span>
-          </li>
-          <li class="day-item">
-            <span class="day-icon">🗓️</span>
-            <span class="day-text"><strong>Human Rights Day</strong> — public holiday in South Africa. If meetings are rescheduled, adjust calendar.</span>
-          </li>
-          <li class="day-item">
-            <span class="day-icon">📋</span>
-            <span class="day-text">Week close: confirm all alignment session actions have owners and deadlines. Update MEMORY.md open threads.</span>
-          </li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- SATURDAY 22 / LOOKING AHEAD -->
-    <div class="day-row">
-      <div class="day-label-col">
-        <div class="day-name">Weekend</div>
-        <div class="day-date">22–23 Mar</div>
-        <div class="day-dot blue"></div>
-      </div>
-      <div class="day-content">
-        <ul class="day-items">
-          <li class="day-item">
-            <span class="day-icon">📄</span>
-            <span class="day-text"><strong>CIPC Annual Return</strong> — due 27 March (5 days after Saturday). If not filed this week, must be first priority next Monday. Guide: briefs/cipc_annual_return_guide.md <span class="tag deadline">5 DAYS</span></span>
-          </li>
-          <li class="day-item">
-            <span class="day-icon">📋</span>
-            <span class="day-text">Bruce Knox lunch — invite sent 11 March, no confirmation. Chase if still interested.</span>
-          </li>
-          <li class="day-item">
-            <span class="day-icon">💾</span>
-            <span class="day-text">Automated backup runs Saturday 00:00 UTC. Morgan will verify.</span>
-          </li>
-        </ul>
-      </div>
-    </div>
-
-  </div>
+    </div>  </div>
 </div>
-
-<!-- ═══════════════════ DECISION MATRIX ═══════════════════ -->
 <div class="section">
-  <div class="section-title">Decisions Required This Week <span class="badge">5</span></div>
+  <div class="section-title">Decisions Required This Week <span class="badge">4</span></div>
   <div class="decision-grid">
 
     <div class="decision-card urgent">
       <div class="dc-top">
         <span class="dc-num">1</span>
-        <span class="dc-title">Zunaid escalation strategy</span>
+        <span class="dc-title">Relaunch SimPush and 1Pin campaigns with necessary approvals in place.</span>
         <span class="dc-when">Monday</span>
       </div>
-      <div class="dc-body">11 days of silence since the SimPush/1Pin pitch. By Wednesday it will be 14 days. This blocks two of four MNM channels. Three options: Danny calls directly, Ricky sends final email, or pivot away from Zunaid entirely.</div>
-      <div class="dc-rec"><strong>Morgan recommends:</strong> Option A — Danny calls Zunaid Monday/Tuesday. 14 days of silence warrants escalation. Frame as "checking if this landed with the right person." Full analysis in briefs/monday_comms_16march.md.</div>
+      <div class="dc-body">Awaiting Zunaid response. Awaiting Mohammed final confirmation. MTN bind test pending Donovan</div>
+      
     </div>
 
     <div class="decision-card urgent">
       <div class="dc-top">
         <span class="dc-num">2</span>
-        <span class="dc-title">Matogen bundle — top up, throttle or accept overage</span>
-        <span class="dc-when">Monday/Tuesday</span>
-      </div>
-      <div class="dc-body">Bundle at ~79,237 of 100,000 (79.2% as of Friday 14 March). At ~5,500 requests/day, exhaustion projected Monday/Tuesday 17–18 March. Overage charges apply beyond 100k.</div>
-      <div class="dc-rec"><strong>Options:</strong> (1) Contact Matogen to top up — preserves service continuity. (2) Throttle usage from the 3Way side. (3) Accept overage for the remainder of March. Gabby is on the daily report distribution.</div>
-    </div>
-
-    <div class="decision-card">
-      <div class="dc-top">
-        <span class="dc-num">3</span>
-        <span class="dc-title">Mohammed escalation — Storm relationship</span>
-        <span class="dc-when">Wednesday (if no reply)</span>
-      </div>
-      <div class="dc-body">4th follow-up goes out Monday. If Mohammed doesn't respond by Wednesday morning, does Danny escalate through the Storm relationship? This is the only active MTN route for Dischem Funeral and SmartLoan campaigns.</div>
-      <div class="dc-rec"><strong>Morgan recommends:</strong> Give Mohammed until Wednesday morning. If no reply, raise at the alignment meeting for Danny to action through Storm. Draft follow-up is ready.</div>
-    </div>
-
-    <div class="decision-card">
-      <div class="dc-top">
-        <span class="dc-num">4</span>
-        <span class="dc-title">PCM launch date — can it be set at alignment?</span>
+        <span class="dc-title">Get confirmation from Mohammed Rassool on MTN campaign setup timelines for both Dischem Funeral and </span>
         <span class="dc-when">Wednesday</span>
       </div>
-      <div class="dc-body">PCM has the fewest external dependencies. Donovan needs to confirm USSD shortcode. Gaby/Jax/Jess need to sign off copy. If both are cleared, PCM could be the first channel to launch.</div>
-      <div class="dc-rec"><strong>Morgan recommends:</strong> Push for a firm go-live date at Wednesday's meeting. PCM should launch first (lowest dependency), followed by LinkClick, then SimPush/OnePin.</div>
+      <div class="dc-body">Awaiting Mohammed reply. Follow up Monday 16 March morning. Escalation path: Danny via Storm if no reply by Wednesday</div>
+      
     </div>
 
-    <div class="decision-card medium">
+    <div class="decision-card urgent">
       <div class="dc-top">
-        <span class="dc-num">5</span>
-        <span class="dc-title">EXP-002 field descriptions — quality verdict</span>
-        <span class="dc-when">This week (when time allows)</span>
+        <span class="dc-num">3</span>
+        <span class="dc-title">Follow up with Zunaid on SimPush/1Pin pitch sent 5 March. 10 days without a reply — escalation decis</span>
+        <span class="dc-when">Monday</span>
       </div>
-      <div class="dc-body">Morgan generated 134 field descriptions for the data warehouse dictionary. A 50-field review sample is ready at data_warehouse/exp002_review_sample.md. If quality is approved, full batch will be generated across all remaining fields.</div>
-      <div class="dc-rec"><strong>Time needed:</strong> ~10 minutes to scan the 50-field sample. Quick yes/no on quality level. No rush — but clears a blocker for Morgan's data warehouse work.</div>
+      <div class="dc-body">⚠️ OVERDUE — 8 days since pitch with no response from Zunaid. Blocks SimPush and OnePin channels. Decision needed before 19 March</div>
+      <div class="dc-rec"><strong>Morgan recommends:</strong> Danny calls Zunaid Monday/Tuesday before alignment meeting on 19 March</div>
     </div>
 
+    <div class="decision-card urgent">
+      <div class="dc-top">
+        <span class="dc-num">4</span>
+        <span class="dc-title">Ricky reviews and approves Monday comms pack, then sends: Mohammed 4th follow-up, Zunaid escalation </span>
+        <span class="dc-when">Monday</span>
+      </div>
+      <div class="dc-body">Awaiting Ricky review and approval to send</div>
+      <div class="dc-rec"><strong>Morgan recommends:</strong> Option A (Danny calls)</div>
+    </div>
   </div>
 </div>
-
-<!-- ═══════════════════ STAKEHOLDER STATUS ═══════════════════ -->
 <div class="section">
   <div class="section-title">Stakeholder Status <span class="badge">9 tracked</span></div>
   <div class="sh-grid">
 
     <div class="sh-card alert">
-      <div class="sh-name">Zunaid</div>
-      <div class="sh-org">SimPush / 1Pin</div>
-      <div class="sh-status">Pitch sent 5 March. Follow-up sent 12 March. Zero response. Blocks 2 of 4 MNM channels.</div>
-      <div class="sh-days alert">11 days — escalation required</div>
+      <div class="sh-name">Donovan</div>
+      <div class="sh-org">3Way Group</div>
+      <div class="sh-status">Asked to run MTN SMS bind test and share results</div>
+      <div class="sh-days alert">3 days — escalation required</div>
     </div>
 
     <div class="sh-card alert">
+      <div class="sh-name">Gabby / Gabriel</div>
+      <div class="sh-org">3Way Group</div>
+      <div class="sh-status">Clientele Perks data prepared, awaiting Gabby&#x27;s email to send</div>
+      <div class="sh-days alert">4 days — escalation required</div>
+    </div>
+
+    <div class="sh-card alert">
+      <div class="sh-name">Dylan Koen</div>
+      <div class="sh-org">3Way Group</div>
+      <div class="sh-status">Email sent re: 1958/James matter. No reply from Dylan.</div>
+      <div class="sh-days alert">4 days — escalation required</div>
+    </div>
+
+    <div class="sh-card alert">
+      <div class="sh-name">Danny Aaron</div>
+      <div class="sh-org">3Way Group</div>
+      <div class="sh-status">Email sent re: SayHi pivot. No reply from Danny.</div>
+      <div class="sh-days alert">4 days — escalation required</div>
+    </div>
+
+    <div class="sh-card warn">
       <div class="sh-name">Mohammed Rassool</div>
       <div class="sh-org">MTN</div>
-      <div class="sh-status">Briefs sent 5 March. Said "will advise soonest" 11 March. Silence since. 4th follow-up Monday.</div>
-      <div class="sh-days alert">10 days since briefs — 4 days since last reply</div>
+      <div class="sh-status">3rd follow-up. Ricky said not to over-contact — next chase Monday 16 March</div>
+      <div class="sh-days warn">3 days — within threshold</div>
     </div>
 
     <div class="sh-card warn">
       <div class="sh-name">Bruce Knox</div>
       <div class="sh-org">Penrose</div>
-      <div class="sh-status">Lunch invite sent 11 March. No confirmation.</div>
-      <div class="sh-days warn">4 days — chase if interested</div>
-    </div>
-
-    <div class="sh-card warn">
-      <div class="sh-name">Donovan</div>
-      <div class="sh-org">3Way Group</div>
-      <div class="sh-status">MTN bind test requested 13 March. USSD shortcode still outstanding for PCM.</div>
-      <div class="sh-days warn">2 days — follow up Monday</div>
+      <div class="sh-status">Lunch invite sent. Awaiting Bruce&#x27;s confirmation.</div>
+      <div class="sh-days warn">5 days — within threshold</div>
     </div>
 
     <div class="sh-card ok">
       <div class="sh-name">Mark Menzies</div>
       <div class="sh-org">MTN (SMS bind)</div>
-      <div class="sh-status">Confirmed MTN bind sorted 13 March. Technical blocker cleared.</div>
-      <div class="sh-days ok">Resolved ✓</div>
+      <div class="sh-status">Confirmed MTN bind is sorted. Ricky asked Donovan to test.</div>
+      <div class="sh-days ok">Responded ✓</div>
+    </div>
+
+    <div class="sh-card neutral">
+      <div class="sh-name">Zunaid</div>
+      <div class="sh-org">SimPush/1Pin</div>
+      <div class="sh-status">Follow-up sent. Still no response.</div>
+      <div class="sh-days ok">4 days — within threshold</div>
     </div>
 
     <div class="sh-card neutral">
       <div class="sh-name">Michael Barnett</div>
       <div class="sh-org">Super Group / Jackpot City</div>
-      <div class="sh-status">Coffee meeting held 12 March. Outcomes not captured. Follow-up email drafted.</div>
-      <div class="sh-days warn">Debrief needed from Ricky</div>
-    </div>
-
-    <div class="sh-card neutral">
-      <div class="sh-name">Yoav</div>
-      <div class="sh-org">3Way Group — COO</div>
-      <div class="sh-status">Running Telkom/Experian test. Results expected ~18 March.</div>
-      <div class="sh-days ok">On track</div>
-    </div>
-
-    <div class="sh-card neutral">
-      <div class="sh-name">Dylan</div>
-      <div class="sh-org">3Way Group — CEO</div>
-      <div class="sh-status">Attending Wednesday alignment. 1958/James email sent 12 March — no reply noted.</div>
-      <div class="sh-days ok">Wednesday alignment</div>
-    </div>
-
-    <div class="sh-card neutral">
-      <div class="sh-name">Danny</div>
-      <div class="sh-org">3Way Group — Founder</div>
-      <div class="sh-status">Key escalation path for Zunaid. Attending Wednesday alignment. May need to call Zunaid Monday.</div>
-      <div class="sh-days ok">Wednesday alignment</div>
-    </div>
-
-  </div>
-</div>
-
-<!-- ═══════════════════ MATOGEN COUNTDOWN ═══════════════════ -->
-<div class="section">
-  <div class="section-title">Matogen Bundle Countdown <span class="badge">Action Required</span></div>
-  <div class="matogen-bar">
-    <div class="mat-header">
-      <div class="mat-title">Monthly API Bundle</div>
-      <div class="mat-pct">~79.2% consumed</div>
-    </div>
-    <div class="mat-bar-track">
-      <div class="mat-bar-fill" style="width:79.2%"></div>
-    </div>
-    <div class="mat-details">
-      <span>~79,237 of 100,000 requests used</span>
-      <span>~5,500 requests/day run rate</span>
-      <span>Projected exhaustion: Mon/Tue 17–18 March</span>
-    </div>
-    <div class="mat-alert">
-      <strong>Decision needed Monday:</strong> The bundle will likely exhaust this week. Contact Matogen to top up, throttle usage, or accept overage charges for the remainder of March. Gabby is on the daily report distribution and should be looped in.
+      <div class="sh-status">No interactions recorded.</div>
+      <div class="sh-days ok">No data</div>
     </div>
   </div>
 </div>
-
-<!-- ═══════════════════ RISK REGISTER ═══════════════════ -->
 <div class="section">
   <div class="section-title">Week Risks <span class="badge">4</span></div>
 
   <div class="risk-item">
     <div class="risk-dot high"></div>
     <div>
-      <div class="risk-text"><strong>Zunaid non-response derails SimPush/OnePin.</strong> If Zunaid doesn't respond this week, two of four MNM channels cannot launch. No alternative approver identified.</div>
-      <div class="risk-mitigation">Mitigation: Danny calls Monday/Tuesday. Fallback: pivot to channels with fewer dependencies (PCM, LinkClick).</div>
+      <div class="risk-text"><strong>Relaunch SimPush and 1Pin campaigns with necessary approvals in place. Awaiting Zunaid response. Awaiting Mohammed final confirmation. MTN bin</strong></div>
+      <div class="risk-mitigation">Mitigation: Awaiting Zunaid response (8 days silence — escalation decision needed before 19 March alignment). Mohammed follow-up sent 13 March — next chase Monday</div>
     </div>
   </div>
 
   <div class="risk-item">
     <div class="risk-dot high"></div>
     <div>
-      <div class="risk-text"><strong>Mohammed silence blocks MTN campaigns.</strong> Two campaign briefs (Dischem + SmartLoan) stuck since 5 March. Wednesday alignment needs MTN status update.</div>
-      <div class="risk-mitigation">Mitigation: 4th follow-up Monday. Escalation via Storm relationship if no response by Wednesday.</div>
+      <div class="risk-text"><strong>Get confirmation from Mohammed Rassool on MTN campaign setup timelines for both Dischem Funeral and. Awaiting Mohammed reply. Follow up Monday 16 March morning. Escalation path: Danny via Storm if no </strong></div>
+      <div class="risk-mitigation">Mitigation: Follow-up sent 13 March. Chase email in monday_comms pack due TOMORROW (16 March). Pre-drafted email ready in briefs/monday_comms_16march.md. MNM alig</div>
     </div>
   </div>
 
   <div class="risk-item">
-    <div class="risk-dot med"></div>
+    <div class="risk-dot high"></div>
     <div>
-      <div class="risk-text"><strong>Matogen API overage.</strong> Bundle exhaustion projected Monday/Tuesday. Overage charges could impact cost control.</div>
-      <div class="risk-mitigation">Mitigation: Monday decision — top up, throttle, or accept charges. Daily alert cron fires at 06:00 SAST.</div>
+      <div class="risk-text"><strong>Follow up with Zunaid on SimPush/1Pin pitch sent 5 March. 10 days without a reply — escalation decis. ⚠️ OVERDUE — 8 days since pitch with no response from Zunaid. Blocks SimPush and OnePin channels. </strong></div>
+      <div class="risk-mitigation">Mitigation: ⚠️ CRITICAL — 10 days since pitch. Escalation options documented in briefs/monday_comms_16march.md. Morgan recommends Danny calls Zunaid Monday/Tuesda</div>
     </div>
   </div>
 
   <div class="risk-item">
-    <div class="risk-dot low"></div>
+    <div class="risk-dot high"></div>
     <div>
-      <div class="risk-text"><strong>CIPC Annual Return — 12 days to deadline.</strong> Due 27 March. No progress yet. Guide is ready but Ricky hasn't started the filing.</div>
-      <div class="risk-mitigation">Mitigation: Schedule 1-2 hours this week or early next week. Guide at briefs/cipc_annual_return_guide.md.</div>
+      <div class="risk-text"><strong>Ricky reviews and approves Monday comms pack, then sends: Mohammed 4th follow-up, Zunaid escalation. Awaiting Ricky review and approval to send</strong></div>
+      <div class="risk-mitigation">Mitigation: Comms pack fully drafted by Morgan. Located at briefs/monday_comms_16march.md. Awaiting Ricky review Monday morning 16 March</div>
     </div>
   </div>
-
 </div>
-
-<!-- ═══════════════════ QUICK LINKS ═══════════════════ -->
 <div class="section">
   <div class="section-title">Quick Links</div>
   <div class="links-grid">
@@ -769,9 +620,8 @@ body { min-height:100vh; }
   </div>
 </div>
 
-<!-- ═══════════════════ FOOTER ═══════════════════ -->
 <div class="footer">
-  Prepared by Morgan · Sunday 15 March 2026 at 23:00 SAST · Week of 16–22 March ·
+  Prepared by Morgan · Monday 16 March, 21:00 SAST · Week of 16 – 22 March 2026 ·
   <a href="brief.html">Daily Brief</a> · <a href="tasks.html">Tasks</a> · <a href="index.html">Portal</a>
 </div>
 
