@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Matogen Usage Dashboard | 3Way Group</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --navy: #1A2D6B;
+    --navy-light: #2a3f8a;
+    --gold: #FFC200;
+    --gold-muted: #f5d76e;
+    --bg: #f0f3fa;
+    --card-bg: #ffffff;
+    --card-border: #e4e9f7;
+    --text-primary: #1e293b;
+    --text-secondary: #64748b;
+    --text-muted: #94a3b8;
+    --red: #ef4444;
+    --red-bg: #fef2f2;
+    --red-border: #fecaca;
+    --amber: #f59e0b;
+    --amber-bg: #fffbeb;
+    --amber-border: #fed7aa;
+    --green: #22c55e;
+    --green-bg: #f0fdf4;
+    --green-border: #bbf7d0;
+    --blue: #3b82f6;
+    --blue-bg: #eff6ff;
+    --blue-border: #bfdbfe;
+    --radius: 16px;
+    --radius-sm: 10px;
+    --shadow: 0 4px 24px rgba(26,45,107,0.06);
+    --shadow-hover: 0 8px 32px rgba(26,45,107,0.12);
+  }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--text-primary);
+    min-height: 100vh;
+    padding: 32px 20px 80px;
+    line-height: 1.6;
+  }
+
+  .container { max-width: 1000px; margin: 0 auto; }
+
+  /* ── HEADER ── */
+  .header {
+    text-align: center;
+    margin-bottom: 36px;
+    padding-bottom: 28px;
+    border-bottom: 2px solid var(--card-border);
+  }
+  .logo-bar { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 16px; }
+  .logo-mark { width: 36px; height: 36px; background: var(--navy); border-radius: 9px; display: flex; align-items: center; justify-content: center; }
+  .logo-mark span { color: var(--gold); font-size: 14px; font-weight: 800; }
+  .logo-name { font-size: 12px; font-weight: 700; color: var(--navy); letter-spacing: 1.2px; text-transform: uppercase; }
+  .header h1 { font-size: 24px; font-weight: 800; color: var(--navy); margin-bottom: 4px; letter-spacing: -0.3px; }
+  .header .subtitle { font-size: 13px; color: var(--text-secondary); }
+  .header .updated { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 6px; }
+
+  /* ── STATUS BANNER ── */
+  .status-banner {
+    padding: 16px 24px;
+    border-radius: var(--radius);
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 600;
+    font-size: 15px;
+  }
+  .status-red { background: var(--red-bg); border: 2px solid var(--red-border); color: var(--red); }
+  .status-amber { background: var(--amber-bg); border: 2px solid var(--amber-border); color: var(--amber); }
+  .status-green { background: var(--green-bg); border: 2px solid var(--green-border); color: var(--green); }
+  .status-icon { font-size: 22px; }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius);
+    padding: 28px;
+    margin-bottom: 24px;
+    box-shadow: var(--shadow);
+  }
+  .card h2 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--navy);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--card-border);
+  }
+
+  /* ── KPI GRID ── */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .kpi {
+    background: var(--bg);
+    border-radius: var(--radius-sm);
+    padding: 20px;
+    text-align: center;
+  }
+  .kpi-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+  .kpi-value {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--navy);
+    line-height: 1.1;
+  }
+  .kpi-sub {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-top: 4px;
+  }
+  .kpi-value.red { color: var(--red); }
+  .kpi-value.amber { color: var(--amber); }
+  .kpi-value.green { color: var(--green); }
+
+  /* ── GAUGE ── */
+  .gauge-container {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0 28px;
+  }
+  .gauge {
+    position: relative;
+    width: 240px;
+    height: 130px;
+  }
+  .gauge-bg, .gauge-fill {
+    position: absolute;
+    top: 0; left: 0;
+    width: 240px;
+    height: 240px;
+    border-radius: 50%;
+    clip-path: polygon(0 0, 100% 0, 100% 50%, 0 50%);
+  }
+  .gauge-bg {
+    background: conic-gradient(
+      from 180deg,
+      #e2e8f0 0deg,
+      #e2e8f0 180deg
+    );
+  }
+  .gauge-fill {
+    background: conic-gradient(
+      from 180deg,
+      var(--red) 0deg,
+      var(--red) 94.851deg,
+      transparent 94.851deg,
+      transparent 180deg
+    );
+  }
+  .gauge-center {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+  }
+  .gauge-pct {
+    font-size: 36px;
+    font-weight: 800;
+    color: var(--red);
+    line-height: 1;
+  }
+  .gauge-label {
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  /* ── CHART ── */
+  .chart-container {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin: 16px 0;
+  }
+  canvas {
+    max-width: 100%;
+    height: 280px !important;
+  }
+
+  /* ── TABLE ── */
+  .table-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin: 0 -12px;
+    padding: 0 12px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  th {
+    text-align: left;
+    padding: 10px 14px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: var(--text-muted);
+    border-bottom: 2px solid var(--card-border);
+    white-space: nowrap;
+  }
+  td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--card-border);
+    white-space: nowrap;
+  }
+  tr:last-child td { border-bottom: none; }
+  tr.over td { background: var(--red-bg); }
+  tr:hover td { background: var(--bg); }
+  td:first-child { font-weight: 600; color: var(--navy); }
+
+  /* ── RECOMMENDATIONS ── */
+  .rec-item {
+    padding: 14px 18px;
+    border-radius: var(--radius-sm);
+    margin-bottom: 10px;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  .rec-high { background: var(--red-bg); border-left: 4px solid var(--red); color: #991b1b; }
+  .rec-medium { background: var(--amber-bg); border-left: 4px solid var(--amber); color: #92400e; }
+  .rec-low { background: var(--blue-bg); border-left: 4px solid var(--blue); color: #1e40af; }
+  .rec-green { background: var(--green-bg); border-left: 4px solid var(--green); color: #166534; }
+
+  /* ── LIFETIME ── */
+  .lifetime-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 14px;
+  }
+  .lifetime-stat {
+    background: var(--navy);
+    color: white;
+    border-radius: var(--radius-sm);
+    padding: 20px;
+    text-align: center;
+  }
+  .lifetime-stat .ls-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: var(--gold-muted);
+    margin-bottom: 6px;
+  }
+  .lifetime-stat .ls-value {
+    font-size: 24px;
+    font-weight: 800;
+    color: white;
+  }
+  .lifetime-stat .ls-sub {
+    font-size: 11px;
+    color: rgba(255,255,255,0.6);
+    margin-top: 4px;
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    text-align: center;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid var(--card-border);
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 640px) {
+    body { padding: 20px 14px 60px; }
+    .card { padding: 20px 16px; }
+    .kpi-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+    .kpi { padding: 14px; }
+    .kpi-value { font-size: 22px; }
+    .lifetime-grid { grid-template-columns: 1fr 1fr; }
+    .header h1 { font-size: 20px; }
+    canvas { height: 200px !important; }
+    .gauge { width: 180px; height: 100px; }
+    .gauge-bg, .gauge-fill { width: 180px; height: 180px; }
+    .gauge-pct { font-size: 28px; }
+  }
+
+  /* ── TABS ── */
+  .tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--card-border);
+    padding-bottom: 0;
+  }
+  .tab {
+    padding: 10px 18px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-muted);
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px;
+    transition: all 0.2s;
+    user-select: none;
+  }
+  .tab:hover { color: var(--navy); }
+  .tab.active {
+    color: var(--navy);
+    border-bottom-color: var(--gold);
+  }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  /* ── CONTACT ── */
+  .contact-box {
+    background: var(--bg);
+    border-radius: var(--radius-sm);
+    padding: 16px 20px;
+    margin-top: 16px;
+    font-size: 13px;
+  }
+  .contact-box strong { color: var(--navy); }
+  .contact-box a { color: var(--blue); text-decoration: none; }
+  .contact-box a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="logo-bar">
+      <div class="logo-mark"><span>3W</span></div>
+      <span class="logo-name">3Way Group</span>
+    </div>
+    <h1>Matogen Usage Dashboard</h1>
+    <div class="subtitle">API usage, bundle utilisation and financial projections</div>
+    <div class="updated">Last updated: 20 March 2026, 04:00 UTC</div>
+  </div>
+
+  <!-- STATUS BANNER -->
+  <div class="status-banner status-red">
+    <span class="status-icon">⚠️</span>
+    <span>IN OVERAGE — 2026 03: 105,390 / 100,000 requests (105.4%)</span>
+  </div>
+
+  <!-- CURRENT MONTH KPIs -->
+  <div class="card">
+    <h2>Current Month — March 2026</h2>
+
+    <div class="gauge-container">
+      <div class="gauge">
+        <div class="gauge-bg"></div>
+        <div class="gauge-fill"></div>
+        <div class="gauge-center">
+          <div class="gauge-pct">105%</div>
+          <div class="gauge-label">Bundle Used</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="kpi-grid">
+      <div class="kpi">
+        <div class="kpi-label">MTD Requests</div>
+        <div class="kpi-value">105,390</div>
+        <div class="kpi-sub">of 100,000 bundle</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Daily Run Rate</div>
+        <div class="kpi-value">5,270</div>
+        <div class="kpi-sub">requests/day avg</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Projected Month-End</div>
+        <div class="kpi-value red">163,354</div>
+        <div class="kpi-sub">⚠️ exceeds bundle</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Projected Cost</div>
+        <div class="kpi-value red">R49,006</div>
+        <div class="kpi-sub">incl. R19,006 overage</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Days Elapsed</div>
+        <div class="kpi-value">20</div>
+        <div class="kpi-sub">of 31 (11 remaining)</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Successful (200)</div>
+        <div class="kpi-value green">86,790</div>
+        <div class="kpi-sub">82% success rate</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RECOMMENDATIONS -->
+  <div class="card">
+    <h2>Recommendations</h2>
+    <div class="rec-item rec-high">Bundle exhausted. Currently 5,390 requests in overage at R0.30 each. Projected overage cost: R19,006.</div>
+<div class="rec-item rec-low">5 months had >1,000 503 errors. Consider raising this with Stiaan as a service quality issue.</div>
+
+    <div class="contact-box">
+      <strong>Matogen Contact:</strong> Stiaan Gerber — 
+      <a href="mailto:stiaan.gerber@ai.matogen.com">stiaan.gerber@ai.matogen.com</a> / 
+      +27 83 679 9930
+    </div>
+  </div>
+
+  <!-- CHARTS SECTION -->
+  <div class="card">
+    <h2>Trends</h2>
+    <div class="tabs">
+      <div class="tab active" onclick="showTab('monthly-chart')">Monthly</div>
+      <div class="tab" onclick="showTab('daily-chart')">Daily</div>
+      <div class="tab" onclick="showTab('cost-chart')">Cost</div>
+    </div>
+
+    <div class="tab-content active" id="monthly-chart">
+      <div class="chart-container">
+        <canvas id="monthlyCanvas"></canvas>
+      </div>
+    </div>
+
+    <div class="tab-content" id="daily-chart">
+      <div class="chart-container">
+        <canvas id="dailyCanvas"></canvas>
+      </div>
+    </div>
+
+    <div class="tab-content" id="cost-chart">
+      <div class="chart-container">
+        <canvas id="costCanvas"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- INVOICE HISTORY -->
+  <div class="card">
+    <h2>Invoice History</h2>
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>Month</th>
+            <th>Requests</th>
+            <th>Unique IDs</th>
+            <th>% Bundle</th>
+            <th>Cost</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+        <tr>
+            <td>Feb '26</td>
+            <td>97,848</td>
+            <td>82,761</td>
+            <td>98%</td>
+            <td>R29,354</td>
+        </tr>
+        <tr>
+            <td>Jan '26</td>
+            <td>98,031</td>
+            <td>93,023</td>
+            <td>98%</td>
+            <td>R29,409</td>
+        </tr>
+        <tr>
+            <td>Dec '25</td>
+            <td>46,012</td>
+            <td>45,353</td>
+            <td>46%</td>
+            <td>R13,804</td>
+        </tr>
+        <tr>
+            <td>Nov '25</td>
+            <td>83,886</td>
+            <td>79,848</td>
+            <td>84%</td>
+            <td>R25,166</td>
+        </tr>
+        <tr class="over">
+            <td>Oct '25</td>
+            <td>112,618</td>
+            <td>106,480</td>
+            <td>113%</td>
+            <td>R33,785</td>
+        </tr>
+        <tr class="over">
+            <td>Sep '25</td>
+            <td>132,254</td>
+            <td>91,569</td>
+            <td>132%</td>
+            <td>R39,676</td>
+        </tr>
+        <tr class="over">
+            <td>Aug '25</td>
+            <td>113,340</td>
+            <td>100,868</td>
+            <td>113%</td>
+            <td>R34,002</td>
+        </tr>
+        <tr>
+            <td>Jul '25</td>
+            <td>71,661</td>
+            <td>67,122</td>
+            <td>72%</td>
+            <td>R21,498</td>
+        </tr>
+        <tr class="over">
+            <td>Jun '25</td>
+            <td>114,452</td>
+            <td>107,658</td>
+            <td>114%</td>
+            <td>R34,336</td>
+        </tr>
+        <tr>
+            <td>May '25</td>
+            <td>91,852</td>
+            <td>87,663</td>
+            <td>92%</td>
+            <td>R27,556</td>
+        </tr>
+        <tr>
+            <td>Apr '25</td>
+            <td>66,873</td>
+            <td>61,462</td>
+            <td>67%</td>
+            <td>R20,062</td>
+        </tr>
+        <tr>
+            <td>Mar '25</td>
+            <td>77,317</td>
+            <td>69,000</td>
+            <td>77%</td>
+            <td>R23,195</td>
+        </tr>
+        <tr>
+            <td>Feb '25</td>
+            <td>66,916</td>
+            <td>63,325</td>
+            <td>67%</td>
+            <td>R20,075</td>
+        </tr>
+        <tr>
+            <td>Jan '25</td>
+            <td>69,583</td>
+            <td>66,925</td>
+            <td>70%</td>
+            <td>R20,875</td>
+        </tr>
+        <tr>
+            <td>Dec '24</td>
+            <td>31,087</td>
+            <td>29,932</td>
+            <td>31%</td>
+            <td>R9,326</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- DAILY BREAKDOWN -->
+  <div class="card">
+    <h2>Daily Breakdown — Last 14 Days</h2>
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>200 OK</th>
+            <th>404</th>
+            <th>503</th>
+            <th>Total</th>
+            <th>Flags</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+        <tr>
+            <td>2026-03-07</td>
+            <td>4,023</td>
+            <td>868</td>
+            <td>119</td>
+            <td>5,010</td>
+            <td> ⚠️</td>
+        </tr>
+        <tr>
+            <td>2026-03-08</td>
+            <td>3,655</td>
+            <td>754</td>
+            <td>139</td>
+            <td>4,548</td>
+            <td> ⚠️</td>
+        </tr>
+        <tr>
+            <td>2026-03-09</td>
+            <td>4,206</td>
+            <td>852</td>
+            <td>53</td>
+            <td>5,111</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>2026-03-10</td>
+            <td>5,757</td>
+            <td>1,005</td>
+            <td>161</td>
+            <td>6,923</td>
+            <td> ⚠️</td>
+        </tr>
+        <tr>
+            <td>2026-03-11</td>
+            <td>6,456</td>
+            <td>1,146</td>
+            <td>366</td>
+            <td>7,968</td>
+            <td> ⚠️</td>
+        </tr>
+        <tr>
+            <td>2026-03-12</td>
+            <td>6,187</td>
+            <td>1,333</td>
+            <td>120</td>
+            <td>7,640</td>
+            <td> ⚠️</td>
+        </tr>
+        <tr>
+            <td>2026-03-13</td>
+            <td>5,430</td>
+            <td>993</td>
+            <td>96</td>
+            <td>6,519</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>2026-03-14</td>
+            <td>2,964</td>
+            <td>637</td>
+            <td>35</td>
+            <td>3,636</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>2026-03-15</td>
+            <td>2,732</td>
+            <td>739</td>
+            <td>78</td>
+            <td>3,549</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>2026-03-16</td>
+            <td>4,579</td>
+            <td>871</td>
+            <td>104</td>
+            <td>5,554</td>
+            <td> ⚠️</td>
+        </tr>
+        <tr>
+            <td>2026-03-17</td>
+            <td>4,964</td>
+            <td>752</td>
+            <td>81</td>
+            <td>5,797</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>2026-03-18</td>
+            <td>3,585</td>
+            <td>535</td>
+            <td>7</td>
+            <td>4,127</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>2026-03-19</td>
+            <td>1,927</td>
+            <td>371</td>
+            <td>0</td>
+            <td>2,298</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>2026-03-20</td>
+            <td>30</td>
+            <td>19</td>
+            <td>0</td>
+            <td>49</td>
+            <td></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- LIFETIME STATS -->
+  <div class="card">
+    <h2>Lifetime Summary</h2>
+    <div class="lifetime-grid">
+      <div class="lifetime-stat">
+        <div class="ls-label">Total Spend</div>
+        <div class="ls-value">R382,119</div>
+        <div class="ls-sub">since Dec 2024</div>
+      </div>
+      <div class="lifetime-stat">
+        <div class="ls-label">Total Requests</div>
+        <div class="ls-value">1,273,730</div>
+        <div class="ls-sub">15 months</div>
+      </div>
+      <div class="lifetime-stat">
+        <div class="ls-label">Unique IDs</div>
+        <div class="ls-value">1,152,989</div>
+        <div class="ls-sub">distinct lookups</div>
+      </div>
+      <div class="lifetime-stat">
+        <div class="ls-label">Avg Monthly Cost</div>
+        <div class="ls-value">R25,475</div>
+        <div class="ls-sub">R30,000 bundle rate</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    Prepared by Morgan | 3Way Group Intelligence Hub<br>
+    Data source: Matogen API (3way.prod2.ai.matogen.com) | Bundle: R30,000/month for 100,000 requests
+  </div>
+
+</div>
+
+<!-- Chart.js from CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+<script>
+  // ── TAB SWITCHING ──
+  function showTab(tabId) {
+    document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
+    document.getElementById(tabId).classList.add('active');
+    event.target.classList.add('active');
+
+    // Trigger chart resize for newly visible canvas
+    setTimeout(() => window.dispatchEvent(new Event('resize')), 50);
+  }
+
+  // ── CHART DATA ──
+  const monthLabels = ["Dec '24", "Jan '25", "Feb '25", "Mar '25", "Apr '25", "May '25", "Jun '25", "Jul '25", "Aug '25", "Sep '25", "Oct '25", "Nov '25", "Dec '25", "Jan '26", "Feb '26", "Mar '26"];
+  const monthTotals = [31089, 69583, 67008, 80050, 67197, 92595, 115279, 72580, 114599, 134128, 113054, 84059, 46052, 99759, 99184, 105390];
+  const monthSuccess = [27547, 61271, 56311, 61550, 54886, 75484, 96171, 58013, 98431, 113537, 101129, 74452, 41443, 89532, 84015, 86790];
+
+  const dailyLabels = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"];
+  const dailyTotals = [2655, 4336, 7540, 7823, 7471, 6836, 5010, 4548, 5111, 6923, 7968, 7640, 6519, 3636, 3549, 5554, 5797, 4127, 2298, 49];
+  const daily200s = [2202, 3631, 6210, 6431, 6095, 5726, 4023, 3655, 4206, 5757, 6456, 6187, 5430, 2964, 2732, 4579, 4964, 3585, 1927, 30];
+
+  const invLabels = ["Dec '24", "Jan '25", "Feb '25", "Mar '25", "Apr '25", "May '25", "Jun '25", "Jul '25", "Aug '25", "Sep '25", "Oct '25", "Nov '25", "Dec '25", "Jan '26", "Feb '26"];
+  const invCosts = [9326.1, 20874.9, 20074.8, 23195.1, 20061.9, 27555.6, 34335.6, 21498.3, 34002.0, 39676.2, 33785.4, 25165.8, 13803.6, 29409.3, 29354.4];
+
+  const bundleLine = 100000;
+
+  // ── MONTHLY CHART ──
+  new Chart(document.getElementById('monthlyCanvas'), {
+    type: 'bar',
+    data: {
+      labels: monthLabels,
+      datasets: [
+        {
+          label: 'Total Requests',
+          data: monthTotals,
+          backgroundColor: monthTotals.map(v => v > bundleLine ? 'rgba(239,68,68,0.7)' : 'rgba(26,45,107,0.7)'),
+          borderRadius: 6,
+          borderSkipped: false,
+        },
+        {
+          label: '100k Bundle',
+          data: monthLabels.map(() => bundleLine),
+          type: 'line',
+          borderColor: '#f59e0b',
+          borderDash: [6, 4],
+          borderWidth: 2,
+          pointRadius: 0,
+          fill: false,
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: true, position: 'bottom', labels: { font: { size: 11 } } },
+        tooltip: {
+          callbacks: {
+            label: function(ctx) {
+              return ctx.dataset.label + ': ' + ctx.parsed.y.toLocaleString();
+            }
+          }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: { callback: v => (v / 1000) + 'k', font: { size: 11 } },
+          grid: { color: '#f1f5f9' }
+        },
+        x: { ticks: { font: { size: 10 } }, grid: { display: false } }
+      }
+    }
+  });
+
+  // ── DAILY CHART ──
+  new Chart(document.getElementById('dailyCanvas'), {
+    type: 'bar',
+    data: {
+      labels: dailyLabels,
+      datasets: [
+        {
+          label: 'Successful (200)',
+          data: daily200s,
+          backgroundColor: 'rgba(34,197,94,0.6)',
+          borderRadius: 4,
+          borderSkipped: false,
+        },
+        {
+          label: 'Other (404/503)',
+          data: dailyTotals.map((t, i) => t - daily200s[i]),
+          backgroundColor: 'rgba(148,163,184,0.4)',
+          borderRadius: 4,
+          borderSkipped: false,
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: true, position: 'bottom', labels: { font: { size: 11 } } },
+      },
+      scales: {
+        x: { stacked: true, ticks: { font: { size: 10 } }, grid: { display: false } },
+        y: { stacked: true, beginAtZero: true, ticks: { callback: v => (v / 1000) + 'k', font: { size: 11 } }, grid: { color: '#f1f5f9' } }
+      }
+    }
+  });
+
+  // ── COST CHART ──
+  new Chart(document.getElementById('costCanvas'), {
+    type: 'line',
+    data: {
+      labels: invLabels,
+      datasets: [
+        {
+          label: 'Monthly Cost (R)',
+          data: invCosts,
+          borderColor: '#1A2D6B',
+          backgroundColor: 'rgba(26,45,107,0.08)',
+          fill: true,
+          tension: 0.3,
+          pointRadius: 4,
+          pointBackgroundColor: invCosts.map(c => c > 30000 ? '#ef4444' : '#1A2D6B'),
+          pointBorderColor: '#fff',
+          pointBorderWidth: 2,
+        },
+        {
+          label: 'R30k Bundle',
+          data: invLabels.map(() => 30000),
+          borderColor: '#f59e0b',
+          borderDash: [6, 4],
+          borderWidth: 2,
+          pointRadius: 0,
+          fill: false,
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: true, position: 'bottom', labels: { font: { size: 11 } } },
+        tooltip: {
+          callbacks: {
+            label: function(ctx) {
+              return ctx.dataset.label + ': R' + ctx.parsed.y.toLocaleString();
+            }
+          }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: { callback: v => 'R' + (v / 1000) + 'k', font: { size: 11 } },
+          grid: { color: '#f1f5f9' }
+        },
+        x: { ticks: { font: { size: 10 } }, grid: { display: false } }
+      }
+    }
+  });
+</script>
+
+</body>
+</html>
