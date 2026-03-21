@@ -155,8 +155,8 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
       </div>
     </div>
     <div class="dash-meta">
-      <div class="dash-date">Friday 20 March 2026</div>
-      <div class="dash-gen">Generated Friday 20 March 2026, 06:00 SAST</div>
+      <div class="dash-date">Saturday 21 March 2026</div>
+      <div class="dash-gen">Generated Saturday 21 March 2026, 06:02 SAST</div>
     </div>
   </div>
 
@@ -164,7 +164,7 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
   <div class="stats">
     <div class="stat">
       <div class="stat-label">Active Tasks</div>
-      <div class="stat-value">34</div>
+      <div class="stat-value">38</div>
     </div>
     <div class="stat">
       <div class="stat-label">In Progress</div>
@@ -176,7 +176,7 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
     </div>
     <div class="stat">
       <div class="stat-label">Overdue</div>
-      <div class="stat-value stat-alert">2</div>
+      <div class="stat-value stat-alert">4</div>
     </div>
     <div class="stat">
       <div class="stat-label">Blocked</div>
@@ -184,8 +184,8 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
     </div>
     <div class="stat">
       <div class="stat-label">Avg Progress</div>
-      <div class="stat-value">30%</div>
-      <div class="stat-sub">34 tasks</div>
+      <div class="stat-value">34%</div>
+      <div class="stat-sub">38 tasks</div>
     </div>
   </div>
 
@@ -204,6 +204,32 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
   
         <div class="attention-section">
             <h2 class="section-heading">⚠️ Requires Attention <span class="attn-count">22</span></h2>
+            
+            <div class="attn-item">
+                <div class="attn-flags"><span class="attn-flag attn-blocked">Blocked</span></div>
+                <div class="attn-title">#093 — Confirm lunch date with Bruce Knox. Return his notebook. Ask if he has free SMS </div>
+                <div class="attn-meta">👤 Ricky · MNM Channel Relaunch</div>
+                <div class="attn-blocker">Bruce has not yet shared lunch times. Follow up.</div>
+                <div class="task-actions" data-tid="#093">
+                  <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
+                  <button class="ta-btn ta-pct" onclick="openPct(this)">% Progress</button>
+                  <button class="ta-btn ta-note" onclick="qNote(this)">+ Note</button>
+                  <button class="ta-btn ta-del" onclick="qAdd2(this)">&#10005; Delete</button>
+                </div>
+            </div>
+            
+            <div class="attn-item">
+                <div class="attn-flags"><span class="attn-flag attn-blocked">Blocked</span></div>
+                <div class="attn-title">#096 — Meet with Glenda to discuss MNM channel relaunch.</div>
+                <div class="attn-meta">👤 Ricky · MNM Channel Relaunch</div>
+                <div class="attn-blocker">Awaiting Linda&#x27;s response.</div>
+                <div class="task-actions" data-tid="#096">
+                  <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
+                  <button class="ta-btn ta-pct" onclick="openPct(this)">% Progress</button>
+                  <button class="ta-btn ta-note" onclick="qNote(this)">+ Note</button>
+                  <button class="ta-btn ta-del" onclick="qAdd2(this)">&#10005; Delete</button>
+                </div>
+            </div>
             
             <div class="attn-item">
                 <div class="attn-flags"><span class="attn-flag attn-blocked">Blocked</span></div>
@@ -234,8 +260,8 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
             <div class="attn-item">
                 <div class="attn-flags"><span class="attn-flag attn-blocked">Blocked</span></div>
                 <div class="attn-title">#090 — Complete VL (Value Clearing and Forwarding) deck redesign using brand colours. D</div>
-                <div class="attn-meta">👤 Morgan · Other</div>
-                <div class="attn-blocker">Need to check agent output — may need follow-up or completion.</div>
+                <div class="attn-meta">👤 Ricky · Other</div>
+                <div class="attn-blocker">Awaiting Ricky review and approval of redesigned deck.</div>
                 <div class="task-actions" data-tid="#090">
                   <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
                   <button class="ta-btn ta-pct" onclick="openPct(this)">% Progress</button>
@@ -271,7 +297,7 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
             </div>
             
             <div class="attn-item">
-                <div class="attn-flags"><span class="attn-flag attn-blocked">Blocked</span></div>
+                <div class="attn-flags"><span class="attn-flag attn-overdue">Overdue</span><span class="attn-flag attn-blocked">Blocked</span></div>
                 <div class="attn-title">#066 — Capture post-meeting outcomes and decisions from the 19 March MNM alignment sess</div>
                 <div class="attn-meta">👤 Ricky · MNM Channel Relaunch</div>
                 <div class="attn-blocker">Awaiting Ricky post-meeting debrief.</div>
@@ -363,19 +389,6 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
             
             <div class="attn-item">
                 <div class="attn-flags"><span class="attn-flag attn-blocked">Blocked</span></div>
-                <div class="attn-title">#075 — Ricky and Yoav to review and approve Clare/Jess consent flow documentation for T</div>
-                <div class="attn-meta">👤 Ricky · Data Warehouse</div>
-                <div class="attn-blocker">Meeting not yet scheduled.</div>
-                <div class="task-actions" data-tid="#075">
-                  <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
-                  <button class="ta-btn ta-pct" onclick="openPct(this)">% Progress</button>
-                  <button class="ta-btn ta-note" onclick="qNote(this)">+ Note</button>
-                  <button class="ta-btn ta-del" onclick="qAdd2(this)">&#10005; Delete</button>
-                </div>
-            </div>
-            
-            <div class="attn-item">
-                <div class="attn-flags"><span class="attn-flag attn-blocked">Blocked</span></div>
                 <div class="attn-title">#006 — Relaunch SimPush and 1Pin campaigns with necessary approvals in place.</div>
                 <div class="attn-meta">👤 Ricky · MNM Channel Relaunch</div>
                 <div class="attn-blocker">Post-alignment debrief from Ricky (Task 066) is the key input needed to unblock all MNM sub-tasks. Mohammed status, Zunaid outcome, DLVR decision all unknown pending debrief.</div>
@@ -453,24 +466,11 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
             </div>
             
             <div class="attn-item">
-                <div class="attn-flags"><span class="attn-flag attn-blocked">Blocked</span></div>
+                <div class="attn-flags"><span class="attn-flag attn-overdue">Overdue</span><span class="attn-flag attn-blocked">Blocked</span></div>
                 <div class="attn-title">#064 — Ricky to review and approve outstanding comms drafts. At minimum: Mohammed and B</div>
                 <div class="attn-meta">👤 Ricky · MNM Channel Relaunch</div>
                 <div class="attn-blocker">Awaiting Ricky direction post-alignment on which drafts to send.</div>
                 <div class="task-actions" data-tid="#064">
-                  <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
-                  <button class="ta-btn ta-pct" onclick="openPct(this)">% Progress</button>
-                  <button class="ta-btn ta-note" onclick="qNote(this)">+ Note</button>
-                  <button class="ta-btn ta-del" onclick="qAdd2(this)">&#10005; Delete</button>
-                </div>
-            </div>
-            
-            <div class="attn-item">
-                <div class="attn-flags"><span class="attn-flag attn-blocked">Blocked</span></div>
-                <div class="attn-title">#067 — Ricky and Saul to review and sign the Phase 2 Commercial Contract Addition via D</div>
-                <div class="attn-meta">👤 Ricky · internal</div>
-                <div class="attn-blocker">Awaiting Rob Monteith&#x27;s review/feedback before Ricky signs.</div>
-                <div class="task-actions" data-tid="#067">
                   <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
                   <button class="ta-btn ta-pct" onclick="openPct(this)">% Progress</button>
                   <button class="ta-btn ta-note" onclick="qNote(this)">+ Note</button>
@@ -501,244 +501,9 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
             <div class="project-header" onclick="this.parentElement.classList.toggle('collapsed')">
                 <div class="project-header-left">
                     <span class="project-chevron">▾</span>
-                    <h2 class="project-name">Internal</h2>
-                    <span class="project-count">7 tasks</span>
-                    
-                </div>
-                <div class="project-progress-mini">
-                    <div class="progress-bar-mini"><div class="progress-fill-mini" style="width:61%"></div></div>
-                    <span class="progress-pct-mini">61%</span>
-                </div>
-            </div>
-            <div class="project-tasks">
-                
-            <div class="task-card">
-                <div class="task-header">
-                    <div class="task-id">#067</div>
-                    <div class="task-badges">
-                        <span class="urgency-badge" style="background:#DC262615;color:#DC2626">urgent</span>
-                        <span class="status-badge" style="background:#F59E0B15;color:#F59E0B">Waiting on Human</span>
-                        
-                    </div>
-                </div>
-                <div class="task-title">Ricky and Saul to review and sign the Phase 2 Commercial Contract Addition via DocuSign.</div>
-                <div class="task-meta">
-                    <span class="task-owner">👤 Ricky</span>
-                    <span class="task-category">logistics</span>
-                </div>
-                <div class="progress-wrap">
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width:10%;background:#F59E0B"></div>
-                    </div>
-                    <span class="progress-pct">10%</span>
-                </div>
-                <div class="task-activity">Ricky waiting for Rob Monteith&#x27;s 2nd opinion before signing. Watch for Rob&#x27;s reply.</div>
-                <div class="task-blocker">⚠️ Awaiting Rob Monteith&#x27;s review/feedback before Ricky signs.</div>
-                
-                <div class="task-actions" data-tid="#067">
-                  <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
-                  <button class="ta-btn ta-pct" onclick="openPct(this)">% Progress</button>
-                  <button class="ta-btn ta-note" onclick="qNote(this)">+ Note</button>
-                  <button class="ta-btn ta-del" onclick="qAdd2(this)">&#10005; Delete</button>
-                </div>
-            </div>
-            
-            <div class="task-card">
-                <div class="task-header">
-                    <div class="task-id">#065</div>
-                    <div class="task-badges">
-                        <span class="urgency-badge" style="background:#EA580C15;color:#EA580C">high</span>
-                        <span class="status-badge" style="background:#F59E0B15;color:#F59E0B">Waiting on Human</span>
-                        <span class="dl-badge dl-soon">Sun 22 Mar</span>
-                    </div>
-                </div>
-                <div class="task-title">Ricky to contact Stiaan Gerber re: bundle top-up or renegotiation. Decision needed: buy more, or accept overage for Marc</div>
-                <div class="task-meta">
-                    <span class="task-owner">👤 Ricky</span>
-                    <span class="task-category">logistics</span>
-                </div>
-                <div class="progress-wrap">
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width:60%;background:#F59E0B"></div>
-                    </div>
-                    <span class="progress-pct">60%</span>
-                </div>
-                <div class="task-activity">🔴 BUNDLE IN OVERAGE — 105,274 requests (105.3% of 100k). Projected R51,529 month-end = R21k overage. API integrated via Stiaan&#x27;s key (IGv4wuYL5FPS2WAYA08apg). Matogen dashboard live at 3waygroup.netlify.app/matogen-usage.html. Ricky to call Stiaan re: top-up or negotiate larger bundle.</div>
-                <div class="task-blocker">⚠️ Ricky needs to call or email Stiaan Gerber to discuss bundle top-up.</div>
-                
-                <div class="task-actions" data-tid="#065">
-                  <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
-                  <button class="ta-btn ta-pct" onclick="openPct(this)">% Progress</button>
-                  <button class="ta-btn ta-note" onclick="qNote(this)">+ Note</button>
-                  <button class="ta-btn ta-del" onclick="qAdd2(this)">&#10005; Delete</button>
-                </div>
-            </div>
-            
-            <div class="task-card">
-                <div class="task-header">
-                    <div class="task-id">#088</div>
-                    <div class="task-badges">
-                        <span class="urgency-badge" style="background:#2563EB15;color:#2563EB">medium</span>
-                        <span class="status-badge" style="background:#F59E0B15;color:#F59E0B">Waiting on Human</span>
-                        
-                    </div>
-                </div>
-                <div class="task-title">Ricky to review Matogen Usage Dashboard. If useful, Morgan will add to daily cron refresh and adopt permanently.</div>
-                <div class="task-meta">
-                    <span class="task-owner">👤 Ricky</span>
-                    <span class="task-category">coding</span>
-                </div>
-                <div class="progress-wrap">
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width:90%;background:#F59E0B"></div>
-                    </div>
-                    <span class="progress-pct">90%</span>
-                </div>
-                <div class="task-activity">Dashboard built and deployed during overnight build 19 March. Live at 3waygroup.netlify.app/matogen-usage.html. Features: KPIs, bundle gauge, projections, charts, invoice history, daily breakdown, recommendations. March: 105,274 requests (105.3% of bundle), projected R51,529 month-end cost (R21k overage).</div>
-                <div class="task-blocker">⚠️ Awaiting Ricky approval to adopt into daily workflow.</div>
-                <div class="deliverables"><div class="deliv-item">○ Dashboard reviewed by Ricky</div><div class="deliv-item">○ Decision on cron integration for daily auto-refresh</div></div>
-                <div class="task-actions" data-tid="#088">
-                  <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
-                  <button class="ta-btn ta-pct" onclick="openPct(this)">% Progress</button>
-                  <button class="ta-btn ta-note" onclick="qNote(this)">+ Note</button>
-                  <button class="ta-btn ta-del" onclick="qAdd2(this)">&#10005; Delete</button>
-                </div>
-            </div>
-            
-            <div class="task-card">
-                <div class="task-header">
-                    <div class="task-id">#087</div>
-                    <div class="task-badges">
-                        <span class="urgency-badge" style="background:#2563EB15;color:#2563EB">medium</span>
-                        <span class="status-badge" style="background:#F59E0B15;color:#F59E0B">Waiting on Human</span>
-                        
-                    </div>
-                </div>
-                <div class="task-title">Ricky to review 3Way AI adoption one-pager at briefs/3way_ai_onepager.md and share with the group.</div>
-                <div class="task-meta">
-                    <span class="task-owner">👤 Ricky</span>
-                    <span class="task-category">writing</span>
-                </div>
-                <div class="progress-wrap">
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width:80%;background:#F59E0B"></div>
-                    </div>
-                    <span class="progress-pct">80%</span>
-                </div>
-                <div class="task-activity">One-pager drafted by Morgan during overnight build 19 March. Three starting points: Client Intelligence Hub, Campaign Performance Analyst, Billing Recon Automation. Ready for Ricky review.</div>
-                <div class="task-blocker">⚠️ Awaiting Ricky review and approval before distribution.</div>
-                <div class="deliverables"><div class="deliv-item">○ One-pager reviewed and approved by Ricky</div><div class="deliv-item">○ Shared with Zalman, Yoav, Adeline, Hirsch, Steph</div></div>
-                <div class="task-actions" data-tid="#087">
-                  <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
-                  <button class="ta-btn ta-pct" onclick="openPct(this)">% Progress</button>
-                  <button class="ta-btn ta-note" onclick="qNote(this)">+ Note</button>
-                  <button class="ta-btn ta-del" onclick="qAdd2(this)">&#10005; Delete</button>
-                </div>
-            </div>
-            
-            <div class="task-card">
-                <div class="task-header">
-                    <div class="task-id">#092</div>
-                    <div class="task-badges">
-                        <span class="urgency-badge" style="background:#2563EB15;color:#2563EB">medium</span>
-                        <span class="status-badge" style="background:#F59E0B15;color:#F59E0B">Waiting on Human</span>
-                        
-                    </div>
-                </div>
-                <div class="task-title">Ricky to send CDR analysis request to Frans. Outcome: Frans provides CDR data or confirms access path.</div>
-                <div class="task-meta">
-                    <span class="task-owner">👤 Ricky</span>
-                    <span class="task-category">communication</span>
-                </div>
-                <div class="progress-wrap">
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width:70%;background:#F59E0B"></div>
-                    </div>
-                    <span class="progress-pct">70%</span>
-                </div>
-                <div class="task-activity">Draft polished twice by Morgan 19 March. Ricky to send — Frans&#x27;s email unknown to Morgan. Awaiting Ricky to fire.</div>
-                <div class="task-blocker">⚠️ Ricky needs to send — Frans&#x27;s email not known to Morgan.</div>
-                <div class="deliverables"><div class="deliv-item">○ Email sent to Frans requesting CDR analysis</div><div class="deliv-item">○ Frans responds with CDR data or next steps</div></div>
-                <div class="task-actions" data-tid="#092">
-                  <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
-                  <button class="ta-btn ta-pct" onclick="openPct(this)">% Progress</button>
-                  <button class="ta-btn ta-note" onclick="qNote(this)">+ Note</button>
-                  <button class="ta-btn ta-del" onclick="qAdd2(this)">&#10005; Delete</button>
-                </div>
-            </div>
-            
-            <div class="task-card">
-                <div class="task-header">
-                    <div class="task-id">#070</div>
-                    <div class="task-badges">
-                        <span class="urgency-badge" style="background:#2563EB15;color:#2563EB">medium</span>
-                        <span class="status-badge" style="background:#6B728015;color:#6B7280">Pending</span>
-                        <span class="dl-badge dl-normal">Thu 26 Mar</span>
-                    </div>
-                </div>
-                <div class="task-title">Attend DreamDrive broadcast SMS campaign discussion. Establish scope, brief, and next steps.</div>
-                <div class="task-meta">
-                    <span class="task-owner">👤 Ricky</span>
-                    <span class="task-category">scheduling</span>
-                </div>
-                <div class="progress-wrap">
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width:20%;background:#6B7280"></div>
-                    </div>
-                    <span class="progress-pct">20%</span>
-                </div>
-                <div class="task-activity">Meeting confirmed: Thursday 26 March 2026, 11:00-12:00 SAST via Microsoft Teams. 7 days away. Full briefing at briefs/dreamdrive_sms_meeting_20260326.md — company profile, 15 questions, recommended approach. Meeting prep page live.</div>
-                
-                
-                <div class="task-actions" data-tid="#070">
-                  <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
-                  <button class="ta-btn ta-pct" onclick="openPct(this)">% Progress</button>
-                  <button class="ta-btn ta-note" onclick="qNote(this)">+ Note</button>
-                  <button class="ta-btn ta-del" onclick="qAdd2(this)">&#10005; Delete</button>
-                </div>
-            </div>
-            
-            <div class="task-card">
-                <div class="task-header">
-                    <div class="task-id">#089</div>
-                    <div class="task-badges">
-                        <span class="urgency-badge" style="background:#16A34A15;color:#16A34A">low</span>
-                        <span class="status-badge" style="background:#4058D415;color:#4058D4">In Progress</span>
-                        
-                    </div>
-                </div>
-                <div class="task-title">Monitor and maintain the weekly unanswered email digest cron. Ensure it fires every Monday and surfaces unanswered email</div>
-                <div class="task-meta">
-                    <span class="task-owner">👤 Morgan</span>
-                    <span class="task-category">logistics</span>
-                </div>
-                <div class="progress-wrap">
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width:100%;background:#4058D4"></div>
-                    </div>
-                    <span class="progress-pct">100%</span>
-                </div>
-                <div class="task-activity">Live. Cron ID: 6919ea96. Runs Mondays 7am SAST. First run due Monday 23 March.</div>
-                
-                <div class="deliverables"><div class="deliv-item">○ Cron running reliably every Monday 7am SAST</div><div class="deliv-item">○ Digest correctly surfaces unanswered emails from prior week</div></div>
-                <div class="task-actions" data-tid="#089">
-                  <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
-                  <button class="ta-btn ta-pct" onclick="openPct(this)">% Progress</button>
-                  <button class="ta-btn ta-note" onclick="qNote(this)">+ Note</button>
-                  <button class="ta-btn ta-del" onclick="qAdd2(this)">&#10005; Delete</button>
-                </div>
-            </div>
-            
-            </div>
-        </div>
-        
-        <div class="project-section">
-            <div class="project-header" onclick="this.parentElement.classList.toggle('collapsed')">
-                <div class="project-header-left">
-                    <span class="project-chevron">▾</span>
                     <h2 class="project-name">MNM Channel Relaunch</h2>
-                    <span class="project-count">20 tasks</span>
-                    <span class="project-overdue-badge">2 overdue</span>
+                    <span class="project-count">22 tasks</span>
+                    <span class="project-overdue-badge">4 overdue</span>
                 </div>
                 <div class="project-progress-mini">
                     <div class="progress-bar-mini"><div class="progress-fill-mini" style="width:22%"></div></div>
@@ -747,6 +512,37 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
             </div>
             <div class="project-tasks">
                 
+            <div class="task-card task-overdue">
+                <div class="task-header">
+                    <div class="task-id">#066</div>
+                    <div class="task-badges">
+                        <span class="urgency-badge" style="background:#DC262615;color:#DC2626">urgent</span>
+                        <span class="status-badge" style="background:#F59E0B15;color:#F59E0B">Waiting on Human</span>
+                        <span class="dl-badge dl-overdue">OVERDUE Fri 20 Mar</span>
+                    </div>
+                </div>
+                <div class="task-title">Capture post-meeting outcomes and decisions from the 19 March MNM alignment session. Update all affected tasks.</div>
+                <div class="task-meta">
+                    <span class="task-owner">👤 Ricky</span>
+                    <span class="task-category">scheduling</span>
+                </div>
+                <div class="progress-wrap">
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width:90%;background:#F59E0B"></div>
+                    </div>
+                    <span class="progress-pct">90%</span>
+                </div>
+                <div class="task-activity">Meeting took place 19 March 10:15 SAST, Melrose Arch. All prep was complete and delivered. Post-meeting: Ricky has not yet fed back outcomes to Morgan. Awaiting Ricky debrief — what was decided on Zunaid, DLVR, PCM direction, FNB, and other agenda items.</div>
+                <div class="task-blocker">⚠️ Awaiting Ricky post-meeting debrief.</div>
+                
+                <div class="task-actions" data-tid="#066">
+                  <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
+                  <button class="ta-btn ta-pct" onclick="openPct(this)">% Progress</button>
+                  <button class="ta-btn ta-note" onclick="qNote(this)">+ Note</button>
+                  <button class="ta-btn ta-del" onclick="qAdd2(this)">&#10005; Delete</button>
+                </div>
+            </div>
+            
             <div class="task-card task-overdue">
                 <div class="task-header">
                     <div class="task-id">#029</div>
@@ -767,7 +563,7 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
                     </div>
                     <span class="progress-pct">75%</span>
                 </div>
-                <div class="task-activity">🔴 VERY OVERDUE (9 days past 10 March deadline). Ricky said he would call Mohammed directly — outcome unknown. 19 March alignment took place — Mohammed status should have been discussed. Awaiting Ricky update on call outcome or alignment decision re: Mohammed.</div>
+                <div class="task-activity">20 March: Ricky reached out to Storm (has her WhatsApp number) to get Mohammed&#x27;s contact details. Waiting to hear back before making the call.</div>
                 <div class="task-blocker">⚠️ 🔴 Ricky to confirm outcome of direct call with Mohammed. 9 days overdue.</div>
                 
                 <div class="task-actions" data-tid="#029">
@@ -798,7 +594,7 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
                     </div>
                     <span class="progress-pct">40%</span>
                 </div>
-                <div class="task-activity">🟡 Re-engaged — Zunaid WhatsApp&#x27;d Ricky 18 March after 12 days silence. Ricky briefed Danny. 19 March alignment took place — Zunaid status should have been discussed. Awaiting Ricky debrief on what Zunaid said and what was decided at alignment.</div>
+                <div class="task-activity">20 March: Zunaid confirmed he can provide a 50,000 impression sample at R13,500. Limitations accepted. Next step: get quote and speak to details once set up.</div>
                 <div class="task-blocker">⚠️ Awaiting Ricky update on Zunaid WhatsApp exchange content and alignment outcome.</div>
                 
                 <div class="task-actions" data-tid="#048">
@@ -809,30 +605,30 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
                 </div>
             </div>
             
-            <div class="task-card">
+            <div class="task-card task-overdue">
                 <div class="task-header">
-                    <div class="task-id">#066</div>
+                    <div class="task-id">#064</div>
                     <div class="task-badges">
-                        <span class="urgency-badge" style="background:#DC262615;color:#DC2626">urgent</span>
+                        <span class="urgency-badge" style="background:#EA580C15;color:#EA580C">high</span>
                         <span class="status-badge" style="background:#F59E0B15;color:#F59E0B">Waiting on Human</span>
-                        <span class="dl-badge dl-soon">Fri 20 Mar</span>
+                        <span class="dl-badge dl-overdue">OVERDUE Fri 20 Mar</span>
                     </div>
                 </div>
-                <div class="task-title">Capture post-meeting outcomes and decisions from the 19 March MNM alignment session. Update all affected tasks.</div>
+                <div class="task-title">Ricky to review and approve outstanding comms drafts. At minimum: Mohammed and Bruce Knox still relevant.</div>
                 <div class="task-meta">
                     <span class="task-owner">👤 Ricky</span>
-                    <span class="task-category">scheduling</span>
+                    <span class="task-category">communication</span>
                 </div>
                 <div class="progress-wrap">
                     <div class="progress-bar">
-                        <div class="progress-fill" style="width:90%;background:#F59E0B"></div>
+                        <div class="progress-fill" style="width:85%;background:#F59E0B"></div>
                     </div>
-                    <span class="progress-pct">90%</span>
+                    <span class="progress-pct">85%</span>
                 </div>
-                <div class="task-activity">Meeting took place 19 March 10:15 SAST, Melrose Arch. All prep was complete and delivered. Post-meeting: Ricky has not yet fed back outcomes to Morgan. Awaiting Ricky debrief — what was decided on Zunaid, DLVR, PCM direction, FNB, and other agenda items.</div>
-                <div class="task-blocker">⚠️ Awaiting Ricky post-meeting debrief.</div>
+                <div class="task-activity">🔴 OVERDUE — deadline was 19 March 10:00 UTC. Alignment happened. Post-alignment: Mohammed draft may be moot (Ricky calling directly) but Bruce Knox draft still outstanding. Ricky to confirm which drafts (if any) to fire now.</div>
+                <div class="task-blocker">⚠️ Awaiting Ricky direction post-alignment on which drafts to send.</div>
                 
-                <div class="task-actions" data-tid="#066">
+                <div class="task-actions" data-tid="#064">
                   <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
                   <button class="ta-btn ta-pct" onclick="openPct(this)">% Progress</button>
                   <button class="ta-btn ta-note" onclick="qNote(this)">+ Note</button>
@@ -864,37 +660,6 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
                 <div class="task-blocker">⚠️ Post-alignment debrief from Ricky (Task 066) is the key input needed to unblock all MNM sub-tasks. Mohammed status, Zunaid outcome, DLVR decision all unknown pending debrief.</div>
                 <div class="deliverables"><div class="deliv-item" class="done">✅ Storm meeting attended — DONE (5 March)</div><div class="deliv-item" class="done">✅ Michaela meeting attended — DONE (4 March)</div><div class="deliv-item" class="done">✅ Zunaid pitch sent — DONE (5 March)</div><div class="deliv-item" class="done">✅ Mohammed briefs sent — DONE (5 March)</div><div class="deliv-item" class="done">✅ Danny forecast and update sent — DONE (5 March)</div></div>
                 <div class="task-actions" data-tid="#006">
-                  <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
-                  <button class="ta-btn ta-pct" onclick="openPct(this)">% Progress</button>
-                  <button class="ta-btn ta-note" onclick="qNote(this)">+ Note</button>
-                  <button class="ta-btn ta-del" onclick="qAdd2(this)">&#10005; Delete</button>
-                </div>
-            </div>
-            
-            <div class="task-card">
-                <div class="task-header">
-                    <div class="task-id">#064</div>
-                    <div class="task-badges">
-                        <span class="urgency-badge" style="background:#EA580C15;color:#EA580C">high</span>
-                        <span class="status-badge" style="background:#F59E0B15;color:#F59E0B">Waiting on Human</span>
-                        <span class="dl-badge dl-soon">Fri 20 Mar</span>
-                    </div>
-                </div>
-                <div class="task-title">Ricky to review and approve outstanding comms drafts. At minimum: Mohammed and Bruce Knox still relevant.</div>
-                <div class="task-meta">
-                    <span class="task-owner">👤 Ricky</span>
-                    <span class="task-category">communication</span>
-                </div>
-                <div class="progress-wrap">
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width:85%;background:#F59E0B"></div>
-                    </div>
-                    <span class="progress-pct">85%</span>
-                </div>
-                <div class="task-activity">🔴 OVERDUE — deadline was 19 March 10:00 UTC. Alignment happened. Post-alignment: Mohammed draft may be moot (Ricky calling directly) but Bruce Knox draft still outstanding. Ricky to confirm which drafts (if any) to fire now.</div>
-                <div class="task-blocker">⚠️ Awaiting Ricky direction post-alignment on which drafts to send.</div>
-                
-                <div class="task-actions" data-tid="#064">
                   <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
                   <button class="ta-btn ta-pct" onclick="openPct(this)">% Progress</button>
                   <button class="ta-btn ta-note" onclick="qNote(this)">+ Note</button>
@@ -1183,6 +948,68 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
             
             <div class="task-card">
                 <div class="task-header">
+                    <div class="task-id">#093</div>
+                    <div class="task-badges">
+                        <span class="urgency-badge" style="background:#2563EB15;color:#2563EB">medium</span>
+                        <span class="status-badge" style="background:#F59E0B15;color:#F59E0B">Waiting on Human</span>
+                        <span class="dl-badge dl-normal">Fri 20 Mar</span>
+                    </div>
+                </div>
+                <div class="task-title">Confirm lunch date with Bruce Knox. Return his notebook. Ask if he has free SMS bind available.</div>
+                <div class="task-meta">
+                    <span class="task-owner">👤 Ricky</span>
+                    <span class="task-category">scheduling</span>
+                </div>
+                <div class="progress-wrap">
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width:30%;background:#F59E0B"></div>
+                    </div>
+                    <span class="progress-pct">30%</span>
+                </div>
+                <div class="task-activity">🔴 OVERDUE — Bruce said he&#x27;d share times on 20 March but no confirmation received. Chase Bruce. Remember to ask about free SMS bind (Task 082) and return his notebook at lunch.</div>
+                <div class="task-blocker">⚠️ Bruce has not yet shared lunch times. Follow up.</div>
+                <div class="deliverables"><div class="deliv-item">○ Lunch date confirmed with Bruce</div><div class="deliv-item">○ Bruce&#x27;s notebook returned to him</div><div class="deliv-item">○ Free SMS bind availability confirmed or denied</div></div>
+                <div class="task-actions" data-tid="#093">
+                  <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
+                  <button class="ta-btn ta-pct" onclick="openPct(this)">% Progress</button>
+                  <button class="ta-btn ta-note" onclick="qNote(this)">+ Note</button>
+                  <button class="ta-btn ta-del" onclick="qAdd2(this)">&#10005; Delete</button>
+                </div>
+            </div>
+            
+            <div class="task-card">
+                <div class="task-header">
+                    <div class="task-id">#096</div>
+                    <div class="task-badges">
+                        <span class="urgency-badge" style="background:#2563EB15;color:#2563EB">medium</span>
+                        <span class="status-badge" style="background:#6B728015;color:#6B7280">Pending</span>
+                        
+                    </div>
+                </div>
+                <div class="task-title">Meet with Glenda to discuss MNM channel relaunch.</div>
+                <div class="task-meta">
+                    <span class="task-owner">👤 Ricky</span>
+                    <span class="task-category">scheduling</span>
+                </div>
+                <div class="progress-wrap">
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width:10%;background:#6B7280"></div>
+                    </div>
+                    <span class="progress-pct">10%</span>
+                </div>
+                <div class="task-activity">Ricky emailed Glenda 19 March to find a time. Awaiting her response.</div>
+                <div class="task-blocker">⚠️ Awaiting Linda&#x27;s response.</div>
+                <div class="deliverables"><div class="deliv-item">○ Meeting scheduled with Glenda</div><div class="deliv-item">○ MNM relaunch discussed</div></div>
+                <div class="task-actions" data-tid="#096">
+                  <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
+                  <button class="ta-btn ta-pct" onclick="openPct(this)">% Progress</button>
+                  <button class="ta-btn ta-note" onclick="qNote(this)">+ Note</button>
+                  <button class="ta-btn ta-del" onclick="qAdd2(this)">&#10005; Delete</button>
+                </div>
+            </div>
+            
+            <div class="task-card">
+                <div class="task-header">
                     <div class="task-id">#069</div>
                     <div class="task-badges">
                         <span class="urgency-badge" style="background:#2563EB15;color:#2563EB">medium</span>
@@ -1279,24 +1106,24 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
                     <div class="task-id">#084</div>
                     <div class="task-badges">
                         <span class="urgency-badge" style="background:#2563EB15;color:#2563EB">medium</span>
-                        <span class="status-badge" style="background:#6B728015;color:#6B7280">Pending</span>
+                        <span class="status-badge" style="background:#4058D415;color:#4058D4">In Progress</span>
                         
                     </div>
                 </div>
-                <div class="task-title">Ask Michaela to get access to the OnePin platform and explore it.</div>
+                <div class="task-title">Michaela (OnePin) is setting up Ricky&#x27;s account and giving platform access so he can explore what&#x27;s possible.</div>
                 <div class="task-meta">
                     <span class="task-owner">👤 Ricky</span>
                     <span class="task-category">communication</span>
                 </div>
                 <div class="progress-wrap">
                     <div class="progress-bar">
-                        <div class="progress-fill" style="width:0%;background:#6B7280"></div>
+                        <div class="progress-fill" style="width:0%;background:#4058D4"></div>
                     </div>
                     <span class="progress-pct">0%</span>
                 </div>
                 <div class="task-activity">Not started. From Ricky&#x27;s alignment notebook 19 March.</div>
                 
-                <div class="deliverables"><div class="deliv-item">○ Michaela has platform access and initial feedback</div></div>
+                <div class="deliverables"><div class="deliv-item">○ Platform access received from Michaela</div><div class="deliv-item">○ Ricky explores platform and reviews options</div></div>
                 <div class="task-actions" data-tid="#084">
                   <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
                   <button class="ta-btn ta-pct" onclick="openPct(this)">% Progress</button>
@@ -1374,6 +1201,321 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
             <div class="project-header" onclick="this.parentElement.classList.toggle('collapsed')">
                 <div class="project-header-left">
                     <span class="project-chevron">▾</span>
+                    <h2 class="project-name">Internal</h2>
+                    <span class="project-count">7 tasks</span>
+                    
+                </div>
+                <div class="project-progress-mini">
+                    <div class="progress-bar-mini"><div class="progress-fill-mini" style="width:74%"></div></div>
+                    <span class="progress-pct-mini">74%</span>
+                </div>
+            </div>
+            <div class="project-tasks">
+                
+            <div class="task-card">
+                <div class="task-header">
+                    <div class="task-id">#067</div>
+                    <div class="task-badges">
+                        <span class="urgency-badge" style="background:#DC262615;color:#DC2626">urgent</span>
+                        <span class="status-badge" style="background:#6B728015;color:#6B7280">completed</span>
+                        
+                    </div>
+                </div>
+                <div class="task-title">Ricky and Saul to review and sign the Phase 2 Commercial Contract Addition via DocuSign.</div>
+                <div class="task-meta">
+                    <span class="task-owner">👤 Ricky</span>
+                    <span class="task-category">logistics</span>
+                </div>
+                <div class="progress-wrap">
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width:100%;background:#6B7280"></div>
+                    </div>
+                    <span class="progress-pct">100%</span>
+                </div>
+                <div class="task-activity">COMPLETE — Signed 20 March. Rob Monteith review cancelled — Ricky told Rob not to proceed.</div>
+                
+                
+                <div class="task-actions" data-tid="#067">
+                  <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
+                  <button class="ta-btn ta-pct" onclick="openPct(this)">% Progress</button>
+                  <button class="ta-btn ta-note" onclick="qNote(this)">+ Note</button>
+                  <button class="ta-btn ta-del" onclick="qAdd2(this)">&#10005; Delete</button>
+                </div>
+            </div>
+            
+            <div class="task-card">
+                <div class="task-header">
+                    <div class="task-id">#065</div>
+                    <div class="task-badges">
+                        <span class="urgency-badge" style="background:#EA580C15;color:#EA580C">high</span>
+                        <span class="status-badge" style="background:#F59E0B15;color:#F59E0B">Waiting on Human</span>
+                        <span class="dl-badge dl-soon">Sun 22 Mar</span>
+                    </div>
+                </div>
+                <div class="task-title">Ricky to contact Stiaan Gerber re: bundle top-up or renegotiation. Decision needed: buy more, or accept overage for Marc</div>
+                <div class="task-meta">
+                    <span class="task-owner">👤 Ricky</span>
+                    <span class="task-category">logistics</span>
+                </div>
+                <div class="progress-wrap">
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width:60%;background:#F59E0B"></div>
+                    </div>
+                    <span class="progress-pct">60%</span>
+                </div>
+                <div class="task-activity">🔴 BUNDLE IN OVERAGE — 105,274 requests (105.3% of 100k). Projected R51,529 month-end = R21k overage. API integrated via Stiaan&#x27;s key (IGv4wuYL5FPS2WAYA08apg). Matogen dashboard live at 3waygroup.netlify.app/matogen-usage.html. Ricky to call Stiaan re: top-up or negotiate larger bundle.</div>
+                <div class="task-blocker">⚠️ Ricky needs to call or email Stiaan Gerber to discuss bundle top-up.</div>
+                
+                <div class="task-actions" data-tid="#065">
+                  <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
+                  <button class="ta-btn ta-pct" onclick="openPct(this)">% Progress</button>
+                  <button class="ta-btn ta-note" onclick="qNote(this)">+ Note</button>
+                  <button class="ta-btn ta-del" onclick="qAdd2(this)">&#10005; Delete</button>
+                </div>
+            </div>
+            
+            <div class="task-card">
+                <div class="task-header">
+                    <div class="task-id">#088</div>
+                    <div class="task-badges">
+                        <span class="urgency-badge" style="background:#2563EB15;color:#2563EB">medium</span>
+                        <span class="status-badge" style="background:#F59E0B15;color:#F59E0B">Waiting on Human</span>
+                        
+                    </div>
+                </div>
+                <div class="task-title">Ricky to review Matogen Usage Dashboard. If useful, Morgan will add to daily cron refresh and adopt permanently.</div>
+                <div class="task-meta">
+                    <span class="task-owner">👤 Ricky</span>
+                    <span class="task-category">coding</span>
+                </div>
+                <div class="progress-wrap">
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width:90%;background:#F59E0B"></div>
+                    </div>
+                    <span class="progress-pct">90%</span>
+                </div>
+                <div class="task-activity">Dashboard built and deployed during overnight build 19 March. Live at 3waygroup.netlify.app/matogen-usage.html. Features: KPIs, bundle gauge, projections, charts, invoice history, daily breakdown, recommendations. March: 105,274 requests (105.3% of bundle), projected R51,529 month-end cost (R21k overage).</div>
+                <div class="task-blocker">⚠️ Awaiting Ricky approval to adopt into daily workflow.</div>
+                <div class="deliverables"><div class="deliv-item">○ Dashboard reviewed by Ricky</div><div class="deliv-item">○ Decision on cron integration for daily auto-refresh</div></div>
+                <div class="task-actions" data-tid="#088">
+                  <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
+                  <button class="ta-btn ta-pct" onclick="openPct(this)">% Progress</button>
+                  <button class="ta-btn ta-note" onclick="qNote(this)">+ Note</button>
+                  <button class="ta-btn ta-del" onclick="qAdd2(this)">&#10005; Delete</button>
+                </div>
+            </div>
+            
+            <div class="task-card">
+                <div class="task-header">
+                    <div class="task-id">#087</div>
+                    <div class="task-badges">
+                        <span class="urgency-badge" style="background:#2563EB15;color:#2563EB">medium</span>
+                        <span class="status-badge" style="background:#F59E0B15;color:#F59E0B">Waiting on Human</span>
+                        
+                    </div>
+                </div>
+                <div class="task-title">Ricky to review 3Way AI adoption one-pager at briefs/3way_ai_onepager.md and share with the group.</div>
+                <div class="task-meta">
+                    <span class="task-owner">👤 Ricky</span>
+                    <span class="task-category">writing</span>
+                </div>
+                <div class="progress-wrap">
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width:80%;background:#F59E0B"></div>
+                    </div>
+                    <span class="progress-pct">80%</span>
+                </div>
+                <div class="task-activity">One-pager drafted by Morgan during overnight build 19 March. Three starting points: Client Intelligence Hub, Campaign Performance Analyst, Billing Recon Automation. Ready for Ricky review.</div>
+                <div class="task-blocker">⚠️ Awaiting Ricky review and approval before distribution.</div>
+                <div class="deliverables"><div class="deliv-item">○ One-pager reviewed and approved by Ricky</div><div class="deliv-item">○ Shared with Zalman, Yoav, Adeline, Hirsch, Steph</div></div>
+                <div class="task-actions" data-tid="#087">
+                  <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
+                  <button class="ta-btn ta-pct" onclick="openPct(this)">% Progress</button>
+                  <button class="ta-btn ta-note" onclick="qNote(this)">+ Note</button>
+                  <button class="ta-btn ta-del" onclick="qAdd2(this)">&#10005; Delete</button>
+                </div>
+            </div>
+            
+            <div class="task-card">
+                <div class="task-header">
+                    <div class="task-id">#092</div>
+                    <div class="task-badges">
+                        <span class="urgency-badge" style="background:#2563EB15;color:#2563EB">medium</span>
+                        <span class="status-badge" style="background:#F59E0B15;color:#F59E0B">Waiting on Human</span>
+                        
+                    </div>
+                </div>
+                <div class="task-title">Ricky to send CDR analysis request to Frans. Outcome: Frans provides CDR data or confirms access path.</div>
+                <div class="task-meta">
+                    <span class="task-owner">👤 Ricky</span>
+                    <span class="task-category">communication</span>
+                </div>
+                <div class="progress-wrap">
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width:70%;background:#F59E0B"></div>
+                    </div>
+                    <span class="progress-pct">70%</span>
+                </div>
+                <div class="task-activity">Draft polished twice by Morgan 19 March. Ricky to send — Frans&#x27;s email unknown to Morgan. Awaiting Ricky to fire.</div>
+                <div class="task-blocker">⚠️ Ricky needs to send — Frans&#x27;s email not known to Morgan.</div>
+                <div class="deliverables"><div class="deliv-item">○ Email sent to Frans requesting CDR analysis</div><div class="deliv-item">○ Frans responds with CDR data or next steps</div></div>
+                <div class="task-actions" data-tid="#092">
+                  <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
+                  <button class="ta-btn ta-pct" onclick="openPct(this)">% Progress</button>
+                  <button class="ta-btn ta-note" onclick="qNote(this)">+ Note</button>
+                  <button class="ta-btn ta-del" onclick="qAdd2(this)">&#10005; Delete</button>
+                </div>
+            </div>
+            
+            <div class="task-card">
+                <div class="task-header">
+                    <div class="task-id">#070</div>
+                    <div class="task-badges">
+                        <span class="urgency-badge" style="background:#2563EB15;color:#2563EB">medium</span>
+                        <span class="status-badge" style="background:#6B728015;color:#6B7280">Pending</span>
+                        <span class="dl-badge dl-normal">Thu 26 Mar</span>
+                    </div>
+                </div>
+                <div class="task-title">Attend DreamDrive broadcast SMS campaign discussion. Establish scope, brief, and next steps.</div>
+                <div class="task-meta">
+                    <span class="task-owner">👤 Ricky</span>
+                    <span class="task-category">scheduling</span>
+                </div>
+                <div class="progress-wrap">
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width:20%;background:#6B7280"></div>
+                    </div>
+                    <span class="progress-pct">20%</span>
+                </div>
+                <div class="task-activity">Meeting confirmed: Thursday 26 March 2026, 11:00-12:00 SAST via Microsoft Teams. 7 days away. Full briefing at briefs/dreamdrive_sms_meeting_20260326.md — company profile, 15 questions, recommended approach. Meeting prep page live.</div>
+                
+                
+                <div class="task-actions" data-tid="#070">
+                  <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
+                  <button class="ta-btn ta-pct" onclick="openPct(this)">% Progress</button>
+                  <button class="ta-btn ta-note" onclick="qNote(this)">+ Note</button>
+                  <button class="ta-btn ta-del" onclick="qAdd2(this)">&#10005; Delete</button>
+                </div>
+            </div>
+            
+            <div class="task-card">
+                <div class="task-header">
+                    <div class="task-id">#089</div>
+                    <div class="task-badges">
+                        <span class="urgency-badge" style="background:#16A34A15;color:#16A34A">low</span>
+                        <span class="status-badge" style="background:#4058D415;color:#4058D4">In Progress</span>
+                        
+                    </div>
+                </div>
+                <div class="task-title">Monitor and maintain the weekly unanswered email digest cron. Ensure it fires every Monday and surfaces unanswered email</div>
+                <div class="task-meta">
+                    <span class="task-owner">👤 Morgan</span>
+                    <span class="task-category">logistics</span>
+                </div>
+                <div class="progress-wrap">
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width:100%;background:#4058D4"></div>
+                    </div>
+                    <span class="progress-pct">100%</span>
+                </div>
+                <div class="task-activity">Live. Cron ID: 6919ea96. Runs Mondays 7am SAST. First run due Monday 23 March.</div>
+                
+                <div class="deliverables"><div class="deliv-item">○ Cron running reliably every Monday 7am SAST</div><div class="deliv-item">○ Digest correctly surfaces unanswered emails from prior week</div></div>
+                <div class="task-actions" data-tid="#089">
+                  <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
+                  <button class="ta-btn ta-pct" onclick="openPct(this)">% Progress</button>
+                  <button class="ta-btn ta-note" onclick="qNote(this)">+ Note</button>
+                  <button class="ta-btn ta-del" onclick="qAdd2(this)">&#10005; Delete</button>
+                </div>
+            </div>
+            
+            </div>
+        </div>
+        
+        <div class="project-section">
+            <div class="project-header" onclick="this.parentElement.classList.toggle('collapsed')">
+                <div class="project-header-left">
+                    <span class="project-chevron">▾</span>
+                    <h2 class="project-name">FindBetter</h2>
+                    <span class="project-count">2 tasks</span>
+                    
+                </div>
+                <div class="project-progress-mini">
+                    <div class="progress-bar-mini"><div class="progress-fill-mini" style="width:10%"></div></div>
+                    <span class="progress-pct-mini">10%</span>
+                </div>
+            </div>
+            <div class="project-tasks">
+                
+            <div class="task-card">
+                <div class="task-header">
+                    <div class="task-id">#094</div>
+                    <div class="task-badges">
+                        <span class="urgency-badge" style="background:#EA580C15;color:#EA580C">high</span>
+                        <span class="status-badge" style="background:#6B728015;color:#6B7280">Pending</span>
+                        
+                    </div>
+                </div>
+                <div class="task-title">Get back to Jaco (Matogen) with a request for an alternative pricing class for the vehicle tracker + VAF scoring test.</div>
+                <div class="task-meta">
+                    <span class="task-owner">👤 Ricky</span>
+                    <span class="task-category">analysis</span>
+                </div>
+                <div class="progress-wrap">
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width:10%;background:#6B7280"></div>
+                    </div>
+                    <span class="progress-pct">10%</span>
+                </div>
+                <div class="task-activity">Jaco (Matogen) quoted R40/record (R140/output). Too expensive. Ricky to respond requesting alternative pricing class.</div>
+                
+                <div class="deliverables"><div class="deliv-item">○ Alternative pricing class received from Jaco (Matogen)</div></div>
+                <div class="task-actions" data-tid="#094">
+                  <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
+                  <button class="ta-btn ta-pct" onclick="openPct(this)">% Progress</button>
+                  <button class="ta-btn ta-note" onclick="qNote(this)">+ Note</button>
+                  <button class="ta-btn ta-del" onclick="qAdd2(this)">&#10005; Delete</button>
+                </div>
+            </div>
+            
+            <div class="task-card">
+                <div class="task-header">
+                    <div class="task-id">#095</div>
+                    <div class="task-badges">
+                        <span class="urgency-badge" style="background:#EA580C15;color:#EA580C">high</span>
+                        <span class="status-badge" style="background:#6B728015;color:#6B7280">Pending</span>
+                        
+                    </div>
+                </div>
+                <div class="task-title">Get pricing classes from Mario at XDS for the vehicle tracker + VAF scoring test. Compare against Jaco (Matogen) pricing</div>
+                <div class="task-meta">
+                    <span class="task-owner">👤 Ricky</span>
+                    <span class="task-category">analysis</span>
+                </div>
+                <div class="progress-wrap">
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width:10%;background:#6B7280"></div>
+                    </div>
+                    <span class="progress-pct">10%</span>
+                </div>
+                <div class="task-activity">Mario (XDS) responded — has accounts for the same test. Ricky to ask for pricing classes.</div>
+                
+                <div class="deliverables"><div class="deliv-item">○ Mario&#x27;s pricing classes received</div><div class="deliv-item">○ Comparison made between XDS (Mario) and Matager (Jaco) pricing</div></div>
+                <div class="task-actions" data-tid="#095">
+                  <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
+                  <button class="ta-btn ta-pct" onclick="openPct(this)">% Progress</button>
+                  <button class="ta-btn ta-note" onclick="qNote(this)">+ Note</button>
+                  <button class="ta-btn ta-del" onclick="qAdd2(this)">&#10005; Delete</button>
+                </div>
+            </div>
+            
+            </div>
+        </div>
+        
+        <div class="project-section">
+            <div class="project-header" onclick="this.parentElement.classList.toggle('collapsed')">
+                <div class="project-header-left">
+                    <span class="project-chevron">▾</span>
                     <h2 class="project-name">Golden Goose Group</h2>
                     <span class="project-count">1 task</span>
                     
@@ -1428,8 +1570,8 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
                     
                 </div>
                 <div class="project-progress-mini">
-                    <div class="progress-bar-mini"><div class="progress-fill-mini" style="width:15%"></div></div>
-                    <span class="progress-pct-mini">15%</span>
+                    <div class="progress-bar-mini"><div class="progress-fill-mini" style="width:25%"></div></div>
+                    <span class="progress-pct-mini">25%</span>
                 </div>
             </div>
             <div class="project-tasks">
@@ -1439,23 +1581,23 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
                     <div class="task-id">#090</div>
                     <div class="task-badges">
                         <span class="urgency-badge" style="background:#2563EB15;color:#2563EB">medium</span>
-                        <span class="status-badge" style="background:#4058D415;color:#4058D4">In Progress</span>
+                        <span class="status-badge" style="background:#F59E0B15;color:#F59E0B">Waiting on Human</span>
                         
                     </div>
                 </div>
                 <div class="task-title">Complete VL (Value Clearing and Forwarding) deck redesign using brand colours. Deliver to Ricky for review.</div>
                 <div class="task-meta">
-                    <span class="task-owner">👤 Morgan</span>
+                    <span class="task-owner">👤 Ricky</span>
                     <span class="task-category">coding</span>
                 </div>
                 <div class="progress-wrap">
                     <div class="progress-bar">
-                        <div class="progress-fill" style="width:50%;background:#4058D4"></div>
+                        <div class="progress-fill" style="width:90%;background:#F59E0B"></div>
                     </div>
-                    <span class="progress-pct">50%</span>
+                    <span class="progress-pct">90%</span>
                 </div>
-                <div class="task-activity">Claude Code agent (session oceanic-falcon) running 19 March — rebuilding deck with brand colours sourced from valueclearingandforwarding.co.za. Status at EOD 19 March: still in progress.</div>
-                <div class="task-blocker">⚠️ Need to check agent output — may need follow-up or completion.</div>
+                <div class="task-activity">VL deck complete — 25 slides rebuilt with brand colours (Purple #7A2B91, Orange #F15A2F, Teal #155973). Widescreen format. File: vl_deck/VL_ClearingForwarding_Redesigned.pptx. Awaiting Ricky review.</div>
+                <div class="task-blocker">⚠️ Awaiting Ricky review and approval of redesigned deck.</div>
                 <div class="deliverables"><div class="deliv-item">○ VL deck redesigned with brand colours: Purple #7A2B91, Orange #F15A2F, Teal #155973</div><div class="deliv-item">○ Ricky reviews and approves</div></div>
                 <div class="task-actions" data-tid="#090">
                   <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
@@ -1570,12 +1712,43 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
                     
                 </div>
                 <div class="project-progress-mini">
-                    <div class="progress-bar-mini"><div class="progress-fill-mini" style="width:48%"></div></div>
-                    <span class="progress-pct-mini">48%</span>
+                    <div class="progress-bar-mini"><div class="progress-fill-mini" style="width:90%"></div></div>
+                    <span class="progress-pct-mini">90%</span>
                 </div>
             </div>
             <div class="project-tasks">
                 
+            <div class="task-card">
+                <div class="task-header">
+                    <div class="task-id">#075</div>
+                    <div class="task-badges">
+                        <span class="urgency-badge" style="background:#2563EB15;color:#2563EB">medium</span>
+                        <span class="status-badge" style="background:#6B728015;color:#6B7280">completed</span>
+                        
+                    </div>
+                </div>
+                <div class="task-title">Ricky and Yoav to review and approve Clare/Jess consent flow documentation for TransUnion. Attend meeting once scheduled</div>
+                <div class="task-meta">
+                    <span class="task-owner">👤 Ricky</span>
+                    <span class="task-category">logistics</span>
+                </div>
+                <div class="progress-wrap">
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width:100%;background:#6B7280"></div>
+                    </div>
+                    <span class="progress-pct">100%</span>
+                </div>
+                <div class="task-activity">COMPLETE — Ricky confirmed TransUnion consent flow is done 20 March 2026.</div>
+                
+                <div class="deliverables"><div class="deliv-item">○ Consent flow documentation reviewed by Ricky and Yoav</div><div class="deliv-item">○ Meeting with TransUnion attended</div><div class="deliv-item">○ Approval given or feedback provided to Clare/Jess</div></div>
+                <div class="task-actions" data-tid="#075">
+                  <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
+                  <button class="ta-btn ta-pct" onclick="openPct(this)">% Progress</button>
+                  <button class="ta-btn ta-note" onclick="qNote(this)">+ Note</button>
+                  <button class="ta-btn ta-del" onclick="qAdd2(this)">&#10005; Delete</button>
+                </div>
+            </div>
+            
             <div class="task-card">
                 <div class="task-header">
                     <div class="task-id">#091</div>
@@ -1607,44 +1780,13 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
                 </div>
             </div>
             
-            <div class="task-card">
-                <div class="task-header">
-                    <div class="task-id">#075</div>
-                    <div class="task-badges">
-                        <span class="urgency-badge" style="background:#2563EB15;color:#2563EB">medium</span>
-                        <span class="status-badge" style="background:#F59E0B15;color:#F59E0B">Waiting on Human</span>
-                        
-                    </div>
-                </div>
-                <div class="task-title">Ricky and Yoav to review and approve Clare/Jess consent flow documentation for TransUnion. Attend meeting once scheduled</div>
-                <div class="task-meta">
-                    <span class="task-owner">👤 Ricky</span>
-                    <span class="task-category">logistics</span>
-                </div>
-                <div class="progress-wrap">
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width:15%;background:#F59E0B"></div>
-                    </div>
-                    <span class="progress-pct">15%</span>
-                </div>
-                <div class="task-activity">SuperCompare Opt-In Flows v5 PDF emailed to Ricky and Clare 19 March (Task 091). Clare and Jess progressing docs. Meeting not yet scheduled — watch for invite.</div>
-                <div class="task-blocker">⚠️ Meeting not yet scheduled.</div>
-                <div class="deliverables"><div class="deliv-item">○ Consent flow documentation reviewed by Ricky and Yoav</div><div class="deliv-item">○ Meeting with TransUnion attended</div><div class="deliv-item">○ Approval given or feedback provided to Clare/Jess</div></div>
-                <div class="task-actions" data-tid="#075">
-                  <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
-                  <button class="ta-btn ta-pct" onclick="openPct(this)">% Progress</button>
-                  <button class="ta-btn ta-note" onclick="qNote(this)">+ Note</button>
-                  <button class="ta-btn ta-del" onclick="qAdd2(this)">&#10005; Delete</button>
-                </div>
-            </div>
-            
             </div>
         </div>
         
   </div>
 
   <div class="dash-footer">
-    3Way Group Intelligence Platform · Generated by Morgan · Friday 20 March 2026, 06:00 SAST
+    3Way Group Intelligence Platform · Generated by Morgan · Saturday 21 March 2026, 06:02 SAST
   </div>
 </div>
 
