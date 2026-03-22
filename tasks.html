@@ -155,8 +155,8 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
       </div>
     </div>
     <div class="dash-meta">
-      <div class="dash-date">Saturday 21 March 2026</div>
-      <div class="dash-gen">Generated Saturday 21 March 2026, 23:13 SAST</div>
+      <div class="dash-date">Sunday 22 March 2026</div>
+      <div class="dash-gen">Generated Sunday 22 March 2026, 06:00 SAST</div>
     </div>
   </div>
 
@@ -172,7 +172,7 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
     </div>
     <div class="stat">
       <div class="stat-label">Waiting</div>
-      <div class="stat-value" style="color:#F59E0B">13</div>
+      <div class="stat-value" style="color:#F59E0B">14</div>
     </div>
     <div class="stat">
       <div class="stat-label">Overdue</div>
@@ -180,11 +180,11 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
     </div>
     <div class="stat">
       <div class="stat-label">Blocked</div>
-      <div class="stat-value stat-alert">22</div>
+      <div class="stat-value stat-alert">23</div>
     </div>
     <div class="stat">
       <div class="stat-label">Avg Progress</div>
-      <div class="stat-value">34%</div>
+      <div class="stat-value">36%</div>
       <div class="stat-sub">41 tasks</div>
     </div>
   </div>
@@ -203,7 +203,7 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
   <!-- Attention -->
   
         <div class="attention-section">
-            <h2 class="section-heading">⚠️ Requires Attention <span class="attn-count">22</span></h2>
+            <h2 class="section-heading">⚠️ Requires Attention <span class="attn-count">23</span></h2>
             
             <div class="attn-item">
                 <div class="attn-flags"><span class="attn-flag attn-blocked">Blocked</span></div>
@@ -289,6 +289,19 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
                 <div class="attn-meta">👤 Frans (BizVoIP) · internal</div>
                 <div class="attn-blocker">Awaiting Frans to complete the development work and deliver CDR data.</div>
                 <div class="task-actions" data-tid="#092">
+                  <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
+                  <button class="ta-btn ta-pct" onclick="openPct(this)">% Progress</button>
+                  <button class="ta-btn ta-note" onclick="qNote(this)">+ Note</button>
+                  <button class="ta-btn ta-del" onclick="qAdd2(this)">&#10005; Delete</button>
+                </div>
+            </div>
+            
+            <div class="attn-item">
+                <div class="attn-flags"><span class="attn-flag attn-blocked">Blocked</span></div>
+                <div class="attn-title">#080 — Finalise the LinkClick opening SMS message copy — consumer replies YES then rece</div>
+                <div class="attn-meta">👤 Ricky · MNM Channel Relaunch</div>
+                <div class="attn-blocker">Awaiting Jacqueline/client approval and campaign activation.</div>
+                <div class="task-actions" data-tid="#080">
                   <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
                   <button class="ta-btn ta-pct" onclick="openPct(this)">% Progress</button>
                   <button class="ta-btn ta-note" onclick="qNote(this)">+ Note</button>
@@ -821,8 +834,8 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
                     <span class="project-overdue-badge">4 overdue</span>
                 </div>
                 <div class="project-progress-mini">
-                    <div class="progress-bar-mini"><div class="progress-fill-mini" style="width:23%"></div></div>
-                    <span class="progress-pct-mini">23%</span>
+                    <div class="progress-bar-mini"><div class="progress-fill-mini" style="width:27%"></div></div>
+                    <span class="progress-pct-mini">27%</span>
                 </div>
             </div>
             <div class="project-tasks">
@@ -984,6 +997,37 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
             
             <div class="task-card">
                 <div class="task-header">
+                    <div class="task-id">#080</div>
+                    <div class="task-badges">
+                        <span class="urgency-badge" style="background:#EA580C15;color:#EA580C">high</span>
+                        <span class="status-badge" style="background:#F59E0B15;color:#F59E0B">Waiting on Human</span>
+                        
+                    </div>
+                </div>
+                <div class="task-title">Finalise the LinkClick opening SMS message copy — consumer replies YES then receives the link. Campaign to go live pendi</div>
+                <div class="task-meta">
+                    <span class="task-owner">👤 Ricky</span>
+                    <span class="task-category">writing</span>
+                </div>
+                <div class="progress-wrap">
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width:70%;background:#F59E0B"></div>
+                    </div>
+                    <span class="progress-pct">70%</span>
+                </div>
+                <div class="task-activity">Copy complete. 5 LinkClick SMS variants + non-complete follow-ups sent to Jacqueline Ellerbeck (Senior CSM) 21 March. Acknowledged. Awaiting campaign go-live from client side.</div>
+                <div class="task-blocker">⚠️ Awaiting Jacqueline/client approval and campaign activation.</div>
+                <div class="deliverables"><div class="deliv-item" class="done">✅ Opening SMS copy approved — DONE (5 variants sent to Jacqueline Ellerbeck 21 March)</div><div class="deliv-item" class="done">✅ Non-complete follow-up copy sent — DONE</div><div class="deliv-item">○ Campaign live pending Jacqueline/client approval</div></div>
+                <div class="task-actions" data-tid="#080">
+                  <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
+                  <button class="ta-btn ta-pct" onclick="openPct(this)">% Progress</button>
+                  <button class="ta-btn ta-note" onclick="qNote(this)">+ Note</button>
+                  <button class="ta-btn ta-del" onclick="qAdd2(this)">&#10005; Delete</button>
+                </div>
+            </div>
+            
+            <div class="task-card">
+                <div class="task-header">
                     <div class="task-id">#007</div>
                     <div class="task-badges">
                         <span class="urgency-badge" style="background:#EA580C15;color:#EA580C">high</span>
@@ -1068,37 +1112,6 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
                 
                 <div class="deliverables"><div class="deliv-item">○ PCM campaign updated with ASPL replacing Dischem</div></div>
                 <div class="task-actions" data-tid="#079">
-                  <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
-                  <button class="ta-btn ta-pct" onclick="openPct(this)">% Progress</button>
-                  <button class="ta-btn ta-note" onclick="qNote(this)">+ Note</button>
-                  <button class="ta-btn ta-del" onclick="qAdd2(this)">&#10005; Delete</button>
-                </div>
-            </div>
-            
-            <div class="task-card">
-                <div class="task-header">
-                    <div class="task-id">#080</div>
-                    <div class="task-badges">
-                        <span class="urgency-badge" style="background:#EA580C15;color:#EA580C">high</span>
-                        <span class="status-badge" style="background:#6B728015;color:#6B7280">Pending</span>
-                        
-                    </div>
-                </div>
-                <div class="task-title">Finalise the LinkClick opening SMS message copy — consumer replies YES then receives the link.</div>
-                <div class="task-meta">
-                    <span class="task-owner">👤 Ricky</span>
-                    <span class="task-category">writing</span>
-                </div>
-                <div class="progress-wrap">
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width:0%;background:#6B7280"></div>
-                    </div>
-                    <span class="progress-pct">0%</span>
-                </div>
-                <div class="task-activity">Not started. From Ricky&#x27;s alignment notebook 19 March.</div>
-                
-                <div class="deliverables"><div class="deliv-item">○ Opening SMS copy approved and ready for send</div></div>
-                <div class="task-actions" data-tid="#080">
                   <button class="ta-btn ta-done" onclick="qAdd(this)">&#10003; Done</button>
                   <button class="ta-btn ta-pct" onclick="openPct(this)">% Progress</button>
                   <button class="ta-btn ta-note" onclick="qNote(this)">+ Note</button>
@@ -1897,7 +1910,7 @@ body::before { content:''; position:fixed; inset:0; background-image:linear-grad
   </div>
 
   <div class="dash-footer">
-    3Way Group Intelligence Platform · Generated by Morgan · Saturday 21 March 2026, 23:13 SAST
+    3Way Group Intelligence Platform · Generated by Morgan · Sunday 22 March 2026, 06:00 SAST
   </div>
 </div>
 
